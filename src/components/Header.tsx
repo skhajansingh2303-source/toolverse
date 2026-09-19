@@ -7,9 +7,22 @@ import ToolDrawer from './ToolDrawer';
 import ThemeToggle from './ThemeToggle';
 import { tools } from '@/lib/tools';
 
+const LANGUAGES = [
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'pt', label: 'Português', flag: '🇧🇷' },
+  { code: 'ja', label: '日本語', flag: '🇯🇵' },
+];
+
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [selectedLang, setSelectedLang] = useState('en');
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,13 +35,41 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstallApp = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
+
+  const handleSelectLang = (code: string, label: string) => {
+    setSelectedLang(code);
+    setLangMenuOpen(false);
+    window.dispatchEvent(
+      new CustomEvent('toolsverse-toast', {
+        detail: { message: `🌐 Language set to ${label}` },
+      })
+    );
+  };
+
   return (
     <>
       <header className="bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 sticky top-0 z-40 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             
-            {/* Left: Hamburger Menu (iLovePDF Style) + Logo */}
+            {/* Left: Drawer Menu Button + Logo */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={() => setDrawerOpen(true)}
@@ -61,13 +102,17 @@ export default function Header() {
               <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                 Home
               </Link>
+              <Link href="/tools/compress-pdf" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                Compress PDF
+              </Link>
               <Link href="/tools/merge-pdf" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                 PDF Suite
               </Link>
-              <Link href="/tools/age-calculator" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                Calculators
+              <Link href="/tools/image-compressor" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Media
               </Link>
               <Link href="/tools/json-formatter" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
@@ -78,19 +123,62 @@ export default function Header() {
               </Link>
             </nav>
 
-            {/* Right actions: ThemeToggle + Instant Tool Switcher + Search */}
+            {/* Right actions */}
             <div className="flex items-center space-x-2 sm:space-x-2.5">
               
+              {/* PWA Install Button (Shown if browser supports install prompt) */}
+              {installPrompt && (
+                <button
+                  onClick={handleInstallApp}
+                  className="hidden md:flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xs transition-all active:scale-95 animate-pulse"
+                  title="Install ToolsVerse App on Desktop/Mobile"
+                >
+                  <span>📱</span>
+                  <span>Install App</span>
+                </button>
+              )}
+
+              {/* Language Selector Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setLangMenuOpen(!langMenuOpen)}
+                  className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 transition-all"
+                  title="Choose Language"
+                >
+                  <span>{LANGUAGES.find((l) => l.code === selectedLang)?.flag || '🌐'}</span>
+                  <span className="hidden sm:inline uppercase text-[11px] font-bold">{selectedLang}</span>
+                </button>
+
+                {langMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden z-50 p-1.5">
+                    {LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleSelectLang(lang.code, lang.label)}
+                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-left transition-colors ${
+                          selectedLang === lang.code
+                            ? 'bg-primary-50 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300 font-bold'
+                            : 'text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800'
+                        }`}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Theme Toggle (Light / Dark) */}
               <div className="hidden sm:block">
                 <ThemeToggle />
               </div>
 
-              {/* Quick Tool Switcher Button */}
+              {/* Quick Tool Drawer Trigger */}
               <button
                 onClick={() => setDrawerOpen(true)}
                 className="hidden sm:flex items-center gap-1.5 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white text-xs font-bold px-3 sm:px-3.5 py-2 rounded-xl shadow-xs transition-all active:scale-95"
-                title="Open Side Menu Drawer"
+                title="Browse All Tools"
               >
                 <span>⚡</span>
                 <span>All Tools</span>
