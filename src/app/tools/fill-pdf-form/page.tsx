@@ -1,0 +1,20 @@
+import { Metadata } from 'next';
+import FillPdfForm from './FillPdfForm';
+
+export const metadata: Metadata = {
+  title: 'Fill Out PDF Form - Fill Interactive PDF Forms Online Free',
+  description: 'Fill out interactive PDF forms, text fields, checkboxes, and dropdowns easily in your browser with 100% privacy and zero file uploads to servers.',
+  keywords: [
+    'fill pdf form',
+    'fill out pdf online',
+    'interactive pdf form filler',
+    'complete pdf form',
+    'fill pdf text fields',
+    'pdf form editor free',
+    'acroform filler',
+  ],
+};
+
+export default function Page() {
+  return <FillPdfForm />;
+}

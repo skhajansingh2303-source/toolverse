@@ -1,0 +1,928 @@
+'use client';
+
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import Link from 'next/link';
+import ToolCard from '@/components/ToolCard';
+import AdSlot from '@/components/AdSlot';
+import { tools, Tool } from '@/lib/tools';
+
+interface Persona {
+  id: string;
+  name: string;
+  emoji: string;
+  badge: string;
+  headline: string;
+  description: string;
+  slugs: string[];
+}
+
+const PERSONAS: Persona[] = [
+  {
+    id: 'all',
+    name: 'All Tools',
+    emoji: '⚡',
+    badge: 'Universal Suite',
+    headline: 'Explore All High-Precision Utilities',
+    description: 'Browse the complete index of PDF, document, media, calculator, developer, and security utilities.',
+    slugs: [],
+  },
+  {
+    id: 'student',
+    name: 'Students & Academics',
+    emoji: '🎓',
+    badge: 'Study & Research',
+    headline: 'Accelerate Research, Papers & Grades',
+    description: 'Calculate semester GPAs, extract plain text from lecture PDFs, count words for essays, and convert notes.',
+    slugs: [
+      'gpa-calculator',
+      'pdf-to-text',
+      'word-counter',
+      'age-calculator',
+      'percentage-calculator',
+      'text-to-pdf',
+      'scan-to-pdf',
+      'split-pdf',
+      'markdown-preview',
+      'calorie-bmr-calculator',
+      'resume-builder',
+    ],
+  },
+  {
+    id: 'legal',
+    name: 'Legal & Corporate',
+    emoji: '💼',
+    badge: 'Bank-Grade Security',
+    headline: 'Redact, Sign & Secure Confidential Contracts',
+    description: 'Permanent client-side redaction, legal e-signatures, password encryption, and revision comparison with 0 server uploads.',
+    slugs: [
+      'sign-pdf',
+      'protect-pdf',
+      'unlock-pdf',
+      'redact-pdf',
+      'compare-pdf',
+      'electronic-invoice',
+      'create-fillable-pdf',
+      'flatten-pdf',
+      'pdf-to-word',
+      'word-to-pdf',
+      'split-pdf',
+      'merge-pdf',
+    ],
+  },
+  {
+    id: 'finance',
+    name: 'Finance & Accounting',
+    emoji: '📊',
+    badge: 'Numbers & Auditing',
+    headline: 'Financial Calculators & Spreadsheet Workflows',
+    description: 'Calculate loan EMIs, extract PDF bank tables to Excel, create professional tax invoices, and analyze percentage deltas.',
+    slugs: [
+      'loan-calculator',
+      'pdf-to-excel',
+      'excel-to-pdf',
+      'create-invoice',
+      'percentage-calculator',
+      'csv-json-converter',
+      'electronic-invoice',
+      'calorie-bmr-calculator',
+    ],
+  },
+  {
+    id: 'developer',
+    name: 'Software Engineers',
+    emoji: '💻',
+    badge: 'DevOps & Backend',
+    headline: 'Debug, Format & Inspect Data Structures',
+    description: 'Parse JWT payloads, format JSON & SQL queries, generate secure UUIDs, test RegEx, and build cron schedules instantly.',
+    slugs: [
+      'json-formatter',
+      'jwt-decoder',
+      'base64-encoder-decoder',
+      'uuid-generator',
+      'sql-formatter',
+      'cron-generator',
+      'regex-tester',
+      'hash-generator',
+      'timestamp-converter',
+      'code-beautifier-minifier',
+      'url-encoder-decoder',
+    ],
+  },
+  {
+    id: 'creator',
+    name: 'Designers & Creators',
+    emoji: '🎨',
+    badge: 'Design & Media',
+    headline: 'Pixel-Perfect Colors, Favicons & Media Assets',
+    description: 'Sample image color hexes, generate multi-resolution favicon packs, compress photos, build CSS shadows, and convert HEIC.',
+    slugs: [
+      'color-palette-generator',
+      'image-color-picker',
+      'favicon-generator',
+      'svg-viewer-optimizer',
+      'css-box-shadow-generator',
+      'aspect-ratio-calculator',
+      'image-resizer',
+      'image-compressor',
+      'heic-to-jpg',
+      'pdf-to-powerpoint',
+    ],
+  },
+];
+
+const FAQS = [
+  {
+    q: 'How does ToolsVerse process files without uploading them to a server?',
+    a: 'Unlike traditional cloud converters that send your documents over the internet to remote third-party servers, ToolsVerse executes 100% inside your web browser using HTML5 Canvas, the Web Crypto API, and WebAssembly. Your files are loaded into your computer\'s local memory (RAM) and processed entirely on your CPU/GPU. Zero bytes of your documents ever leave your machine.',
+  },
+  {
+    q: 'Is ToolsVerse completely free with no limits, watermarks, or sign-up?',
+    a: 'Yes. ToolsVerse is 100% free and open to everyone. There are no daily conversion limits (e.g. "2 free files per day"), no mandatory account registration, no trial paywalls, and we never watermark your exported documents or images.',
+  },
+  {
+    q: 'Can I safely convert confidential legal, medical, or financial documents?',
+    a: 'Yes, absolutely. Because ToolsVerse does not transmit or store files on any remote server, it is fully compliant with strict privacy regulations such as GDPR, HIPAA, and FERPA by design. You can even disconnect your internet connection after the page loads and continue converting and editing files offline.',
+  },
+  {
+    q: 'Are converted Word, Excel, and PowerPoint files compatible with Microsoft Office?',
+    a: 'Yes. Documents generated by ToolsVerse use standard Microsoft Office Open XML specifications (.docx, .xlsx, .pptx) and standard PDF formats (ISO 32000-1). They open seamlessly in Microsoft Word, Excel, PowerPoint, Google Docs, Sheets, Slides, LibreOffice, and Apple iWork.',
+  },
+  {
+    q: 'How does batch processing and ZIP downloading work?',
+    a: 'Tools that produce multiple output files (such as PDF to JPG, HEIC to JPG, Split PDF, or Extract Pages) include both individual file download buttons and an instant "Download All as ZIP" button powered by JSZip. The archive is created directly in your browser without any server packaging delays.',
+  },
+  {
+    q: 'What is the maximum file size I can process in ToolsVerse?',
+    a: 'Because processing happens entirely within your browser and device RAM, there are no artificial server upload file caps. You can easily process large multi-hundred-megabyte PDF files and high-resolution images as long as your device has sufficient memory.',
+  },
+];
+
+const COMPARISON_ITEMS = [
+  {
+    feature: 'File Transmission',
+    toolsverse: '0 Bytes transmitted. Processed 100% inside your local browser memory.',
+    competitor: 'Files sent over HTTP to unknown third-party cloud data centers.',
+  },
+  {
+    feature: 'Cloud Storage & Retention',
+    toolsverse: 'Never stored on any disk or cloud. Destroyed from RAM upon tab close.',
+    competitor: 'Retained on remote cloud disks for 1 to 24 hours before deletion queue.',
+  },
+  {
+    feature: 'Processing Speed',
+    toolsverse: 'Instant (<100ms). Zero upload queues or network bandwidth bottlenecks.',
+    competitor: 'Slow. Depends on upload speed, cloud queue latency, and server load.',
+  },
+  {
+    feature: 'Daily Limits & Paywalls',
+    toolsverse: '100% Unlimited & Free forever. No subscriptions or paywalls.',
+    competitor: 'Strict caps (2-3 files/day), then $12-$18/month paid subscriptions.',
+  },
+  {
+    feature: 'Compliance (GDPR, HIPAA, FERPA)',
+    toolsverse: 'Compliant by architecture — zero data transfer means zero privacy risk.',
+    competitor: 'Requires signing BAA and trusting third-party security policies.',
+  },
+  {
+    feature: 'AI Training & Data Scraping',
+    toolsverse: 'Zero risk. No server exists to collect or train AI on your documents.',
+    competitor: 'Unclear privacy policies; user documents may be crawled or inspected.',
+  },
+];
+
+export default function Home() {
+  const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [activePersona, setActivePersona] = useState('all');
+  const [sortBy, setSortBy] = useState<'featured' | 'az' | 'category'>('featured');
+  const [favoriteSlugs, setFavoriteSlugs] = useState<string[]>([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  const categories = [
+    'All',
+    'Office',
+    'PDF',
+    'Calculators',
+    'Media',
+    'Developer',
+    'Text',
+    'Security',
+    'Design',
+    'Student',
+    'Career',
+  ];
+
+  // Load favorites from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('toolsverse_favorites');
+      if (stored) {
+        setFavoriteSlugs(JSON.parse(stored));
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  const toggleFavorite = (slug: string) => {
+    setFavoriteSlugs((prev) => {
+      const exists = prev.includes(slug);
+      const updated = exists ? prev.filter((s) => s !== slug) : [...prev, slug];
+      try {
+        localStorage.setItem('toolsverse_favorites', JSON.stringify(updated));
+      } catch {
+        // Ignore
+      }
+      return updated;
+    });
+  };
+
+  // Active persona object
+  const currentPersona = useMemo(() => {
+    return PERSONAS.find((p) => p.id === activePersona) || PERSONAS[0];
+  }, [activePersona]);
+
+  // Filtered tools
+  const filteredTools = useMemo(() => {
+    let result = tools.filter((tool) => {
+      const matchesSearch =
+        tool.name.toLowerCase().includes(search.toLowerCase()) ||
+        tool.description.toLowerCase().includes(search.toLowerCase()) ||
+        tool.category.toLowerCase().includes(search.toLowerCase());
+
+      let matchesCategory = true;
+      if (activeCategory === 'Favorites') {
+        matchesCategory = favoriteSlugs.includes(tool.slug);
+      } else if (activeCategory !== 'All') {
+        matchesCategory = tool.category.toLowerCase() === activeCategory.toLowerCase();
+      }
+
+      let matchesPersona = true;
+      if (activePersona !== 'all') {
+        matchesPersona = currentPersona.slugs.includes(tool.slug);
+      }
+
+      return matchesSearch && matchesCategory && matchesPersona;
+    });
+
+    if (sortBy === 'az') {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'category') {
+      result = [...result].sort((a, b) => a.category.localeCompare(b.category));
+    }
+
+    return result;
+  }, [search, activeCategory, activePersona, currentPersona, sortBy, favoriteSlugs]);
+
+  // Autocomplete instant suggestions based on user search
+  const suggestions = search.trim()
+    ? tools
+        .filter(
+          (tool) =>
+            tool.name.toLowerCase().includes(search.toLowerCase()) ||
+            tool.slug.toLowerCase().includes(search.toLowerCase()) ||
+            tool.category.toLowerCase().includes(search.toLowerCase()) ||
+            tool.description.toLowerCase().includes(search.toLowerCase())
+        )
+        .slice(0, 8)
+    : [];
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Keyboard navigation for dropdown
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isDropdownOpen || suggestions.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      const selectedTool = suggestions[selectedIndex];
+      if (selectedTool) {
+        window.location.href = `/tools/${selectedTool.slug}`;
+      }
+    } else if (e.key === 'Escape') {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  return (
+    <>
+      {/* ───── Hero Section ───── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 text-white pb-16">
+        {/* Decorative Grid */}
+        <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px)',
+              backgroundSize: '36px 36px',
+            }}
+          />
+        </div>
+
+        {/* Ambient radial lighting */}
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary-500/25 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 relative z-20">
+          <div className="text-center max-w-3xl mx-auto">
+            
+            {/* Live Counter & Privacy Badge */}
+            <div className="inline-flex items-center space-x-2.5 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-semibold mb-6 border border-white/15 shadow-sm">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+              <span className="text-white">
+                {tools.length} High-Precision Tools • 100% Free &amp; Private In-Browser Suite
+              </span>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 tracking-tight leading-[1.12]">
+              Every Tool You Need,{' '}
+              <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-indigo-300 via-sky-300 to-emerald-300 bg-clip-text text-transparent">
+                Right in Your Browser
+              </span>
+            </h1>
+
+            {/* Subheading */}
+            <p className="text-base sm:text-lg text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed font-normal">
+              Merge PDFs, calculate age &amp; BMI, convert office files, redact contracts, and compress media with zero server uploads. Engineered for students, teachers, developers, and teams.
+            </p>
+
+            {/* ─── Search Bar with Live Suggestions ─── */}
+            <div ref={searchContainerRef} className="max-w-2xl mx-auto relative text-left">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-indigo-500 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+                <div className="relative bg-white rounded-2xl flex items-center shadow-2xl p-2 border border-white/20">
+                  <svg
+                    className="w-5 h-5 text-gray-400 ml-3 mr-3 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search any tool (e.g. merge pdf, word, excel, age, bmi, compress)..."
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setIsDropdownOpen(true);
+                      setSelectedIndex(-1);
+                    }}
+                    onFocus={() => {
+                      if (search.trim()) setIsDropdownOpen(true);
+                    }}
+                    onKeyDown={handleKeyDown}
+                    className="w-full py-3 pr-4 text-gray-900 placeholder-gray-400 bg-transparent outline-none text-base font-medium"
+                  />
+                  {search && (
+                    <button
+                      onClick={() => {
+                        setSearch('');
+                        setIsDropdownOpen(false);
+                      }}
+                      className="p-2 text-gray-400 hover:text-gray-600 mr-2 text-sm font-bold"
+                      title="Clear search"
+                    >
+                      ✕
+                    </button>
+                  )}
+                  <span className="hidden sm:inline-flex items-center px-2 py-1 mr-2 text-[11px] font-semibold text-gray-400 bg-gray-100 rounded-lg">
+                    ⌘K
+                  </span>
+                </div>
+              </div>
+
+              {/* ─── Live Autocomplete Suggestions Dropdown ─── */}
+              {isDropdownOpen && search.trim() && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 text-gray-900 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-2.5 bg-gray-50/80 border-b border-gray-100 flex items-center justify-between text-xs text-gray-500 font-semibold px-4">
+                    <span>Quick Suggestions ({suggestions.length} found)</span>
+                    <span className="text-[10px] text-gray-400">Press ↑↓ to navigate, Enter to open</span>
+                  </div>
+
+                  {suggestions.length === 0 ? (
+                    <div className="p-6 text-center text-gray-400 text-xs">
+                      No tools found matching &ldquo;{search}&rdquo;. Try another term like <em>pdf</em>, <em>calc</em>, or <em>image</em>.
+                    </div>
+                  ) : (
+                    <div className="max-h-80 overflow-y-auto divide-y divide-gray-50 p-1.5">
+                      {suggestions.map((tool, idx) => {
+                        const isSelected = selectedIndex === idx;
+                        return (
+                          <Link
+                            key={tool.slug}
+                            href={`/tools/${tool.slug}`}
+                            onClick={() => setIsDropdownOpen(false)}
+                            className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
+                              isSelected ? 'bg-primary-50 text-primary-900' : 'hover:bg-gray-50'
+                            }`}
+                          >
+                            <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white text-base shrink-0 shadow-xs`}>
+                              {tool.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-900 truncate">
+                                  {tool.name}
+                                </span>
+                                <span className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                                  {tool.category}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-gray-500 truncate mt-0.5">
+                                {tool.description}
+                              </p>
+                            </div>
+                            <span className="text-xs font-bold text-primary-600 shrink-0 ml-2">
+                              Open →
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Trending Tool Chips */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-5 text-xs text-slate-400">
+              <span className="font-semibold text-slate-300">Trending:</span>
+              {['Compress PDF', 'Merge PDF', 'Extract PDF Images', 'PDF to Word', 'Word to PDF', 'PDF to Excel', 'Age Calculator', 'Sign PDF', 'BMI Calculator', 'JSON Formatter', 'Image Compressor'].map((term) => (
+                <button
+                  key={term}
+                  onClick={() => {
+                    setSearch(term);
+                    setIsDropdownOpen(true);
+                  }}
+                  className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 transition-colors border border-white/10 font-medium hover:border-primary-400"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+
+            {/* ─── Hero Glassmorphic Stats Chips ─── */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10 max-w-4xl mx-auto">
+              <div className="p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center">
+                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{tools.length}+</div>
+                <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider mt-0.5">Production Tools</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center">
+                <div className="text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight">0 Bytes</div>
+                <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider mt-0.5">Server Uploads</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center">
+                <div className="text-2xl sm:text-3xl font-black text-sky-400 tracking-tight">&lt; 100ms</div>
+                <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider mt-0.5">In-Browser Speed</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center">
+                <div className="text-2xl sm:text-3xl font-black text-amber-300 tracking-tight">100% Free</div>
+                <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider mt-0.5">No Paywalls or Caps</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Quick Actions (iLovePDF Style) ───── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 mb-6 relative z-30">
+        <div className="bg-white/85 dark:bg-slate-900/85 backdrop-blur-md rounded-3xl p-4 sm:p-5 border border-gray-200/80 dark:border-slate-800 shadow-xl">
+          <div className="flex items-center justify-between mb-3 px-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary-500 animate-ping" />
+              <span className="text-primary-600 dark:text-primary-400 font-bold text-xs uppercase tracking-wider">⚡ Instant Quick Actions</span>
+            </div>
+            <span className="text-[11px] font-medium text-gray-400 dark:text-slate-500">1-Tap Fast Launch</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <Link
+              href="/tools/merge-pdf"
+              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-red-500/10 to-rose-600/10 dark:from-red-950/40 dark:to-rose-950/40 border border-red-200/60 dark:border-red-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-500 to-rose-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                📄
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Merge PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400">Combine files</div>
+              </div>
+            </Link>
+
+            <Link
+              href="/tools/compress-pdf"
+              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-200/60 dark:border-emerald-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                🗜️
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Compress PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400">Reduce MB size</div>
+              </div>
+            </Link>
+
+            <Link
+              href="/tools/scan-to-pdf"
+              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-600/10 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200/60 dark:border-blue-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                📸
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Scan to PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400">Capture doc</div>
+              </div>
+            </Link>
+
+            <Link
+              href="/tools/image-compressor"
+              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-600/10 dark:from-amber-950/40 dark:to-orange-950/40 border border-amber-200/60 dark:border-amber-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                🖼️
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Compress Image</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400">JPG & PNG</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Leaderboard Ad Slot ───── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2">
+        <AdSlot format="horizontal" />
+      </div>
+
+      {/* ───── Interactive Persona / Role Workspaces ───── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white border border-indigo-900/50 shadow-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/20 border border-primary-400/30 text-xs font-bold text-primary-300 mb-2">
+                <span>⚡ Interactive Workspaces</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                Curated Workspaces for Every Role
+              </h2>
+              <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+                Switch profiles to immediately view recommended tools tailored to your daily academic, legal, engineering, or financial tasks.
+              </p>
+            </div>
+
+            {/* Persona Switcher Tabs */}
+            <div className="flex flex-wrap gap-1.5 bg-black/30 p-1.5 rounded-2xl border border-white/10">
+              {PERSONAS.map((persona) => {
+                const isActive = activePersona === persona.id;
+                return (
+                  <button
+                    key={persona.id}
+                    onClick={() => {
+                      setActivePersona(persona.id);
+                      if (persona.id !== 'all') {
+                        setActiveCategory('All');
+                      }
+                    }}
+                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                      isActive
+                        ? 'bg-primary-600 text-white shadow-md'
+                        : 'text-slate-300 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <span>{persona.emoji}</span>
+                    <span>{persona.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Workspace Highlight Banner */}
+          {activePersona !== 'all' && (
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-lg">{currentPersona.emoji}</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary-300">
+                    {currentPersona.badge}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white">{currentPersona.headline}</h3>
+                <p className="text-xs text-slate-300 mt-0.5">{currentPersona.description}</p>
+              </div>
+              <button
+                onClick={() => setActivePersona('all')}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-white/15 hover:bg-white/25 text-white border border-white/20 transition-all shrink-0"
+              >
+                Reset to All Tools ✕
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ───── Tools Explorer Section ───── */}
+      <section id="tools" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Category Tab Bar & Sort Controls */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8 border-b border-gray-200/80 dark:border-slate-800 pb-5">
+          
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            {favoriteSlugs.length > 0 && (
+              <button
+                onClick={() => {
+                  setActiveCategory('Favorites');
+                  setActivePersona('all');
+                }}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
+                  activeCategory === 'Favorites'
+                    ? 'bg-amber-500 text-white shadow-sm'
+                    : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200'
+                }`}
+              >
+                <span>⭐ Favorites</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                  activeCategory === 'Favorites' ? 'bg-white/25 text-white' : 'bg-amber-200/80 text-amber-900'
+                }`}>
+                  {favoriteSlugs.length}
+                </span>
+              </button>
+            )}
+
+            {categories.map((cat) => {
+              const count = cat === 'All' 
+                ? tools.length 
+                : tools.filter((t) => t.category.toLowerCase() === cat.toLowerCase()).length;
+
+              if (count === 0 && cat !== 'All') return null;
+
+              const isActive = activeCategory === cat && activePersona === 'all';
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setActiveCategory(cat);
+                    setActivePersona('all');
+                  }}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
+                    isActive
+                      ? 'bg-gray-950 dark:bg-primary-600 text-white shadow-sm'
+                      : 'bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 border border-gray-200/80 dark:border-slate-800'
+                  }`}
+                >
+                  <span>{cat}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                    isActive ? 'bg-white/20 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Controls: Sort Dropdown & Tool Count */}
+          <div className="flex items-center justify-between lg:justify-end gap-4 shrink-0">
+            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-slate-400">
+              <span className="font-semibold text-gray-700 dark:text-slate-300">Sort:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'featured' | 'az' | 'category')}
+                className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-slate-200 text-xs rounded-xl px-3 py-1.5 outline-none font-semibold cursor-pointer shadow-2xs hover:border-gray-300 dark:hover:border-slate-700"
+              >
+                <option value="featured">Popular First</option>
+                <option value="az">Alphabetical (A - Z)</option>
+                <option value="category">Category</option>
+              </select>
+            </div>
+
+            <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">
+              Showing <strong className="text-gray-900 dark:text-slate-100">{filteredTools.length}</strong> of {tools.length}
+            </span>
+          </div>
+        </div>
+
+        {/* Tools Grid */}
+        {filteredTools.length === 0 ? (
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-12 text-center my-6">
+            <div className="text-5xl mb-3">🔍</div>
+            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-1">No matching tools found</h3>
+            <p className="text-sm text-gray-500 dark:text-slate-400 max-w-sm mx-auto mb-5">
+              {activeCategory === 'Favorites'
+                ? 'You haven\'t starred any tools yet. Click the star icon on any tool card to bookmark it here!'
+                : `We couldn't find any tools matching your active filters.`}
+            </p>
+            <button
+              onClick={() => {
+                setSearch('');
+                setActiveCategory('All');
+                setActivePersona('all');
+              }}
+              className="inline-flex items-center px-4 py-2 text-xs font-bold bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredTools.map((tool) => (
+              <ToolCard 
+                key={tool.slug} 
+                {...tool} 
+                isFavorite={favoriteSlugs.includes(tool.slug)}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* ───── ToolsVerse vs Cloud Competitors Privacy Matrix ───── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-10 shadow-sm">
+          <div className="max-w-3xl mb-8">
+            <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
+              Security Architecture
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white mt-1 mb-2">
+              ToolsVerse vs Traditional Cloud Converters
+            </h2>
+            <p className="text-gray-600 dark:text-slate-400 text-xs sm:text-sm">
+              See how our zero-server, in-browser sandbox guarantees 100% privacy, instant speed, and zero paywalls compared to cloud upload tools like iLovePDF, Smallpdf, or CloudConvert.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-slate-800 text-gray-400 uppercase font-bold text-[11px]">
+                  <th className="py-4 pr-6">Feature / Capability</th>
+                  <th className="py-4 px-6 bg-primary-50/70 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 font-extrabold rounded-t-xl">
+                    ToolsVerse (In-Browser)
+                  </th>
+                  <th className="py-4 pl-6 text-gray-600 dark:text-slate-400">
+                    Legacy Cloud Services
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800/80 font-medium">
+                {COMPARISON_ITEMS.map((item, idx) => (
+                  <tr key={idx} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="py-4 pr-6 text-gray-900 dark:text-white font-bold whitespace-nowrap">
+                      {item.feature}
+                    </td>
+                    <td className="py-4 px-6 bg-primary-50/40 dark:bg-primary-950/20 text-gray-900 dark:text-slate-200 font-semibold border-x border-primary-100/50 dark:border-primary-900/30">
+                      <div className="flex items-start gap-2">
+                        <span className="text-emerald-500 font-bold shrink-0">✓</span>
+                        <span>{item.toolsverse}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 pl-6 text-gray-500 dark:text-slate-400">
+                      <div className="flex items-start gap-2">
+                        <span className="text-rose-500 font-bold shrink-0">✗</span>
+                        <span>{item.competitor}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Trust & Security Architecture Badges ───── */}
+      <section className="bg-gray-50 dark:bg-slate-950 border-y border-gray-200/80 dark:border-slate-800/80 py-16 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
+              Trusted Worldwide
+            </span>
+            <h2 className="text-3xl font-black text-gray-950 dark:text-white mt-1 mb-3">
+              Built for Students, Teachers, and Professionals Worldwide
+            </h2>
+            <p className="text-gray-500 dark:text-slate-400 text-sm leading-relaxed">
+              Every document, contract, calculation, and image stays 100% on your local computer. No cloud uploads, no database retention, zero privacy risk.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200/60 dark:border-slate-800 hover:shadow-xl transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-700 dark:text-emerald-400 text-2xl mb-4 shadow-2xs">
+                🎓
+              </div>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Students &amp; Academics</h3>
+              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                Calculate GPA scores, extract text from lecture slides, convert research notes to PDF, format citations, and inspect documents effortlessly.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200/60 dark:border-slate-800 hover:shadow-xl transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-700 dark:text-indigo-400 text-2xl mb-4 shadow-2xs">
+                💼
+              </div>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Employees &amp; Remote Teams</h3>
+              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                Sign legal contracts with e-signatures, blackout confidential numbers with redaction, build ATS resumes, and convert office spreadsheets.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200/60 dark:border-slate-800 hover:shadow-xl transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center text-rose-700 dark:text-rose-400 text-2xl mb-4 shadow-2xs">
+                🏃
+              </div>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Daily Life &amp; Health</h3>
+              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+                Determine your exact age down to the day, calculate BMI and daily calorie requirements, compute loan EMIs, and convert units instantly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Enterprise FAQ Accordion ───── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-10">
+          <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
+            Frequently Asked Questions
+          </span>
+          <h2 className="text-3xl font-black text-gray-950 dark:text-white mt-1 mb-2">
+            Everything You Need to Know
+          </h2>
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+            Learn why millions of users choose client-side browser utilities for confidential workflows.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {FAQS.map((faq, idx) => {
+            const isOpen = expandedFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 overflow-hidden transition-all shadow-2xs"
+              >
+                <button
+                  onClick={() => setExpandedFaq(isOpen ? null : idx)}
+                  className="w-full py-4 px-6 text-left flex items-center justify-between gap-4 font-bold text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  <span>{faq.q}</span>
+                  <span
+                    className={`w-6 h-6 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xs text-gray-500 dark:text-slate-400 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 bg-primary-50 text-primary-600 dark:bg-primary-950/60 dark:text-primary-400' : ''
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </button>
+                {isOpen && (
+                  <div className="px-6 pb-5 text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-800/60 pt-3 animate-in fade-in duration-200">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ───── Mid-Page Ad Slot ───── */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <AdSlot format="horizontal" />
+      </div>
+    </>
+  );
+}

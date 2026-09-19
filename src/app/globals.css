@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 248, 250, 252;
+}
+
+.dark {
+  --foreground-rgb: 241, 245, 249;
+  --background-rgb: 10, 15, 29;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Tool textarea styling */
+.tool-textarea {
+  @apply w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm resize-y min-h-[200px] transition-colors;
+}
+
+/* Tool button styling */
+.tool-btn {
+  @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.tool-btn-primary {
+  @apply tool-btn bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500 shadow-sm hover:shadow-md;
+}
+
+.tool-btn-secondary {
+  @apply tool-btn bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 focus:ring-gray-400;
+}
+
+.tool-btn-success {
+  @apply tool-btn bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500;
+}
+
+.tool-btn-danger {
+  @apply tool-btn bg-red-500 hover:bg-red-600 text-white focus:ring-red-400;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Tool card */
+.tool-card {
+  @apply bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-slate-800 transition-all duration-300;
+}
+
+.tool-card:hover {
+  @apply shadow-xl border-primary-400/80 dark:border-primary-500/60 -translate-y-1;
+}
+
+/* Tool panel */
+.tool-panel {
+  @apply bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 rounded-2xl p-6 md:p-8 border border-gray-200 dark:border-slate-800 shadow-sm transition-colors;
+}
+
+/* Glass panel */
+.glass-card {
+  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-white/20 dark:border-slate-800 shadow-lg;
+}
+
+.glow-accent {
+  box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.15);
+}
