@@ -9,12 +9,15 @@ import { tools } from '@/lib/tools';
 
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
   { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
   { code: 'fr', label: 'Français', flag: '🇫🇷' },
   { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
   { code: 'pt', label: 'Português', flag: '🇧🇷' },
   { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
+  { code: 'bn', label: 'বাংলা', flag: '🇧🇩' },
 ];
 
 export default function Header() {
@@ -23,7 +26,26 @@ export default function Header() {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [selectedLang, setSelectedLang] = useState('en');
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [recentMenuOpen, setRecentMenuOpen] = useState(false);
+  const [recentSlugs, setRecentSlugs] = useState<string[]>([]);
 
+  // Load saved language and recent tools on mount
+  useEffect(() => {
+    try {
+      const savedLang = localStorage.getItem('toolsverse_lang');
+      if (savedLang) {
+        setSelectedLang(savedLang);
+      }
+      const storedRecent = localStorage.getItem('toolsverse_recent');
+      if (storedRecent) {
+        setRecentSlugs(JSON.parse(storedRecent));
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  // Keyboard shortcut (⌘K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -35,6 +57,7 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Catch PWA beforeinstallprompt
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
@@ -56,12 +79,49 @@ export default function Header() {
   const handleSelectLang = (code: string, label: string) => {
     setSelectedLang(code);
     setLangMenuOpen(false);
+
+    try {
+      localStorage.setItem('toolsverse_lang', code);
+
+      if (code === 'en') {
+        // Reset to original English
+        document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = `googtrans=; path=/; domain=${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+
+        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+        if (select) {
+          select.value = 'en';
+          select.dispatchEvent(new Event('change'));
+        }
+        window.location.reload();
+      } else {
+        // Set Google Translate cookie and trigger translation
+        document.cookie = `googtrans=/en/${code}; path=/;`;
+        document.cookie = `googtrans=/en/${code}; path=/; domain=${window.location.hostname};`;
+
+        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+        if (select) {
+          select.value = code;
+          select.dispatchEvent(new Event('change'));
+        } else {
+          // If translation script is not initialized yet, reload with cookie
+          window.location.reload();
+        }
+      }
+    } catch (e) {
+      console.warn('Language switch error:', e);
+    }
+
     window.dispatchEvent(
       new CustomEvent('toolsverse-toast', {
-        detail: { message: `🌐 Language set to ${label}` },
+        detail: { message: `🌐 Translating site to ${label}...` },
       })
     );
   };
+
+  const recentTools = recentSlugs
+    .map((slug) => tools.find((t) => t.slug === slug))
+    .filter(Boolean);
 
   return (
     <>
@@ -126,7 +186,7 @@ export default function Header() {
             {/* Right actions */}
             <div className="flex items-center space-x-2 sm:space-x-2.5">
               
-              {/* PWA Install Button (Shown if browser supports install prompt) */}
+              {/* PWA Install Button */}
               {installPrompt && (
                 <button
                   onClick={handleInstallApp}
@@ -138,31 +198,90 @@ export default function Header() {
                 </button>
               )}
 
-              {/* Language Selector Dropdown */}
+              {/* Recent Tools Dropdown Button */}
+              {recentTools.length > 0 && (
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      setRecentMenuOpen(!recentMenuOpen);
+                      setLangMenuOpen(false);
+                    }}
+                    className="hidden sm:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all"
+                    title="Recently Used Tools"
+                  >
+                    <span>⏱️</span>
+                    <span className="text-[11px] font-bold">Recent</span>
+                  </button>
+
+                  {recentMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden z-50 p-2 text-left">
+                      <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500 border-b border-gray-100 dark:border-slate-800 mb-1">
+                        Recently Used Tools
+                      </div>
+                      <div className="space-y-1">
+                        {recentTools.map((tool) => (
+                          <Link
+                            key={tool!.slug}
+                            href={`/tools/${tool!.slug}`}
+                            onClick={() => setRecentMenuOpen(false)}
+                            className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+                          >
+                            <span className="text-base">{tool!.icon}</span>
+                            <div className="min-w-0 flex-1">
+                              <div className="text-xs font-bold text-gray-900 dark:text-white truncate">
+                                {tool!.name}
+                              </div>
+                              <div className="text-[10px] text-gray-400 truncate">{tool!.category}</div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Working Language Selector Dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => setLangMenuOpen(!langMenuOpen)}
-                  className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 transition-all"
-                  title="Choose Language"
+                  onClick={() => {
+                    setLangMenuOpen(!langMenuOpen);
+                    setRecentMenuOpen(false);
+                  }}
+                  className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all"
+                  title="Translate Website"
                 >
-                  <span>{LANGUAGES.find((l) => l.code === selectedLang)?.flag || '🌐'}</span>
-                  <span className="hidden sm:inline uppercase text-[11px] font-bold">{selectedLang}</span>
+                  <span className="text-sm">
+                    {LANGUAGES.find((l) => l.code === selectedLang)?.flag || '🌐'}
+                  </span>
+                  <span className="hidden sm:inline uppercase text-[11px] font-bold">
+                    {selectedLang}
+                  </span>
+                  <span className="text-[10px] text-gray-400">▼</span>
                 </button>
 
                 {langMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden z-50 p-1.5">
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden z-50 p-1.5 max-h-80 overflow-y-auto">
+                    <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500 border-b border-gray-100 dark:border-slate-800 mb-1">
+                      Choose Language
+                    </div>
                     {LANGUAGES.map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => handleSelectLang(lang.code, lang.label)}
-                        className={`w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-left transition-colors ${
+                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-left transition-colors ${
                           selectedLang === lang.code
                             ? 'bg-primary-50 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300 font-bold'
                             : 'text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800'
                         }`}
                       >
-                        <span>{lang.flag}</span>
-                        <span>{lang.label}</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-base">{lang.flag}</span>
+                          <span>{lang.label}</span>
+                        </span>
+                        {selectedLang === lang.code && (
+                          <span className="text-primary-600 font-bold">✓</span>
+                        )}
                       </button>
                     ))}
                   </div>

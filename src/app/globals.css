@@ -114,3 +114,32 @@ body {
 .glow-accent {
   box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.15);
 }
+
+/* Stealth styling for Google Translate integration */
+.goog-te-banner-frame,
+.skiptranslate > iframe,
+iframe.goog-te-banner-frame,
+#goog-gt-tt {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none !important;
+  visibility: hidden !important;
+}
+

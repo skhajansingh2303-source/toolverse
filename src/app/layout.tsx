@@ -7,6 +7,7 @@ import ToolDock from '@/components/ToolDock'
 import BottomNavBar from '@/components/BottomNavBar'
 import KeyboardShortcutsModal from '@/components/KeyboardShortcutsModal'
 import Toast from '@/components/Toast'
+import GoogleTranslator from '@/components/GoogleTranslator'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -152,6 +153,7 @@ export default function RootLayout({
         <BottomNavBar />
         <KeyboardShortcutsModal />
         <Toast />
+        <GoogleTranslator />
         <Footer />
       </body>
     </html>
