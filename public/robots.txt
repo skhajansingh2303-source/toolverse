@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://toolsverse.com/sitemap.xml
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+Sitemap: https://toolsverseapp.com/sitemap.xml

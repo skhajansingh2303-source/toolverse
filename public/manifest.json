@@ -1,11 +1,12 @@
 {
-  "name": "ToolsVerse — 103+ Free Online Tools",
-  "short_name": "ToolsVerse",
+  "name": "ToolsVerse App — 103+ Free Online Tools",
+  "short_name": "ToolsVerse App",
   "description": "Free, 100% private in-browser utility suite. PDF suite, calculators, image compressor, formatters, and developer tools with zero server uploads.",
   "start_url": "/",
+  "id": "https://toolsverseapp.com/",
   "display": "standalone",
   "background_color": "#0a0f1d",
-  "theme_color": "#4f46e5",
+  "theme_color": "#e11d48",
   "orientation": "any",
   "icons": [
     {

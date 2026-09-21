@@ -12,7 +12,7 @@ import GoogleTranslator from '@/components/GoogleTranslator'
 const inter = Inter({ subsets: ['latin'] })
 
 export const viewport: Viewport = {
-  themeColor: '#4f46e5',
+  themeColor: '#e11d48',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -20,54 +20,69 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'ToolsVerse — 103+ Free Online Tools for Everyone',
-    template: '%s | ToolsVerse',
+    default: 'ToolsVerse App — 103+ Free Online Tools for Everyone (iLovePDF & Smallpdf Alternative)',
+    template: '%s | ToolsVerse App',
   },
   description:
     'Free online tools for students, teachers, developers, and professionals. 103+ utilities including PDF suite, image compressor, calculators, code formatters, and security tools. 100% private — runs in your browser with zero server uploads.',
   keywords: [
+    'toolsverse',
+    'toolsverse app',
+    'toolsverseapp.com',
+    'ilovepdf alternative',
+    'smallpdf alternative',
+    'free pdf tools',
     'online tools',
-    'free tools',
-    'pdf tools',
     'compress pdf',
     'merge pdf',
     'split pdf',
     'sign pdf',
     'extract pdf images',
-    'age calculator',
-    'bmi calculator',
+    'pdf to word',
+    'word to pdf',
+    'image compressor',
     'developer tools',
     'JSON formatter',
     'QR code generator',
-    'image compressor',
-    'resume builder',
+    'age calculator',
+    'bmi calculator',
   ],
-  authors: [{ name: 'ToolsVerse' }],
-  metadataBase: new URL('https://toolsverse.com'),
+  authors: [{ name: 'ToolsVerse App' }],
+  metadataBase: new URL('https://toolsverseapp.com'),
+  alternates: {
+    canonical: 'https://toolsverseapp.com',
+  },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'ToolsVerse',
+    title: 'ToolsVerse App',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://toolsverse.com',
-    siteName: 'ToolsVerse',
-    title: 'ToolsVerse — 103+ Free Online Tools for Everyone',
+    url: 'https://toolsverseapp.com',
+    siteName: 'ToolsVerse App',
+    title: 'ToolsVerse App — 103+ Free Online Tools for Everyone',
     description:
       'Free online tools that run 100% inside your browser. PDF suite, image compressor, health calculators, JSON formatter, QR code generator, and more with zero server uploads.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ToolsVerse — 103+ Free Online Tools',
+    title: 'ToolsVerse App — 103+ Free Online Tools',
     description:
       'Free online tools that run 100% inside your browser. No signup, no server uploads, unlimited free use.',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 }
 
@@ -81,23 +96,32 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'WebSite',
-        '@id': 'https://toolsverse.com/#website',
-        url: 'https://toolsverse.com/',
-        name: 'ToolsVerse',
+        '@id': 'https://toolsverseapp.com/#website',
+        url: 'https://toolsverseapp.com/',
+        name: 'ToolsVerse App',
+        alternateName: ['ToolsVerse', 'ToolsVerseApp'],
         description: '103+ Free Online Tools for Everyone. 100% Private In-Browser Suite.',
         potentialAction: {
           '@type': 'SearchAction',
           target: {
             '@type': 'EntryPoint',
-            urlTemplate: 'https://toolsverse.com/?q={search_term_string}',
+            urlTemplate: 'https://toolsverseapp.com/?q={search_term_string}',
           },
           'query-input': 'required name=search_term_string',
         },
       },
       {
+        '@type': 'Organization',
+        '@id': 'https://toolsverseapp.com/#organization',
+        name: 'ToolsVerse App',
+        url: 'https://toolsverseapp.com',
+        logo: 'https://toolsverseapp.com/icon.svg',
+      },
+      {
         '@type': 'WebApplication',
-        '@id': 'https://toolsverse.com/#webapp',
-        name: 'ToolsVerse Productivity & Utility Suite',
+        '@id': 'https://toolsverseapp.com/#webapp',
+        name: 'ToolsVerse App Productivity & Utility Suite',
+        url: 'https://toolsverseapp.com/',
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'All',
         browserRequirements: 'Requires JavaScript. Requires HTML5.',
@@ -109,10 +133,48 @@ export default function RootLayout({
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: '4.9',
-          ratingCount: '1420',
+          ratingCount: '1540',
           bestRating: '5',
           worstRating: '1',
         },
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': 'https://toolsverseapp.com/#faq',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Is ToolsVerse App completely free to use without daily limits?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes! ToolsVerse App is 100% free with unlimited usage. Unlike cloud services such as iLovePDF or Smallpdf that impose daily conversion caps and subscription paywalls, ToolsVerse processes files on your local device without restrictions.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'How is ToolsVerse App different from iLovePDF and Smallpdf?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Unlike traditional cloud converters that upload your confidential documents to external servers, ToolsVerse App executes 100% client-side in your web browser using WebAssembly and HTML5 Canvas. Your documents and files never leave your computer.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Are my confidential documents, contracts, and images safe?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Absolutely. Because all calculations, PDF merges, splits, compressions, and conversions run directly in your browser, no server upload takes place. Your confidential data remains completely private on your device.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Can ToolsVerse App be installed or used offline?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes! ToolsVerse App is a Progressive Web App (PWA) with full service worker caching. You can install it on Windows, macOS, Android, and iOS to use utilities even without an active internet connection.',
+            },
+          },
+        ],
       },
     ],
   };

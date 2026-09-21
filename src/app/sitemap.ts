@@ -3,18 +3,18 @@ import { tools } from '@/lib/tools'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const toolEntries: MetadataRoute.Sitemap = tools.map((tool) => ({
-    url: `https://toolsverse.com/tools/${tool.slug}`,
+    url: `https://toolsverseapp.com/tools/${tool.slug}/`,
     lastModified: new Date(),
-    changeFrequency: 'monthly',
-    priority: 0.8,
+    changeFrequency: 'weekly',
+    priority: 0.9,
   }))
 
   return [
     {
-      url: 'https://toolsverse.com',
+      url: 'https://toolsverseapp.com/',
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
+      changeFrequency: 'daily',
+      priority: 1.0,
     },
     ...toolEntries,
   ]

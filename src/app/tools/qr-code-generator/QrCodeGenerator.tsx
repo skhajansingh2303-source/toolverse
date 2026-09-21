@@ -7,7 +7,7 @@ import AdSlot from '@/components/AdSlot';
 
 export default function QrCodeGenerator() {
   const [tab, setTab] = useState<'url' | 'wifi' | 'text' | 'email'>('url');
-  const [url, setUrl] = useState('https://toolsverse.com');
+  const [url, setUrl] = useState('https://toolsverseapp.com');
   const [text, setText] = useState('');
   const [wifiSsid, setWifiSsid] = useState('');
   const [wifiPassword, setWifiPassword] = useState('');

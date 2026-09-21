@@ -790,11 +790,11 @@ export default function Home() {
               <thead>
                 <tr className="border-b border-gray-200 dark:border-slate-800 text-gray-400 uppercase font-bold text-[11px]">
                   <th className="py-4 pr-6">Feature / Capability</th>
-                  <th className="py-4 px-6 bg-primary-50/70 dark:bg-primary-950/40 text-primary-700 dark:text-primary-300 font-extrabold rounded-t-xl">
-                    ToolsVerse (In-Browser)
+                  <th className="py-4 px-6 bg-red-50/80 dark:bg-red-950/40 text-red-700 dark:text-red-300 font-extrabold rounded-t-xl">
+                    ToolsVerse App (100% In-Browser)
                   </th>
                   <th className="py-4 pl-6 text-gray-600 dark:text-slate-400">
-                    Legacy Cloud Services
+                    Legacy Cloud (iLovePDF &amp; Smallpdf)
                   </th>
                 </tr>
               </thead>
