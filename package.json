@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pages:deploy": "next build && wrangler pages deploy out",
+    "pages:dev": "next build && wrangler pages dev out"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
@@ -28,6 +30,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "wrangler": "^4.86.0"
   }
 }
