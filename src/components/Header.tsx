@@ -125,6 +125,43 @@ export default function Header() {
     .map((slug) => tools.find((t) => t.slug === slug))
     .filter(Boolean);
 
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMenuHoverOpen = (convertOnly: boolean) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setMegaMenuConvertOnly(convertOnly);
+    setMegaMenuOpen(true);
+    setLangMenuOpen(false);
+    setRecentMenuOpen(false);
+  };
+
+  const handleMenuHoverLeave = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
+    closeTimeoutRef.current = setTimeout(() => {
+      setMegaMenuOpen(false);
+    }, 200);
+  };
+
+  const handleMenuMouseEnter = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  };
+
+  const handleOtherLinkHover = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setMegaMenuOpen(false);
+  };
+
   const toggleAllPdfTools = () => {
     if (megaMenuOpen && !megaMenuConvertOnly) {
       setMegaMenuOpen(false);
@@ -175,6 +212,7 @@ export default function Header() {
               <Link
                 href="/"
                 onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
                 className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0"
               >
                 <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-red-600 via-rose-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-red-500/20 group-hover:scale-105 transition-transform duration-200">
@@ -191,11 +229,12 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* ───── Middle Navigation (iLovePDF Style) ───── */}
+            {/* ───── Middle Navigation (iLovePDF Style with Cursor Hover) ───── */}
             <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-xs xl:text-sm font-bold tracking-tight uppercase shrink-0">
               <Link
                 href="/tools/merge-pdf"
                 onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
               >
                 Merge PDF
@@ -203,6 +242,7 @@ export default function Header() {
               <Link
                 href="/tools/split-pdf"
                 onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
               >
                 Split PDF
@@ -210,15 +250,18 @@ export default function Header() {
               <Link
                 href="/tools/compress-pdf"
                 onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
               >
                 Compress PDF
               </Link>
               
-              {/* Convert PDF Dropdown Trigger */}
+              {/* Convert PDF Dropdown Trigger with Hover */}
               <button
                 onClick={toggleConvertPdf}
-                className={`flex items-center gap-1 transition-colors whitespace-nowrap ${
+                onMouseEnter={() => handleMenuHoverOpen(true)}
+                onMouseLeave={handleMenuHoverLeave}
+                className={`flex items-center gap-1 transition-colors whitespace-nowrap py-2 ${
                   megaMenuOpen && megaMenuConvertOnly
                     ? 'text-red-600 dark:text-red-400'
                     : 'text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400'
@@ -234,10 +277,12 @@ export default function Header() {
                 </span>
               </button>
 
-              {/* ALL PDF TOOLS Mega Menu Trigger (Prominent Red) */}
+              {/* ALL PDF TOOLS Mega Menu Trigger with Hover (Prominent Red) */}
               <button
                 onClick={toggleAllPdfTools}
-                className={`flex items-center gap-1 font-extrabold px-2.5 py-1 rounded-lg transition-all whitespace-nowrap ${
+                onMouseEnter={() => handleMenuHoverOpen(false)}
+                onMouseLeave={handleMenuHoverLeave}
+                className={`flex items-center gap-1 font-extrabold px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap ${
                   megaMenuOpen && !megaMenuConvertOnly
                     ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60'
                     : 'text-red-600 dark:text-red-400 hover:bg-red-50/70 dark:hover:bg-red-950/40'
@@ -392,6 +437,8 @@ export default function Header() {
           isOpen={megaMenuOpen}
           onClose={() => setMegaMenuOpen(false)}
           filterConvertOnly={megaMenuConvertOnly}
+          onMouseEnter={handleMenuMouseEnter}
+          onMouseLeave={handleMenuHoverLeave}
         />
       </header>
 

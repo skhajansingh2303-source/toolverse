@@ -421,9 +421,17 @@ interface PdfMegaMenuProps {
   isOpen: boolean;
   onClose: () => void;
   filterConvertOnly?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
-export default function PdfMegaMenu({ isOpen, onClose, filterConvertOnly = false }: PdfMegaMenuProps) {
+export default function PdfMegaMenu({
+  isOpen,
+  onClose,
+  filterConvertOnly = false,
+  onMouseEnter,
+  onMouseLeave,
+}: PdfMegaMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -457,6 +465,8 @@ export default function PdfMegaMenu({ isOpen, onClose, filterConvertOnly = false
   return (
     <div
       ref={menuRef}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className="absolute top-full left-0 right-0 w-full bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-150"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

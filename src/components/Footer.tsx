@@ -195,19 +195,29 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright & Guarantee Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} ToolsVerse. All rights reserved. {tools.length} In-Browser Utilities.</p>
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+          <p>© {new Date().getFullYear()} ToolsVerse App (toolsverseapp.com). All rights reserved. {tools.length} In-Browser Utilities.</p>
           
-          <div className="flex items-center gap-6">
-            <span className="text-gray-400">100% Free &amp; Private</span>
-            <span className="text-gray-600">•</span>
-            <Link href="/#tools" className="hover:text-gray-300 transition-colors">
-              Browse All {tools.length} Tools
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <Link href="/about" className="hover:text-red-400 transition-colors">
+              About Us
             </Link>
-            <span className="text-gray-600">•</span>
+            <span className="text-gray-700">•</span>
+            <Link href="/contact" className="hover:text-red-400 transition-colors">
+              Contact
+            </Link>
+            <span className="text-gray-700">•</span>
+            <Link href="/privacy" className="hover:text-red-400 transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-gray-700">•</span>
+            <Link href="/terms" className="hover:text-red-400 transition-colors">
+              Terms of Service
+            </Link>
+            <span className="text-gray-700">•</span>
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-              className="hover:text-primary-400 transition-colors font-semibold"
+              className="hover:text-red-400 transition-colors font-semibold"
             >
               ↑ Back to Top
             </button>

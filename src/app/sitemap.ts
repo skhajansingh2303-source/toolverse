@@ -9,13 +9,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }))
 
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: 'https://toolsverseapp.com/',
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1.0,
     },
-    ...toolEntries,
+    {
+      url: 'https://toolsverseapp.com/about/',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://toolsverseapp.com/contact/',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://toolsverseapp.com/privacy/',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://toolsverseapp.com/terms/',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ]
+
+  return [...staticPages, ...toolEntries]
 }
