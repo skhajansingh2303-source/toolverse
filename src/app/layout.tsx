@@ -194,6 +194,18 @@ export default function RootLayout({
                 } else {
                   document.documentElement.classList.remove('dark');
                 }
+              try {
+                if (window.location.hostname.endsWith('.pages.dev')) {
+                  var r = document.querySelector('meta[name="robots"]');
+                  if (r) {
+                    r.setAttribute('content', 'noindex, nofollow, noarchive');
+                  } else {
+                    var meta = document.createElement('meta');
+                    meta.name = 'robots';
+                    meta.content = 'noindex, nofollow, noarchive';
+                    document.head.appendChild(meta);
+                  }
+                }
               } catch(e) {}
               if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
                 window.addEventListener('load', function() {
