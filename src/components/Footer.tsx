@@ -215,6 +215,10 @@ export default function Footer() {
               Terms of Service
             </Link>
             <span className="text-gray-700">•</span>
+            <a href="/sitemap.xml" className="hover:text-red-400 transition-colors" target="_blank" rel="noopener noreferrer">
+              Sitemap
+            </a>
+            <span className="text-gray-700">•</span>
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
               className="hover:text-red-400 transition-colors font-semibold"

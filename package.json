@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/enhance-sitemap.mjs",
     "start": "next start",
     "lint": "next lint",
-    "pages:deploy": "next build && wrangler pages deploy out",
-    "pages:dev": "next build && wrangler pages dev out"
+    "pages:deploy": "npm run build && wrangler pages deploy out",
+    "pages:dev": "npm run build && wrangler pages dev out"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
