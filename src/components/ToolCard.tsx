@@ -18,11 +18,14 @@ interface ToolCardProps {
 const FEATURED_SLUGS = [
   'compress-pdf',
   'merge-pdf',
-  'extract-pdf-images',
+  'split-pdf',
+  'pdf-to-jpg',
+  'word-to-pdf',
+  'image-to-pdf',
+  'sign-pdf',
   'age-calculator',
   'json-formatter',
   'image-compressor',
-  'sign-pdf',
   'bmi-calculator',
   'qr-code-generator',
   'resume-builder'
@@ -44,42 +47,52 @@ export default function ToolCard({
 
   const getCategoryBadgeClass = (cat: string) => {
     switch (cat.toLowerCase()) {
-      case 'pdf':
-        return 'bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border-red-200/60 dark:border-red-900/40';
+      case 'organize pdf':
+        return 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200/70 dark:border-rose-900/40';
+      case 'convert to pdf':
+        return 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/70 dark:border-emerald-900/40';
+      case 'convert from pdf':
+        return 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200/70 dark:border-sky-900/40';
+      case 'optimize pdf':
+        return 'bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border-violet-200/70 dark:border-violet-900/40';
+      case 'edit pdf':
+        return 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200/70 dark:border-indigo-900/40';
+      case 'pdf security':
+        return 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-200/70 dark:border-amber-900/40';
       case 'calculators':
-        return 'bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-200/60 dark:border-amber-900/40';
+        return 'bg-lime-50 dark:bg-lime-950/60 text-lime-800 dark:text-lime-300 border-lime-200/70 dark:border-lime-900/40';
       case 'developer':
-        return 'bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200/60 dark:border-blue-900/40';
-      case 'security':
-        return 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-900/40';
-      case 'text':
-        return 'bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 border-teal-200/60 dark:border-teal-900/40';
+        return 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200/70 dark:border-blue-900/40';
       case 'media':
-        return 'bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border-purple-200/60 dark:border-purple-900/40';
+        return 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200/70 dark:border-purple-900/40';
       case 'design':
-        return 'bg-pink-50 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 border-pink-200/60 dark:border-pink-900/40';
-      case 'student':
-        return 'bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border-indigo-200/60 dark:border-indigo-900/40';
-      case 'career':
-        return 'bg-cyan-50 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 border-cyan-200/60 dark:border-cyan-900/40';
+        return 'bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border-pink-200/70 dark:border-pink-900/40';
+      case 'office':
+        return 'bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border-orange-200/70 dark:border-orange-900/40';
+      case 'text':
+        return 'bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200/70 dark:border-teal-900/40';
       default:
         return 'bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-300 border-gray-200/60 dark:border-slate-700';
     }
   };
 
   return (
-    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-primary-400 dark:hover:border-primary-500/60 hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-primary-500/80 dark:hover:border-primary-500/70 hover:-translate-y-1.5 transition-all duration-250 flex flex-col justify-between overflow-hidden">
       
+      {/* Subtle hover gradient accent */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
       {/* Top Bar: Category, Badges & Favorite Star */}
-      <div className="flex items-center justify-between mb-3.5">
-        <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md border ${getCategoryBadgeClass(category)}`}>
+      <div className="relative z-10 flex items-center justify-between mb-3.5">
+        <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${getCategoryBadgeClass(category)}`}>
           {category}
         </span>
 
         <div className="flex items-center gap-1.5">
           {isFeatured && (
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800">
-              Popular
+            <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2 py-0.5 rounded-full shadow-xs">
+              <span>🔥</span>
+              <span>Popular</span>
             </span>
           )}
           
@@ -91,7 +104,7 @@ export default function ToolCard({
                 e.stopPropagation();
                 onToggleFavorite(slug);
               }}
-              className={`p-1.5 rounded-lg text-sm transition-transform active:scale-125 ${
+              className={`p-1.5 rounded-lg text-sm transition-all active:scale-125 ${
                 isFavorite
                   ? 'text-amber-500 hover:text-amber-600 bg-amber-50 dark:bg-amber-950/50'
                   : 'text-gray-300 dark:text-slate-600 hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-slate-800'
@@ -104,19 +117,19 @@ export default function ToolCard({
         </div>
       </div>
 
-      {/* Main Link Area */}
-      <Link href={targetUrl} className="block focus:outline-none flex-1">
+      {/* Main Clickable Area */}
+      <Link href={targetUrl} className="relative z-10 block focus:outline-none flex-1">
         <div className="flex items-start gap-3.5 mb-3">
           {/* Icon Box */}
           <div
-            className={`w-11 h-11 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center text-white text-lg shrink-0 group-hover:scale-110 shadow-sm transition-transform duration-200`}
+            className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center text-white text-xl shrink-0 group-hover:scale-110 group-hover:rotate-2 shadow-sm shadow-primary-500/20 transition-all duration-300`}
           >
             {icon}
           </div>
 
-          {/* Title */}
-          <div>
-            <h3 className="text-sm font-bold text-gray-900 dark:text-slate-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight mb-1">
+          {/* Title & Description */}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-[15px] font-extrabold text-gray-950 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug mb-1">
               {name}
             </h3>
             <p className="text-gray-500 dark:text-slate-400 text-xs leading-relaxed line-clamp-2">
@@ -126,15 +139,19 @@ export default function ToolCard({
         </div>
       </Link>
 
-      {/* Card Footer */}
-      <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300">
-        <span className="text-[11px] text-gray-400 dark:text-slate-500 font-medium">Free • Client-side</span>
+      {/* Card Footer with High-Clickable Pill Button */}
+      <div className="relative z-10 mt-4 pt-3 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-400 dark:text-slate-500">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span>In-Browser Private</span>
+        </div>
+
         <Link 
           href={targetUrl}
-          className="flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-xs font-bold text-primary-600 dark:text-primary-400"
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-gray-100 dark:bg-slate-800 group-hover:bg-primary-600 dark:group-hover:bg-primary-600 text-gray-800 dark:text-slate-200 group-hover:text-white transition-all duration-200 text-xs font-bold shadow-2xs group-hover:shadow-md"
         >
-          <span>Use Tool</span>
-          <span>→</span>
+          <span>Open</span>
+          <span className="group-hover:translate-x-0.5 transition-transform">→</span>
         </Link>
       </div>
     </div>

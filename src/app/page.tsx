@@ -527,56 +527,82 @@ export default function Home() {
             <span className="text-[11px] font-medium text-gray-400 dark:text-slate-500">1-Tap Fast Launch</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             <Link
-              href="/tools/organize-pdf/merge-pdf"
-              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-red-500/10 to-rose-600/10 dark:from-red-950/40 dark:to-rose-950/40 border border-red-200/60 dark:border-red-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+              href="/tools/organize-pdf/merge-pdf/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-red-500/10 to-rose-600/10 dark:from-red-950/40 dark:to-rose-950/40 border border-red-200/60 dark:border-red-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-500 to-rose-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
-                📄
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-500 to-rose-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                📎
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Merge PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400">Combine files</div>
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-red-600 transition-colors">Merge PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Combine docs</div>
               </div>
             </Link>
 
             <Link
-              href="/tools/optimize-pdf/compress-pdf"
-              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-200/60 dark:border-emerald-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+              href="/tools/optimize-pdf/compress-pdf/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-200/60 dark:border-emerald-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
                 🗜️
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Compress PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400">Reduce MB size</div>
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-emerald-600 transition-colors">Compress</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Reduce MB size</div>
               </div>
             </Link>
 
             <Link
-              href="/tools/convert-to-pdf/scan-to-pdf"
-              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-600/10 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200/60 dark:border-blue-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+              href="/tools/convert-from-pdf/pdf-to-jpg/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-600/10 dark:from-amber-950/40 dark:to-orange-950/40 border border-amber-200/60 dark:border-amber-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
-                📸
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                📷
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Scan to PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400">Capture doc</div>
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-amber-600 transition-colors">PDF to JPG</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Extract images</div>
               </div>
             </Link>
 
             <Link
-              href="/tools/media/image-compressor"
-              className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-600/10 dark:from-amber-950/40 dark:to-orange-950/40 border border-amber-200/60 dark:border-amber-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
+              href="/tools/convert-to-pdf/word-to-pdf/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-600/10 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200/60 dark:border-blue-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
-                🖼️
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                📄
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-bold text-gray-900 dark:text-white truncate">Compress Image</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400">JPG & PNG</div>
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-blue-600 transition-colors">Word to PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">DOCX to PDF</div>
+              </div>
+            </Link>
+
+            <Link
+              href="/tools/organize-pdf/split-pdf/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-purple-500/10 to-fuchsia-600/10 dark:from-purple-950/40 dark:to-fuchsia-950/40 border border-purple-200/60 dark:border-purple-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-fuchsia-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                ✂️
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-purple-600 transition-colors">Split PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Extract pages</div>
+              </div>
+            </Link>
+
+            <Link
+              href="/tools/pdf-security/sign-pdf/"
+              className="group flex items-center gap-2.5 p-3 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-teal-600/10 dark:from-cyan-950/40 dark:to-teal-950/40 border border-cyan-200/60 dark:border-cyan-800/40 hover:scale-[1.03] hover:shadow-md active:scale-95 transition-all shadow-2xs"
+            >
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-teal-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                ✍️
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-cyan-600 transition-colors">Sign PDF</div>
+                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Digital e-sign</div>
               </div>
             </Link>
           </div>
