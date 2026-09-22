@@ -7,6 +7,7 @@ interface ToolCardProps {
   name: string;
   description: string;
   slug: string;
+  categorySlug?: string;
   icon: string;
   color: string;
   category: string;
@@ -31,6 +32,7 @@ export default function ToolCard({
   name,
   description,
   slug,
+  categorySlug,
   icon,
   color,
   category,
@@ -38,6 +40,7 @@ export default function ToolCard({
   onToggleFavorite,
 }: ToolCardProps) {
   const isFeatured = FEATURED_SLUGS.includes(slug);
+  const targetUrl = categorySlug ? `/tools/${categorySlug}/${slug}` : `/tools/${slug}`;
 
   const getCategoryBadgeClass = (cat: string) => {
     switch (cat.toLowerCase()) {
@@ -102,7 +105,7 @@ export default function ToolCard({
       </div>
 
       {/* Main Link Area */}
-      <Link href={`/tools/${slug}`} className="block focus:outline-none flex-1">
+      <Link href={targetUrl} className="block focus:outline-none flex-1">
         <div className="flex items-start gap-3.5 mb-3">
           {/* Icon Box */}
           <div
@@ -127,7 +130,7 @@ export default function ToolCard({
       <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300">
         <span className="text-[11px] text-gray-400 dark:text-slate-500 font-medium">Free • Client-side</span>
         <Link 
-          href={`/tools/${slug}`}
+          href={targetUrl}
           className="flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-xs font-bold text-primary-600 dark:text-primary-400"
         >
           <span>Use Tool</span>

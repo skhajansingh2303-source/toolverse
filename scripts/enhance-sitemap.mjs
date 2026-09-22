@@ -6,10 +6,16 @@ const sitemapXmlPath = path.join(outDir, 'sitemap.xml');
 const publicXslPath = path.resolve('public', 'sitemap.xsl');
 const outXslPath = path.join(outDir, 'sitemap.xsl');
 
-// 1. Copy sitemap.xsl to out/ if not already there
+// 1. Copy sitemap.xsl & _redirects to out/ if not already there
 if (fs.existsSync(publicXslPath)) {
   fs.copyFileSync(publicXslPath, outXslPath);
   console.log('Copied sitemap.xsl to out/sitemap.xsl');
+}
+const publicRedirectsPath = path.resolve('public', '_redirects');
+const outRedirectsPath = path.join(outDir, '_redirects');
+if (fs.existsSync(publicRedirectsPath)) {
+  fs.copyFileSync(publicRedirectsPath, outRedirectsPath);
+  console.log('Copied public/_redirects to out/_redirects');
 }
 
 // 2. Inject stylesheet link into out/sitemap.xml

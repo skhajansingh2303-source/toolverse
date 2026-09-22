@@ -4,8 +4,35 @@ export interface Tool {
   slug: string;
   icon: string;
   category: string;
+  categorySlug: string;
   color: string;
 }
+
+export function getToolUrl(tool: { categorySlug?: string; slug: string }): string {
+  return "/tools/" + (tool.categorySlug || "organize-pdf") + "/" + tool.slug;
+}
+
+export interface ToolCategory {
+  name: string;
+  slug: string;
+  description: string;
+  icon: string;
+}
+
+export const CATEGORIES: ToolCategory[] = [
+  { name: "Convert from PDF", slug: "convert-from-pdf", description: "Convert PDF files to Word, JPG, Excel, PowerPoint, Text, and HTML.", icon: "🔄" },
+  { name: "Convert to PDF", slug: "convert-to-pdf", description: "Convert Images, Office documents, and Text to high-quality PDF.", icon: "📄" },
+  { name: "Organize PDF", slug: "organize-pdf", description: "Merge, split, remove, rotate, and rearrange PDF document pages.", icon: "📑" },
+  { name: "Optimize PDF", slug: "optimize-pdf", description: "Compress, repair, OCR, and optimize PDF files for fast sharing.", icon: "🗜️" },
+  { name: "Edit PDF", slug: "edit-pdf", description: "Add text, watermarks, page numbers, and crop PDF pages.", icon: "✏️" },
+  { name: "PDF Security", slug: "pdf-security", description: "Sign, encrypt with password, unlock, and redact PDF files.", icon: "🔒" },
+  { name: "Office", slug: "office", description: "Process Word, Excel, and PowerPoint documents without Microsoft Office.", icon: "📊" },
+  { name: "Media", slug: "media", description: "Compress, convert, and resize images in your browser privately.", icon: "🖼️" },
+  { name: "Calculators", slug: "calculators", description: "Fast calculations for finance, health, academics, and units.", icon: "🧮" },
+  { name: "Developer", slug: "developer", description: "Inspect, format, encode, and decode developer payloads.", icon: "💻" },
+  { name: "Text", slug: "text", description: "Word count, case conversion, and text cleaning utilities.", icon: "📝" },
+  { name: "Design", slug: "design", description: "Color palettes, shadows, QR codes, and resume generation.", icon: "🎨" },
+];
 
 export const tools: Tool[] = [
   // ─── PDF Suite (Inspired by iLovePDF & PDF24) ───
@@ -14,7 +41,8 @@ export const tools: Tool[] = [
     description: 'Draw or type your digital signature and place it anywhere on your PDF document. 100% legal & private.',
     slug: 'sign-pdf',
     icon: '✍️',
-    category: 'PDF',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-blue-600 to-indigo-700',
   },
   {
@@ -22,7 +50,8 @@ export const tools: Tool[] = [
     description: 'Combine multiple PDF files into one single document with reordering. 100% private.',
     slug: 'merge-pdf',
     icon: '📎',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-red-500 to-rose-600',
   },
   {
@@ -30,7 +59,8 @@ export const tools: Tool[] = [
     description: 'Extract specific pages from a PDF or split every page into separate files visually.',
     slug: 'split-pdf',
     icon: '✂️',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-orange-500 to-amber-600',
   },
   {
@@ -38,7 +68,8 @@ export const tools: Tool[] = [
     description: 'Reduce PDF file size while maintaining document clarity for email attachments and portal uploads.',
     slug: 'compress-pdf',
     icon: '🗜️',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-rose-500 to-red-600',
   },
   {
@@ -46,7 +77,8 @@ export const tools: Tool[] = [
     description: 'Convert JPG, PNG, and WebP images into clean, formatted PDF documents.',
     slug: 'image-to-pdf',
     icon: '🖼️',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-sky-500 to-blue-600',
   },
   {
@@ -54,7 +86,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF document pages into high-resolution JPG images for presentations and sharing.',
     slug: 'pdf-to-jpg',
     icon: '📷',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-emerald-500 to-teal-600',
   },
   {
@@ -62,7 +95,8 @@ export const tools: Tool[] = [
     description: 'Extract plain text from PDF pages for research, study notes, and speech-to-text.',
     slug: 'pdf-to-text',
     icon: '📜',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-amber-600 to-orange-600',
   },
   {
@@ -70,7 +104,8 @@ export const tools: Tool[] = [
     description: 'Turn written text, essays, meeting notes, and letters into clean, formatted PDF documents.',
     slug: 'text-to-pdf',
     icon: '📝',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-cyan-600 to-blue-600',
   },
   {
@@ -78,7 +113,8 @@ export const tools: Tool[] = [
     description: 'Permanently blackout confidential text, bank numbers, and sensitive details on PDF pages.',
     slug: 'redact-pdf',
     icon: '⬛',
-    category: 'PDF',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-gray-700 to-slate-900',
   },
   {
@@ -86,7 +122,8 @@ export const tools: Tool[] = [
     description: 'Trim excess page margins and crop page dimensions for printing or handheld reading.',
     slug: 'crop-pdf',
     icon: '📐',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-teal-600 to-emerald-700',
   },
   {
@@ -94,7 +131,8 @@ export const tools: Tool[] = [
     description: 'Capture document pages using your webcam or photos and compile into a scanned PDF.',
     slug: 'scan-to-pdf',
     icon: '📠',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-violet-600 to-indigo-600',
   },
   {
@@ -102,7 +140,8 @@ export const tools: Tool[] = [
     description: 'Rotate PDF pages 90°, 180°, or 270° clockwise or counter-clockwise.',
     slug: 'rotate-pdf',
     icon: '🔃',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-emerald-500 to-green-600',
   },
   {
@@ -110,7 +149,8 @@ export const tools: Tool[] = [
     description: 'Add custom text watermarks with transparency, angle, and position controls.',
     slug: 'watermark-pdf',
     icon: '💧',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-cyan-500 to-teal-600',
   },
   {
@@ -118,7 +158,8 @@ export const tools: Tool[] = [
     description: 'Delete unwanted pages from any PDF document and download the cleaned version.',
     slug: 'remove-pdf-pages',
     icon: '🗑️',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-rose-600 to-red-700',
   },
   {
@@ -126,7 +167,8 @@ export const tools: Tool[] = [
     description: 'Insert header or footer page numbers (e.g. Page X of Y) into PDF documents.',
     slug: 'number-pdf',
     icon: '🔢',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-blue-600 to-indigo-600',
   },
   {
@@ -134,7 +176,8 @@ export const tools: Tool[] = [
     description: 'View and update PDF metadata: Title, Author, Subject, Keywords, and Creator.',
     slug: 'pdf-metadata',
     icon: '🏷️',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-purple-600 to-violet-700',
   },
 
@@ -144,7 +187,8 @@ export const tools: Tool[] = [
     description: 'Calculate semester and cumulative GPA on 4.0 scale with weighted credit hours for students & teachers.',
     slug: 'gpa-calculator',
     icon: '🎓',
-    category: 'Student',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-indigo-600 to-purple-600',
   },
   {
@@ -152,7 +196,8 @@ export const tools: Tool[] = [
     description: 'Build modern, ATS-friendly resumes for students, teachers, and employees with instant PDF export.',
     slug: 'resume-builder',
     icon: '💼',
-    category: 'Career',
+    category: "Design",
+    categorySlug: "design",
     color: 'from-emerald-600 to-teal-700',
   },
 
@@ -162,7 +207,8 @@ export const tools: Tool[] = [
     description: 'Compress PNG, JPG, and WebP images in your browser with live before/after preview.',
     slug: 'image-compressor',
     icon: '🗜️',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-rose-500 to-pink-500',
   },
   {
@@ -170,7 +216,8 @@ export const tools: Tool[] = [
     description: 'Resize image dimensions by custom width, height, or percentage while maintaining aspect ratio.',
     slug: 'image-resizer',
     icon: '📐',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-indigo-500 to-purple-600',
   },
   {
@@ -178,7 +225,8 @@ export const tools: Tool[] = [
     description: 'Convert images between PNG, JPG, WebP, and BMP instantly in your browser.',
     slug: 'image-converter',
     icon: '🔄',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-amber-500 to-orange-600',
   },
   {
@@ -186,7 +234,8 @@ export const tools: Tool[] = [
     description: 'Upload any photo and click anywhere to sample, inspect, and copy Hex and RGB colors.',
     slug: 'image-color-picker',
     icon: '🎯',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-teal-500 to-emerald-600',
   },
   {
@@ -194,7 +243,8 @@ export const tools: Tool[] = [
     description: 'Inspect, preview, clean, and minify raw SVG vector code with syntax highlighting.',
     slug: 'svg-viewer-optimizer',
     icon: '⚡',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-cyan-500 to-blue-500',
   },
   {
@@ -202,7 +252,8 @@ export const tools: Tool[] = [
     description: 'Generate standard website favicons (16x16, 32x32, 48x48, 180x180 Apple Touch) from an image.',
     slug: 'favicon-generator',
     icon: '⭐',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-yellow-500 to-amber-600',
   },
 
@@ -212,7 +263,8 @@ export const tools: Tool[] = [
     description: 'Format, validate, and minify JSON data with line & column syntax diagnostics.',
     slug: 'json-formatter',
     icon: '{ }',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-blue-500 to-cyan-500',
   },
   {
@@ -220,7 +272,8 @@ export const tools: Tool[] = [
     description: 'Decode JSON Web Tokens (Header, Payload, Claims, Expiration) client-side securely.',
     slug: 'jwt-decoder',
     icon: '🔑',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-violet-600 to-purple-700',
   },
   {
@@ -228,7 +281,8 @@ export const tools: Tool[] = [
     description: 'Generate standard Version-4 UUIDs in bulk (1 to 1000) with hyphens and uppercase options.',
     slug: 'uuid-generator',
     icon: '🆔',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-emerald-500 to-teal-600',
   },
   {
@@ -236,7 +290,8 @@ export const tools: Tool[] = [
     description: 'Beautify or minify HTML, CSS, and JavaScript code snippets for clean formatting.',
     slug: 'code-beautifier-minifier',
     icon: '</>',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-blue-600 to-indigo-700',
   },
   {
@@ -244,7 +299,8 @@ export const tools: Tool[] = [
     description: 'Format and indent SQL queries (SELECT, INSERT, UPDATE, JOINs) for readability.',
     slug: 'sql-formatter',
     icon: '🗄️',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-cyan-600 to-blue-700',
   },
   {
@@ -252,7 +308,8 @@ export const tools: Tool[] = [
     description: 'Build cron schedules visually and understand what cron syntax means in plain English.',
     slug: 'cron-generator',
     icon: '⏰',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-amber-600 to-red-600',
   },
   {
@@ -260,7 +317,8 @@ export const tools: Tool[] = [
     description: 'Test regular expressions with real-time flag customization and group capture parsing.',
     slug: 'regex-tester',
     icon: '.*',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-yellow-500 to-orange-500',
   },
   {
@@ -268,7 +326,8 @@ export const tools: Tool[] = [
     description: 'Encode and decode Base64 strings with byte size statistics and quick swap.',
     slug: 'base64-encoder-decoder',
     icon: '🔄',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-indigo-500 to-blue-500',
   },
   {
@@ -276,7 +335,8 @@ export const tools: Tool[] = [
     description: 'Encode and decode URLs and inspect query parameters in a formatted table.',
     slug: 'url-encoder-decoder',
     icon: '🔗',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-violet-500 to-purple-500',
   },
   {
@@ -284,7 +344,8 @@ export const tools: Tool[] = [
     description: 'Convert Unix epoch timestamps to human-readable dates across international timezones.',
     slug: 'timestamp-converter',
     icon: '⏱️',
-    category: 'Developer',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-pink-500 to-rose-500',
   },
   {
@@ -292,7 +353,8 @@ export const tools: Tool[] = [
     description: 'Generate strong, secure passwords with custom lengths, character sets, and bulk export.',
     slug: 'password-generator',
     icon: '🔐',
-    category: 'Security',
+    category: "Design",
+    categorySlug: "design",
     color: 'from-green-500 to-emerald-500',
   },
   {
@@ -300,7 +362,8 @@ export const tools: Tool[] = [
     description: 'Compute SHA-256, SHA-1, SHA-384, and SHA-512 cryptographic hashes for text and files.',
     slug: 'hash-generator',
     icon: '#️⃣',
-    category: 'Security',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-slate-600 to-gray-800',
   },
 
@@ -310,7 +373,8 @@ export const tools: Tool[] = [
     description: 'Generate complementary, analogous, and triadic color schemes with spacebar & CSS export.',
     slug: 'color-palette-generator',
     icon: '🎨',
-    category: 'Design',
+    category: "Design",
+    categorySlug: "design",
     color: 'from-orange-500 to-red-500',
   },
   {
@@ -318,7 +382,8 @@ export const tools: Tool[] = [
     description: 'Visual sliders for box shadows, blur, spread, elevation, and frosted glass CSS code.',
     slug: 'css-box-shadow-generator',
     icon: '🧊',
-    category: 'Design',
+    category: "Design",
+    categorySlug: "design",
     color: 'from-fuchsia-500 to-pink-600',
   },
   {
@@ -326,7 +391,8 @@ export const tools: Tool[] = [
     description: 'Calculate 16:9, 4:3, 1:1, 9:16 aspect ratios, scaling dimensions, and crop pixel values.',
     slug: 'aspect-ratio-calculator',
     icon: '📏',
-    category: 'Design',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-teal-600 to-cyan-700',
   },
   {
@@ -334,7 +400,8 @@ export const tools: Tool[] = [
     description: 'Generate custom QR codes for URLs, WiFi credentials, emails, and vCards with color themes.',
     slug: 'qr-code-generator',
     icon: '📱',
-    category: 'Design',
+    category: "Design",
+    categorySlug: "design",
     color: 'from-purple-500 to-pink-500',
   },
 
@@ -344,7 +411,8 @@ export const tools: Tool[] = [
     description: 'Count words, characters, sentences, reading ease grade, and keyword density.',
     slug: 'word-counter',
     icon: '📝',
-    category: 'Text',
+    category: "Text",
+    categorySlug: "text",
     color: 'from-teal-500 to-cyan-500',
   },
   {
@@ -352,7 +420,8 @@ export const tools: Tool[] = [
     description: 'Convert text to UPPERCASE, lowercase, Title Case (AP style), camelCase, snake_case, etc.',
     slug: 'case-converter',
     icon: 'Aa',
-    category: 'Text',
+    category: "Text",
+    categorySlug: "text",
     color: 'from-fuchsia-500 to-purple-600',
   },
   {
@@ -360,7 +429,8 @@ export const tools: Tool[] = [
     description: 'Compare two text versions side by side with line numbers and added/removed indicators.',
     slug: 'text-diff-checker',
     icon: '🔍',
-    category: 'Text',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-lime-500 to-green-600',
   },
   {
@@ -368,7 +438,8 @@ export const tools: Tool[] = [
     description: 'Live split-pane markdown editor with instant HTML formatting and sample preview.',
     slug: 'markdown-preview',
     icon: '📖',
-    category: 'Text',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-gray-600 to-gray-800',
   },
   {
@@ -376,7 +447,8 @@ export const tools: Tool[] = [
     description: 'Generate dummy placeholder text by words, sentences, or paragraphs with copy feedback.',
     slug: 'lorem-ipsum-generator',
     icon: '📄',
-    category: 'Text',
+    category: "Text",
+    categorySlug: "text",
     color: 'from-amber-500 to-orange-500',
   },
   {
@@ -384,7 +456,8 @@ export const tools: Tool[] = [
     description: 'Convert spreadsheets and tabular CSV data into JSON arrays and vice versa instantly.',
     slug: 'csv-json-converter',
     icon: '📊',
-    category: 'Text',
+    category: "Developer",
+    categorySlug: "developer",
     color: 'from-emerald-600 to-green-700',
   },
   {
@@ -392,7 +465,8 @@ export const tools: Tool[] = [
     description: 'Sort lists, remove duplicate lines, trim whitespace, and add prefixes or suffixes.',
     slug: 'list-cleaner',
     icon: '📋',
-    category: 'Text',
+    category: "Text",
+    categorySlug: "text",
     color: 'from-indigo-600 to-blue-600',
   },
 
@@ -402,7 +476,8 @@ export const tools: Tool[] = [
     description: 'Convert Length, Weight, Temperature, Digital Data (Bytes, MB, GB), Area, and Speed.',
     slug: 'unit-converter',
     icon: '⚖️',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-sky-500 to-indigo-600',
   },
   {
@@ -410,7 +485,8 @@ export const tools: Tool[] = [
     description: 'Calculate what is X% of Y, percentage increase/decrease, and fraction conversions.',
     slug: 'percentage-calculator',
     icon: '%',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-purple-500 to-pink-600',
   },
   {
@@ -418,7 +494,8 @@ export const tools: Tool[] = [
     description: 'Calculate monthly loan EMI, total interest payable, and breakdown amortization table.',
     slug: 'loan-calculator',
     icon: '🏦',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-emerald-600 to-teal-700',
   },
   {
@@ -426,7 +503,8 @@ export const tools: Tool[] = [
     description: 'Calculate your exact age in years, months, days, hours, and next birthday countdown.',
     slug: 'age-calculator',
     icon: '🎂',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-amber-500 to-rose-500',
   },
   {
@@ -434,7 +512,8 @@ export const tools: Tool[] = [
     description: 'Calculate Body Mass Index (BMI), health category, and healthy ideal weight range.',
     slug: 'bmi-calculator',
     icon: '🏃',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-teal-500 to-emerald-600',
   },
   {
@@ -442,7 +521,8 @@ export const tools: Tool[] = [
     description: 'Calculate Basal Metabolic Rate (BMR) and daily maintenance calories for weight loss or gain.',
     slug: 'calorie-bmr-calculator',
     icon: '🔥',
-    category: 'Calculators',
+    category: "Calculators",
+    categorySlug: "calculators",
     color: 'from-orange-500 to-red-600',
   },
   // ─── PDF24 Super Suite Additions ───
@@ -451,7 +531,8 @@ export const tools: Tool[] = [
     description: 'Create and download professional PDF invoices and receipts with line items, tax, and currency.',
     slug: 'create-invoice',
     icon: '🧾',
-    category: 'Career',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-sky-500 to-indigo-600',
   },
   {
@@ -459,7 +540,8 @@ export const tools: Tool[] = [
     description: 'Lock fillable form fields, checkboxes, and signatures into static read-only PDF graphics.',
     slug: 'flatten-pdf',
     icon: '🔒',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-amber-500 to-red-600',
   },
   {
@@ -467,7 +549,8 @@ export const tools: Tool[] = [
     description: 'Put 2 or 4 pages side-by-side on a single printed sheet to save paper for lecture slides and handouts.',
     slug: 'nup-pdf',
     icon: '🖨️',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-emerald-500 to-teal-600',
   },
   {
@@ -475,7 +558,8 @@ export const tools: Tool[] = [
     description: 'Visually sort, reorder, and reverse pages in any multi-page PDF document.',
     slug: 'rearrange-pdf-pages',
     icon: '📑',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-blue-500 to-indigo-600',
   },
   {
@@ -483,7 +567,8 @@ export const tools: Tool[] = [
     description: 'Extract all photos, diagrams, and figures from your PDF documents as high-resolution PNGs.',
     slug: 'extract-pdf-images',
     icon: '🖼️',
-    category: 'Media',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-purple-500 to-pink-600',
   },
   {
@@ -491,7 +576,8 @@ export const tools: Tool[] = [
     description: 'Add text, shapes, highlighter annotations, and stamps directly onto PDF pages.',
     slug: 'edit-pdf',
     icon: '✏️',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-amber-500 to-yellow-600',
   },
   {
@@ -499,7 +585,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF to Word, Text, HTML, and Images, or convert files into PDF format.',
     slug: 'pdf-converter',
     icon: '🔄',
-    category: 'PDF',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-indigo-600 to-blue-700',
   },
   {
@@ -507,7 +594,8 @@ export const tools: Tool[] = [
     description: 'Encrypt your PDF with password security and restrict printing, copying, or editing.',
     slug: 'protect-pdf',
     icon: '🔒',
-    category: 'Security',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-emerald-600 to-teal-700',
   },
   {
@@ -515,7 +603,8 @@ export const tools: Tool[] = [
     description: 'Remove passwords and permissions security from protected PDF documents.',
     slug: 'unlock-pdf',
     icon: '🔓',
-    category: 'Security',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-rose-500 to-pink-600',
   },
   {
@@ -523,7 +612,8 @@ export const tools: Tool[] = [
     description: 'Visually pick specific page numbers or ranges to extract into a new PDF or ZIP file.',
     slug: 'extract-pdf-pages',
     icon: '📑',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-purple-600 to-indigo-600',
   },
   {
@@ -531,7 +621,8 @@ export const tools: Tool[] = [
     description: 'Convert live webpages or custom HTML/CSS code into clean, paginated PDF documents.',
     slug: 'webpage-to-pdf',
     icon: '🌐',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-blue-500 to-cyan-600',
   },
   {
@@ -539,7 +630,8 @@ export const tools: Tool[] = [
     description: 'Recognize and extract text from scanned documents and create searchable PDFs.',
     slug: 'pdf-ocr',
     icon: '👁️',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-cyan-600 to-teal-700',
   },
   {
@@ -547,7 +639,8 @@ export const tools: Tool[] = [
     description: 'Stamp stationery, company letterhead, or watermark templates onto another PDF.',
     slug: 'overlay-pdf',
     icon: '📄',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-violet-600 to-purple-700',
   },
   {
@@ -555,7 +648,8 @@ export const tools: Tool[] = [
     description: 'Side-by-side visual and text diff comparison between two PDF document revisions.',
     slug: 'compare-pdf',
     icon: '⚖️',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-orange-500 to-amber-600',
   },
   {
@@ -563,7 +657,8 @@ export const tools: Tool[] = [
     description: 'Linearize, compress streams, and remove bloated metadata for fast web viewing.',
     slug: 'optimize-pdf-web',
     icon: '⚡',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-teal-500 to-emerald-600',
   },
   {
@@ -571,7 +666,8 @@ export const tools: Tool[] = [
     description: 'Design custom PDF documents with rich headings, paragraphs, tables, images, and signatures.',
     slug: 'create-pdf',
     icon: '🪄',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-rose-600 to-red-600',
   },
   {
@@ -579,7 +675,8 @@ export const tools: Tool[] = [
     description: 'Repair corrupted or damaged PDF documents by fixing xref tables, stream headers, and object catalogs.',
     slug: 'repair-pdf',
     icon: '🩹',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-amber-500 to-orange-600',
   },
   {
@@ -587,7 +684,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF pages into high-resolution flattened images to permanently lock content and eliminate selectable vector layers.',
     slug: 'rasterize-pdf',
     icon: '🧱',
-    category: 'PDF',
+    category: "Optimize PDF",
+    categorySlug: "optimize-pdf",
     color: 'from-slate-600 to-zinc-700',
   },
   {
@@ -595,7 +693,8 @@ export const tools: Tool[] = [
     description: 'Convert standard PDF documents into ISO-compliant PDF/A format for long-term archiving and legal preservation.',
     slug: 'pdf-to-pdfa',
     icon: '🏛️',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-blue-600 to-indigo-700',
   },
   {
@@ -603,7 +702,8 @@ export const tools: Tool[] = [
     description: 'Split two-page book spreads and side-by-side scans into individual single pages vertically or horizontally.',
     slug: 'halve-pdf-pages',
     icon: '📖',
-    category: 'PDF',
+    category: "Organize PDF",
+    categorySlug: "organize-pdf",
     color: 'from-emerald-600 to-teal-700',
   },
   {
@@ -611,7 +711,8 @@ export const tools: Tool[] = [
     description: 'Resize and rescale PDF pages to standard paper formats like A4, US Letter, A3, Legal, or custom dimensions.',
     slug: 'change-pdf-page-size',
     icon: '📐',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-indigo-500 to-purple-600',
   },
   {
@@ -619,7 +720,8 @@ export const tools: Tool[] = [
     description: 'Interactively fill in text fields, checkboxes, and radio buttons on official PDF forms and export filled PDFs.',
     slug: 'fill-pdf-form',
     icon: '📝',
-    category: 'PDF',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-teal-600 to-emerald-700',
   },
   {
@@ -627,7 +729,8 @@ export const tools: Tool[] = [
     description: 'Design and add interactive form fields (text boxes, checkboxes, dropdowns) to any static PDF document.',
     slug: 'create-fillable-pdf',
     icon: '📋',
-    category: 'PDF',
+    category: "PDF Security",
+    categorySlug: "pdf-security",
     color: 'from-sky-600 to-blue-700',
   },
   {
@@ -635,7 +738,8 @@ export const tools: Tool[] = [
     description: 'Create, edit, and organize hierarchical bookmarks and table of contents outlines for PDF navigation.',
     slug: 'bookmark-pdf',
     icon: '🔖',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-rose-500 to-pink-600',
   },
   {
@@ -643,7 +747,8 @@ export const tools: Tool[] = [
     description: 'Read and view PDF documents online with smooth page navigation, zooming, thumbnails, search, and presentation mode.',
     slug: 'pdf-reader',
     icon: '👓',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-blue-500 to-cyan-600',
   },
   {
@@ -651,7 +756,8 @@ export const tools: Tool[] = [
     description: 'Configure default opening preferences: zoom level, single/two-page spread, fullscreen, and menu bar visibility.',
     slug: 'set-pdf-viewer-preferences',
     icon: '⚙️',
-    category: 'PDF',
+    category: "Edit PDF",
+    categorySlug: "edit-pdf",
     color: 'from-violet-500 to-indigo-600',
   },
   {
@@ -659,7 +765,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF documents into structured Markdown (.md) with headings, bullet points, tables, and formatted text.',
     slug: 'pdf-to-markdown',
     icon: '⬇️',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-orange-600 to-red-600',
   },
   {
@@ -667,7 +774,8 @@ export const tools: Tool[] = [
     description: 'Render formatted Markdown with headers, code blocks, tables, and typography into clean, publication-ready PDFs.',
     slug: 'markdown-to-pdf',
     icon: '⬆️',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-fuchsia-600 to-pink-700',
   },
   {
@@ -675,7 +783,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF pages into modern, responsive HTML web pages with clean typography and layout preservation.',
     slug: 'pdf-to-html',
     icon: '🌐',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-amber-500 to-yellow-600',
   },
   {
@@ -683,7 +792,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF pages into transparent or white background high-res PNG images with 1-click batch ZIP export.',
     slug: 'pdf-to-png',
     icon: '🖼️',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-emerald-500 to-cyan-600',
   },
   {
@@ -691,7 +801,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF pages into scalable vector SVG graphics suitable for responsive web design and crisp scaling.',
     slug: 'pdf-to-svg',
     icon: '📐',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-cyan-500 to-blue-600',
   },
   {
@@ -699,7 +810,8 @@ export const tools: Tool[] = [
     description: 'Create and parse standardized electronic invoices with embedded XML data compliant with European & global e-invoicing laws.',
     slug: 'electronic-invoice',
     icon: '🧾',
-    category: 'PDF',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-green-600 to-emerald-700',
   },
   {
@@ -707,7 +819,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF documents into editable Microsoft Word (.docx) documents with intact headings, paragraphs, and lists.',
     slug: 'pdf-to-word',
     icon: '📝',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-blue-600 to-indigo-700',
   },
   {
@@ -715,7 +828,8 @@ export const tools: Tool[] = [
     description: 'Convert Microsoft Word DOCX files into polished, standardized PDF documents with zero formatting drift.',
     slug: 'word-to-pdf',
     icon: '📄',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-indigo-600 to-purple-700',
   },
   {
@@ -723,7 +837,8 @@ export const tools: Tool[] = [
     description: 'Detect and extract tabular data, matrices, and financial schedules from PDF files into downloadable Excel spreadsheets.',
     slug: 'pdf-to-excel',
     icon: '📊',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-emerald-600 to-green-700',
   },
   {
@@ -731,7 +846,8 @@ export const tools: Tool[] = [
     description: 'Convert Excel spreadsheets, CSV data, and financial tables into paginated, publication-ready PDF reports.',
     slug: 'excel-to-pdf',
     icon: '📈',
-    category: 'PDF',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-teal-600 to-emerald-700',
   },
   {
@@ -739,7 +855,8 @@ export const tools: Tool[] = [
     description: 'Convert Apple iPhone & iPad HEIC / HEIF photos into universal JPG and PNG formats directly in the browser.',
     slug: 'heic-to-jpg',
     icon: '📸',
-    category: 'Media',
+    category: "Media",
+    categorySlug: "media",
     color: 'from-rose-500 to-orange-600',
   },
   {
@@ -747,7 +864,8 @@ export const tools: Tool[] = [
     description: 'Convert PDF presentation slides into customizable PowerPoint presentation decks with 1-click export.',
     slug: 'pdf-to-powerpoint',
     icon: '📽️',
-    category: 'PDF',
+    category: "Convert from PDF",
+    categorySlug: "convert-from-pdf",
     color: 'from-orange-600 to-red-600',
   },
   {
@@ -755,7 +873,8 @@ export const tools: Tool[] = [
     description: 'Convert any Word (.docx), Excel (.xlsx), PowerPoint (.pptx), PDF, CSV, or TXT file into your desired format.',
     slug: 'universal-office-converter',
     icon: '🔄',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-indigo-600 via-purple-600 to-pink-600',
   },
   {
@@ -763,7 +882,8 @@ export const tools: Tool[] = [
     description: 'Convert Microsoft Word (.docx) documents into clean, semantic HTML code with preserved headings, lists, and tables.',
     slug: 'word-to-html',
     icon: '🌐',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-blue-600 to-cyan-600',
   },
   {
@@ -771,7 +891,8 @@ export const tools: Tool[] = [
     description: 'Extract raw plain text from Microsoft Word (.docx and .doc) files with live character and word counters.',
     slug: 'word-to-txt',
     icon: '📝',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-sky-600 to-blue-700',
   },
   {
@@ -779,7 +900,8 @@ export const tools: Tool[] = [
     description: 'Convert Microsoft Word (.docx) files into clean GitHub-flavored Markdown with headers, bold, italics, and code.',
     slug: 'word-to-markdown',
     icon: '📑',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-slate-700 to-indigo-800',
   },
   {
@@ -787,7 +909,8 @@ export const tools: Tool[] = [
     description: 'Full-featured in-browser Word document editor. Open, edit, format typography, and export to DOCX, HTML, or PDF.',
     slug: 'word-editor',
     icon: '📄',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-blue-700 to-indigo-800',
   },
   {
@@ -795,7 +918,8 @@ export const tools: Tool[] = [
     description: 'Convert Microsoft Excel (.xlsx, .xls) workbooks and sheets into clean CSV or TSV files with custom delimiters.',
     slug: 'excel-to-csv',
     icon: '📊',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-emerald-600 to-teal-700',
   },
   {
@@ -803,7 +927,8 @@ export const tools: Tool[] = [
     description: 'Transform Excel spreadsheets into structured JSON arrays of objects with syntax coloring and schema validation.',
     slug: 'excel-to-json',
     icon: '📦',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-green-600 to-emerald-700',
   },
   {
@@ -811,7 +936,8 @@ export const tools: Tool[] = [
     description: 'Convert Excel (.xlsx) and CSV spreadsheets into responsive, styled HTML table markup ready for web embedding.',
     slug: 'excel-to-html',
     icon: '🏷️',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-teal-600 to-cyan-700',
   },
   {
@@ -819,7 +945,8 @@ export const tools: Tool[] = [
     description: 'Convert Microsoft PowerPoint (.pptx) presentation decks into clean, standardized, printable PDF documents.',
     slug: 'powerpoint-to-pdf',
     icon: '🎯',
-    category: 'Office',
+    category: "Convert to PDF",
+    categorySlug: "convert-to-pdf",
     color: 'from-orange-600 to-amber-700',
   },
   {
@@ -827,7 +954,8 @@ export const tools: Tool[] = [
     description: 'Convert PowerPoint (.pptx) slides into high-resolution JPG or PNG images with individual and 1-click ZIP downloads.',
     slug: 'powerpoint-to-images',
     icon: '🖼️',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-amber-500 to-rose-600',
   },
   {
@@ -835,7 +963,8 @@ export const tools: Tool[] = [
     description: 'Open and present PowerPoint (.pptx) presentation slides directly in your browser with full-screen slideshow mode.',
     slug: 'powerpoint-viewer',
     icon: '📽️',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-red-600 to-orange-600',
   },
   {
@@ -843,7 +972,8 @@ export const tools: Tool[] = [
     description: 'Convert PowerPoint (.pptx) presentations into responsive HTML5 web slide decks with keyboard navigation.',
     slug: 'powerpoint-to-html',
     icon: '💻',
-    category: 'Office',
+    category: "Office",
+    categorySlug: "office",
     color: 'from-purple-600 to-pink-600',
   },
 ];

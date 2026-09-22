@@ -6,7 +6,7 @@ import QuickSearch from './QuickSearch';
 import ToolDrawer from './ToolDrawer';
 import ThemeToggle from './ThemeToggle';
 import PdfMegaMenu from './PdfMegaMenu';
-import { tools } from '@/lib/tools';
+import { tools, getToolUrl } from '@/lib/tools';
 
 import { SUPPORTED_LANGUAGES as LANGUAGES } from '@/lib/languages';
 
@@ -221,7 +221,7 @@ export default function Header() {
             {/* ───── Middle Navigation (iLovePDF Style with Cursor Hover) ───── */}
             <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-xs xl:text-sm font-bold tracking-tight uppercase shrink-0">
               <Link
-                href="/tools/merge-pdf"
+                href="/tools/organize-pdf/merge-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
@@ -229,7 +229,7 @@ export default function Header() {
                 Merge PDF
               </Link>
               <Link
-                href="/tools/split-pdf"
+                href="/tools/organize-pdf/split-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
@@ -237,7 +237,7 @@ export default function Header() {
                 Split PDF
               </Link>
               <Link
-                href="/tools/compress-pdf"
+                href="/tools/optimize-pdf/compress-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
@@ -328,7 +328,7 @@ export default function Header() {
                         {recentTools.map((tool) => (
                           <Link
                             key={tool!.slug}
-                            href={`/tools/${tool!.slug}`}
+                            href={getToolUrl(tool!)}
                             onClick={() => setRecentMenuOpen(false)}
                             className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                           >

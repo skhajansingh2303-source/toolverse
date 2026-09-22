@@ -323,7 +323,7 @@ export default function FillPdfForm() {
                 </p>
                 <div className="pt-2">
                   <Link
-                    href="/tools/create-fillable-pdf"
+                    href="/tools/pdf-security/create-fillable-pdf"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
                   >
                     <span>Open in Create Fillable PDF Designer</span>

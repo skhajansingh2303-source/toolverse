@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { tools, getToolUrl } from '@/lib/tools';
 
 interface MegaMenuSection {
   title: string;
@@ -502,10 +503,13 @@ export default function PdfMegaMenu({
                     );
                   }
 
+                  const matchedTool = tool.slug ? tools.find((t) => t.slug === tool.slug) : null;
+                  const toolHref = matchedTool ? getToolUrl(matchedTool) : (tool.slug ? `/tools/${tool.slug}` : '#');
+
                   return (
                     <li key={tIdx}>
                       <Link
-                        href={`/tools/${tool.slug}`}
+                        href={toolHref}
                         onClick={onClose}
                         className="flex items-center gap-2.5 py-1.5 px-2 rounded-lg text-xs font-semibold text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-slate-800/60 transition-colors"
                       >

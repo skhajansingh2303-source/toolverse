@@ -52,42 +52,42 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/tools/merge-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/organize-pdf/merge-pdf" className="hover:text-primary-400 transition-colors">
                   Merge PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/split-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/organize-pdf/split-pdf" className="hover:text-primary-400 transition-colors">
                   Split PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/compress-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/optimize-pdf/compress-pdf" className="hover:text-primary-400 transition-colors">
                   Compress PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/sign-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/pdf-security/sign-pdf" className="hover:text-primary-400 transition-colors">
                   Sign PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/redact-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/pdf-security/redact-pdf" className="hover:text-primary-400 transition-colors">
                   Redact PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/scan-to-pdf" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/convert-to-pdf/scan-to-pdf" className="hover:text-primary-400 transition-colors">
                   Scan to PDF
                 </Link>
               </li>
               <li>
-                <Link href="/tools/pdf-to-jpg" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/convert-from-pdf/pdf-to-jpg" className="hover:text-primary-400 transition-colors">
                   PDF to JPG
                 </Link>
               </li>
               <li>
-                <Link href="/tools/pdf-to-text" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/convert-from-pdf/pdf-to-text" className="hover:text-primary-400 transition-colors">
                   PDF to Text
                 </Link>
               </li>
@@ -101,42 +101,42 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/tools/age-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/age-calculator" className="hover:text-primary-400 transition-colors">
                   Age Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/bmi-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/bmi-calculator" className="hover:text-primary-400 transition-colors">
                   BMI Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/calorie-bmr-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/calorie-bmr-calculator" className="hover:text-primary-400 transition-colors">
                   Calorie &amp; BMR Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/gpa-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/gpa-calculator" className="hover:text-primary-400 transition-colors">
                   GPA Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/loan-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/loan-calculator" className="hover:text-primary-400 transition-colors">
                   Loan EMI Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/percentage-calculator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/percentage-calculator" className="hover:text-primary-400 transition-colors">
                   Percentage Calculator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/unit-converter" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/calculators/unit-converter" className="hover:text-primary-400 transition-colors">
                   Unit Converter
                 </Link>
               </li>
               <li>
-                <Link href="/tools/resume-builder" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/design/resume-builder" className="hover:text-primary-400 transition-colors">
                   Resume Builder
                 </Link>
               </li>
@@ -150,42 +150,42 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/tools/json-formatter" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/developer/json-formatter" className="hover:text-primary-400 transition-colors">
                   JSON Formatter
                 </Link>
               </li>
               <li>
-                <Link href="/tools/qr-code-generator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/design/qr-code-generator" className="hover:text-primary-400 transition-colors">
                   QR Code Generator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/jwt-decoder" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/developer/jwt-decoder" className="hover:text-primary-400 transition-colors">
                   JWT Decoder
                 </Link>
               </li>
               <li>
-                <Link href="/tools/image-compressor" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/media/image-compressor" className="hover:text-primary-400 transition-colors">
                   Image Compressor
                 </Link>
               </li>
               <li>
-                <Link href="/tools/image-color-picker" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/media/image-color-picker" className="hover:text-primary-400 transition-colors">
                   Image Color Picker
                 </Link>
               </li>
               <li>
-                <Link href="/tools/color-palette-generator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/design/color-palette-generator" className="hover:text-primary-400 transition-colors">
                   Color Palette Generator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/hash-generator" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/developer/hash-generator" className="hover:text-primary-400 transition-colors">
                   Hash Generator
                 </Link>
               </li>
               <li>
-                <Link href="/tools/word-counter" className="hover:text-primary-400 transition-colors">
+                <Link href="/tools/text/word-counter" className="hover:text-primary-400 transition-colors">
                   Word Counter
                 </Link>
               </li>

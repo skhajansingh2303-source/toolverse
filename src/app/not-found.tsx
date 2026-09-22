@@ -60,7 +60,7 @@ export default function NotFound() {
             {matchingTools.map((tool) => (
               <Link
                 key={tool.slug}
-                href={`/tools/${tool.slug}`}
+                href={`/tools/${tool.categorySlug || "organize-pdf"}/${tool.slug}`}
                 className="p-3 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
               >
                 <span className="text-xl">{tool.icon}</span>
@@ -86,7 +86,7 @@ export default function NotFound() {
           {popularTools.map((tool) => (
             <Link
               key={tool.slug}
-              href={`/tools/${tool.slug}`}
+              href={`/tools/${tool.categorySlug || "organize-pdf"}/${tool.slug}`}
               className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-md transition-all flex items-center gap-3"
             >
               <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white text-base shrink-0 shadow-xs`}>

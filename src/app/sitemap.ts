@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { tools } from '@/lib/tools'
+import { tools, CATEGORIES } from '@/lib/tools'
 import { LANGUAGE_CODES } from '@/lib/languages'
 
 const BASE_URL = 'https://toolsverseapp.com';
@@ -17,8 +17,9 @@ function buildLanguageAlternates(path: string) {
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
+  // 1. Tool pages with category in URL (/tools/category/tool/)
   const toolEntries: MetadataRoute.Sitemap = tools.map((tool) => {
-    const path = `/tools/${tool.slug}/`;
+    const path = `/tools/${tool.categorySlug}/${tool.slug}/`;
     return {
       url: `${BASE_URL}${path}`,
       lastModified: now,
@@ -28,6 +29,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  // 2. Category landing pages (/tools/category/)
+  const categoryEntries: MetadataRoute.Sitemap = CATEGORIES.map((cat) => {
+    const path = `/tools/${cat.slug}/`;
+    return {
+      url: `${BASE_URL}${path}`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+      alternates: buildLanguageAlternates(path),
+    };
+  });
+
+  // 3. Static main pages
   const staticPagesList = [
     { path: '/', changeFrequency: 'daily' as const, priority: 1.0 },
     { path: '/about/', changeFrequency: 'monthly' as const, priority: 0.7 },
@@ -44,5 +58,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: buildLanguageAlternates(item.path),
   }));
 
-  return [...staticPages, ...toolEntries];
+  return [...staticPages, ...categoryEntries, ...toolEntries];
 }

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { tools } from '@/lib/tools';
+import { tools, getToolUrl } from '@/lib/tools';
 
 interface ToolDrawerProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ export default function ToolDrawer({ isOpen, onClose }: ToolDrawerProps) {
   const pathname = usePathname();
 
   const currentSlug = pathname?.startsWith('/tools/')
-    ? pathname.replace('/tools/', '')
+    ? pathname.split('/').filter(Boolean).pop()
     : null;
 
   // Load favorites
@@ -224,7 +224,7 @@ export default function ToolDrawer({ isOpen, onClose }: ToolDrawerProps) {
                 return (
                   <Link
                     key={tool.slug}
-                    href={`/tools/${tool.slug}`}
+                    href={getToolUrl(tool)}
                     onClick={onClose}
                     className={`flex items-center gap-3 p-2.5 rounded-xl transition-all group ${
                       isCurrent

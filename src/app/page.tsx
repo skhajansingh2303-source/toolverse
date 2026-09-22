@@ -203,16 +203,18 @@ export default function Home() {
 
   const categories = [
     'All',
+    'Organize PDF',
+    'Optimize PDF',
+    'Convert to PDF',
+    'Convert from PDF',
+    'Edit PDF',
+    'PDF Security',
     'Office',
-    'PDF',
-    'Calculators',
     'Media',
+    'Calculators',
     'Developer',
     'Text',
-    'Security',
     'Design',
-    'Student',
-    'Career',
   ];
 
   // Load favorites from localStorage
@@ -318,7 +320,7 @@ export default function Home() {
       e.preventDefault();
       const selectedTool = suggestions[selectedIndex];
       if (selectedTool) {
-        window.location.href = `/tools/${selectedTool.slug}`;
+        window.location.href = `/tools/${selectedTool.categorySlug || "organize-pdf"}/${selectedTool.slug}`;
       }
     } else if (e.key === 'Escape') {
       setIsDropdownOpen(false);
@@ -439,7 +441,7 @@ export default function Home() {
                         return (
                           <Link
                             key={tool.slug}
-                            href={`/tools/${tool.slug}`}
+                            href={`/tools/${tool.categorySlug || "organize-pdf"}/${tool.slug}`}
                             onClick={() => setIsDropdownOpen(false)}
                             className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                               isSelected ? 'bg-primary-50 text-primary-900' : 'hover:bg-gray-50'
@@ -527,7 +529,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Link
-              href="/tools/merge-pdf"
+              href="/tools/organize-pdf/merge-pdf"
               className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-red-500/10 to-rose-600/10 dark:from-red-950/40 dark:to-rose-950/40 border border-red-200/60 dark:border-red-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-500 to-rose-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
@@ -540,7 +542,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/tools/compress-pdf"
+              href="/tools/optimize-pdf/compress-pdf"
               className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-600/10 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-200/60 dark:border-emerald-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
@@ -553,7 +555,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/tools/scan-to-pdf"
+              href="/tools/convert-to-pdf/scan-to-pdf"
               className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-600/10 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200/60 dark:border-blue-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">
@@ -566,7 +568,7 @@ export default function Home() {
             </Link>
 
             <Link
-              href="/tools/image-compressor"
+              href="/tools/media/image-compressor"
               className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-br from-amber-500/10 to-orange-600/10 dark:from-amber-950/40 dark:to-orange-950/40 border border-amber-200/60 dark:border-amber-800/40 hover:scale-[1.02] active:scale-95 transition-all shadow-xs"
             >
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg shadow-md shrink-0">

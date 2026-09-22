@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { tools, Tool } from '@/lib/tools';
+import { tools, Tool, getToolUrl } from '@/lib/tools';
 
 interface RelatedToolsProps {
   currentSlug: string;
@@ -44,7 +44,7 @@ export default function RelatedTools({ currentSlug }: RelatedToolsProps) {
         {related.map((tool) => (
           <Link
             key={tool.slug}
-            href={`/tools/${tool.slug}`}
+            href={getToolUrl(tool)}
             className="group bg-white p-4 rounded-2xl border border-gray-200 shadow-2xs hover:shadow-md hover:border-primary-300 hover:-translate-y-0.5 transition-all flex items-center gap-3.5"
           >
             <div

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { tools, Tool } from '@/lib/tools';
+import { tools, Tool, getToolUrl } from '@/lib/tools';
 
 interface QuickSearchProps {
   isOpen: boolean;
@@ -72,7 +72,7 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
             filtered.map((tool) => (
               <Link
                 key={tool.slug}
-                href={`/tools/${tool.slug}`}
+                href={getToolUrl(tool)}
                 onClick={onClose}
                 className="flex items-center gap-3.5 p-3 rounded-xl hover:bg-primary-50 dark:hover:bg-slate-800 transition-colors group"
               >

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { tools, Tool } from '@/lib/tools';
+import { tools, Tool, getToolUrl } from '@/lib/tools';
 import ToolDrawer from './ToolDrawer';
 import QuickSearch from './QuickSearch';
 
@@ -15,7 +15,7 @@ export default function ToolDock() {
   const pathname = usePathname();
 
   const currentSlug = pathname?.startsWith('/tools/')
-    ? pathname.replace('/tools/', '')
+    ? pathname.split('/').filter(Boolean).pop()
     : null;
 
   // Load minimized preference & recent tools
@@ -133,7 +133,7 @@ export default function ToolDock() {
             {/* 3. Sequential Tool Navigation: Previous & Next */}
             {currentSlug && prevTool && (
               <Link
-                href={`/tools/${prevTool.slug}`}
+                href={getToolUrl(prevTool)}
                 className="relative group hidden sm:flex items-center justify-center w-7 h-7 rounded-full text-white bg-white/10 hover:bg-white/25 border border-white/15 transition-all active:scale-95"
                 title={`Previous: ${prevTool.name}`}
               >
@@ -149,7 +149,7 @@ export default function ToolDock() {
 
             {currentSlug && nextTool && (
               <Link
-                href={`/tools/${nextTool.slug}`}
+                href={getToolUrl(nextTool)}
                 className="relative group hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/25 border border-white/15 transition-all active:scale-95"
                 title={`Next: ${nextTool.name}`}
               >
@@ -179,7 +179,7 @@ export default function ToolDock() {
                 {recentTools.map((t) => (
                   <Link
                     key={t.slug}
-                    href={`/tools/${t.slug}`}
+                    href={getToolUrl(t)}
                     className="relative group w-7 h-7 rounded-full bg-white/15 hover:bg-white/30 border border-white/25 flex items-center justify-center text-xs transition-all hover:scale-110 active:scale-95 shadow-sm"
                   >
                     <span>{t.icon}</span>
