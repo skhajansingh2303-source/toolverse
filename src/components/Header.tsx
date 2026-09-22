@@ -8,18 +8,7 @@ import ThemeToggle from './ThemeToggle';
 import PdfMegaMenu from './PdfMegaMenu';
 import { tools } from '@/lib/tools';
 
-const LANGUAGES = [
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'hi', label: 'हिन्दी', flag: '🇮🇳' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'pt', label: 'Português', flag: '🇧🇷' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
-  { code: 'ru', label: 'Русский', flag: '🇷🇺' },
-  { code: 'bn', label: 'বাংলা', flag: '🇧🇩' },
-];
+import { SUPPORTED_LANGUAGES as LANGUAGES } from '@/lib/languages';
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);

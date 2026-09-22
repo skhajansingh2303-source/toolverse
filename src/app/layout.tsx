@@ -8,8 +8,16 @@ import BottomNavBar from '@/components/BottomNavBar'
 import KeyboardShortcutsModal from '@/components/KeyboardShortcutsModal'
 import Toast from '@/components/Toast'
 import GoogleTranslator from '@/components/GoogleTranslator'
+import { LANGUAGE_CODES, SUPPORTED_LANGUAGES } from '@/lib/languages'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const languageAlternates: Record<string, string> = {
+  'x-default': 'https://toolsverseapp.com/',
+};
+for (const code of LANGUAGE_CODES) {
+  languageAlternates[code] = `https://toolsverseapp.com/?lang=${code}`;
+}
 
 export const viewport: Viewport = {
   themeColor: '#e11d48',
@@ -46,11 +54,48 @@ export const metadata: Metadata = {
     'QR code generator',
     'age calculator',
     'bmi calculator',
+    // Italian Search Keywords (Italy / San Marino / Switzerland)
+    'comprimere pdf',
+    'unire pdf',
+    'dividere pdf',
+    'firmare pdf',
+    'convertire pdf in word',
+    'modificare pdf online gratis',
+    'estrarre pagine pdf',
+    // Chinese Search Keywords (China / Taiwan / Hong Kong / Singapore)
+    '压缩PDF',
+    '合并PDF',
+    '拆分PDF',
+    'PDF转换器',
+    'PDF转Word',
+    'Word转PDF',
+    'PDF在线工具',
+    'PDF签名',
+    'PDF解密',
+    // Spanish Search Keywords (Spain / Mexico / Latin America)
+    'comprimir pdf gratis',
+    'unir pdf',
+    'dividir pdf',
+    'convertir pdf a word',
+    'firmar pdf',
+    // French Search Keywords (France / Canada / Belgium)
+    'compresser pdf',
+    'fusionner pdf',
+    'diviser pdf',
+    'convertir pdf en word',
+    // German Search Keywords (Germany / Austria / Switzerland)
+    'PDF komprimieren',
+    'PDF zusammenfügen',
+    'PDF umwandeln',
+    // Hindi Search Keywords (India)
+    'पीडीएफ कंप्रेस',
+    'पीडीएफ मर्ज',
   ],
   authors: [{ name: 'ToolsVerse App' }],
   metadataBase: new URL('https://toolsverseapp.com'),
   alternates: {
     canonical: 'https://toolsverseapp.com',
+    languages: languageAlternates,
   },
   manifest: '/manifest.json',
   appleWebApp: {
@@ -100,6 +145,7 @@ export default function RootLayout({
         url: 'https://toolsverseapp.com/',
         name: 'ToolsVerse App',
         alternateName: ['ToolsVerse', 'ToolsVerseApp'],
+        inLanguage: LANGUAGE_CODES,
         description: '103+ Free Online Tools for Everyone. 100% Private In-Browser Suite.',
         potentialAction: {
           '@type': 'SearchAction',
@@ -116,6 +162,10 @@ export default function RootLayout({
         name: 'ToolsVerse App',
         url: 'https://toolsverseapp.com',
         logo: 'https://toolsverseapp.com/icon.svg',
+        areaServed: [
+          'IT', 'CN', 'US', 'GB', 'ES', 'FR', 'DE', 'IN', 'JP', 'BR',
+          'KR', 'RU', 'MX', 'ID', 'TR', 'NL', 'PL', 'VN', 'TH', 'Global'
+        ],
       },
       {
         '@type': 'WebApplication',
@@ -124,6 +174,12 @@ export default function RootLayout({
         url: 'https://toolsverseapp.com/',
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'All',
+        inLanguage: LANGUAGE_CODES,
+        availableLanguage: SUPPORTED_LANGUAGES.map((l) => ({
+          '@type': 'Language',
+          name: l.name,
+          alternateName: l.code,
+        })),
         browserRequirements: 'Requires JavaScript. Requires HTML5.',
         offers: {
           '@type': 'Offer',
