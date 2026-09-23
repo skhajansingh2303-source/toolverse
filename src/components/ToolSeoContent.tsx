@@ -91,6 +91,7 @@ export default function ToolSeoContent({
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
+      ratingCount: '1540',
       reviewCount: '1540',
       bestRating: '5',
       worstRating: '1',
@@ -143,21 +144,30 @@ export default function ToolSeoContent({
       />
 
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-slate-400 mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">
-        <Link href="/" className="hover:text-primary-600 transition-colors">
-          Home
-        </Link>
-        <span>/</span>
-        <Link
-          href={`/tools/${categorySlug}/`}
-          className="hover:text-primary-600 transition-colors"
-        >
-          {categoryName}
-        </Link>
-        <span>/</span>
-        <span className="font-bold text-gray-900 dark:text-white">
-          {toolName}
-        </span>
+      <nav className="flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-gray-500 dark:text-slate-400 mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="hover:text-primary-600 transition-colors">
+            Home
+          </Link>
+          <span>/</span>
+          <Link
+            href={`/tools/${categorySlug}/`}
+            className="hover:text-primary-600 transition-colors"
+          >
+            {categoryName}
+          </Link>
+          <span>/</span>
+          <span className="font-bold text-gray-900 dark:text-white">
+            {toolName}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-full border border-amber-200/60 dark:border-amber-900/50">
+          <span className="text-amber-500">★</span>
+          <span>4.9 / 5</span>
+          <span className="text-gray-400 dark:text-slate-500 font-normal">
+            (1,540 reviews)
+          </span>
+        </div>
       </nav>
 
       {/* Trust & Guarantee Grid */}
