@@ -6,6 +6,7 @@ import Script from 'next/script';
 import JSZip from 'jszip';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
 
 type InputFormat = 'docx' | 'xlsx' | 'pptx' | 'pdf' | 'csv' | 'txt' | 'html' | 'image' | 'unknown';
 type OutputFormat = 'pdf' | 'docx' | 'xlsx' | 'csv' | 'html' | 'txt' | 'md' | 'json' | 'png' | 'webp';
@@ -98,6 +99,20 @@ export default function UniversalOfficeConverter() {
   } | null>(null);
   const [copied, setCopied] = useState<boolean>(false);
   const [pdfjsLoaded, setPdfjsLoaded] = useState<boolean>(false);
+  const [resultBlobUrl, setResultBlobUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!convertedResult) {
+      if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl);
+      setResultBlobUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(convertedResult.blob);
+    setResultBlobUrl(url);
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [convertedResult]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).pdfjsLib) {
@@ -1257,56 +1272,34 @@ export default function UniversalOfficeConverter() {
               )}
             </div>
 
-            {/* Converted Output Card */}
-            {convertedResult && (
-              <div className="mt-6 rounded-xl border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/50 dark:bg-emerald-950/20 p-5 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg">
-                      ✓
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 dark:text-white text-sm">
-                        {convertedResult.fileName}
-                      </h4>
-                      <p className="text-xs text-emerald-700 dark:text-emerald-400">
-                        Ready to download • {(convertedResult.size / 1024).toFixed(1)} KB
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    {convertedResult.textPreview && (
-                      <button
-                        onClick={copyText}
-                        className="px-4 py-2 text-xs font-semibold rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
-                      >
-                        {copied ? '✓ Copied!' : 'Copy Content'}
-                      </button>
-                    )}
-                    <button
-                      onClick={downloadFile}
-                      className="px-5 py-2 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow transition-all"
-                    >
-                      Download File
-                    </button>
-                  </div>
-                </div>
-
-                {/* Text / Code Preview */}
-                {convertedResult.textPreview && (
-                  <div className="mt-3">
-                    <div className="flex items-center justify-between text-[11px] font-semibold text-gray-500 dark:text-slate-400 mb-1">
-                      <span>Live Output Preview</span>
-                      <span>{convertedResult.textPreview.length} characters</span>
-                    </div>
-                    <pre className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-xs font-mono text-gray-800 dark:text-slate-200 max-h-60 overflow-y-auto whitespace-pre-wrap break-words">
-                      {convertedResult.textPreview.slice(0, 3000)}
-                      {convertedResult.textPreview.length > 3000 ? '\n\n[... truncated preview]' : ''}
-                    </pre>
-                  </div>
-                )}
-              </div>
+            {/* Converted Output ToolResultCard with Preview First & Prominent Download Button */}
+            {convertedResult && resultBlobUrl && (
+              <ToolResultCard
+                title="Document Converted Successfully!"
+                filename={convertedResult.fileName}
+                downloadUrl={resultBlobUrl}
+                fileSize={convertedResult.size}
+                badgeText="Conversion Ready"
+                previewUrl={convertedResult.fileName.toLowerCase().endsWith('.pdf') ? resultBlobUrl : convertedResult.dataUrl}
+                previewType={convertedResult.fileName.toLowerCase().endsWith('.pdf') ? 'pdf' : convertedResult.dataUrl ? 'image' : convertedResult.textPreview ? 'text' : 'auto'}
+                previewText={convertedResult.textPreview}
+                details={[
+                  { label: 'Original Format', value: detectedFormat.toUpperCase() },
+                  { label: 'Target Format', value: selectedOutput.toUpperCase() },
+                  { label: 'File Size', value: `${(convertedResult.size / 1024).toFixed(1)} KB` },
+                ]}
+                onReset={() => {
+                  setConvertedResult(null);
+                  setProgress(0);
+                  setStatusMessage('');
+                }}
+                resetButtonText="Convert Another Office File"
+                nextTool={{
+                  name: 'Compress PDF',
+                  url: '/tools/optimize-pdf/compress-pdf',
+                  description: 'Shrink file size of your converted documents.'
+                }}
+              />
             )}
           </div>
         )}

@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { PDFDocument } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
 
 export default function RemovePdfPages() {
   const [file, setFile] = useState<File | null>(null);
@@ -11,6 +12,9 @@ export default function RemovePdfPages() {
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultSize, setResultSize] = useState<number>(0);
+  const [removedCount, setRemovedCount] = useState<number>(0);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -78,13 +82,18 @@ export default function RemovePdfPages() {
       const pdfBytes = await newPdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = file.name.replace('.pdf', '_cleaned.pdf');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+      }
+      setResultUrl(url);
+      setResultSize(blob.size);
+      setRemovedCount(selectedPages.size);
+
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: `🗑️ Removed ${selectedPages.size} pages! Preview ready below.` },
+        })
+      );
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Error processing PDF.');
@@ -187,11 +196,43 @@ export default function RemovePdfPages() {
                 <button
                   onClick={handleProcess}
                   disabled={isProcessing || selectedPages.size === 0}
-                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-xl px-6 py-3 font-semibold transition-colors"
+                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-xl px-6 py-3 font-semibold transition-all active:scale-95 shadow-md flex items-center gap-2"
                 >
-                  {isProcessing ? 'Processing...' : 'Delete Marked Pages'}
+                  <span>🗑️</span>
+                  <span>{isProcessing ? 'Removing Pages...' : 'Remove Selected Pages & Preview →'}</span>
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Cleaned PDF Result Card with Preview First & Download Button */}
+          {resultUrl && file && (
+            <div className="mt-8">
+              <ToolResultCard
+                title="Pages Removed Successfully!"
+                filename={file.name.replace('.pdf', '_cleaned.pdf')}
+                downloadUrl={resultUrl}
+                fileSize={resultSize}
+                badgeText={`${removedCount} Pages Removed`}
+                previewUrl={resultUrl}
+                previewType="pdf"
+                details={[
+                  { label: 'Original Page Count', value: numPages },
+                  { label: 'Pages Removed', value: removedCount },
+                  { label: 'Cleaned Page Count', value: numPages - removedCount },
+                ]}
+                onReset={() => {
+                  if (resultUrl) URL.revokeObjectURL(resultUrl);
+                  setResultUrl(null);
+                  setSelectedPages(new Set());
+                }}
+                resetButtonText="Select Different Pages to Remove"
+                nextTool={{
+                  name: 'Merge PDF',
+                  url: '/tools/organize-pdf/merge-pdf',
+                  description: 'Combine your newly cleaned PDF with other documents.'
+                }}
+              />
             </div>
           )}
         </div>

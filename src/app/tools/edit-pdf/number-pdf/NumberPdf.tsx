@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
 
 type Position = 'bottomCenter' | 'bottomRight' | 'topRight';
 type Format = 'Page X of Y' | 'X of Y' | 'Page X' | 'X';
@@ -12,6 +13,8 @@ export default function NumberPdf() {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultSize, setResultSize] = useState<number>(0);
 
   const [position, setPosition] = useState<Position>('bottomCenter');
   const [format, setFormat] = useState<Format>('Page X of Y');
@@ -84,13 +87,17 @@ export default function NumberPdf() {
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = file.name.replace('.pdf', '_numbered.pdf');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+      }
+      setResultUrl(url);
+      setResultSize(blob.size);
+
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: '🔢 Page numbers added successfully! Preview ready below.' },
+        })
+      );
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Error processing PDF.');
@@ -215,11 +222,43 @@ export default function NumberPdf() {
                 <button
                   onClick={handleProcess}
                   disabled={isProcessing}
-                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-xl px-8 py-3 font-semibold transition-colors"
+                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white rounded-xl px-8 py-3 font-semibold transition-all active:scale-95 shadow-md flex items-center gap-2"
                 >
-                  {isProcessing ? 'Processing...' : 'Add Page Numbers'}
+                  <span>🔢</span>
+                  <span>{isProcessing ? 'Numbering Pages...' : 'Add Page Numbers & Preview →'}</span>
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Numbered PDF Result Card with Live Preview First & Download Button */}
+          {resultUrl && file && (
+            <div className="mt-8">
+              <ToolResultCard
+                title="Page Numbers Added Successfully!"
+                filename={file.name.replace('.pdf', '_numbered.pdf')}
+                downloadUrl={resultUrl}
+                fileSize={resultSize}
+                badgeText="Page Numbers Applied"
+                previewUrl={resultUrl}
+                previewType="pdf"
+                details={[
+                  { label: 'Position', value: position },
+                  { label: 'Format Style', value: format },
+                  { label: 'Start Number', value: startNum },
+                  { label: 'Font Size', value: `${fontSize}pt` }
+                ]}
+                onReset={() => {
+                  if (resultUrl) URL.revokeObjectURL(resultUrl);
+                  setResultUrl(null);
+                }}
+                resetButtonText="Adjust Numbering Settings"
+                nextTool={{
+                  name: 'Compress PDF',
+                  url: '/tools/optimize-pdf/compress-pdf',
+                  description: 'Shrink file size of your newly numbered document.'
+                }}
+              />
             </div>
           )}
         </div>

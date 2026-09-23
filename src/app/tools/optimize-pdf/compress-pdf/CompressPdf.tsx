@@ -7,6 +7,7 @@ import AdSlot from '@/components/AdSlot';
 import FeedbackWidget from '@/components/FeedbackWidget';
 import RelatedTools from '@/components/RelatedTools';
 import DocumentLiveViewer from '@/components/DocumentLiveViewer';
+import ToolResultCard from '@/components/ToolResultCard';
 import { PDFDocument, PDFName } from 'pdf-lib';
 
 interface CompressionResult {
@@ -554,53 +555,29 @@ export default function CompressPdf() {
                 </div>
               </div>
             ) : (
-              <div className="space-y-6 pt-4 border-t border-gray-100 dark:border-slate-800">
-                {/* Result Card */}
-                <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 flex flex-col sm:flex-row items-center justify-between gap-6">
-                  <div className="text-center sm:text-left space-y-1">
-                    <div className="flex items-center gap-2 justify-center sm:justify-start">
-                      <span className="text-xs font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                        Compression Successful
-                      </span>
-                      {result.savedPercentage > 0 && (
-                        <span className="text-[11px] px-2 py-0.5 rounded-md bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 font-extrabold">
-                          -{result.savedPercentage}% Smaller
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="text-base text-gray-700 dark:text-slate-200 font-medium">
-                      <span className="text-gray-400 line-through mr-1">{formatSize(result.original)}</span>
-                      {' → '}
-                      <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold text-lg">
-                        {formatSize(result.compressed)}
-                      </strong>
-                      {result.savedBytes > 0 && (
-                        <span className="text-xs text-gray-500 dark:text-slate-400 ml-2">
-                          (Saved {formatSize(result.savedBytes)})
-                        </span>
-                      )}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    <a
-                      href={result.blobUrl}
-                      download={result.name}
-                      className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all active:scale-95 flex items-center gap-2"
-                    >
-                      <span>📥</span>
-                      Download Compressed PDF ({formatSize(result.compressed)})
-                    </a>
-                    <button
-                      onClick={() => { setResult(null); }}
-                      className="px-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-200 text-xs font-bold rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
-                    >
-                      Compress Again / Change Settings
-                    </button>
-                  </div>
-                </div>
+              <div className="pt-2">
+                <ToolResultCard
+                  title="PDF Compressed Successfully!"
+                  filename={result.name}
+                  downloadUrl={result.blobUrl}
+                  fileSize={result.compressed}
+                  badgeText={result.savedPercentage > 0 ? `Saved ${result.savedPercentage}% (${formatSize(result.savedBytes)})` : 'PDF Optimized'}
+                  previewUrl={result.blobUrl}
+                  previewType="pdf"
+                  details={[
+                    { label: 'Original Size', value: formatSize(result.original) || '' },
+                    { label: 'Optimized Size', value: formatSize(result.compressed) || '' },
+                    { label: 'Saved Space', value: formatSize(result.savedBytes) || '0 KB' },
+                    { label: 'Reduction', value: `-${result.savedPercentage}%` }
+                  ]}
+                  onReset={() => setResult(null)}
+                  resetButtonText="Compress Another PDF / Adjust Settings"
+                  nextTool={{
+                    name: 'Protect PDF',
+                    url: '/tools/pdf-security/protect-pdf',
+                    description: 'Encrypt and password protect your newly compressed PDF.'
+                  }}
+                />
               </div>
             )}
 

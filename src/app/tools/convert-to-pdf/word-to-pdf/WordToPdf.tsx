@@ -5,6 +5,7 @@ import Link from 'next/link';
 import JSZip from 'jszip';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
 
 interface WordParagraph {
   type: 'heading1' | 'heading2' | 'heading3' | 'paragraph' | 'bullet';
@@ -725,6 +726,37 @@ export default function WordToPdf() {
               </div>
             </div>
 
+            {/* Generated PDF Result Card with Preview First & Prominent Download Button */}
+            {pdfUrl && file && (
+              <ToolResultCard
+                title="Word to PDF Converted Successfully!"
+                filename={`${file.name.replace(/\.[^/.]+$/, '')}.pdf`}
+                downloadUrl={pdfUrl}
+                fileSize={pdfFileSize}
+                badgeText="PDF Generated"
+                previewUrl={pdfUrl}
+                previewType="pdf"
+                details={[
+                  { label: 'Total Pages', value: pdfPageCount },
+                  { label: 'File Size', value: `${(pdfFileSize / 1024).toFixed(1)} KB` },
+                  { label: 'Font Engine', value: fontChoice.toUpperCase() },
+                  { label: 'Page Format', value: pageSize }
+                ]}
+                onReset={() => {
+                  setFile(null);
+                  setParsedBlocks([]);
+                  if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+                  setPdfUrl(null);
+                }}
+                resetButtonText="Convert Another Word Document"
+                nextTool={{
+                  name: 'Compress PDF',
+                  url: '/tools/optimize-pdf/compress-pdf',
+                  description: 'Shrink your newly converted PDF file size while keeping high visual clarity.'
+                }}
+              />
+            )}
+
             {/* Customization & Layout Controls */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 p-4 rounded-xl bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700">
               <div>
@@ -837,33 +869,6 @@ export default function WordToPdf() {
                 </button>
               </div>
             </div>
-
-            {/* Live PDF Viewer and Details */}
-            {pdfUrl && (
-              <div className="mt-6 space-y-4">
-                <div className="flex items-center justify-between text-xs text-gray-600 dark:text-slate-400 bg-gray-100 dark:bg-slate-800/80 px-4 py-2.5 rounded-xl">
-                  <div className="flex items-center gap-4">
-                    <span>📄 Total Pages: <strong>{pdfPageCount}</strong></span>
-                    <span>💾 PDF File Size: <strong>{(pdfFileSize / 1024).toFixed(1)} KB</strong></span>
-                    <span>🔤 Font: <strong>{fontChoice.toUpperCase()}</strong></span>
-                  </div>
-                  <button
-                    onClick={downloadPdfFile}
-                    className="text-primary-600 dark:text-primary-400 font-bold hover:underline"
-                  >
-                    Direct Download ⬇
-                  </button>
-                </div>
-
-                <div className="border border-gray-300 dark:border-slate-700 rounded-2xl overflow-hidden bg-gray-900 shadow-inner h-[600px] w-full">
-                  <iframe
-                    src={`${pdfUrl}#toolbar=0&navpanes=0`}
-                    className="w-full h-full border-0"
-                    title="Converted PDF Live Preview"
-                  />
-                </div>
-              </div>
-            )}
           </div>
         )}
 

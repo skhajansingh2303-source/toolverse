@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
 import DocumentLiveViewer from '@/components/DocumentLiveViewer';
+import ToolResultCard from '@/components/ToolResultCard';
 import { PDFDocument } from 'pdf-lib';
 
 export default function CropPdf() {
@@ -13,6 +14,8 @@ export default function CropPdf() {
   const [cropLeft, setCropLeft] = useState(0);
   const [cropRight, setCropRight] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultSize, setResultSize] = useState<number>(0);
 
   const handleProcess = async () => {
     if (!file) return;
@@ -35,14 +38,20 @@ export default function CropPdf() {
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `cropped_${file.name}`;
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch (e) {
+      if (resultUrl) {
+        URL.revokeObjectURL(resultUrl);
+      }
+      setResultUrl(url);
+      setResultSize(blob.size);
+
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: '✂️ PDF Cropped successfully! Preview ready below.' },
+        })
+      );
+    } catch (e: any) {
       console.error(e);
-      alert('Error processing PDF');
+      alert('Error processing PDF: ' + (e.message || ''));
     }
     setIsProcessing(false);
   };
@@ -135,11 +144,41 @@ export default function CropPdf() {
           <button 
             onClick={handleProcess}
             disabled={!file || isProcessing}
-            className="w-full bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-6 py-3 font-semibold disabled:opacity-50"
+            className="w-full bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-6 py-3 font-semibold disabled:opacity-50 transition-all active:scale-95 shadow-md flex items-center justify-center gap-2"
           >
-            {isProcessing ? 'Processing...' : 'Download Cropped PDF'}
+            <span>✂️</span>
+            <span>{isProcessing ? 'Cropping Pages...' : 'Crop & Preview PDF →'}</span>
           </button>
         </div>
+
+        {/* Live Cropped Result Card with Preview First & Download Button */}
+        {resultUrl && file && (
+          <ToolResultCard
+            title="PDF Cropped Successfully!"
+            filename={`cropped_${file.name}`}
+            downloadUrl={resultUrl}
+            fileSize={resultSize}
+            badgeText="Margins Trimmed"
+            previewUrl={resultUrl}
+            previewType="pdf"
+            details={[
+              { label: 'Top Margin', value: `${cropTop} pt` },
+              { label: 'Bottom Margin', value: `${cropBottom} pt` },
+              { label: 'Left Margin', value: `${cropLeft} pt` },
+              { label: 'Right Margin', value: `${cropRight} pt` },
+            ]}
+            onReset={() => {
+              if (resultUrl) URL.revokeObjectURL(resultUrl);
+              setResultUrl(null);
+            }}
+            resetButtonText="Adjust Crop Margins"
+            nextTool={{
+              name: 'Compress PDF',
+              url: '/tools/optimize-pdf/compress-pdf',
+              description: 'Shrink your newly cropped PDF file size.'
+            }}
+          />
+        )}
 
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>

@@ -6,6 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
 
 type ExtractMode = 'single-pdf' | 'zip-archive';
 
@@ -19,6 +20,10 @@ export default function ExtractPdfPages() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultSize, setResultSize] = useState<number>(0);
+  const [resultFilename, setResultFilename] = useState<string>('');
+  const [isZipResult, setIsZipResult] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -167,15 +172,19 @@ export default function ExtractPdfPages() {
         const pdfBytes = await newDoc.save();
         const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
         const downloadUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = `${baseName}_extracted_${selectedPages.length}_pages.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(downloadUrl);
+        if (resultUrl) URL.revokeObjectURL(resultUrl);
+        setResultUrl(downloadUrl);
+        setResultSize(blob.size);
+        const fname = `${baseName}_extracted_${selectedPages.length}_pages.pdf`;
+        setResultFilename(fname);
+        setIsZipResult(false);
 
-        setSuccess(`Successfully extracted ${selectedPages.length} pages into a new PDF!`);
+        setSuccess(`Successfully extracted ${selectedPages.length} pages into a new PDF! Preview ready below.`);
+        window.dispatchEvent(
+          new CustomEvent('toolsverse-toast', {
+            detail: { message: `📄 Extracted ${selectedPages.length} pages! Preview ready below.` },
+          })
+        );
       }
 
       // OPTION 2: Separate files in a ZIP archive
@@ -201,16 +210,20 @@ export default function ExtractPdfPages() {
         });
 
         const downloadUrl = URL.createObjectURL(zipBlob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = `${baseName}_extracted_pages.zip`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(downloadUrl);
+        if (resultUrl) URL.revokeObjectURL(resultUrl);
+        setResultUrl(downloadUrl);
+        setResultSize(zipBlob.size);
+        const fname = `${baseName}_extracted_pages.zip`;
+        setResultFilename(fname);
+        setIsZipResult(true);
 
         setSuccess(
           `Successfully saved ${selectedPages.length} individual page files into ZIP archive!`
+        );
+        window.dispatchEvent(
+          new CustomEvent('toolsverse-toast', {
+            detail: { message: `📦 Created ZIP archive with ${selectedPages.length} PDF pages!` },
+          })
         );
       }
     } catch (err: any) {
@@ -488,6 +501,36 @@ export default function ExtractPdfPages() {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Extracted Result Card with Preview First & Download Button */}
+        {resultUrl && file && (
+          <div className="mt-8">
+            <ToolResultCard
+              title={isZipResult ? 'ZIP Archive Generated!' : 'Pages Extracted to PDF!'}
+              filename={resultFilename}
+              downloadUrl={resultUrl}
+              fileSize={resultSize}
+              badgeText={isZipResult ? 'ZIP Package Ready' : `${selectedPages.length} Pages Extracted`}
+              previewUrl={!isZipResult ? resultUrl : undefined}
+              previewType={!isZipResult ? 'pdf' : undefined}
+              details={[
+                { label: 'Original Pages', value: totalPages },
+                { label: 'Pages Selected', value: selectedPages.length },
+                { label: 'Output Format', value: isZipResult ? 'Individual Files (.zip)' : 'Single Combined PDF' },
+              ]}
+              onReset={() => {
+                if (resultUrl) URL.revokeObjectURL(resultUrl);
+                setResultUrl(null);
+              }}
+              resetButtonText="Extract Different Pages"
+              nextTool={{
+                name: 'Merge PDF',
+                url: '/tools/organize-pdf/merge-pdf',
+                description: 'Combine your extracted pages with other PDF files.'
+              }}
+            />
           </div>
         )}
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import JSZip from 'jszip';
 import { PDFDocument, rgb, StandardFonts, RGB } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
 
 interface SheetData {
   name: string;
@@ -997,6 +998,33 @@ export default function ExcelToPdf() {
           </div>
         )}
 
+        {/* Generated PDF Result Card with Preview First & Download Button */}
+        {pdfUrl && (
+          <ToolResultCard
+            title="Excel Spreadsheet Converted to PDF!"
+            filename={`${fileName.replace(/\.[^/.]+$/, '')}.pdf`}
+            downloadUrl={pdfUrl}
+            badgeText="PDF Generated"
+            previewUrl={pdfUrl}
+            previewType="pdf"
+            details={[
+              { label: 'Active Sheet', value: activeSheet?.name || 'Sheet' },
+              { label: 'Page Format', value: `${pageSize} (${orientation})` },
+              { label: 'Theme', value: headerTheme.toUpperCase() },
+            ]}
+            onReset={() => {
+              if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+              setPdfUrl(null);
+            }}
+            resetButtonText="Reset / Re-adjust Settings"
+            nextTool={{
+              name: 'Compress PDF',
+              url: '/tools/optimize-pdf/compress-pdf',
+              description: 'Shrink your newly converted PDF file size.'
+            }}
+          />
+        )}
+
         {/* Main Grid: Settings & Preview */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Settings Panel */}
@@ -1304,37 +1332,6 @@ export default function ExcelToPdf() {
                 </tbody>
               </table>
             </div>
-
-            {/* Embedded Live PDF Preview if generated */}
-            {pdfUrl && (
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-800 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-gray-700 dark:text-slate-300">
-                    📄 Generated PDF Document Preview:
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary-600 dark:text-primary-400 hover:underline font-semibold"
-                    >
-                      Open in New Tab ↗
-                    </a>
-                    <a
-                      href={pdfUrl}
-                      download={`${fileName.replace(/\.[^/.]+$/, '')}.pdf`}
-                      className="text-xs px-3 py-1 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </div>
-                <div className="w-full h-80 rounded-xl overflow-hidden border border-gray-300 dark:border-slate-700 bg-gray-100 dark:bg-slate-950">
-                  <iframe src={pdfUrl} className="w-full h-full" title="PDF Preview" />
-                </div>
-              </div>
-            )}
           </div>
         </div>
 

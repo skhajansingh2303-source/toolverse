@@ -7,6 +7,7 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
 
 type MainTab = 'from-pdf' | 'to-pdf';
 type FromPdfTarget = 'word' | 'text' | 'html' | 'images';
@@ -23,6 +24,15 @@ export default function PdfConverter() {
   const [isConvertingFromPdf, setIsConvertingFromPdf] = useState(false);
   const [fromPdfSuccess, setFromPdfSuccess] = useState('');
   const [fromPdfError, setFromPdfError] = useState('');
+  const [resultData, setResultData] = useState<{
+    url: string;
+    filename: string;
+    size: number;
+    previewUrl?: string;
+    previewType?: 'pdf' | 'image' | 'text' | 'auto';
+    previewText?: string;
+    details?: { label: string; value: string | number }[];
+  } | null>(null);
 
   // Mode 2: Other Formats to PDF
   const [toPdfSource, setToPdfSource] = useState<ToPdfSource>('images');
@@ -409,15 +419,31 @@ export default function PdfConverter() {
     }
   };
 
-  const triggerDownload = (blob: Blob, filename: string) => {
+  const triggerDownload = (blob: Blob, filename: string, extra?: { previewText?: string; previewType?: 'pdf' | 'image' | 'text' | 'auto'; details?: { label: string; value: string | number }[] }) => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    if (resultData?.url) {
+      URL.revokeObjectURL(resultData.url);
+    }
+    const isZip = filename.toLowerCase().endsWith('.zip');
+    const isPdf = filename.toLowerCase().endsWith('.pdf');
+    const isTxt = filename.toLowerCase().endsWith('.txt');
+    const pType = extra?.previewType || (isPdf ? 'pdf' : isTxt ? 'text' : 'auto');
+
+    setResultData({
+      url,
+      filename,
+      size: blob.size,
+      previewUrl: isZip ? undefined : url,
+      previewType: pType,
+      previewText: extra?.previewText,
+      details: extra?.details || [],
+    });
+
+    window.dispatchEvent(
+      new CustomEvent('toolsverse-toast', {
+        detail: { message: `✅ Conversion finished! Preview & download ready below.` },
+      })
+    );
   };
 
   return (
@@ -460,6 +486,30 @@ export default function PdfConverter() {
         <div className="mb-8">
           <AdSlot format="horizontal" />
         </div>
+
+        {/* Live Result Card with Preview First & Prominent Download Button */}
+        {resultData && (
+          <ToolResultCard
+            title="Conversion Completed Successfully!"
+            filename={resultData.filename}
+            downloadUrl={resultData.url}
+            fileSize={resultData.size}
+            previewUrl={resultData.previewUrl}
+            previewType={resultData.previewType}
+            previewText={resultData.previewText}
+            details={resultData.details}
+            onReset={() => {
+              if (resultData.url) URL.revokeObjectURL(resultData.url);
+              setResultData(null);
+            }}
+            resetButtonText="Convert Another File"
+            nextTool={{
+              name: 'Compress PDF',
+              url: '/tools/optimize-pdf/compress-pdf',
+              description: 'Optimize and shrink the file size of your converted documents.'
+            }}
+          />
+        )}
 
         {/* Main Hub Tabs */}
         <div className="flex border-b border-gray-200 dark:border-slate-800 mb-8">
