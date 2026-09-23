@@ -7,7 +7,7 @@
     "build": "next build && node scripts/enhance-sitemap.mjs",
     "start": "next start",
     "lint": "next lint",
-    "pages:deploy": "npm run build && wrangler pages deploy out",
+    "pages:deploy": "npm run build && wrangler pages deploy out --project-name=toolsverseapp",
     "pages:dev": "npm run build && wrangler pages dev out"
   },
   "dependencies": {
