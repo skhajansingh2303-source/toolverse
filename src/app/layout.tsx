@@ -112,12 +112,21 @@ export const metadata: Metadata = {
     title: 'ToolsVerse App — 103+ Free Online Tools for Everyone',
     description:
       'Free online tools that run 100% inside your browser. PDF suite, image compressor, health calculators, JSON formatter, QR code generator, and more with zero server uploads.',
+    images: [
+      {
+        url: 'https://toolsverseapp.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ToolsVerse - 103+ Free Online Tools',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ToolsVerse App — 103+ Free Online Tools',
     description:
       'Free online tools that run 100% inside your browser. No signup, no server uploads, unlimited free use.',
+    images: ['https://toolsverseapp.com/og-image.png'],
   },
   robots: {
     index: true,
