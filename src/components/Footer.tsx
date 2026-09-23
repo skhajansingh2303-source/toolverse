@@ -91,6 +91,12 @@ export default function Footer() {
                   PDF to Text
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="text-red-400 font-semibold hover:text-red-300 transition-colors flex items-center gap-1">
+                  <span>📖</span>
+                  <span>PDF Guides &amp; Blog</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -199,6 +205,10 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} ToolsVerse App (toolsverseapp.com). All rights reserved. {tools.length} In-Browser Utilities.</p>
           
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <Link href="/blog" className="text-red-400 font-bold hover:text-red-300 transition-colors">
+              Guides &amp; Blog
+            </Link>
+            <span className="text-gray-700">•</span>
             <Link href="/about" className="hover:text-red-400 transition-colors">
               About Us
             </Link>

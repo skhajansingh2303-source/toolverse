@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { tools, Tool, getToolUrl } from '@/lib/tools';
+import { BLOG_POSTS } from '@/lib/blogData';
 
 interface FaqItem {
   question: string;
@@ -43,6 +44,9 @@ export default function ToolSeoContent({
           .filter((t) => t.categorySlug === categorySlug && t.slug !== toolSlug)
           .slice(0, 4)
   ) as Tool[];
+
+  // Find dedicated in-depth guide
+  const matchingGuide = BLOG_POSTS.find((p) => p.targetToolSlug === toolSlug);
 
   // JSON-LD Structured Data for Google (FAQPage + HowTo)
   const faqSchema = {
@@ -180,6 +184,51 @@ export default function ToolSeoContent({
           ))}
         </div>
       </div>
+
+      {/* Dedicated In-Depth Guide & Tutorial Banner */}
+      {matchingGuide ? (
+        <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-red-500/10 via-rose-500/10 to-indigo-500/10 border border-red-200/80 dark:border-red-900/50 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+          <div className="space-y-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs font-bold uppercase tracking-wider">
+              📖 Complete Step-by-Step Guide
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black text-gray-950 dark:text-white">
+              {matchingGuide.title}
+            </h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300 max-w-2xl leading-relaxed">
+              {matchingGuide.excerpt}
+            </p>
+          </div>
+          <Link
+            href={`/blog/${matchingGuide.slug}/`}
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-red-500/20 hover:scale-105 transition-all"
+          >
+            <span>Read Complete Tutorial</span>
+            <span>→</span>
+          </Link>
+        </div>
+      ) : (
+        <div className="mb-12 p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-slate-900 border border-gray-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">📚</span>
+            <div>
+              <h4 className="text-sm font-bold text-gray-900 dark:text-white">
+                Looking for step-by-step document guides &amp; tips?
+              </h4>
+              <p className="text-xs text-gray-500 dark:text-slate-400">
+                Explore our comprehensive library of PDF tutorials, privacy advice, and workflow guides.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/blog/"
+            className="shrink-0 text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1"
+          >
+            <span>Explore Guides</span>
+            <span>→</span>
+          </Link>
+        </div>
+      )}
 
       {/* FAQ Accordion Section (Google Rich Snippets) */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-gray-200/80 dark:border-slate-800 shadow-sm mb-12">

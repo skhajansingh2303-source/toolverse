@@ -269,13 +269,23 @@ export default function ToolDrawer({ isOpen, onClose }: ToolDrawerProps) {
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Offline Ready</span>
             </div>
-            <Link
-              href="/"
-              onClick={onClose}
-              className="text-primary-600 dark:text-primary-400 hover:underline font-bold"
-            >
-              Home Dashboard
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/blog"
+                onClick={onClose}
+                className="text-red-600 dark:text-red-400 hover:underline font-bold"
+              >
+                Guides &amp; Blog
+              </Link>
+              <span>•</span>
+              <Link
+                href="/"
+                onClick={onClose}
+                className="text-primary-600 dark:text-primary-400 hover:underline font-bold"
+              >
+                Home
+              </Link>
+            </div>
           </div>
 
         </div>

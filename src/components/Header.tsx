@@ -286,6 +286,16 @@ export default function Header() {
                   ▼
                 </span>
               </button>
+
+              {/* Guides & Blog Link */}
+              <Link
+                href="/blog"
+                onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
+                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+              >
+                Guides
+              </Link>
             </nav>
 
             {/* ───── Right Actions: Search, Language, Theme, PWA, Drawer ───── */}
