@@ -3,6 +3,9 @@ import PdfToPowerpoint from './PdfToPowerpoint';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-powerpoint/',
+  },
   title: 'PDF to PowerPoint - Convert PDF to PPTX Presentation Online Free',
   description: 'Convert PDF slides into editable Microsoft PowerPoint (.pptx) presentation decks.',
   keywords: [

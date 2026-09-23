@@ -3,6 +3,9 @@ import RotatePdf from './RotatePdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/organize-pdf/rotate-pdf/',
+  },
   title: 'Rotate PDF - Rotate PDF Pages 90 180 Degrees Online Free',
   description: 'Rotate specific or all pages of a PDF document permanently (90°, 180°, 270°). 100% private in-browser orientation tool with zero server uploads.',
   keywords: ['rotate pdf', 'rotate pdf pages', 'pdf rotator', 'turn pdf pages', 'rotate pdf 90 degrees', 'permanent pdf rotation'],

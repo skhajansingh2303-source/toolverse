@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import RepairPdf from './RepairPdf';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/optimize-pdf/repair-pdf/',
+  },
   title: 'Repair PDF - Fix Corrupted & Damaged PDF Files Online Free',
   description: 'Repair and recover broken or corrupted PDF documents online. Rebuild damaged catalog and xref tables with 100% private in-browser repair.',
   keywords: [

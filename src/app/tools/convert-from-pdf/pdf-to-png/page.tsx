@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-png/',
+  },
   title: 'PDF to PNG - Convert PDF Pages to High-Res PNG Online Free',
   description: 'Convert PDF pages to lossless PNG images with transparency support and 1-click ZIP download. 100% private in-browser conversion with zero server uploads.',
   keywords: [

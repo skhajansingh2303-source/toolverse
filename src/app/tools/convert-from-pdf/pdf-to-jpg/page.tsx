@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-jpg/',
+  },
   title: 'PDF to JPG - Convert PDF Pages to Images Online Free',
   description: 'Convert your PDF documents into high-quality JPG images online for free. 100% private in-browser rendering with zero server uploads.',
   keywords: ['pdf to jpg', 'convert pdf to image', 'pdf to jpeg', 'extract pdf pages', 'pdf converter'],

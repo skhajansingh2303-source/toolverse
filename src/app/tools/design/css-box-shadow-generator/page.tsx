@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import CssBoxShadowGenerator from './CssBoxShadowGenerator';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/design/css-box-shadow-generator/',
+  },
   title: 'CSS Box Shadow Generator - Create Shadows & Glassmorphism Online Free',
   description: 'Create and preview CSS box shadows and glassmorphism effects. Visual shadow generator with live code output and modern presets.',
   keywords: ['css box shadow generator', 'box shadow tool', 'glassmorphism generator', 'css shadow generator', 'web design tools'],

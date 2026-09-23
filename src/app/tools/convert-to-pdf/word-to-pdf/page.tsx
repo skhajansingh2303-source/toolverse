@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/word-to-pdf/',
+  },
   title: 'Word to PDF - Convert Word (.docx) to PDF Online Free',
   description: 'Convert Microsoft Word DOC and DOCX documents into clean, standardized PDF files instantly. 100% private in-browser conversion with zero server uploads.',
   keywords: [

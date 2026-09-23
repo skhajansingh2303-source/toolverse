@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/optimize-pdf/compress-pdf/',
+  },
   title: 'Compress PDF - Reduce PDF File Size Online Free',
   description: 'Compress PDF files online for free. Reduce PDF file size while maintaining document clarity. 100% private in-browser optimization with zero server uploads.',
   keywords: ['compress pdf', 'reduce pdf size', 'shrink pdf', 'pdf compressor', 'compress pdf online'],

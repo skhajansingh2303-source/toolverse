@@ -3,6 +3,9 @@ import ElectronicInvoice from './ElectronicInvoice';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/electronic-invoice/',
+  },
   title: 'Electronic Invoice (Factur-X / ZUGFeRD) - Create & Validate E-Invoices Online',
   description: 'Create and validate electronic invoices with embedded Factur-X and ZUGFeRD XML compliant with e-invoicing regulations.',
   keywords: [

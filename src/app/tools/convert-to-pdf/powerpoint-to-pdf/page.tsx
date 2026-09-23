@@ -3,6 +3,9 @@ import PowerpointToPdf from './PowerpointToPdf';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/powerpoint-to-pdf/',
+  },
   title: 'PowerPoint to PDF - Convert PPTX to PDF Online Free',
   description: 'Convert PowerPoint slides into high-quality PDF documents.',
   keywords: [

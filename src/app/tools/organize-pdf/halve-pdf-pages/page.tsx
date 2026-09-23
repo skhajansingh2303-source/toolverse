@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import HalvePdfPages from './HalvePdfPages';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/organize-pdf/halve-pdf-pages/',
+  },
   title: 'Halve PDF Pages - Split Double-Page Spreads Online Free',
   description: 'Split two-page book scans and magazine spreads into individual single pages automatically with 100% private in-browser processing.',
   keywords: [

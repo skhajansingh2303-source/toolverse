@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ToolCard from '@/components/ToolCard';
 import AdSlot from '@/components/AdSlot';
 import { tools, Tool } from '@/lib/tools';
+import { BLOG_POSTS } from '@/lib/blogData';
 
 interface Persona {
   id: string;
@@ -796,6 +797,69 @@ export default function Home() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* ───── Educational Guides & Deep Tutorials Section ───── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider mb-2">
+              <span className="w-2 h-2 rounded-full bg-primary-600 animate-pulse" />
+              Comprehensive Documentation &amp; Step-by-Step Guides
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
+              Master Document &amp; File Engineering
+            </h2>
+            <p className="text-gray-600 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-2xl">
+              In-depth, peer-reviewed tutorials and architectural walkthroughs covering PDF compression, client-side encryption, OCR extraction, and multi-format conversion.
+            </p>
+          </div>
+          <Link
+            href="/blog"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold text-xs hover:bg-primary-600 dark:hover:bg-primary-500 hover:text-white transition-all shadow-sm shrink-0"
+          >
+            <span>Explore All 30 Pillar Guides</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {BLOG_POSTS.slice(0, 6).map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="group flex flex-col justify-between bg-white dark:bg-slate-900 rounded-2xl border border-gray-200/80 dark:border-slate-800 p-6 hover:shadow-lg hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-all duration-200"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide rounded-md bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 group-hover:bg-primary-50 group-hover:text-primary-600 dark:group-hover:bg-primary-950/60 dark:group-hover:text-primary-400 transition-colors">
+                    {post.category}
+                  </span>
+                  <span className="text-[11px] font-medium text-gray-400 dark:text-slate-500">
+                    {post.readTime}
+                  </span>
+                </div>
+                <h3 className="font-bold text-base text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2 mb-2">
+                  {post.title}
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                  {post.description}
+                </p>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">
+                  {post.author}
+                </span>
+                <span className="text-xs font-bold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                  Read Guide &rarr;
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* ───── ToolsVerse vs Cloud Competitors Privacy Matrix ───── */}

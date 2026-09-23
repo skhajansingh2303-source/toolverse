@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import BookmarkPdf from './BookmarkPdf';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/edit-pdf/bookmark-pdf/',
+  },
   title: 'Bookmark PDF - Create & Edit PDF Table of Contents Online',
   description: 'Add, edit, and organize hierarchical bookmarks and outlines in PDF files for fast navigation with 100% private in-browser processing.',
   keywords: [

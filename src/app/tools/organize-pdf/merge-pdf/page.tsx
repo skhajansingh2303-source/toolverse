@@ -3,6 +3,9 @@ import MergePdf from './MergePdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/organize-pdf/merge-pdf/',
+  },
   title: 'Merge PDF - Combine PDF Files Online Free (No Limit)',
   description: 'Merge multiple PDF files into one single document easily and securely in your browser. 100% private, free online PDF combiner with zero server uploads.',
   keywords: ['merge pdf', 'combine pdf', 'join pdf files', 'pdf merger', 'combine pdf pages'],

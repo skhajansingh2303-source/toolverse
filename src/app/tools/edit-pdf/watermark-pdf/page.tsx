@@ -3,6 +3,9 @@ import WatermarkPdf from './WatermarkPdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/edit-pdf/watermark-pdf/',
+  },
   title: 'Add Watermark to PDF - PDF Watermark Tool Online Free',
   description: 'Add custom text and image watermarks to your PDF documents easily. Customize font size, color, opacity, rotation, and position. 100% private in-browser.',
   keywords: ['watermark pdf', 'add watermark to pdf', 'pdf watermark tool', 'stamp pdf', 'confidential watermark pdf', 'free pdf watermark'],

@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ChangePdfPageSize from './ChangePdfPageSize';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/edit-pdf/change-pdf-page-size/',
+  },
   title: 'Change PDF Page Size - Resize & Scale PDF Pages Online Free',
   description: 'Resize PDF pages to A4, US Letter, A3, Legal, or custom dimensions with smart scaling and 100% private in-browser processing.',
   keywords: [

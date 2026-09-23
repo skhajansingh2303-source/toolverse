@@ -3,6 +3,9 @@ import PowerpointToImages from './PowerpointToImages';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/powerpoint-to-images/',
+  },
   title: 'PowerPoint to Images - Convert PPTX to JPG/PNG Online Free',
   description: 'Convert PowerPoint slides into high-quality images (PNG, JPG, WebP).',
   keywords: [

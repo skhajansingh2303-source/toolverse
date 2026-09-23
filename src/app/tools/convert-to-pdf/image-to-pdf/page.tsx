@@ -3,6 +3,9 @@ import ImageToPdf from './ImageToPdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/image-to-pdf/',
+  },
   title: 'Image to PDF - Convert JPG PNG to PDF Online Free',
   description: 'Convert JPG, PNG, and WebP images to high-quality PDF documents online for free. 100% private in-browser conversion with zero server uploads.',
   keywords: ['image to pdf', 'jpg to pdf', 'png to pdf', 'convert image to pdf', 'photos to pdf', 'combine images to pdf'],

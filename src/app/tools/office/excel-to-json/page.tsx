@@ -3,6 +3,9 @@ import ExcelToJson from './ExcelToJson';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/excel-to-json/',
+  },
   title: 'Excel to JSON - Convert Excel Spreadsheets to JSON Online Free',
   description: 'Convert Excel XLSX and XLS files into JSON format client-side. Fast, secure, and privacy-friendly.',
   keywords: [

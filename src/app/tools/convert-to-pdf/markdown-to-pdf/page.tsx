@@ -3,6 +3,9 @@ import MarkdownToPdf from './MarkdownToPdf';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/markdown-to-pdf/',
+  },
   title: 'Markdown to PDF - Convert Markdown to PDF Online Free',
   description: 'Render styled Markdown files into beautiful, publication-grade PDF documents instantly.',
   keywords: [

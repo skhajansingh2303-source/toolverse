@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/excel-to-pdf/',
+  },
   title: 'Excel to PDF - Convert Excel Spreadsheets to PDF Online Free',
   description: 'Convert Excel XLSX, XLS, and CSV files into professional, paginated PDF documents client-side. 100% private in-browser conversion with zero server uploads.',
   keywords: [

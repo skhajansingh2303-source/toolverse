@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import RasterizePdf from './RasterizePdf';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/optimize-pdf/rasterize-pdf/',
+  },
   title: 'Rasterize PDF - Flatten Vectors to Image PDF Online Free',
   description: 'Rasterize PDF pages into secure, uncopyable images. Eliminate selectable text and hidden vector scripts with 100% private browser processing.',
   keywords: [

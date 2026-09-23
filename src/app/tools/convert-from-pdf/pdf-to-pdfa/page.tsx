@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import PdfToPdfa from './PdfToPdfa';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-pdfa/',
+  },
   title: 'PDF to PDF/A - Convert to Archival PDF/A Format Online Free',
   description: 'Convert PDF documents to ISO-compliant PDF/A format for long-term legal archiving and institutional compliance with 100% private in-browser processing.',
   keywords: [

@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import PdfConverter from './PdfConverter';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/pdf-converter/',
+  },
   title: 'PDF Converter - Convert PDF to Word, Text, HTML, Images Online',
   description: 'Convert PDF to Word, Text, HTML, and Images, or convert documents into PDF 100% free.',
   keywords: [

@@ -3,6 +3,9 @@ import UnlockPdf from './UnlockPdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/pdf-security/unlock-pdf/',
+  },
   title: 'Unlock PDF - Remove PDF Password & Restrictions Online Free',
   description: 'Unlock password-protected PDF files and remove document printing, copying, and editing restrictions permanently. 100% private in-browser.',
   keywords: [

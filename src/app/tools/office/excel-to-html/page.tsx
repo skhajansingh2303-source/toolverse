@@ -3,6 +3,9 @@ import ExcelToHtml from './ExcelToHtml';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/excel-to-html/',
+  },
   title: 'Excel to HTML - Convert Excel Spreadsheets to HTML Online Free',
   description: 'Convert Excel XLSX and XLS files into responsive HTML tables client-side. Fast, secure, and privacy-friendly.',
   keywords: [

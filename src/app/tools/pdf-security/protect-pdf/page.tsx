@@ -3,6 +3,9 @@ import ProtectPdf from './ProtectPdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/pdf-security/protect-pdf/',
+  },
   title: 'Protect PDF - Encrypt and Password Protect PDF Online Free',
   description: 'Encrypt your PDF documents with military-grade passwords and AES encryption. Restrict unauthorized opening, printing, and copying. 100% private in-browser.',
   keywords: [

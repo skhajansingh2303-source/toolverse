@@ -3,6 +3,9 @@ import PdfToSvg from './PdfToSvg';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-svg/',
+  },
   title: 'PDF to SVG - Convert PDF to Scalable Vector Graphics Online Free',
   description: 'Convert PDF documents into scalable vector SVG graphics for web design, logos, and crisp scaling.',
   keywords: [

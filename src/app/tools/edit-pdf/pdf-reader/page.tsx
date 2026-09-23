@@ -3,6 +3,9 @@ import PdfReader from './PdfReader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/edit-pdf/pdf-reader/',
+  },
   title: 'PDF Reader - Free In-Browser Online PDF Viewer',
   description: 'Read and view PDF documents online with smooth scrolling, thumbnails, zoom, dark mode, and search.',
   keywords: [

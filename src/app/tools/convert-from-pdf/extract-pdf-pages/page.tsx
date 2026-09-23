@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ExtractPdfPages from './ExtractPdfPages';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/extract-pdf-pages/',
+  },
   title: 'Extract PDF Pages - Extract Pages from PDF Online Free',
   description: 'Visually select and extract specific pages from your PDF file into a new PDF or ZIP archive.',
   keywords: [

@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import CreateFillablePdf from './CreateFillablePdf';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/pdf-security/create-fillable-pdf/',
+  },
   title: 'Create Fillable PDF - Add Form Fields to PDF Online Free',
   description: 'Turn static PDFs into interactive fillable forms. Add fillable text boxes, checkboxes, and signature fields with 100% private in-browser editing.',
   keywords: [

@@ -3,6 +3,9 @@ import PdfToHtml from './PdfToHtml';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-html/',
+  },
   title: 'PDF to HTML - Convert PDF Pages to Responsive Webpage Online',
   description: 'Convert PDF documents into clean, responsive HTML web pages with layout preservation.',
   keywords: [

@@ -3,6 +3,9 @@ import SplitPdf from './SplitPdf';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/organize-pdf/split-pdf/',
+  },
   title: 'Split PDF - Extract Pages from PDF Online Free',
   description: 'Split a PDF file, extract specific pages, or separate every page into a new PDF document. 100% private in-browser splitting with zero server uploads.',
   keywords: ['split pdf', 'extract pdf pages', 'separate pdf', 'pdf splitter', 'split pdf online'],

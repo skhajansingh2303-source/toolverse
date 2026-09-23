@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import WordEditor from './WordEditor';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/word-editor/',
+  },
   title: 'Online Word Document Editor - Create & Edit Word Files Free',
   description: 'Full-featured in-browser Word document editor. Open, edit, format typography, and export to DOCX, HTML, or PDF with zero server uploads.',
   keywords: [

@@ -3,6 +3,9 @@ import UniversalOfficeConverter from './UniversalOfficeConverter';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/universal-office-converter/',
+  },
   title: 'Universal Office Converter - Convert Word, Excel, PPT, PDF Online',
   description: 'All-in-one universal office converter. Drop any DOCX, XLSX, PPTX, PDF, CSV, or TXT file and convert client-side.',
   keywords: [

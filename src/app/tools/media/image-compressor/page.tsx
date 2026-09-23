@@ -3,6 +3,9 @@ import ImageCompressor from './ImageCompressor';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/media/image-compressor/',
+  },
   title: 'Image Compressor - Compress JPG, PNG & WebP Online Free',
   description: 'Reduce image file sizes by up to 80% without visible quality loss. Free, in-browser image compressor with zero server uploads and privacy guaranteed.',
   keywords: ['image compressor', 'compress images', 'reduce image size', 'online image optimizer', 'compress jpeg png', 'compress webp'],

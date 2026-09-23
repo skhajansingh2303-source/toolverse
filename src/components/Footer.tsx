@@ -200,8 +200,15 @@ export default function Footer() {
 
         </div>
 
+        {/* Publisher & Disclaimer Statement (AdSense Transparency Requirement) */}
+        <div className="pt-8 pb-4 text-[11px] text-gray-500 leading-relaxed border-t border-gray-900/80 max-w-4xl">
+          <p>
+            <strong className="text-gray-400">Legal Disclaimer:</strong> ToolsVerse App is an independent client-side utility suite developed for productivity, educational, and developer convenience. All document conversions, calculations, and cryptographic operations are executed locally within your web browser memory without server data transmission. ToolsVerse App is not affiliated with, endorsed by, or sponsored by Adobe Inc., Microsoft Corporation, or other third-party software vendors. All product names, logos, and trademarks are property of their respective owners.
+          </p>
+        </div>
+
         {/* Bottom Copyright & Guarantee Bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
           <p>© {new Date().getFullYear()} ToolsVerse App (toolsverseapp.com). All rights reserved. {tools.length} In-Browser Utilities.</p>
           
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">

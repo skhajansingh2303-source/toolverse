@@ -3,6 +3,9 @@ import ExcelToCsv from './ExcelToCsv';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/excel-to-csv/',
+  },
   title: 'Excel to CSV - Convert Excel Spreadsheets to CSV Online Free',
   description: 'Convert Excel XLSX and XLS files into CSV format client-side. Fast, secure, and privacy-friendly.',
   keywords: [

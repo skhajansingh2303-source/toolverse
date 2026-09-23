@@ -3,6 +3,9 @@ import WordToTxt from './WordToTxt';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/office/word-to-txt/',
+  },
   title: 'Word to TXT - Convert Word (.docx) to Plain Text Online',
   description: 'Convert Microsoft Word DOC and DOCX documents into raw, plain text files instantly.',
   keywords: [

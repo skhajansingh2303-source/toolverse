@@ -3,6 +3,9 @@ import PdfToMarkdown from './PdfToMarkdown';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-markdown/',
+  },
   title: 'PDF to Markdown - Convert PDF to Markdown (.md) Online Free',
   description: 'Convert PDF documents into clean, structured Markdown text with headers, tables, and lists.',
   keywords: [

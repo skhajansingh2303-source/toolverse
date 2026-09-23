@@ -4,6 +4,9 @@ import CategoryPageLayout from '@/components/CategoryPageLayout';
 import { tools, CATEGORIES } from '@/lib/tools';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/edit-pdf/',
+  },
   title: 'Edit PDF - Add Watermark, Page Numbers, Bookmarks & Crop PDF | ToolsVerse',
   description: 'Edit PDF documents directly in your browser. Add text, page numbers, watermarks, crop pages, and adjust page size.',
   keywords: ["edit pdf","watermark pdf","page numbers pdf","crop pdf","pdf editor online"],

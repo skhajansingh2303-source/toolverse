@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import WebpageToPdf from './WebpageToPdf';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/webpage-to-pdf/',
+  },
   title: 'Webpage to PDF - Convert HTML & Web Pages to PDF Online',
   description: 'Convert any webpage or HTML code into a clean, formatted PDF document instantly.',
   keywords: [

@@ -3,6 +3,9 @@ import type { Metadata } from 'next';
 import CalorieBmrCalculator from './CalorieBmrCalculator';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/calculators/calorie-bmr-calculator/',
+  },
   title: 'Weight, Calorie & BMR Calculator - Daily Calorie Needs',
   description: 'Calculate your Basal Metabolic Rate (BMR) and daily calorie intake for weight loss, maintenance, or muscle gain based on activity level.',
   keywords: ['calorie calculator', 'bmr calculator', 'weight loss calculator', 'daily calories', 'tdee calculator'],

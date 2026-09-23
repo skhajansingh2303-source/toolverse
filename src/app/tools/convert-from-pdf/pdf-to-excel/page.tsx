@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 import ToolSeoContent from '@/components/ToolSeoContent';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-excel/',
+  },
   title: 'PDF to Excel - Extract PDF Tables to Excel (.xlsx) Online Free',
   description: 'Extract tables, financial statements, and matrices from PDF files into downloadable Excel spreadsheets. 100% private in-browser conversion.',
   keywords: [
