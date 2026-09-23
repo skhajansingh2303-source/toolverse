@@ -94,10 +94,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'ToolsVerse App' }],
   metadataBase: new URL('https://toolsverseapp.com'),
-  alternates: {
-    canonical: 'https://toolsverseapp.com',
-    languages: languageAlternates,
-  },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
