@@ -3,10 +3,18 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { PDFDocument } from 'pdf-lib';
+import ToolResultCard from '@/components/ToolResultCard';
 
 interface ImageFile {
   file: File;
   previewUrl: string;
+}
+
+interface ImageToPdfResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  pageCount: number;
 }
 
 export default function ImageToPdf() {
@@ -15,6 +23,7 @@ export default function ImageToPdf() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [resultPdf, setResultPdf] = useState<ImageToPdfResult | null>(null);
   
   const [pageSize, setPageSize] = useState<'A4' | 'Letter' | 'Fit'>('A4');
   const [orientation, setOrientation] = useState<'Portrait' | 'Landscape' | 'Auto'>('Portrait');
@@ -190,16 +199,25 @@ export default function ImageToPdf() {
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'images_converted.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      const downloadFilename = 'images_converted.pdf';
 
-      setSuccess('PDF successfully generated with ' + images.length + ' page(s)!');
+      setResultPdf({
+        blobUrl: url,
+        filename: downloadFilename,
+        size: blob.size,
+        pageCount: images.length,
+      });
+
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {}
+
+      setSuccess('PDF successfully generated with ' + images.length + ' page(s)! Ready to download.');
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred while creating the PDF.');
@@ -323,6 +341,33 @@ export default function ImageToPdf() {
             {isProcessing ? 'Generating PDF...' : 'Convert to PDF'}
           </button>
         </div>
+
+        {/* Result Card with Live Preview and Download Button */}
+        {resultPdf && (
+          <ToolResultCard
+            title="Image to PDF Converted Successfully!"
+            filename={resultPdf.filename}
+            downloadUrl={resultPdf.blobUrl}
+            fileSize={resultPdf.size}
+            badgeText="Document Ready"
+            details={[
+              { label: 'Pages', value: resultPdf.pageCount },
+              { label: 'Page Format', value: pageSize },
+              { label: 'Orientation', value: orientation },
+            ]}
+            previewUrl={resultPdf.blobUrl}
+            onReset={() => {
+              setResultPdf(null);
+              setImages([]);
+              setSuccess('');
+            }}
+            resetButtonText="Convert More Images"
+            nextTool={{
+              name: 'Compress Generated PDF',
+              url: '/tools/optimize-pdf/compress-pdf/',
+            }}
+          />
+        )}
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
