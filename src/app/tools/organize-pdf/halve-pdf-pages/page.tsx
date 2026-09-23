@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import HalvePdfPages from './HalvePdfPages';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <HalvePdfPages />;
+  return (
+    <>
+      <HalvePdfPages />
+      <AutoToolSeo slug="halve-pdf-pages" />
+    </>
+  );
 }

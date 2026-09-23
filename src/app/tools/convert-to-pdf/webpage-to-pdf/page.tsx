@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import WebpageToPdf from './WebpageToPdf';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function WebpageToPdfPage() {
-  return <WebpageToPdf />;
+  return (
+    <>
+      <WebpageToPdf />
+      <AutoToolSeo slug="webpage-to-pdf" />
+    </>
+  );
 }

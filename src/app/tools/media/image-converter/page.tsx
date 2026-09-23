@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ImageConverter from './ImageConverter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ImageConverter />;
+  return (
+    <>
+      <ImageConverter />
+      <AutoToolSeo slug="image-converter" />
+    </>
+  );
 }

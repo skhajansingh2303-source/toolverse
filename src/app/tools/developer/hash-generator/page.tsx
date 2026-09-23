@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import HashGenerator from './HashGenerator';
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return <HashGenerator />;
+    return (
+    <>
+      <HashGenerator />
+      <AutoToolSeo slug="hash-generator" />
+    </>
+  );
 }

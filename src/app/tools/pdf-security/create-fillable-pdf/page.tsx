@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import CreateFillablePdf from './CreateFillablePdf';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CreateFillablePdf />;
+  return (
+    <>
+      <CreateFillablePdf />
+      <AutoToolSeo slug="create-fillable-pdf" />
+    </>
+  );
 }

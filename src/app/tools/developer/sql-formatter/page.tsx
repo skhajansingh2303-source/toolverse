@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import SqlFormatter from './SqlFormatter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function SqlFormatterPage() {
-  return <SqlFormatter />;
+  return (
+    <>
+      <SqlFormatter />
+      <AutoToolSeo slug="sql-formatter" />
+    </>
+  );
 }

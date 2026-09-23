@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import QrCodeGenerator from './QrCodeGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <QrCodeGenerator />;
+  return (
+    <>
+      <QrCodeGenerator />
+      <AutoToolSeo slug="qr-code-generator" />
+    </>
+  );
 }

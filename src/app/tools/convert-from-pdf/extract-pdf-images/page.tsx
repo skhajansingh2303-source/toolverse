@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ExtractPdfImages from './ExtractPdfImages';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ExtractPdfImages />;
+  return (
+    <>
+      <ExtractPdfImages />
+      <AutoToolSeo slug="extract-pdf-images" />
+    </>
+  );
 }

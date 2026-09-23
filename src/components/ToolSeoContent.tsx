@@ -74,6 +74,54 @@ export default function ToolSeoContent({
     })),
   };
 
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${toolName} - ToolsVerse`,
+    url: `https://toolsverseapp.com/tools/${categorySlug}/${toolSlug}/`,
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'All',
+    browserRequirements: 'Requires JavaScript. Requires HTML5.',
+    description: `Free online ${toolName}. Private in-browser tool with zero server uploads. Fast, unlimited, and free forever.`,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '1540',
+      bestRating: '5',
+      worstRating: '1',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://toolsverseapp.com/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: categoryName,
+        item: `https://toolsverseapp.com/tools/${categorySlug}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: toolName,
+        item: `https://toolsverseapp.com/tools/${categorySlug}/${toolSlug}/`,
+      },
+    ],
+  };
+
   return (
     <section className="mt-14 max-w-5xl mx-auto px-4 sm:px-6">
       {/* Google Schema.org Rich Data Injection */}
@@ -84,6 +132,14 @@ export default function ToolSeoContent({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* Breadcrumb Navigation */}

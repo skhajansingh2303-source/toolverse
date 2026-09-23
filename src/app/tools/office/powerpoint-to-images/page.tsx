@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PowerpointToImages from './PowerpointToImages';
 import { Metadata } from 'next';
 
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PowerpointToImages />;
+  return (
+    <>
+      <PowerpointToImages />
+      <AutoToolSeo slug="powerpoint-to-images" />
+    </>
+  );
 }

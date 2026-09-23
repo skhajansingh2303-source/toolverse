@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import AspectRatioCalculator from './AspectRatioCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <AspectRatioCalculator />;
+  return (
+    <>
+      <AspectRatioCalculator />
+      <AutoToolSeo slug="aspect-ratio-calculator" />
+    </>
+  );
 }

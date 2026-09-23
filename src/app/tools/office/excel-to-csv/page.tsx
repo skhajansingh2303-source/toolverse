@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import ExcelToCsv from './ExcelToCsv';
 import { Metadata } from 'next';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ExcelToCsv />;
+  return (
+    <>
+      <ExcelToCsv />
+      <AutoToolSeo slug="excel-to-csv" />
+    </>
+  );
 }

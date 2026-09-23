@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import NumberPdf from './NumberPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <NumberPdf />;
+  return (
+    <>
+      <NumberPdf />
+      <AutoToolSeo slug="number-pdf" />
+    </>
+  );
 }

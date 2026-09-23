@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import WordEditor from './WordEditor';
 
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WordEditor />;
+  return (
+    <>
+      <WordEditor />
+      <AutoToolSeo slug="word-editor" />
+    </>
+  );
 }

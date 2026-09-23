@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import GpaCalculator from './GpaCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <GpaCalculator />;
+  return (
+    <>
+      <GpaCalculator />
+      <AutoToolSeo slug="gpa-calculator" />
+    </>
+  );
 }

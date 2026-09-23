@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PowerpointToHtml from './PowerpointToHtml';
 import { Metadata } from 'next';
 
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PowerpointToHtml />;
+  return (
+    <>
+      <PowerpointToHtml />
+      <AutoToolSeo slug="powerpoint-to-html" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import RemovePdfPages from './RemovePdfPages';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RemovePdfPages />;
+  return (
+    <>
+      <RemovePdfPages />
+      <AutoToolSeo slug="remove-pdf-pages" />
+    </>
+  );
 }

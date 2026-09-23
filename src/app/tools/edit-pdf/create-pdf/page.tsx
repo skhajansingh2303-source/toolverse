@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import CreatePdf from './CreatePdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function CreatePdfPage() {
-  return <CreatePdf />;
+  return (
+    <>
+      <CreatePdf />
+      <AutoToolSeo slug="create-pdf" />
+    </>
+  );
 }

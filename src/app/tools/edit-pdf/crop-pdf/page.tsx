@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import CropPdf from './CropPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CropPdf />;
+  return (
+    <>
+      <CropPdf />
+      <AutoToolSeo slug="crop-pdf" />
+    </>
+  );
 }

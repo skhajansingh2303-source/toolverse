@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import OverlayPdf from './OverlayPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function OverlayPdfPage() {
-  return <OverlayPdf />;
+  return (
+    <>
+      <OverlayPdf />
+      <AutoToolSeo slug="overlay-pdf" />
+    </>
+  );
 }

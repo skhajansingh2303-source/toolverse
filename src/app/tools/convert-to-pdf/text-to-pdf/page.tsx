@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import TextToPdf from './TextToPdf';
 import { Metadata } from 'next';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <TextToPdf />;
+  return (
+    <>
+      <TextToPdf />
+      <AutoToolSeo slug="text-to-pdf" />
+    </>
+  );
 }

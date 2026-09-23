@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import TextDiffChecker from './TextDiffChecker';
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return <TextDiffChecker />;
+    return (
+    <>
+      <TextDiffChecker />
+      <AutoToolSeo slug="text-diff-checker" />
+    </>
+  );
 }

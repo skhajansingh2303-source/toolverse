@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import BookmarkPdf from './BookmarkPdf';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <BookmarkPdf />;
+  return (
+    <>
+      <BookmarkPdf />
+      <AutoToolSeo slug="bookmark-pdf" />
+    </>
+  );
 }

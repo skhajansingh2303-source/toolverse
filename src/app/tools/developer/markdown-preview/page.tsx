@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import MarkdownPreview from './MarkdownPreview';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function MarkdownPage() {
-  return <MarkdownPreview />;
+  return (
+    <>
+      <MarkdownPreview />
+      <AutoToolSeo slug="markdown-preview" />
+    </>
+  );
 }

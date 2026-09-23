@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ColorPaletteGenerator from './ColorPaletteGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ColorPaletteGenerator />;
+  return (
+    <>
+      <ColorPaletteGenerator />
+      <AutoToolSeo slug="color-palette-generator" />
+    </>
+  );
 }

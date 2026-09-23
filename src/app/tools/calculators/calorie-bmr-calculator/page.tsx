@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import CalorieBmrCalculator from './CalorieBmrCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CalorieBmrCalculator />;
+  return (
+    <>
+      <CalorieBmrCalculator />
+      <AutoToolSeo slug="calorie-bmr-calculator" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import TimestampConverter from './TimestampConverter';
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return <TimestampConverter />;
+    return (
+    <>
+      <TimestampConverter />
+      <AutoToolSeo slug="timestamp-converter" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import InvoiceGenerator from './InvoiceGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <InvoiceGenerator />;
+  return (
+    <>
+      <InvoiceGenerator />
+      <AutoToolSeo slug="create-invoice" />
+    </>
+  );
 }

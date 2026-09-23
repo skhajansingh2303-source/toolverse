@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import EditPdf from './EditPdf';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function EditPdfPage() {
-  return <EditPdf />;
+  return (
+    <>
+      <EditPdf />
+      <AutoToolSeo slug="edit-pdf" />
+    </>
+  );
 }

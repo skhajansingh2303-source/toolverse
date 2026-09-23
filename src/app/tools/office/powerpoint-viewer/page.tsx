@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import PowerpointViewer from './PowerpointViewer';
 
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PowerpointViewer />;
+  return (
+    <>
+      <PowerpointViewer />
+      <AutoToolSeo slug="powerpoint-viewer" />
+    </>
+  );
 }

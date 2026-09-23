@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import LoanCalculator from './LoanCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <LoanCalculator />;
+  return (
+    <>
+      <LoanCalculator />
+      <AutoToolSeo slug="loan-calculator" />
+    </>
+  );
 }

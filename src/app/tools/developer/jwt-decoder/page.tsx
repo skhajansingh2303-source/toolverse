@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import JwtDecoder from './JwtDecoder';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function JwtDecoderPage() {
-  return <JwtDecoder />;
+  return (
+    <>
+      <JwtDecoder />
+      <AutoToolSeo slug="jwt-decoder" />
+    </>
+  );
 }

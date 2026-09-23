@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import JsonFormatter from './JsonFormatter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <JsonFormatter />;
+  return (
+    <>
+      <JsonFormatter />
+      <AutoToolSeo slug="json-formatter" />
+    </>
+  );
 }

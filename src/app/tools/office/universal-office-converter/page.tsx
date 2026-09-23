@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import UniversalOfficeConverter from './UniversalOfficeConverter';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <UniversalOfficeConverter />;
+  return (
+    <>
+      <UniversalOfficeConverter />
+      <AutoToolSeo slug="universal-office-converter" />
+    </>
+  );
 }

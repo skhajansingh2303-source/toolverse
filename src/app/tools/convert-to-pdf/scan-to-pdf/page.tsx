@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import ScanToPdf from './ScanToPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ScanToPdf />;
+  return (
+    <>
+      <ScanToPdf />
+      <AutoToolSeo slug="scan-to-pdf" />
+    </>
+  );
 }

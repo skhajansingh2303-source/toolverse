@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import PdfToPdfa from './PdfToPdfa';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PdfToPdfa />;
+  return (
+    <>
+      <PdfToPdfa />
+      <AutoToolSeo slug="pdf-to-pdfa" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import PdfConverter from './PdfConverter';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function PdfConverterPage() {
-  return <PdfConverter />;
+  return (
+    <>
+      <PdfConverter />
+      <AutoToolSeo slug="pdf-converter" />
+    </>
+  );
 }

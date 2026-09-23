@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import RegexTester from './RegexTester';
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return <RegexTester />;
+    return (
+    <>
+      <RegexTester />
+      <AutoToolSeo slug="regex-tester" />
+    </>
+  );
 }

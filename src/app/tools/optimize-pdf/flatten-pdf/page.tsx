@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import FlattenPdf from './FlattenPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <FlattenPdf />;
+  return (
+    <>
+      <FlattenPdf />
+      <AutoToolSeo slug="flatten-pdf" />
+    </>
+  );
 }

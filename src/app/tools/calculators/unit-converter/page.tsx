@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import UnitConverter from './UnitConverter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <UnitConverter />;
+  return (
+    <>
+      <UnitConverter />
+      <AutoToolSeo slug="unit-converter" />
+    </>
+  );
 }

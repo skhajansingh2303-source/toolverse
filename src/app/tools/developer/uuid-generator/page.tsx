@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import UuidGenerator from './UuidGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function UuidGeneratorPage() {
-  return <UuidGenerator />;
+  return (
+    <>
+      <UuidGenerator />
+      <AutoToolSeo slug="uuid-generator" />
+    </>
+  );
 }

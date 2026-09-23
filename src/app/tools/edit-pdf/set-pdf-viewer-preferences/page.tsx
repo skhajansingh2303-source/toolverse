@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import SetPdfViewerPreferences from './SetPdfViewerPreferences';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <SetPdfViewerPreferences />;
+  return (
+    <>
+      <SetPdfViewerPreferences />
+      <AutoToolSeo slug="set-pdf-viewer-preferences" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import WordToTxt from './WordToTxt';
 import { Metadata } from 'next';
 
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WordToTxt />;
+  return (
+    <>
+      <WordToTxt />
+      <AutoToolSeo slug="word-to-txt" />
+    </>
+  );
 }

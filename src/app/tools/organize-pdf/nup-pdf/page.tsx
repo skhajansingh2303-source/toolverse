@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import NupPdf from './NupPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <NupPdf />;
+  return (
+    <>
+      <NupPdf />
+      <AutoToolSeo slug="nup-pdf" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import RepairPdf from './RepairPdf';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RepairPdf />;
+  return (
+    <>
+      <RepairPdf />
+      <AutoToolSeo slug="repair-pdf" />
+    </>
+  );
 }

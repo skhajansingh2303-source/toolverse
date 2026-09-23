@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PdfToHtml from './PdfToHtml';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PdfToHtml />;
+  return (
+    <>
+      <PdfToHtml />
+      <AutoToolSeo slug="pdf-to-html" />
+    </>
+  );
 }

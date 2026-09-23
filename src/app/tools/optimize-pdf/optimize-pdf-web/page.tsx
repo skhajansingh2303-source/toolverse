@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import OptimizePdfWeb from './OptimizePdfWeb';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function OptimizePdfWebPage() {
-  return <OptimizePdfWeb />;
+  return (
+    <>
+      <OptimizePdfWeb />
+      <AutoToolSeo slug="optimize-pdf-web" />
+    </>
+  );
 }

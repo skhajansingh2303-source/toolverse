@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import ElectronicInvoice from './ElectronicInvoice';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ElectronicInvoice />;
+  return (
+    <>
+      <ElectronicInvoice />
+      <AutoToolSeo slug="electronic-invoice" />
+    </>
+  );
 }

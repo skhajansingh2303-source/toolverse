@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ImageResizer from './ImageResizer';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ImageResizer />;
+  return (
+    <>
+      <ImageResizer />
+      <AutoToolSeo slug="image-resizer" />
+    </>
+  );
 }

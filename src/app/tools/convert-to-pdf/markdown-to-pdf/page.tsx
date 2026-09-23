@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import MarkdownToPdf from './MarkdownToPdf';
 import { Metadata } from 'next';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <MarkdownToPdf />;
+  return (
+    <>
+      <MarkdownToPdf />
+      <AutoToolSeo slug="markdown-to-pdf" />
+    </>
+  );
 }

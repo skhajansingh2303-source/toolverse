@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import WordCounter from './WordCounter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WordCounter />;
+  return (
+    <>
+      <WordCounter />
+      <AutoToolSeo slug="word-counter" />
+    </>
+  );
 }

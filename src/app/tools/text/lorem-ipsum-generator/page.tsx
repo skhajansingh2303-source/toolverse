@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import LoremIpsumGenerator from './LoremIpsumGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function LoremIpsumPage() {
-  return <LoremIpsumGenerator />;
+  return (
+    <>
+      <LoremIpsumGenerator />
+      <AutoToolSeo slug="lorem-ipsum-generator" />
+    </>
+  );
 }

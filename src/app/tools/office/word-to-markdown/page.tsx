@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import WordToMarkdown from './WordToMarkdown';
 import { Metadata } from 'next';
 
@@ -14,5 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <WordToMarkdown />;
+  return (
+    <>
+      <WordToMarkdown />
+      <AutoToolSeo slug="word-to-markdown" />
+    </>
+  );
 }

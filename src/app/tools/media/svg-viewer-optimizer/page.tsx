@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import SvgViewerOptimizer from './SvgViewerOptimizer';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <SvgViewerOptimizer />;
+  return (
+    <>
+      <SvgViewerOptimizer />
+      <AutoToolSeo slug="svg-viewer-optimizer" />
+    </>
+  );
 }

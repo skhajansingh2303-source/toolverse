@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import FillPdfForm from './FillPdfForm';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <FillPdfForm />;
+  return (
+    <>
+      <FillPdfForm />
+      <AutoToolSeo slug="fill-pdf-form" />
+    </>
+  );
 }

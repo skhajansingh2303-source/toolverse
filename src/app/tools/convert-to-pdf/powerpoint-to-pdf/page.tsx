@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PowerpointToPdf from './PowerpointToPdf';
 import { Metadata } from 'next';
 
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PowerpointToPdf />;
+  return (
+    <>
+      <PowerpointToPdf />
+      <AutoToolSeo slug="powerpoint-to-pdf" />
+    </>
+  );
 }

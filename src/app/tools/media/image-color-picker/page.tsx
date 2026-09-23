@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ImageColorPicker from './ImageColorPicker';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ImageColorPicker />;
+  return (
+    <>
+      <ImageColorPicker />
+      <AutoToolSeo slug="image-color-picker" />
+    </>
+  );
 }

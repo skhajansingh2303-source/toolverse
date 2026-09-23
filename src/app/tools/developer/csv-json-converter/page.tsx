@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import CsvJsonConverter from './CsvJsonConverter';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CsvJsonConverter />;
+  return (
+    <>
+      <CsvJsonConverter />
+      <AutoToolSeo slug="csv-json-converter" />
+    </>
+  );
 }

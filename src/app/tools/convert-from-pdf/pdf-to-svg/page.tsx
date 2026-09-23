@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PdfToSvg from './PdfToSvg';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PdfToSvg />;
+  return (
+    <>
+      <PdfToSvg />
+      <AutoToolSeo slug="pdf-to-svg" />
+    </>
+  );
 }

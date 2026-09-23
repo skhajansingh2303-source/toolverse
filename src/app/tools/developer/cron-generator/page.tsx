@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import CronGenerator from './CronGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function CronGeneratorPage() {
-  return <CronGenerator />;
+  return (
+    <>
+      <CronGenerator />
+      <AutoToolSeo slug="cron-generator" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import PasswordGenerator from './PasswordGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PasswordGenerator />;
+  return (
+    <>
+      <PasswordGenerator />
+      <AutoToolSeo slug="password-generator" />
+    </>
+  );
 }

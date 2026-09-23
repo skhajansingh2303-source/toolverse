@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import ComparePdf from './ComparePdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function ComparePdfPage() {
-  return <ComparePdf />;
+  return (
+    <>
+      <ComparePdf />
+      <AutoToolSeo slug="compare-pdf" />
+    </>
+  );
 }

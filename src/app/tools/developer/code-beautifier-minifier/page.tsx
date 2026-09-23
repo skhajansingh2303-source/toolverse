@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import CodeBeautifierMinifier from './CodeBeautifierMinifier';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function CodeBeautifierPage() {
-  return <CodeBeautifierMinifier />;
+  return (
+    <>
+      <CodeBeautifierMinifier />
+      <AutoToolSeo slug="code-beautifier-minifier" />
+    </>
+  );
 }

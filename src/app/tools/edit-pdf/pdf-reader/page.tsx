@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import PdfReader from './PdfReader';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PdfReader />;
+  return (
+    <>
+      <PdfReader />
+      <AutoToolSeo slug="pdf-reader" />
+    </>
+  );
 }

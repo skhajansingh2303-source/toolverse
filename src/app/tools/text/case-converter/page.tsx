@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import CaseConverter from './CaseConverter';
 
 export const metadata = {
@@ -7,5 +8,10 @@ export const metadata = {
 };
 
 export default function Page() {
-    return <CaseConverter />;
+    return (
+    <>
+      <CaseConverter />
+      <AutoToolSeo slug="case-converter" />
+    </>
+  );
 }

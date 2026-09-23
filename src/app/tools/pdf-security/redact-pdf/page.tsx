@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import RedactPdf from './RedactPdf';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RedactPdf />;
+  return (
+    <>
+      <RedactPdf />
+      <AutoToolSeo slug="redact-pdf" />
+    </>
+  );
 }

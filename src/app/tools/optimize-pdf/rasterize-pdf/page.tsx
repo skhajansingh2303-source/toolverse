@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import RasterizePdf from './RasterizePdf';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RasterizePdf />;
+  return (
+    <>
+      <RasterizePdf />
+      <AutoToolSeo slug="rasterize-pdf" />
+    </>
+  );
 }

@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import ExcelToJson from './ExcelToJson';
 import { Metadata } from 'next';
 
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ExcelToJson />;
+  return (
+    <>
+      <ExcelToJson />
+      <AutoToolSeo slug="excel-to-json" />
+    </>
+  );
 }

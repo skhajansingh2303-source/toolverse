@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import FaviconGenerator from './FaviconGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <FaviconGenerator />;
+  return (
+    <>
+      <FaviconGenerator />
+      <AutoToolSeo slug="favicon-generator" />
+    </>
+  );
 }

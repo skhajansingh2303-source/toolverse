@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import PdfOcr from './PdfOcr';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function PdfOcrPage() {
-  return <PdfOcr />;
+  return (
+    <>
+      <PdfOcr />
+      <AutoToolSeo slug="pdf-ocr" />
+    </>
+  );
 }

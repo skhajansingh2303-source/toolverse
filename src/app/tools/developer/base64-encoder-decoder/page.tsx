@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import Base64Tool from './Base64Tool';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Base64Page() {
-  return <Base64Tool />;
+  return (
+    <>
+      <Base64Tool />
+      <AutoToolSeo slug="base64-encoder-decoder" />
+    </>
+  );
 }

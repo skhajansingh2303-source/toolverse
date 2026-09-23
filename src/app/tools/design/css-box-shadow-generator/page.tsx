@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import CssBoxShadowGenerator from './CssBoxShadowGenerator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CssBoxShadowGenerator />;
+  return (
+    <>
+      <CssBoxShadowGenerator />
+      <AutoToolSeo slug="css-box-shadow-generator" />
+    </>
+  );
 }

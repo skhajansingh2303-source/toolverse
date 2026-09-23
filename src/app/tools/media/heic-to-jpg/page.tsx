@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import HeicToJpg from './HeicToJpg';
 import { Metadata } from 'next';
 
@@ -17,5 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <HeicToJpg />;
+  return (
+    <>
+      <HeicToJpg />
+      <AutoToolSeo slug="heic-to-jpg" />
+    </>
+  );
 }

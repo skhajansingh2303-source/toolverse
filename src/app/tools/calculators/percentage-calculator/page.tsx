@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import PercentageCalculator from './PercentageCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PercentageCalculator />;
+  return (
+    <>
+      <PercentageCalculator />
+      <AutoToolSeo slug="percentage-calculator" />
+    </>
+  );
 }

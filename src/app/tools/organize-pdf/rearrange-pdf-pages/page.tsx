@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import RearrangePdfPages from './RearrangePdfPages';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <RearrangePdfPages />;
+  return (
+    <>
+      <RearrangePdfPages />
+      <AutoToolSeo slug="rearrange-pdf-pages" />
+    </>
+  );
 }

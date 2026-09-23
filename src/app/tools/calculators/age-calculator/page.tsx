@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import type { Metadata } from 'next';
 import AgeCalculator from './AgeCalculator';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <AgeCalculator />;
+  return (
+    <>
+      <AgeCalculator />
+      <AutoToolSeo slug="age-calculator" />
+    </>
+  );
 }

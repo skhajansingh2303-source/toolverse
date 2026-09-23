@@ -1,3 +1,4 @@
+import AutoToolSeo from '@/components/AutoToolSeo';
 import { Metadata } from 'next';
 import UrlTool from './UrlTool';
 
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function UrlPage() {
-  return <UrlTool />;
+  return (
+    <>
+      <UrlTool />
+      <AutoToolSeo slug="url-encoder-decoder" />
+    </>
+  );
 }
