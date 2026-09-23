@@ -652,17 +652,30 @@ export default function PdfToWord() {
         </nav>
 
         {/* Header */}
-        <header className="mb-8 text-center">
+        <header className="mb-6 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 dark:bg-primary-950/60 border border-primary-200 dark:border-primary-800 text-xs font-semibold text-primary-700 dark:text-primary-300 mb-3">
             <span>✨ Authentic Microsoft Word DOCX Converter</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
             PDF to Word Converter
           </h1>
-          <p className="text-base text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
+          <p className="text-base text-gray-600 dark:text-slate-300 max-w-2xl mx-auto mb-5">
             Convert PDF documents into fully editable Microsoft Word (.docx) documents with intact
             paragraphs, structural headings, tables, and typography.
           </p>
+
+          {/* iLovePDF Premium Unlocked Free Banner */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-emerald-500/10 to-teal-500/10 border border-emerald-500/30 text-xs text-gray-700 dark:text-slate-200 max-w-3xl mx-auto shadow-xs text-left">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">👑</span>
+              <span>
+                <strong>iLovePDF Premium Feature Unlocked Free:</strong> Full editable DOCX reconstruction, table preservation, zero daily wait time, and 100% private in-browser processing.
+              </span>
+            </div>
+            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-600 text-white shadow-2xs whitespace-nowrap">
+              100% Free & Unlimited
+            </span>
+          </div>
         </header>
 
         {/* Horizontal AdSlot */}

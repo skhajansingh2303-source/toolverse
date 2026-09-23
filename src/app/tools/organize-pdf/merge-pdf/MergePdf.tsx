@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { PDFDocument } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
 
 interface PdfItem {
   id: string;
@@ -12,6 +13,13 @@ interface PdfItem {
   name: string;
   size: number;
   pages: number | null;
+}
+
+interface MergeResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  pageCount: number;
 }
 
 export default function MergePdf() {
@@ -22,6 +30,7 @@ export default function MergePdf() {
   const [outputName, setOutputName] = useState('merged_document.pdf');
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [mergeResult, setMergeResult] = useState<MergeResult | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const formatFileSize = (bytes: number) => {
@@ -121,15 +130,27 @@ export default function MergePdf() {
       const mergedBytes = await mergedPdf.save();
       const blob = new Blob([mergedBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
       const downloadFilename = outputName.endsWith('.pdf') ? outputName : `${outputName}.pdf`;
-      link.download = downloadFilename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+
+      // Store persistent result so the download button and preview remain active
+      setMergeResult({
+        blobUrl: url,
+        filename: downloadFilename,
+        size: blob.size,
+        pageCount: mergedPdf.getPageCount(),
+      });
+
+      // Auto trigger download
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {
+        // Fallback to manual download button if popup blocked
+      }
 
       setProgress(100);
       setSuccess(
@@ -340,6 +361,32 @@ export default function MergePdf() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Result Card with Persistent Download Button */}
+      {mergeResult && (
+        <ToolResultCard
+          title="PDFs Merged Successfully!"
+          filename={mergeResult.filename}
+          downloadUrl={mergeResult.blobUrl}
+          fileSize={mergeResult.size}
+          badgeText="Document Ready"
+          details={[
+            { label: 'Total Pages', value: mergeResult.pageCount },
+            { label: 'Combined From', value: `${items.length} files` },
+          ]}
+          previewUrl={mergeResult.blobUrl}
+          onReset={() => {
+            setMergeResult(null);
+            setItems([]);
+            setSuccess('');
+          }}
+          resetButtonText="Merge Another Set of PDFs"
+          nextTool={{
+            name: 'Compress Merged PDF',
+            url: '/tools/optimize-pdf/compress-pdf/',
+          }}
+        />
       )}
 
       {/* Guide section */}

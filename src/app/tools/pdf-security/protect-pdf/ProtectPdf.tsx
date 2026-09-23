@@ -6,6 +6,13 @@ import { PDFDocument, PDFName, PDFNumber, PDFHexString } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
 import DocumentLiveViewer from '@/components/DocumentLiveViewer';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
+
+interface ProtectResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+}
 
 export default function ProtectPdf() {
   const [file, setFile] = useState<File | null>(null);
@@ -26,6 +33,7 @@ export default function ProtectPdf() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [protectResult, setProtectResult] = useState<ProtectResult | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -181,15 +189,24 @@ export default function ProtectPdf() {
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const downloadUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = `protected_${file.name}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(downloadUrl);
+      const downloadFilename = `protected_${file.name}`;
 
-      setSuccess('PDF successfully protected and encrypted! Your secured file has downloaded.');
+      setProtectResult({
+        blobUrl: downloadUrl,
+        filename: downloadFilename,
+        size: blob.size,
+      });
+
+      try {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {}
+
+      setSuccess('PDF successfully protected and encrypted! Your secured file is ready.');
     } catch (err: any) {
       console.error(err);
       setError('Failed to encrypt PDF: ' + (err.message || 'Unknown error occurred.'));
@@ -470,6 +487,33 @@ export default function ProtectPdf() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Result Card with Persistent Download Button */}
+        {protectResult && (
+          <ToolResultCard
+            title="PDF Encrypted & Locked Successfully!"
+            filename={protectResult.filename}
+            downloadUrl={protectResult.blobUrl}
+            fileSize={protectResult.size}
+            badgeText="Encrypted with 128-bit AES"
+            details={[
+              { label: 'Protection', value: 'Password Required to Open' },
+              { label: 'Security', value: '100% In-Browser' },
+            ]}
+            onReset={() => {
+              setProtectResult(null);
+              setFile(null);
+              setPassword('');
+              setConfirmPassword('');
+              setSuccess('');
+            }}
+            resetButtonText="Protect Another PDF"
+            nextTool={{
+              name: 'Unlock PDF',
+              url: '/tools/pdf-security/unlock-pdf/',
+            }}
+          />
         )}
 
         {/* How to Use */}

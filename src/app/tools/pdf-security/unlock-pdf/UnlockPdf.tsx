@@ -6,6 +6,14 @@ import { PDFDocument } from 'pdf-lib';
 import AdSlot from '@/components/AdSlot';
 import DocumentLiveViewer from '@/components/DocumentLiveViewer';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
+
+interface UnlockResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  pageCount: number;
+}
 
 export default function UnlockPdf() {
   const [file, setFile] = useState<File | null>(null);
@@ -18,6 +26,7 @@ export default function UnlockPdf() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [unlockResult, setUnlockResult] = useState<UnlockResult | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -106,13 +115,23 @@ export default function UnlockPdf() {
       const pdfBytes = await cleanDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const downloadUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = `unlocked_${file.name.replace(/^protected_/, '')}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(downloadUrl);
+      const downloadFilename = `unlocked_${file.name.replace(/^protected_/, '')}`;
+
+      setUnlockResult({
+        blobUrl: downloadUrl,
+        filename: downloadFilename,
+        size: blob.size,
+        pageCount,
+      });
+
+      try {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {}
 
       setSuccess(`Successfully removed restrictions and saved clean PDF (${pageCount} pages)!`);
     } catch (err: any) {
@@ -301,6 +320,33 @@ export default function UnlockPdf() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Result Card with Persistent Download Button */}
+        {unlockResult && (
+          <ToolResultCard
+            title="PDF Unlocked & Restrictions Removed!"
+            filename={unlockResult.filename}
+            downloadUrl={unlockResult.blobUrl}
+            fileSize={unlockResult.size}
+            badgeText="Restrictions Stripped"
+            details={[
+              { label: 'Total Pages', value: unlockResult.pageCount },
+              { label: 'Status', value: 'Print, Copy & Edit Enabled' },
+            ]}
+            previewUrl={unlockResult.blobUrl}
+            onReset={() => {
+              setUnlockResult(null);
+              setFile(null);
+              setPassword('');
+              setSuccess('');
+            }}
+            resetButtonText="Unlock Another PDF"
+            nextTool={{
+              name: 'Compress PDF',
+              url: '/tools/optimize-pdf/compress-pdf/',
+            }}
+          />
         )}
 
         {/* How to Use */}

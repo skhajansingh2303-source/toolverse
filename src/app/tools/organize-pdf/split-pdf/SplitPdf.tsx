@@ -5,6 +5,15 @@ import Link from 'next/link';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+
+interface SplitResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  description: string;
+  isZip: boolean;
+}
 
 export default function SplitPdf() {
   const [file, setFile] = useState<File | null>(null);
@@ -15,6 +24,7 @@ export default function SplitPdf() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [splitResult, setSplitResult] = useState<SplitResult | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (uploadedFile: File) => {
@@ -112,12 +122,24 @@ export default function SplitPdf() {
         const newBytes = await newDoc.save();
         const blob = new Blob([newBytes as BlobPart], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
+        const downloadFilename = `extracted_pages_${selectedPages.join('_')}.pdf`;
 
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `extracted_pages_${selectedPages.join('_')}.pdf`;
-        a.click();
-        URL.revokeObjectURL(url);
+        setSplitResult({
+          blobUrl: url,
+          filename: downloadFilename,
+          size: blob.size,
+          description: `${selectedPages.length} Pages Extracted`,
+          isZip: false,
+        });
+
+        try {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = downloadFilename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (e) {}
 
         setSuccess(`Successfully extracted ${selectedPages.length} pages into a single PDF.`);
       } else {
@@ -144,15 +166,26 @@ export default function SplitPdf() {
         });
 
         const url = URL.createObjectURL(zipBlob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${baseName}_all_${totalPages}_pages.zip`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const downloadFilename = `${baseName}_all_${totalPages}_pages.zip`;
 
-        setSuccess(`Successfully generated and downloaded ZIP archive containing all ${totalPages} separate PDF pages!`);
+        setSplitResult({
+          blobUrl: url,
+          filename: downloadFilename,
+          size: zipBlob.size,
+          description: `All ${totalPages} Pages in ZIP`,
+          isZip: true,
+        });
+
+        try {
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = downloadFilename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (e) {}
+
+        setSuccess(`Successfully generated ZIP archive containing all ${totalPages} separate PDF pages!`);
       }
     } catch (err: any) {
       setError('Error while processing: ' + err.message);
@@ -376,6 +409,33 @@ export default function SplitPdf() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Result Card with Persistent Download Button */}
+      {splitResult && (
+        <ToolResultCard
+          title="PDF Split Completed Successfully!"
+          filename={splitResult.filename}
+          downloadUrl={splitResult.blobUrl}
+          fileSize={splitResult.size}
+          badgeText="Ready to Download"
+          details={[
+            { label: 'Mode', value: mode === 'extract' ? 'Selected Pages' : 'All Pages (ZIP)' },
+            { label: 'Output Details', value: splitResult.description },
+          ]}
+          previewUrl={!splitResult.isZip ? splitResult.blobUrl : undefined}
+          onReset={() => {
+            setSplitResult(null);
+            setFile(null);
+            setSelectedPages([]);
+            setSuccess('');
+          }}
+          resetButtonText="Split Another PDF"
+          nextTool={{
+            name: 'Merge Extracted PDFs',
+            url: '/tools/organize-pdf/merge-pdf/',
+          }}
+        />
       )}
 
       {/* Explanation Guide */}

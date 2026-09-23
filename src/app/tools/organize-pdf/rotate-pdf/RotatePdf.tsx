@@ -3,6 +3,14 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { PDFDocument, degrees } from 'pdf-lib';
+import ToolResultCard from '@/components/ToolResultCard';
+
+interface RotateResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  rotationInfo: string;
+}
 
 export default function RotatePdf() {
   const [file, setFile] = useState<File | null>(null);
@@ -14,6 +22,7 @@ export default function RotatePdf() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [rotateResult, setRotateResult] = useState<RotateResult | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -96,16 +105,28 @@ export default function RotatePdf() {
       const rotatedBytes = await pdfDoc.save();
       const blob = new Blob([rotatedBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'rotated_' + file.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      const downloadFilename = 'rotated_' + file.name;
 
-      setSuccess('PDF rotated successfully! Download started.');
+      setRotateResult({
+        blobUrl: url,
+        filename: downloadFilename,
+        size: blob.size,
+        rotationInfo:
+          rotationMode === 'all'
+            ? `All ${totalPages} pages by ${globalRotation}°`
+            : `Selected pages by ${specificRotation}°`,
+      });
+
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {}
+
+      setSuccess('PDF rotated successfully! Ready to download.');
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred while rotating the PDF.');
@@ -236,6 +257,32 @@ export default function RotatePdf() {
             </div>
           )}
         </div>
+
+        {/* Result Card with Persistent Download Button */}
+        {rotateResult && (
+          <ToolResultCard
+            title="PDF Rotated Successfully!"
+            filename={rotateResult.filename}
+            downloadUrl={rotateResult.blobUrl}
+            fileSize={rotateResult.size}
+            badgeText="Orientation Updated"
+            details={[
+              { label: 'Rotation', value: rotateResult.rotationInfo },
+              { label: 'Total Pages', value: totalPages },
+            ]}
+            previewUrl={rotateResult.blobUrl}
+            onReset={() => {
+              setRotateResult(null);
+              setFile(null);
+              setSuccess('');
+            }}
+            resetButtonText="Rotate Another PDF"
+            nextTool={{
+              name: 'Rearrange PDF Pages',
+              url: '/tools/organize-pdf/rearrange-pdf-pages/',
+            }}
+          />
+        )}
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>

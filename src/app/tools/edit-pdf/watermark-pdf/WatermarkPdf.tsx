@@ -3,6 +3,13 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
+import ToolResultCard from '@/components/ToolResultCard';
+
+interface WatermarkResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+}
 
 export default function WatermarkPdf() {
   const [file, setFile] = useState<File | null>(null);
@@ -19,6 +26,7 @@ export default function WatermarkPdf() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [watermarkResult, setWatermarkResult] = useState<WatermarkResult | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -140,16 +148,24 @@ export default function WatermarkPdf() {
       const modifiedBytes = await pdfDoc.save();
       const blob = new Blob([modifiedBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'watermarked_' + file.name;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      const downloadFilename = 'watermarked_' + file.name;
 
-      setSuccess('Watermark added successfully! Download started.');
+      setWatermarkResult({
+        blobUrl: url,
+        filename: downloadFilename,
+        size: blob.size,
+      });
+
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = downloadFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (e) {}
+
+      setSuccess('Watermark added successfully! Ready to download.');
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred while adding watermark to the PDF.');
@@ -320,6 +336,32 @@ export default function WatermarkPdf() {
             </div>
           )}
         </div>
+
+        {/* Result Card with Persistent Download Button */}
+        {watermarkResult && (
+          <ToolResultCard
+            title="Watermark Applied Successfully!"
+            filename={watermarkResult.filename}
+            downloadUrl={watermarkResult.blobUrl}
+            fileSize={watermarkResult.size}
+            badgeText="Stamped & Secured"
+            details={[
+              { label: 'Watermark Text', value: watermarkText },
+              { label: 'Applied To', value: applyTo === 'all' ? `All ${totalPages} pages` : 'Selected pages' },
+            ]}
+            previewUrl={watermarkResult.blobUrl}
+            onReset={() => {
+              setWatermarkResult(null);
+              setFile(null);
+              setSuccess('');
+            }}
+            resetButtonText="Watermark Another PDF"
+            nextTool={{
+              name: 'Protect with Password',
+              url: '/tools/pdf-security/protect-pdf/',
+            }}
+          />
+        )}
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
