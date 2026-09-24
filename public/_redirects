@@ -164,6 +164,12 @@
 /tools/unit-converter/ /tools/calculators/unit-converter/ 301
 /tools/aspect-ratio-calculator /tools/calculators/aspect-ratio-calculator/ 301
 /tools/aspect-ratio-calculator/ /tools/calculators/aspect-ratio-calculator/ 301
+/tools/sip-calculator /tools/calculators/sip-calculator/ 301
+/tools/sip-calculator/ /tools/calculators/sip-calculator/ 301
+/tools/compound-interest-calculator /tools/calculators/compound-interest-calculator/ 301
+/tools/compound-interest-calculator/ /tools/calculators/compound-interest-calculator/ 301
+/tools/gst-calculator /tools/calculators/gst-calculator/ 301
+/tools/gst-calculator/ /tools/calculators/gst-calculator/ 301
 /tools/json-formatter /tools/developer/json-formatter/ 301
 /tools/json-formatter/ /tools/developer/json-formatter/ 301
 /tools/jwt-decoder /tools/developer/jwt-decoder/ 301

@@ -552,6 +552,33 @@ export const tools: Tool[] = [
     categorySlug: "calculators",
     color: 'from-orange-500 to-red-600',
   },
+  {
+    name: 'SIP Calculator',
+    description: 'Calculate mutual fund SIP returns, total investment growth, and compounding wealth accumulation.',
+    slug: 'sip-calculator',
+    icon: '📈',
+    category: "Calculators",
+    categorySlug: "calculators",
+    color: 'from-indigo-600 to-emerald-600',
+  },
+  {
+    name: 'Compound Interest Calculator',
+    description: 'Calculate daily, monthly, and yearly compound interest on investments with recurring deposits.',
+    slug: 'compound-interest-calculator',
+    icon: '💹',
+    category: "Calculators",
+    categorySlug: "calculators",
+    color: 'from-emerald-600 to-teal-700',
+  },
+  {
+    name: 'GST & Sales Tax Calculator',
+    description: 'Calculate and add or remove GST, CGST, SGST, and IGST for tax invoices and billing in real time.',
+    slug: 'gst-calculator',
+    icon: '🧾',
+    category: "Calculators",
+    categorySlug: "calculators",
+    color: 'from-amber-500 to-orange-600',
+  },
   // ─── PDF24 Super Suite Additions ───
   {
     name: 'Invoice Generator',
