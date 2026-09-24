@@ -216,3 +216,8 @@
 /tools/password-generator/ /tools/design/password-generator/ 301
 /tools/resume-builder /tools/design/resume-builder/ 301
 /tools/resume-builder/ /tools/design/resume-builder/ 301
+/tools/salary-calculator /tools/calculators/salary-calculator/ 301
+/tools/salary-calculator/ /tools/calculators/salary-calculator/ 301
+/tools/fd-calculator /tools/calculators/fd-calculator/ 301
+/tools/fd-calculator/ /tools/calculators/fd-calculator/ 301
+

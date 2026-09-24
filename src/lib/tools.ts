@@ -579,6 +579,24 @@ export const tools: Tool[] = [
     categorySlug: "calculators",
     color: 'from-amber-500 to-orange-600',
   },
+  {
+    name: 'Salary & Income Tax Calculator',
+    description: 'Calculate monthly take-home salary, income tax (New vs Old Regime), EPF deductions, and net in-hand pay.',
+    slug: 'salary-calculator',
+    icon: '💵',
+    category: "Calculators",
+    categorySlug: "calculators",
+    color: 'from-emerald-600 to-teal-600',
+  },
+  {
+    name: 'Fixed Deposit (FD) & RD Calculator',
+    description: 'Calculate bank Fixed Deposit (FD) and Recurring Deposit (RD) maturity amount, interest income, and compounding yield.',
+    slug: 'fd-calculator',
+    icon: '🏦',
+    category: "Calculators",
+    categorySlug: "calculators",
+    color: 'from-blue-600 to-indigo-600',
+  },
   // ─── PDF24 Super Suite Additions ───
   {
     name: 'Invoice Generator',
