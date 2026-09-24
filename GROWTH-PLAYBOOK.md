@@ -1,28 +1,6 @@
 # ToolsVerse Growth & SEO Playbook (Outranking iLovePDF & Smallpdf)
 
-This playbook contains the exact execution steps, search queries, and copy-paste templates to build high-authority backlinks, launch store apps, and capture search traffic.
-
----
-
-## 1. Publish the Chrome & Edge Extension (Google DA 100 Backlink)
-
-The extension is fully compiled and zipped in your root directory: `toolsverse-extension.zip`.
-
-### Chrome Web Store:
-1. Visit the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
-2. Log in with your Google Account.
-3. Click **"New Item"** and drag `toolsverse-extension.zip`.
-4. Fill in:
-   - **Name:** `ToolsVerse - Free & Private In-Browser Utilities`
-   - **Summary:** `100+ private in-browser tools. Merge & compress PDFs under 100KB/200KB, format JSON, decode JWT, and calculate with zero server uploads.`
-   - **Official Website:** `https://toolsverseapp.com` *(Crucial: This provides your direct Google Web Store DA 100 backlink).*
-   - **Category:** Productivity / Developer Tools.
-5. Click **Submit for Review** (No special permissions are requested, ensuring rapid approval).
-
-### Microsoft Edge Add-ons (Free):
-1. Visit [Microsoft Partner Center](https://partner.microsoft.com/dashboard/microsoftedge).
-2. Create your free developer account.
-3. Submit `toolsverse-extension.zip` and link `https://toolsverseapp.com`.
+This playbook contains the exact execution steps, search queries, and copy-paste templates to build high-authority backlinks, capture competitor traffic, and rank #1 without spending any money.
 
 ---
 
