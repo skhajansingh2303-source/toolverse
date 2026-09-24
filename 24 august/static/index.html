@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Handwritten Notes Studio — PDF to Handwritten Notes Converter</title>
+  <!-- Google Fonts for Web UI & Note Previews -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Coming+Soon&family=Caveat:wght@500;700&family=Patrick+Hand&family=Kalam:wght@400;700&family=Architects+Daughter&family=Indie+Flower&family=Gochi+Hand&family=Comic+Neue:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="/static/lucide.min.js"></script>
+  <!-- Mermaid.js for in-app Diagram Visual Studio -->
+  <script src="/static/mermaid.min.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/></svg>">
+  <link rel="stylesheet" href="/static/cropper.min.css">
+  <link rel="stylesheet" href="/static/style.css?v=5.4.0">
+  <script src="/static/cropper.min.js"></script>
+</head>
+<body>
+  <!-- Navigation Bar (Fixed at Top) -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button id="btn-toggle-sidebar" class="btn btn-icon" title="Toggle Settings Sidebar">
+        <i data-lucide="sliders-horizontal"></i>
+        <span>Settings</span>
+      </button>
+      <div class="logo-badge">
+        <i data-lucide="pen-tool" class="icon-brand"></i>
+        <span>Handwritten Notes Studio</span>
+      </div>
+      
+      <!-- Auto-Save Status Indicator -->
+      <div class="autosave-status" id="autosave-status" title="Everything is automatically saved in your browser storage in real-time">
+        <i data-lucide="cloud-check" class="save-icon"></i>
+        <span id="save-status-text">Auto-saved</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <!-- Layout View Mode Selector -->
+      <div class="view-modes">
+        <button id="mode-settings-preview" class="mode-btn" title="Full Output Page + Settings on Side (Editor Hidden)"><i data-lucide="layout-panel-left"></i> Settings + Full Output</button>
+        <button id="mode-split" class="mode-btn active" title="Split View (All 3 Panels)"><i data-lucide="columns-3"></i> 3-Panels</button>
+        <button id="mode-side" class="mode-btn" title="Editor + Notes Side by Side"><i data-lucide="columns-2"></i> Editor + Notes</button>
+        <button id="mode-editor" class="mode-btn" title="100% Fullscreen Editor (Focus Mode)"><i data-lucide="edit-3"></i> Full Editor</button>
+        <button id="mode-preview" class="mode-btn" title="100% Fullscreen Output Preview"><i data-lucide="maximize-2"></i> Full Preview</button>
+      </div>
+
+      <!-- Notes Management & Library Buttons -->
+      <button id="btn-open-library" class="btn btn-secondary highlight-btn" title="View all your saved notes documents">
+        <i data-lucide="folder-open"></i> 📚 My Notes (<span id="saved-notes-count">1</span>)
+      </button>
+      <button id="btn-new-notes" class="btn btn-secondary" title="Save current note & start a new one">
+        <i data-lucide="plus"></i> New Note
+      </button>
+      <button id="btn-load-user-sample" class="btn btn-secondary highlight-diagram-btn" title="Load the 4 Notebook Structures Sample (Binary Tree, Extended Tree, Hierarchy Tree, Step Flowchart)">
+        <i data-lucide="layout-grid"></i> 4-Structures Sample
+      </button>
+      <button id="btn-load-cs-sample" class="btn btn-secondary" title="Load Data Structures Tree & Graph Sample">
+        <i data-lucide="binary"></i> CS Sample
+      </button>
+      <button id="btn-load-sample" class="btn btn-secondary" title="Load Historical Background Notes">
+        <i data-lucide="file-text"></i> Sample
+      </button>
+      <button id="btn-export-pdf" class="btn btn-primary">
+        <i data-lucide="download"></i> Download PDF
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3-Panel Layout -->
+  <main class="app-layout" id="app-layout">
+    <!-- Left Sidebar: Settings & Controls -->
+    <aside class="control-panel" id="control-panel">
+      <!-- 0. Document Templates & Presets (Exact Match with Reference PDF) -->
+      <div class="panel-section template-section-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 1.5px solid #6366f1; border-radius: 10px; padding: 12px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);">
+        <div class="section-header-flex" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h3 style="color:#ffffff; margin:0; font-size:13.5px; font-weight:700; display:flex; align-items:center; gap:6px;">
+            <i data-lucide="layout-template" style="color:#818cf8; width:16px; height:16px;"></i> Document Template
+          </h3>
+          <span class="badge-pill" style="background:#4338ca; color:#e0e7ff; font-size:10px; padding:2px 7px; border-radius:10px; font-weight:700;">1-Click Setup</span>
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 8px;">
+          <label for="template-select" style="color:#c7d2fe; font-weight:600; font-size:11.5px;">Choose Layout &amp; Style Template</label>
+          <select id="template-select" class="form-control" style="background:#ffffff; color:#0f172a; font-weight:700; border-color:#818cf8; cursor:pointer;">
+            <option value="pw_historical" selected>🏛️ PW OnlyIAS Official (Historical Background Template)</option>
+            <option value="royal_academic">🎓 Royal Academic / University Notes</option>
+            <option value="emerald_topper">🌲 Forest Emerald (UPSC Topper Notes)</option>
+            <option value="cs_tech">⚡ Computer Science &amp; Tech Spec</option>
+            <option value="vintage_cornell">📜 Vintage Sepia Cornell Notes</option>
+            <option value="minimalist">✨ Minimalist Clean Notebook</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:6px; margin-top:6px;">
+          <button type="button" id="btn-apply-template" class="btn btn-primary" style="flex:1; background:#6366f1; border:none; font-weight:700; font-size:11.5px; padding:6px 10px; border-radius:6px; cursor:pointer; color:#ffffff; display:flex; align-items:center; justify-content:center; gap:4px;" title="Apply this template style settings to current notes">
+            <i data-lucide="check"></i> Apply Template
+          </button>
+          <button type="button" id="btn-load-template-sample" class="btn btn-secondary" style="background:rgba(255,255,255,0.15); color:#ffffff; border:1px solid rgba(255,255,255,0.25); font-weight:600; font-size:11.5px; padding:6px 10px; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px;" title="Load the Historical Background reference notes matching the template">
+            <i data-lucide="file-text"></i> Load Sample
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3><i data-lucide="upload-cloud"></i> 1. Upload Source PDF</h3>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" accept=".pdf,.txt,.md" hidden>
+          <div class="drop-zone-content">
+            <i data-lucide="file-up" class="drop-icon"></i>
+            <p><strong>Click to upload</strong> or drag & drop</p>
+            <span>PDF, TXT, or Markdown</span>
+          </div>
+        </div>
+        <div id="file-status" class="file-status hidden">
+          <i data-lucide="check-circle" class="text-green"></i>
+          <span id="file-name-display">document.pdf</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3><i data-lucide="type"></i> 2. Handwriting Font & Typography</h3>
+        <div class="form-group">
+          <label for="font-select">Font Style</label>
+          <select id="font-select" class="form-control">
+            <option value="Coming Soon" selected>Coming Soon (Matches PW OnlyIAS)</option>
+            <option value="Caveat">Caveat (Organic Flowing Cursive)</option>
+            <option value="Patrick Hand">Patrick Hand (Clean Casual Print)</option>
+            <option value="Kalam">Kalam (Indic Friendly Handwriting)</option>
+            <option value="Architects Daughter">Architects Daughter (Draftsman Script)</option>
+            <option value="Indie Flower">Indie Flower (Bubbly Casual)</option>
+            <option value="Gochi Hand">Gochi Hand (School Ink Pen)</option>
+            <option value="Comic Neue">Comic Neue (Crisp Clean)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="paper-select">Paper Texture</label>
+          <select id="paper-select" class="form-control">
+            <option value="plain" selected>Plain White Paper</option>
+            <option value="ruled">Ruled / Lined Notebook</option>
+            <option value="grid">Grid / Math Paper</option>
+            <option value="cream">Vintage Sepia / Cream</option>
+          </select>
+        </div>
+
+        <!-- Typography & Spacing Sliders -->
+        <div class="margin-slider-control">
+          <div class="margin-slider-label-row">
+            <label for="slider-font-size">Font Size</label>
+            <span class="margin-val-disp" id="val-disp-font-size">11.5 pt</span>
+          </div>
+          <input type="range" id="slider-font-size" class="margin-range-bar" min="9" max="22" step="0.5" value="11.5">
+        </div>
+
+        <div class="margin-slider-control">
+          <div class="margin-slider-label-row">
+            <label for="slider-letter-spacing">Letter Spacing</label>
+            <span class="margin-val-disp" id="val-disp-letter-spacing">0.0 px</span>
+          </div>
+          <input type="range" id="slider-letter-spacing" class="margin-range-bar" min="-1.5" max="4.0" step="0.1" value="0.0">
+        </div>
+
+        <div class="margin-slider-control">
+          <div class="margin-slider-label-row">
+            <label for="slider-word-spacing">Word Spacing</label>
+            <span class="margin-val-disp" id="val-disp-word-spacing">1.0 px</span>
+          </div>
+          <input type="range" id="slider-word-spacing" class="margin-range-bar" min="-2.0" max="8.0" step="0.5" value="1.0">
+        </div>
+
+        <div class="margin-slider-control">
+          <div class="margin-slider-label-row">
+            <label for="slider-line-height">Line Spacing</label>
+            <span class="margin-val-disp" id="val-disp-line-height">1.55</span>
+          </div>
+          <input type="range" id="slider-line-height" class="margin-range-bar" min="1.1" max="2.4" step="0.05" value="1.55">
+        </div>
+
+        <div class="form-group" style="margin-top: 8px;">
+          <label for="realism-select"><i data-lucide="sparkles" style="width:13px;height:13px;display:inline-block;vertical-align:middle;color:#f59e0b;"></i> Handwriting Realism</label>
+          <select id="realism-select" class="form-control">
+            <option value="off">Off (Uniform Digital Alignment)</option>
+            <option value="subtle">Subtle (Natural Hand Variance)</option>
+            <option value="natural" selected>Realistic (Authentic Student Jitter)</option>
+            <option value="high">High (Messy Casual Human Drift)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3><i data-lucide="bookmark"></i> 3. Header & Branding</h3>
+        <div class="form-group">
+          <label for="header-mode-select">Header Display</label>
+          <select id="header-mode-select" class="form-control">
+            <option value="first_page" selected>First Page Only</option>
+            <option value="every_page">Every Page</option>
+            <option value="none">No Header</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="logo-select">Logo Style</label>
+          <select id="logo-select" class="form-control">
+            <option value="pw" selected>PW OnlyIAS Style</option>
+            <option value="custom">Custom Brand Name</option>
+            <option value="none">No Logo</option>
+          </select>
+        </div>
+
+        <div class="form-group hidden" id="custom-brand-group">
+          <label for="custom-brand-text">✨ Your Custom Brand / Coaching / Channel Name</label>
+          <input type="text" id="custom-brand-text" class="form-control" placeholder="e.g. KHAN SIR GS, TOPPER NOTES, NEPAL IAS...">
+          <small style="color: #94a3b8; font-size: 11px; margin-top: 4px; display: block;">Displays in bold in the header at the top of your notes.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="subject-input">Subject / Exam</label>
+          <input type="text" id="subject-input" class="form-control" value="COMPUTER SCIENCE & ENGINEERING" placeholder="e.g. Modern History">
+        </div>
+
+        <div class="form-group">
+          <label for="lecture-input">Lecture / Topic Title</label>
+          <input type="text" id="lecture-input" class="form-control" value="DATA STRUCTURES & ALGORITHMS" placeholder="e.g. Lecture 01 : Introduction">
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-header-flex">
+          <h3><i data-lucide="palette"></i> 4. Color Palette & Themes</h3>
+        </div>
+        
+        <!-- 1-Click Color Themes -->
+        <div class="theme-presets-row" style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px;">
+          <button type="button" class="btn-preset-margin" id="theme-pw" title="PW OnlyIAS: Red Section + Blue Subheading + Green Sidebar">🔴🔵 PW Style</button>
+          <button type="button" class="btn-preset-margin" id="theme-royal" title="Royal Academic: Navy Blue + Crimson + Indigo">🔷 Royal Blue</button>
+          <button type="button" class="btn-preset-margin" id="theme-emerald" title="Forest Emerald: Dark Green + Gold">🌲 Emerald</button>
+          <button type="button" class="btn-preset-margin" id="theme-classic" title="Classic Ink: Dark Charcoal + Burgundy">✒️ Classic Ink</button>
+        </div>
+
+        <div class="color-grid">
+          <div class="color-item">
+            <label for="color-subject">Subject</label>
+            <input type="color" id="color-subject" value="#dc2626">
+          </div>
+          <div class="color-item">
+            <label for="color-lecture">Lecture</label>
+            <input type="color" id="color-lecture" value="#2563eb">
+          </div>
+          <div class="color-item">
+            <label for="color-body">Body Text</label>
+            <input type="color" id="color-body" value="#111827">
+          </div>
+          <div class="color-item">
+            <label for="color-section">H1 Title</label>
+            <input type="color" id="color-section" value="#dc2626">
+          </div>
+          <div class="color-item">
+            <label for="color-subheading">H2 Subheading</label>
+            <input type="color" id="color-subheading" value="#2563eb">
+          </div>
+          <div class="color-item">
+            <label for="color-sidebar">Sidebar Box</label>
+            <input type="color" id="color-sidebar" value="#059669">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3><i data-lucide="layout"></i> 5. Sidebar & Footer</h3>
+        <div class="form-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-sidebar">
+            <span>Show Right Sidebar Notes Box</span>
+          </label>
+        </div>
+        
+        <div class="form-group hidden" id="sidebar-text-group">
+          <label for="sidebar-text-input">Sidebar Title</label>
+          <input type="text" id="sidebar-text-input" class="form-control" value="PW ONLYIAS" placeholder="Sidebar Text">
+        </div>
+
+        <div class="form-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="toggle-footer" checked>
+            <span>Show Page Footer</span>
+          </label>
+        </div>
+
+        <div id="footer-inputs-group">
+          <div class="form-group">
+            <label for="footer-left">Footer Left</label>
+            <input type="text" id="footer-left" class="form-control" value="khajan singh" placeholder="Left text">
+          </div>
+          <div class="form-group">
+            <label for="footer-right">Footer Right</label>
+            <input type="text" id="footer-right" class="form-control" value="unit 1" placeholder="Right text">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-header-flex">
+          <h3><i data-lucide="move"></i> 6. Page Margins (mm)</h3>
+          <span class="badge-pill" id="margin-total-badge">A4 Fit: 8, 8, 8, 8 mm</span>
+        </div>
+        <p class="section-hint">Optimized for maximum A4 handwriting area with zero dead margins</p>
+        
+        <div class="margins-grid">
+          <div class="margin-item">
+            <div class="margin-label-row">
+              <label for="margin-top">Top Margin</label>
+              <span class="margin-val-disp" id="val-disp-top">8mm</span>
+            </div>
+            <div class="margin-input-group">
+              <input type="number" id="margin-top" class="form-control margin-num-input" value="8" min="0" max="40" step="1">
+              <input type="range" id="slider-margin-top" class="margin-slider" value="8" min="0" max="40" step="1">
+            </div>
+          </div>
+
+          <div class="margin-item">
+            <div class="margin-label-row">
+              <label for="margin-bottom">Bottom Margin</label>
+              <span class="margin-val-disp" id="val-disp-bottom">8mm</span>
+            </div>
+            <div class="margin-input-group">
+              <input type="number" id="margin-bottom" class="form-control margin-num-input" value="8" min="0" max="40" step="1">
+              <input type="range" id="slider-margin-bottom" class="margin-slider" value="8" min="0" max="40" step="1">
+            </div>
+          </div>
+
+          <div class="margin-item">
+            <div class="margin-label-row">
+              <label for="margin-left">Left Margin</label>
+              <span class="margin-val-disp" id="val-disp-left">8mm</span>
+            </div>
+            <div class="margin-input-group">
+              <input type="number" id="margin-left" class="form-control margin-num-input" value="8" min="0" max="40" step="1">
+              <input type="range" id="slider-margin-left" class="margin-slider" value="8" min="0" max="40" step="1">
+            </div>
+          </div>
+
+          <div class="margin-item">
+            <div class="margin-label-row">
+              <label for="margin-right">Right Margin</label>
+              <span class="margin-val-disp" id="val-disp-right">8mm</span>
+            </div>
+            <div class="margin-input-group">
+              <input type="number" id="margin-right" class="form-control margin-num-input" value="8" min="0" max="40" step="1">
+              <input type="range" id="slider-margin-right" class="margin-slider" value="8" min="0" max="40" step="1">
+            </div>
+          </div>
+        </div>
+
+        <!-- 1-Click Margin Presets for instant user convenience -->
+        <div class="margin-presets-bar">
+          <button type="button" class="btn-preset-margin active" id="btn-preset-standard" title="Standard A4 Paper (8mm Top/Bottom, 8mm Left/Right)">
+            📄 Standard (8mm)
+          </button>
+          <button type="button" class="btn-preset-margin" id="btn-preset-tight" title="Full A4 Fit (5mm Top/Bottom, 6mm Left/Right) - Zero wasted space">
+            ⚡ Tight A4 (5mm)
+          </button>
+          <button type="button" class="btn-preset-margin" id="btn-preset-notebook" title="Classic Notebook Margins (12mm all sides)">
+            📖 Classic (12mm)
+          </button>
+        </div>
+        <div class="form-group" style="margin-top: 6px;">
+          <button type="button" class="btn-reset-margins" id="btn-reset-margins" title="Reset all margins to default A4 paper (8, 8, 8, 8 mm)">
+            <i data-lucide="rotate-ccw"></i> Reset Margins to Default A4 (8mm)
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Panel: Structured Content Editor -->
+    <section class="editor-panel" id="editor-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <i data-lucide="edit-3"></i> Content & CS Editor
+        </div>
+        <div class="editor-toolbar">
+          <!-- Undo & Redo Controls -->
+          <button class="tool-btn" id="tb-undo" title="Undo Last Change (Ctrl+Z)"><i data-lucide="undo-2"></i> Undo</button>
+          <button class="tool-btn" id="tb-redo" title="Redo (Ctrl+Y)"><i data-lucide="redo-2"></i> Redo</button>
+
+          <!-- 1-Click Fit to A4 Button -->
+          <button class="tool-btn fit-a4-btn" id="btn-fit-a4" title="1-Click Fit to Full A4: Clean extra blank lines and format pasted text to fit A4 page without margins">
+            <i data-lucide="maximize-2"></i> ⚡ Fit to A4
+          </button>
+
+          <!-- Magic Auto-Format ChatGPT Button -->
+          <button class="tool-btn magic-btn" id="btn-format-chatgpt" title="Instantly convert ChatGPT text into Headings, Subheadings, Lists & Tables">
+            <i data-lucide="wand-2"></i> ✨ Auto-Format ChatGPT
+          </button>
+
+          <!-- Main Interactive Diagram Studio Modal Trigger -->
+          <button class="tool-btn diagram-studio-btn" id="btn-open-diagram-modal" onclick="if(window.openDiagramModal) window.openDiagramModal('interactive-tree');" title="Open Visual Diagram Studio: Draw any Binary Tree, Hierarchy, Flowchart or Mindmap visually!">
+            <i data-lucide="pen-tool"></i> 🎨 Draw Diagram
+          </button>
+
+          <button class="tool-btn" id="tb-h1" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('h1');" title="Add Section Title (Red H1)"># H1</button>
+          <button class="tool-btn" id="tb-h2" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('h2');" title="Add Subheading (Blue H2)">## H2</button>
+          
+          <!-- Text Styling & Color Tools -->
+          <button class="tool-btn format-btn" id="tb-bold" onclick="if(window.applyTextFormat) window.applyTextFormat('**', '**', 'bold text');" title="Bold selected text (Ctrl+B)"><b>B</b> Bold</button>
+          <button class="tool-btn format-btn" id="tb-underline" onclick="if(window.applyTextFormat) window.applyTextFormat('<u>', '</u>', 'underline text');" title="Underline selected text (Ctrl+U)"><u><b>U</b></u> Underline</button>
+          <button class="tool-btn format-btn color-btn-red" id="tb-color-red" onclick="if(window.applyTextFormat) window.applyTextFormat('[red]', '[/red]', 'red text');" title="Make selected text Red color (Alt+R)"><span style="color:#ef4444; font-weight:bold;">🔴 Red</span></button>
+          <button class="tool-btn format-btn color-btn-black" id="tb-color-black" onclick="if(window.applyTextFormat) window.applyTextFormat('[black]', '[/black]', 'black text');" title="Make selected text Black color (Alt+B)"><span style="color:#e2e8f0; font-weight:bold;">⚫ Black</span></button>
+
+          <button class="tool-btn" id="tb-bullet" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('bullet');" title="Add Bullet Point">• List</button>
+          <button class="tool-btn" id="tb-table" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('table');" title="Add Table"><i data-lucide="table"></i> Table</button>
+          <button class="tool-btn image-tool-btn" id="tb-image" title="Paste / Insert & Resize Screenshot or Image from Clipboard"><i data-lucide="image"></i> 🖼️ Image</button>
+          <button class="tool-btn" id="tb-crop" title="Crop & Edit Image from Notes"><i data-lucide="crop"></i> ✂️ Crop</button>
+          
+          <!-- Computer Science Diagram Tools -->
+          <div class="cs-tools-group">
+            <button class="tool-btn cs-btn" id="tb-tree" onclick="if(window.openDiagramModal) window.openDiagramModal('interactive-tree');" title="Insert Tree: Root Node with 2 Expandable Child Nodes">🌳 Tree</button>
+            <button class="tool-btn cs-btn" id="tb-hierarchy" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('hierarchy');" title="Structure 3: Hierarchical Box Tree (Name -> Roll No, Class, Khajan)">📊 Hierarchy</button>
+            <button class="tool-btn cs-btn" id="tb-flow" onclick="if(window.openDiagramModal) window.openDiagramModal('interactive-flow');" title="Structure 4: Step Flowchart (Name -> Class -> Roll No)">⬇️ Flow</button>
+            <button class="tool-btn cs-btn" id="tb-avl" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('avl');" title="Insert AVL Tree Diagram">⚖️ AVL</button>
+            <button class="tool-btn cs-btn" id="tb-linked-list" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('linked-list');" title="Insert Linked List Diagram">🔗 List</button>
+            <button class="tool-btn cs-btn" id="tb-code" onclick="if(window.insertMarkdownSnippet) window.insertMarkdownSnippet('code');" title="Insert C++ / Python Code Block">💻 Code</button>
+          </div>
+
+          <button class="tool-btn tool-btn-refresh" id="btn-update-preview" title="Refresh Live Preview">
+            <i data-lucide="refresh-cw"></i> Render
+          </button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <!-- Floating Mini Formatting Toolbar -->
+        <div id="floating-selection-toolbar" class="floating-selection-toolbar hidden">
+          <button id="fl-bold" onclick="if(window.applyTextFormat) window.applyTextFormat('**', '**', 'bold text');" title="Bold (Ctrl+B)"><b>B</b></button>
+          <button id="fl-underline" onclick="if(window.applyTextFormat) window.applyTextFormat('<u>', '</u>', 'underline text');" title="Underline (Ctrl+U)"><u><b>U</b></u></button>
+          <button id="fl-red" onclick="if(window.applyTextFormat) window.applyTextFormat('[red]', '[/red]', 'red text');" title="Red Color (Alt+R)"><span style="color:#ef4444; font-weight:bold;">🔴 Red</span></button>
+          <button id="fl-black" onclick="if(window.applyTextFormat) window.applyTextFormat('[black]', '[/black]', 'black text');" title="Black Color (Alt+B)"><span style="color:#111827; font-weight:bold;">⚫ Black</span></button>
+        </div>
+        <textarea id="notes-content" spellcheck="false" placeholder="Write or paste your notes here... Everything is auto-saved continuously in real-time!"></textarea>
+      </div>
+    </section>
+
+    <!-- Right Panel: Live PDF / HTML Preview -->
+    <section class="preview-panel" id="preview-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <i data-lucide="eye"></i> Live Notes Preview (A4)
+        </div>
+        
+        <!-- Zoom & Viewport Controls -->
+        <div class="preview-actions">
+          <button id="btn-quick-full-view" class="tool-btn highlight-btn" title="Toggle Full Output View (Settings on side)"><i data-lucide="maximize"></i> Full Output View</button>
+          
+          <button id="btn-toggle-draft" class="btn-draft-toggle" title="Toggle Draft Mode (Bold Dark High-Contrast Handwriting Ink)">
+            <i data-lucide="zap"></i>
+            <span id="draft-status-label">Draft: <b class="draft-pill">OFF</b></span>
+          </button>
+          
+          <div class="zoom-controls">
+            <button id="zoom-out" class="zoom-btn" title="Zoom Out"><i data-lucide="minus"></i></button>
+            <select id="zoom-select" class="zoom-select" title="Page Scale">
+              <option value="auto" selected>Auto Fit (Full Width)</option>
+              <option value="fit-page">Fit Page (Full Height)</option>
+              <option value="1.0">100% (True A4 Size)</option>
+              <option value="1.25">125%</option>
+              <option value="1.5">150%</option>
+              <option value="0.85">85%</option>
+              <option value="0.75">75%</option>
+              <option value="0.5">50%</option>
+            </select>
+            <button id="zoom-in" class="zoom-btn" title="Zoom In"><i data-lucide="plus"></i></button>
+          </div>
+
+          <span class="preview-badge" id="preview-status">Synced</span>
+          <button id="btn-print" class="tool-btn" title="Print Notes"><i data-lucide="printer"></i></button>
+        </div>
+      </div>
+      <div class="preview-container" id="preview-container">
+        <iframe id="preview-frame" title="Live Preview"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive Visual Diagram Studio Modal -->
+  <div id="diagram-modal" class="modal-overlay hidden">
+    <div class="modal-card diagram-builder-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="diagram-logo-badge">
+            <i data-lucide="pen-tool"></i>
+          </div>
+          <div>
+            <h3>Visual Diagram & Structure Studio</h3>
+            <p class="modal-subtitle">Draw Binary Trees, Hierarchies, Flowcharts & Mindmaps easily</p>
+          </div>
+        </div>
+        <button id="btn-close-diagram" class="modal-close-btn">&times;</button>
+      </div>
+
+      <!-- Quick Template Bar / 4 Notebook Structures -->
+      <div class="diagram-preset-bar">
+        <div class="preset-bar-title"><i data-lucide="zap"></i> Quick Templates:</div>
+        <div class="preset-chips">
+          <button class="preset-chip active" data-preset="binary-tree" title="Tree: Root Node with 2 Child Nodes (Expandable)">
+            🌳 Tree (Root + 2 Children)
+          </button>
+          <button class="preset-chip" data-preset="extended-tree" title="Structure 2: Multi-level Binary Tree with Subtrees (21 -> 31, 24)">
+            🌿 Deep Tree (21)
+          </button>
+          <button class="preset-chip" data-preset="hierarchy-tree" title="Structure 3: Hierarchical Org Tree with Box Nodes (Name -> Roll No, Class, Khajan)">
+            📊 Hierarchy Tree (Name)
+          </button>
+          <button class="preset-chip" data-preset="step-flow" title="Structure 4: Step-by-Step Flowchart (Name -> Class -> Roll No)">
+            ⬇️ Step Flowchart
+          </button>
+          <button class="preset-chip" data-preset="decision-flow" title="Decision Process with Condition Branches">
+            🔀 Decision Flow
+          </button>
+          <button class="preset-chip" data-preset="linked-list" title="Singly & Doubly Linked List">
+            🔗 Linked List
+          </button>
+          <button class="preset-chip" data-preset="avl-tree" title="Balanced AVL Tree">
+            ⚖️ AVL Tree
+          </button>
+          <button class="preset-chip" data-preset="mindmap" title="Multi-branch Mindmap">
+            🧠 Mindmap
+          </button>
+        </div>
+      </div>
+
+      <div class="diagram-builder-body">
+        <!-- Left Column: Controls & Input -->
+        <div class="diagram-controls-pane">
+          <!-- Editor Mode Tabs -->
+          <div class="builder-mode-tabs">
+            <button class="builder-tab active" data-tab="interactive-tree">
+              <i data-lucide="git-branch"></i> 🌳 Tree Studio
+            </button>
+            <button class="builder-tab" data-tab="interactive-flow">
+              <i data-lucide="arrow-down-circle"></i> ⬇️ Flow Diagram Studio
+            </button>
+            <button class="builder-tab" data-tab="visual-tree">
+              <i data-lucide="list-tree"></i> 🧱 Visual Node List
+            </button>
+            <button class="builder-tab" data-tab="smart-text">
+              <i data-lucide="align-left"></i> ✍️ Smart Outline
+            </button>
+            <button class="builder-tab" data-tab="raw-mermaid">
+              <i data-lucide="code"></i> 💻 Mermaid Code
+            </button>
+          </div>
+
+          <!-- Tab Content 0: Interactive Visual Tree Studio (Direct Node Click & Expand) -->
+          <div id="tab-interactive-tree" class="tab-pane active">
+            <div class="interactive-tree-toolbar">
+              <button type="button" class="btn btn-sm btn-primary" id="btn-tree-reset-std" title="Create standard Tree: 1 Root + 2 Children">
+                <i data-lucide="git-branch"></i> 🌳 1 Root + 2 Children
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-tree-add-root" title="Add a new root node">
+                <i data-lucide="plus"></i> + Root
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-tree-clear" title="Clear all nodes">
+                <i data-lucide="trash-2"></i> Clear
+              </button>
+              <span class="interactive-guide-badge">💡 Click any node circle to add Left or Right nodes!</span>
+            </div>
+
+            <!-- Visual Interactive Tree Drawing Area -->
+            <div class="interactive-tree-canvas-wrapper" id="interactive-tree-wrapper">
+              <svg id="interactive-tree-svg" class="interactive-tree-svg"></svg>
+
+              <!-- Node Action Modal / Popover -->
+              <div id="node-action-popover" class="node-action-popover hidden">
+                <div class="popover-header">
+                  <span class="popover-title" id="popover-node-title">🌳 Selected Node</span>
+                  <button type="button" class="popover-close" id="btn-close-popover">&times;</button>
+                </div>
+                <div class="popover-body">
+                  <div class="popover-field">
+                    <label>Node Label / Value:</label>
+                    <input type="text" id="popover-node-label" class="form-control-sm" placeholder="e.g. Root / 23 / Topic" />
+                  </div>
+                  <div class="popover-section-title">Add Child Branches:</div>
+                  <div class="popover-branch-buttons">
+                    <button type="button" class="branch-btn left-branch" id="btn-add-left-node" title="Add a Left child node below this node">
+                      👈 Add Left Node
+                    </button>
+                    <button type="button" class="branch-btn right-branch" id="btn-add-right-node" title="Add a Right child node below this node">
+                      👉 Add Right Node
+                    </button>
+                  </div>
+                  <div class="popover-branch-buttons">
+                    <button type="button" class="branch-btn both-branch" id="btn-add-both-nodes" title="Add both Left and Right nodes">
+                      🌿 Add Both (Left & Right)
+                    </button>
+                  </div>
+                  <div class="popover-custom-count">
+                    <label>Add N Nodes:</label>
+                    <input type="number" id="popover-child-count" min="1" max="6" value="2" class="form-control-sm count-input" />
+                    <button type="button" class="btn btn-sm btn-secondary" id="btn-add-n-children">+ Add Nodes</button>
+                  </div>
+                </div>
+                <div class="popover-footer">
+                  <button type="button" class="btn btn-sm btn-danger" id="btn-delete-tree-node">🗑️ Delete</button>
+                  <button type="button" class="btn btn-sm btn-primary" id="btn-save-popover">✓ Done</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content 0.5: Interactive Flow Diagram Studio (Vertical Box Flowchart) -->
+          <div id="tab-interactive-flow" class="tab-pane">
+            <div class="interactive-tree-toolbar">
+              <button type="button" class="btn btn-sm btn-primary" id="btn-flow-reset-std" title="Create standard 3-Step Flowchart">
+                <i data-lucide="arrow-down-circle"></i> ⬇️ Standard 3 Steps
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-flow-add-step" title="Append new step at the end">
+                <i data-lucide="plus"></i> + Add Step
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-flow-clear" title="Clear all flow steps">
+                <i data-lucide="trash-2"></i> Clear
+              </button>
+              <span class="interactive-guide-badge">💡 Click any box to edit text or add next step below!</span>
+            </div>
+
+            <!-- Flowchart Canvas Area -->
+            <div class="interactive-tree-canvas-wrapper" id="interactive-flow-wrapper">
+              <svg id="interactive-flow-svg" class="interactive-tree-svg"></svg>
+
+              <!-- Flow Step Action Popover -->
+              <div id="flow-action-popover" class="node-action-popover hidden">
+                <div class="popover-header">
+                  <span class="popover-title" id="popover-flow-title">⬇️ Flow Step</span>
+                  <button type="button" class="popover-close" id="btn-close-flow-popover">&times;</button>
+                </div>
+                <div class="popover-body">
+                  <div class="popover-field">
+                    <label>Step Text / Content:</label>
+                    <input type="text" id="popover-flow-label" class="form-control-sm" placeholder="e.g. Step 1 / Name / Process" />
+                  </div>
+                  <div class="popover-section-title">Insert Steps:</div>
+                  <div class="popover-branch-buttons">
+                    <button type="button" class="branch-btn right-branch" id="btn-add-step-below" title="Insert new step below this box">
+                      ⬇️ Add Step Below
+                    </button>
+                    <button type="button" class="branch-btn left-branch" id="btn-add-step-above" title="Insert new step above this box">
+                      ⬆️ Add Step Above
+                    </button>
+                  </div>
+                </div>
+                <div class="popover-footer">
+                  <button type="button" class="btn btn-sm btn-danger" id="btn-delete-flow-step">🗑️ Delete Step</button>
+                  <button type="button" class="btn btn-sm btn-primary" id="btn-save-flow-popover">✓ Done</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Content 1: Smart Text / Outline -->
+          <div id="tab-smart-text" class="tab-pane">
+            <div class="control-toolbar-mini">
+              <span class="control-label">Quick Snippets:</span>
+              <button type="button" class="snippet-btn" id="btn-snip-child" title="Add Indented Child Node">+ Child</button>
+              <button type="button" class="snippet-btn" id="btn-snip-arrow" title="Add Arrow Connector">-> Arrow</button>
+              <button type="button" class="snippet-btn" id="btn-snip-circle" title="Wrap in Circle Shape">(( Circle ))</button>
+              <button type="button" class="snippet-btn" id="btn-snip-box" title="Wrap in Box Shape">[ Box ]</button>
+              <button type="button" class="snippet-btn" id="btn-snip-rounded" title="Wrap in Rounded Box Shape">( Rounded )</button>
+              <button type="button" class="snippet-btn" id="btn-snip-diamond" title="Wrap in Diamond Shape">{ Diamond }</button>
+            </div>
+            <textarea id="diag-smart-text" class="diag-editor-textarea" spellcheck="false" placeholder="Type diagram outline or arrows...
+Examples:
+Name
+  Roll No.
+  Class
+    eg
+    class
+    Roll
+  Khajan
+
+Or:
+Name -> Class -> Roll No.
+
+Or:
+23
+  21
+  31"></textarea>
+            <div class="smart-helper-hint">
+              💡 <strong>Tip:</strong> Indent with spaces to make child branches, or type <code>A -&gt; B -&gt; C</code> for flowcharts. Pure numbers automatically become circle nodes!
+            </div>
+          </div>
+
+          <!-- Tab Content 2: Visual Node Builder -->
+          <div id="tab-visual-tree" class="tab-pane">
+            <div class="visual-node-toolbar">
+              <button type="button" class="btn btn-sm btn-primary" id="btn-visual-preset-tree"><i data-lucide="git-branch"></i> 🌳 Tree (1 Root + 2 Children)</button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-visual-add-root"><i data-lucide="plus"></i> + Root Node</button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btn-visual-clear"><i data-lucide="trash-2"></i> Clear</button>
+            </div>
+            <div class="visual-help-banner">
+              💡 <strong>Simple Tree Creator:</strong> Edit node names and click <span class="badge-inline-green">+ Sub-Child</span> on any node to expand its child branches!
+            </div>
+            <div id="visual-node-tree-list" class="visual-tree-container">
+              <!-- Dynamically populated node items with form inputs -->
+            </div>
+          </div>
+
+          <!-- Tab Content 3: Raw Mermaid Code -->
+          <div id="tab-raw-mermaid" class="tab-pane">
+            <textarea id="diag-raw-mermaid" class="diag-editor-textarea code-font" spellcheck="false" placeholder="graph TD
+    A[Node 1] --> B((Node 2))
+    A --> C[Node 3]"></textarea>
+          </div>
+
+          <!-- Diagram Settings Bar (Direction, Shape, Theme) -->
+          <div class="diagram-settings-bar">
+            <div class="diag-setting-item">
+              <label>Direction</label>
+              <select id="diag-direction-select" class="form-control-sm">
+                <option value="TD" selected>⬇️ Top to Bottom (TD)</option>
+                <option value="LR">➡️ Left to Right (LR)</option>
+                <option value="BT">⬆️ Bottom to Top (BT)</option>
+                <option value="RL">⬅️ Right to Left (RL)</option>
+              </select>
+            </div>
+            <div class="diag-setting-item">
+              <label>Default Shape</label>
+              <select id="diag-shape-select" class="form-control-sm">
+                <option value="auto" selected>✨ Auto (Numbers=Circle, Text=Box)</option>
+                <option value="box">🔲 Box [ Text ]</option>
+                <option value="circle">⚪ Circle (( Text ))</option>
+                <option value="rounded">🔘 Rounded ( Text )</option>
+                <option value="stadium">💊 Stadium ([ Text ])</option>
+                <option value="diamond">🔷 Diamond { Text }</option>
+                <option value="cylinder">🛢️ Cylinder [( Text )]</option>
+              </select>
+            </div>
+            <div class="diag-setting-item">
+              <label>Visual Style</label>
+              <select id="diag-theme-select" class="form-control-sm">
+                <option value="handwritten" selected>📝 Handwritten Note (PW Style)</option>
+                <option value="indigo">💜 Modern Indigo</option>
+                <option value="emerald">🌿 Emerald Forest</option>
+                <option value="amber">🌅 Warm Sunset</option>
+                <option value="minimal">⚪ Clean Monochrome</option>
+              </select>
+            </div>
+            <div class="diag-setting-item">
+              <label>Diagram Size / Scale</label>
+              <select id="diag-scale-select" class="form-control-sm">
+                <option value="100%" selected>🔍 100% (Normal)</option>
+                <option value="90%">🔍 90% (Compact)</option>
+                <option value="85%">🔍 85% (Fit Page Space)</option>
+                <option value="80%">🔍 80% (Small)</option>
+                <option value="75%">🔍 75% (Mini)</option>
+                <option value="70%">🔍 70% (Very Small)</option>
+                <option value="110%">🔍 110% (Large)</option>
+                <option value="125%">🔍 125% (Extra Large)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Live Interactive Preview -->
+        <div class="diagram-preview-pane">
+          <div class="preview-pane-header">
+            <span class="preview-title"><i data-lucide="eye"></i> Live Interactive Preview</span>
+            <div class="preview-status-pill" id="diag-preview-status">✓ Valid Diagram</div>
+            <div class="preview-zoom-mini">
+              <button type="button" id="diag-zoom-out" class="btn-mini" title="Zoom Out"><i data-lucide="minus"></i></button>
+              <button type="button" id="diag-zoom-reset" class="btn-mini" title="Reset Zoom"><i data-lucide="rotate-ccw"></i></button>
+              <button type="button" id="diag-zoom-in" class="btn-mini" title="Zoom In"><i data-lucide="plus"></i></button>
+            </div>
+          </div>
+
+          <div class="diagram-svg-container" id="diag-svg-container">
+            <div id="diag-render-output" class="mermaid-target"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer Action Bar -->
+      <div class="modal-footer diagram-footer">
+        <div class="footer-left-info">
+          <span id="diag-node-count-badge" class="count-badge">4 Nodes</span>
+          <span class="code-badge">```diagram</span>
+        </div>
+        <div class="footer-right-buttons">
+          <button type="button" id="btn-copy-diagram-code" class="btn btn-secondary" title="Copy diagram markdown to clipboard">
+            <i data-lucide="copy"></i> Copy Markdown
+          </button>
+          <button type="button" id="btn-close-diagram-footer" class="btn btn-secondary">Cancel</button>
+          <button type="button" id="btn-insert-diagram" class="btn btn-primary btn-glow" title="Insert directly into your notes at cursor">
+            <i data-lucide="check"></i> 🚀 Insert Diagram into Notes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crop & Rotate Image Modal (1:1 with 13.png) -->
+  <!-- Crop & Rotate Image Modal (1:1 with 13.png) -->
+  <div id="image-modal" class="modal-overlay hidden">
+    <div class="crop-rotate-modal-card" style="background:#ffffff; color:#1e293b; border-radius:12px; width:640px; max-width:min(640px, 95vw); max-height:min(92vh, 600px); box-shadow:0 20px 60px rgba(0,0,0,0.6); overflow:hidden; display:flex; flex-direction:column; border:1px solid #cbd5e1; margin:auto;">
+      <!-- Modal Top Header -->
+      <div class="crop-modal-header" style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; padding:8px 16px; border-bottom:1px solid #e2e8f0; background:#ffffff; width:100%; box-sizing:border-box; flex-shrink:0;">
+        <div class="crop-modal-title" style="display:flex; align-items:center;">
+          <h3 style="font-size:14px; font-weight:700; color:#0f172a; margin:0;">Crop &amp; Rotate Image</h3>
+        </div>
+        <div class="crop-modal-header-actions" style="display:flex; flex-direction:row; align-items:center; gap:5px;">
+          <span id="crop-zoom-badge" class="crop-stat-badge">66%</span>
+          <button type="button" class="crop-icon-btn" id="btn-crop-zoom-out" title="Zoom Out"><i data-lucide="minus"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-zoom-in" title="Zoom In"><i data-lucide="plus"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-zoom-fit" title="Fit Screen"><i data-lucide="maximize-2"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-rotate-left" title="Rotate Left 90°"><i data-lucide="rotate-ccw"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-rotate-right" title="Rotate Right 90°"><i data-lucide="rotate-cw"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-flip-h" title="Flip Horizontal"><i data-lucide="flip-horizontal"></i></button>
+          <button type="button" class="crop-icon-btn" id="btn-crop-flip-v" title="Flip Vertical"><i data-lucide="flip-vertical"></i></button>
+          <button type="button" id="btn-apply-crop-top" class="btn btn-primary btn-apply-crop-action" style="background:#7c3aed; color:#ffffff; font-weight:700; font-size:12px; padding:4px 12px; border-radius:6px; border:none; cursor:pointer; margin-left:4px;">
+            ✓ Apply Changes
+          </button>
+          <button type="button" class="crop-icon-btn crop-close-btn" id="btn-close-image-modal" title="Close">&times;</button>
+        </div>
+      </div>
+
+      <!-- Controls Sub-Toolbar (Image Selector, Ratio, Grid, Reset, Scale) -->
+      <div class="crop-sub-toolbar" style="display:flex; flex-direction:row; align-items:center; gap:10px; padding:6px 16px; background:#f8fafc; border-bottom:1px solid #e2e8f0; font-size:11.5px; color:#475569; width:100%; box-sizing:border-box; flex-shrink:0;">
+        <div id="crop-multi-image-selector-group" class="crop-sub-group" style="display:none; align-items:center; gap:5px; background:#ede9fe; padding:2px 6px; border-radius:5px; border:1px solid #ddd6fe;">
+          <label for="crop-target-image-select" style="font-weight:700; color:#6d28d9; font-size:11px;">Image:</label>
+          <select id="crop-target-image-select" class="crop-select" style="border-color:#c4b5fd; font-weight:600; color:#5b21b6; max-width:140px;">
+          </select>
+        </div>
+
+        <div class="crop-sub-group" style="display:flex; align-items:center; gap:5px;">
+          <label for="crop-ratio-select" style="font-weight:600; color:#475569; font-size:11.5px;">Ratio:</label>
+          <select id="crop-ratio-select" class="crop-select">
+            <option value="free">Freeform</option>
+            <option value="1">1:1 (Square)</option>
+            <option value="1.7777777778">16:9 (Wide)</option>
+            <option value="1.3333333333">4:3 (Standard)</option>
+            <option value="1.5">3:2</option>
+          </select>
+        </div>
+
+        <div class="crop-sub-group" style="display:flex; align-items:center; gap:6px;">
+          <label for="crop-grid-select" style="font-weight:600; color:#475569;">Grid:</label>
+          <select id="crop-grid-select" class="crop-select">
+            <option value="none">None</option>
+            <option value="thirds">Rule of Thirds</option>
+            <option value="grid">Grid</option>
+          </select>
+        </div>
+
+        <button type="button" class="crop-sub-btn" id="btn-crop-reset">
+          <i data-lucide="rotate-ccw"></i> ↺ Reset
+        </button>
+
+        <div class="crop-sub-group crop-scale-group" style="display:flex; align-items:center; gap:8px; margin-left:auto;">
+          <label for="crop-scale-slider" style="font-weight:600; color:#475569;">Scale:</label>
+          <input type="range" id="crop-scale-slider" min="50" max="200" value="100" class="crop-slider">
+          <span id="crop-scale-val" class="crop-scale-val">100%</span>
+        </div>
+      </div>
+
+      <!-- Main Cropper Canvas Workspace -->
+      <div class="crop-canvas-workspace">
+        <div class="crop-checkerboard-canvas" id="crop-checkerboard-canvas">
+          <img id="cropper-target-img" src="" alt="Target Crop" />
+          <div class="crop-guide-overlay" id="crop-guide-overlay">Drag to move · Handles to resize</div>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts Hints Bar -->
+      <div class="crop-kbd-shortcuts-bar" style="background:#ffffff; padding:5px 16px; font-size:11px; color:#64748b; text-align:center; border-top:1px solid #f1f5f9; border-bottom:1px solid #e2e8f0; flex-shrink:0;">
+        <span class="kbd-key">Arrow Keys</span> nudge 1px &middot;
+        <span class="kbd-key">Shift+Arrow</span> nudge 10px &middot;
+        <span class="kbd-key">Ctrl/Cmd+Wheel</span> zoom &middot;
+        <span class="kbd-key">Space+Drag</span> pan
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="crop-modal-footer" style="display:flex; justify-content:flex-end; align-items:center; gap:10px; padding:10px 18px; background:#ffffff; border-top:1px solid #e2e8f0; flex-shrink:0;">
+        <button type="button" id="btn-cancel-crop-modal" class="btn btn-secondary" style="padding:7px 16px; border-radius:7px;">Cancel</button>
+        <button type="button" id="btn-apply-crop" class="btn btn-primary btn-crop-apply btn-apply-crop-action" style="background:#7c3aed; color:#ffffff; font-weight:700; font-size:13px; padding:7px 20px; border-radius:7px; border:none; cursor:pointer; box-shadow:0 4px 12px rgba(124,58,237,0.3);">
+          ✓ Apply Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Notes Library Modal / Drawer -->
+  <div id="library-modal" class="modal-overlay hidden">
+    <div class="modal-card library-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i data-lucide="folder-open" class="text-indigo"></i>
+          <h3>My Saved Notes Library</h3>
+        </div>
+        <button id="btn-close-library" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="library-search-bar">
+        <i data-lucide="search"></i>
+        <input type="text" id="library-search-input" placeholder="Search saved notes by subject or lecture title...">
+      </div>
+
+      <div class="saved-notes-list" id="saved-notes-list">
+        <!-- Notes cards will be rendered dynamically -->
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-library-new-note" class="btn btn-primary">
+          <i data-lucide="plus"></i> Create New Note
+        </button>
+        <button id="btn-close-library-footer" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <h4 id="loading-title">Converting Document...</h4>
+      <p id="loading-desc">Generating vector handwritten PDF with Chrome engine.</p>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=5.4.0"></script>
+</body>
+</html>

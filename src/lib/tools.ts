@@ -227,6 +227,15 @@ export const tools: Tool[] = [
     categorySlug: "design",
     color: 'from-emerald-600 to-teal-700',
   },
+  {
+    name: 'Handwriting Studio Generator',
+    description: 'Convert PDFs and text into realistic handwritten notes with custom fonts, diagrams, ruled paper, and vector PDF export.',
+    slug: 'handwriting-studio-generator',
+    icon: '✍️',
+    category: "Design",
+    categorySlug: "design",
+    color: 'from-indigo-600 to-violet-700',
+  },
 
   // ─── Image & Media Tools ───
   {
