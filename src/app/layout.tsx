@@ -265,7 +265,13 @@ export default function RootLayout({
                     document.head.appendChild(meta);
                   }
                 }
-              } catch(e) {}
+              try {
+                if (window.self !== window.top) {
+                  document.documentElement.classList.add('is-embedded');
+                }
+              } catch(e) {
+                document.documentElement.classList.add('is-embedded');
+              }
               if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js').then(function(reg) {

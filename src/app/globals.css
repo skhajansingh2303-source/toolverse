@@ -143,3 +143,18 @@ body {
   visibility: hidden !important;
 }
 
+/* Embedded Widget Mode */
+.is-embedded header,
+.is-embedded footer,
+.is-embedded #tool-dock,
+.is-embedded #bottom-nav,
+.is-embedded #cookie-consent,
+.is-embedded #translator-container {
+  display: none !important;
+}
+
+.is-embedded main {
+  padding-bottom: 0 !important;
+}
+
+

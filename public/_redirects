@@ -54,6 +54,12 @@
 /tools/nup-pdf/ /tools/organize-pdf/nup-pdf/ 301
 /tools/compress-pdf /tools/optimize-pdf/compress-pdf/ 301
 /tools/compress-pdf/ /tools/optimize-pdf/compress-pdf/ 301
+/tools/compress-pdf-to-100kb /tools/optimize-pdf/compress-pdf-to-100kb/ 301
+/tools/compress-pdf-to-100kb/ /tools/optimize-pdf/compress-pdf-to-100kb/ 301
+/tools/compress-pdf-to-200kb /tools/optimize-pdf/compress-pdf-to-200kb/ 301
+/tools/compress-pdf-to-200kb/ /tools/optimize-pdf/compress-pdf-to-200kb/ 301
+/tools/compress-pdf-to-500kb /tools/optimize-pdf/compress-pdf-to-500kb/ 301
+/tools/compress-pdf-to-500kb/ /tools/optimize-pdf/compress-pdf-to-500kb/ 301
 /tools/repair-pdf /tools/optimize-pdf/repair-pdf/ 301
 /tools/repair-pdf/ /tools/optimize-pdf/repair-pdf/ 301
 /tools/pdf-ocr /tools/optimize-pdf/pdf-ocr/ 301

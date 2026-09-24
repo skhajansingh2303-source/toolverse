@@ -35,6 +35,8 @@ export default function ToolSeoContent({
   relatedSlugs = [],
 }: ToolSeoContentProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [showEmbedModal, setShowEmbedModal] = useState<boolean>(false);
+  const [copiedEmbed, setCopiedEmbed] = useState<boolean>(false);
 
   // Find related tools
   const relatedTools: Tool[] = (
@@ -161,14 +163,96 @@ export default function ToolSeoContent({
             {toolName}
           </span>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-full border border-amber-200/60 dark:border-amber-900/50">
-          <span className="text-amber-500">★</span>
-          <span>4.9 / 5</span>
-          <span className="text-gray-400 dark:text-slate-500 font-normal">
-            (1,540 reviews)
-          </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowEmbedModal(true)}
+            className="inline-flex items-center gap-1.5 text-xs text-indigo-700 dark:text-indigo-400 font-semibold bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 px-3 py-1 rounded-full border border-indigo-200/60 dark:border-indigo-900/50 transition-colors"
+            title="Embed this tool on your website or blog"
+          >
+            <span>&lt;/&gt;</span>
+            <span>Embed Widget</span>
+          </button>
+          <div className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-full border border-amber-200/60 dark:border-amber-900/50">
+            <span className="text-amber-500">★</span>
+            <span>4.9 / 5</span>
+            <span className="text-gray-400 dark:text-slate-500 font-normal">
+              (1,540 reviews)
+            </span>
+          </div>
         </div>
       </nav>
+
+      {/* Embed Modal */}
+      {showEmbedModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-200 dark:border-slate-800">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-xl bg-indigo-500 text-white flex items-center justify-center text-sm font-black">&lt;/&gt;</span>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">Embed {toolName} on Your Site</h3>
+                  <p className="text-[11px] text-gray-500 dark:text-slate-400">Add this 100% free, private in-browser tool to your blog or web app</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEmbedModal(false)}
+                className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-500 hover:text-gray-900 dark:hover:text-white flex items-center justify-center text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 mb-1.5">
+                  Copy &amp; Paste this HTML into your website:
+                </label>
+                <div className="relative">
+                  <textarea
+                    readOnly
+                    rows={4}
+                    value={`<iframe src="https://toolsverseapp.com/tools/${categorySlug}/${toolSlug}/" width="100%" height="600" frameborder="0" style="border:1px solid #e2e8f0;border-radius:16px;"></iframe>\n<p style="font-size:12px;text-align:center;color:#64748b;margin-top:8px;">Free &amp; private in-browser tool powered by <a href="https://toolsverseapp.com" target="_blank" rel="noopener" style="color:#4f46e5;font-weight:bold;">ToolsVerse</a></p>`}
+                    className="w-full p-3 font-mono text-xs rounded-xl bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-slate-200 select-all"
+                  />
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 text-xs text-emerald-800 dark:text-emerald-300 space-y-1">
+                <p className="font-bold flex items-center gap-1.5">
+                  <span>🔒</span> Zero server costs for you
+                </p>
+                <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80">
+                  All processing executes client-side in the user&apos;s browser using WebAssembly. No API keys or server infrastructure needed.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowEmbedModal(false)}
+                  className="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const code = `<iframe src="https://toolsverseapp.com/tools/${categorySlug}/${toolSlug}/" width="100%" height="600" frameborder="0" style="border:1px solid #e2e8f0;border-radius:16px;"></iframe>\n<p style="font-size:12px;text-align:center;color:#64748b;margin-top:8px;">Free &amp; private in-browser tool powered by <a href="https://toolsverseapp.com" target="_blank" rel="noopener" style="color:#4f46e5;font-weight:bold;">ToolsVerse</a></p>`;
+                    await navigator.clipboard.writeText(code);
+                    setCopiedEmbed(true);
+                    setTimeout(() => setCopiedEmbed(false), 2000);
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-md shadow-primary-500/20 transition-all flex items-center gap-1.5"
+                >
+                  <span>{copiedEmbed ? '✓ Copied to Clipboard!' : '📋 Copy Embed Code'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Trust & Guarantee Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
