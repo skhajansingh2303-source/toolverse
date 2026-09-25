@@ -58,29 +58,29 @@ export default function Base64Tool() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Base64 Encoder/Decoder</span>
+          <span className="text-gray-900 dark:text-white">Base64 Encoder/Decoder</span>
         </nav>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Base64 Encoder / Decoder</h1>
-              <p className="text-gray-600">Easily encode text to Base64 format or decode Base64 strings back to text.</p>
+              <p className="text-gray-600 dark:text-slate-300">Easily encode text to Base64 format or decode Base64 strings back to text.</p>
             </div>
 
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label htmlFor="input" className="block text-sm font-medium text-gray-700">Input</label>
-                  <span className="text-xs text-gray-500">{getByteSize(input)} bytes</span>
+                  <label htmlFor="input" className="block text-sm font-medium text-gray-700 dark:text-slate-200">Input</label>
+                  <span className="text-xs text-gray-500 dark:text-slate-400">{getByteSize(input)} bytes</span>
                 </div>
                 <textarea
                   id="input"
                   rows={5}
-                  className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4"
+                  className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4"
                   placeholder="Enter text or Base64 here..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -123,13 +123,13 @@ export default function Base64Tool() {
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label htmlFor="output" className="block text-sm font-medium text-gray-700">Output</label>
-                  <span className="text-xs text-gray-500">{getByteSize(output)} bytes</span>
+                  <label htmlFor="output" className="block text-sm font-medium text-gray-700 dark:text-slate-200">Output</label>
+                  <span className="text-xs text-gray-500 dark:text-slate-400">{getByteSize(output)} bytes</span>
                 </div>
                 <textarea
                   id="output"
                   rows={5}
-                  className="w-full rounded-xl border border-gray-300 bg-gray-50 p-4 text-gray-700"
+                  className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 p-4 text-gray-700 dark:text-slate-200"
                   readOnly
                   value={output}
                   placeholder="Result will appear here..."
@@ -152,7 +152,7 @@ export default function Base64Tool() {
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-4 text-gray-600">
+          <ol className="list-decimal list-inside space-y-4 text-gray-600 dark:text-slate-300">
             <li>Paste your plain text or Base64 encoded string into the Input area.</li>
             <li>Click <strong>Encode</strong> to convert plain text into Base64 format.</li>
             <li>Click <strong>Decode</strong> to convert a Base64 string back to readable text.</li>

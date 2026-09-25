@@ -64,14 +64,14 @@ export default function HashGenerator() {
         <div className="max-w-4xl mx-auto p-6">
             <nav className="text-sm mb-8">
                 <Link href="/" className="text-primary-600 hover:underline">Home</Link>
-                <span className="text-gray-500 mx-2">/</span>
-                <span className="text-gray-900">Hash Generator</span>
+                <span className="text-gray-500 dark:text-slate-400 mx-2">/</span>
+                <span className="text-gray-900 dark:text-white">Hash Generator</span>
             </nav>
             <h1 className="text-3xl font-bold mb-2">Hash Generator</h1>
-            <p className="text-gray-600 mb-8">Generate cryptographic hashes (SHA-256, SHA-1, SHA-512) for text or files securely in your browser.</p>
+            <p className="text-gray-600 dark:text-slate-300 mb-8">Generate cryptographic hashes (SHA-256, SHA-1, SHA-512) for text or files securely in your browser.</p>
 
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden mb-8">
-                <div className="flex border-b border-gray-200">
+                <div className="flex border-b border-gray-200 dark:border-slate-800">
                     <button onClick={() => setMode('text')} className={`flex-1 py-4 font-semibold ${mode === 'text' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>Text Hash</button>
                     <button onClick={() => setMode('file')} className={`flex-1 py-4 font-semibold ${mode === 'file' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>File Hash</button>
                 </div>
@@ -80,7 +80,7 @@ export default function HashGenerator() {
                         <textarea
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-4 mb-4"
+                            className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-4 mb-4"
                             rows={6}
                             placeholder="Type or paste text to hash..."
                         />
@@ -99,7 +99,7 @@ export default function HashGenerator() {
                                 <div className="pointer-events-none flex flex-col items-center">
                                     <span className="text-3xl mb-2">📁</span>
                                     <p className="text-sm font-bold text-gray-900 dark:text-white mb-1">Click or drop any file to compute hashes</p>
-                                    <p className="text-xs text-gray-400 mb-3">Instant client-side SHA cryptographic hashes</p>
+                                    <p className="text-xs text-gray-400 dark:text-slate-400 mb-3">Instant client-side SHA cryptographic hashes</p>
                                     <span className="px-5 py-2 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                                         Browse File
                                     </span>
@@ -108,7 +108,7 @@ export default function HashGenerator() {
                             {fileInfo && (
                                 <div className="mt-4 text-sm text-gray-600 dark:text-slate-300 flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700">
                                     <span><strong>File:</strong> {fileInfo.name}</span>
-                                    <span className="text-xs text-gray-500">{Math.round(fileInfo.size / 1024)} KB</span>
+                                    <span className="text-xs text-gray-500 dark:text-slate-400">{Math.round(fileInfo.size / 1024)} KB</span>
                                 </div>
                             )}
                         </div>
@@ -116,9 +116,9 @@ export default function HashGenerator() {
                     
                     <div className="space-y-4 mt-6">
                         {Object.entries(hashes).map(([algo, hash]) => (
-                            <div key={algo} className="bg-gray-50 p-4 rounded-xl border border-gray-200 relative">
+                            <div key={algo} className="bg-gray-50 dark:bg-slate-800/60 p-4 rounded-xl border border-gray-200 dark:border-slate-800 relative">
                                 <div className="flex justify-between items-center mb-2">
-                                    <h3 className="font-bold text-gray-800">{algo} <span className="text-xs font-normal text-gray-500 ml-2">({hash ? hash.length * 4 : 0} bit)</span></h3>
+                                    <h3 className="font-bold text-gray-800 dark:text-slate-100">{algo} <span className="text-xs font-normal text-gray-500 dark:text-slate-400 ml-2">({hash ? hash.length * 4 : 0} bit)</span></h3>
                                     <button 
                                         onClick={() => handleCopy(hash, algo)} 
                                         disabled={!hash}

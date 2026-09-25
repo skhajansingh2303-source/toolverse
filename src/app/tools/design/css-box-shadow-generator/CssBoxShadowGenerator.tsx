@@ -65,14 +65,14 @@ export default function CssBoxShadowGenerator() {
               <svg className="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
             </li>
             <li>
-              <span className="text-gray-500" aria-current="page">CSS Box Shadow Generator</span>
+              <span className="text-gray-500 dark:text-slate-400" aria-current="page">CSS Box Shadow Generator</span>
             </li>
           </ol>
         </nav>
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">CSS Box Shadow Generator</h1>
-          <p className="text-lg text-gray-600">Design beautiful shadows and glassmorphism effects for your UI.</p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">CSS Box Shadow Generator</h1>
+          <p className="text-lg text-gray-600 dark:text-slate-300">Design beautiful shadows and glassmorphism effects for your UI.</p>
         </div>
 
         <AdSlot format="horizontal" />
@@ -86,7 +86,7 @@ export default function CssBoxShadowGenerator() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="text-sm font-medium">Horizontal Offset</label>
-                    <span className="text-sm text-gray-500">{hOffset}px</span>
+                    <span className="text-sm text-gray-500 dark:text-slate-400">{hOffset}px</span>
                   </div>
                   <input type="range" min="-50" max="50" value={hOffset} onChange={(e) => setHOffset(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
                 </div>
@@ -94,7 +94,7 @@ export default function CssBoxShadowGenerator() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="text-sm font-medium">Vertical Offset</label>
-                    <span className="text-sm text-gray-500">{vOffset}px</span>
+                    <span className="text-sm text-gray-500 dark:text-slate-400">{vOffset}px</span>
                   </div>
                   <input type="range" min="-50" max="50" value={vOffset} onChange={(e) => setVOffset(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
                 </div>
@@ -102,7 +102,7 @@ export default function CssBoxShadowGenerator() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="text-sm font-medium">Blur Radius</label>
-                    <span className="text-sm text-gray-500">{blur}px</span>
+                    <span className="text-sm text-gray-500 dark:text-slate-400">{blur}px</span>
                   </div>
                   <input type="range" min="0" max="100" value={blur} onChange={(e) => setBlur(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
                 </div>
@@ -110,7 +110,7 @@ export default function CssBoxShadowGenerator() {
                 <div>
                   <div className="flex justify-between mb-2">
                     <label className="text-sm font-medium">Spread Radius</label>
-                    <span className="text-sm text-gray-500">{spread}px</span>
+                    <span className="text-sm text-gray-500 dark:text-slate-400">{spread}px</span>
                   </div>
                   <input type="range" min="-50" max="50" value={spread} onChange={(e) => setSpread(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
                 </div>
@@ -123,13 +123,13 @@ export default function CssBoxShadowGenerator() {
                   <div className="flex-1">
                     <div className="flex justify-between mb-2">
                       <label className="text-sm font-medium">Opacity</label>
-                      <span className="text-sm text-gray-500">{opacity}</span>
+                      <span className="text-sm text-gray-500 dark:text-slate-400">{opacity}</span>
                     </div>
                     <input type="range" min="0" max="1" step="0.01" value={opacity} onChange={(e) => setOpacity(Number(e.target.value))} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-3" />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-4 pt-4 border-t border-gray-100 dark:border-slate-800">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" checked={inset} onChange={(e) => setInset(e.target.checked)} className="w-5 h-5 text-primary-600 rounded" />
                     <span className="text-sm font-medium">Inset Shadow</span>
@@ -163,7 +163,7 @@ export default function CssBoxShadowGenerator() {
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-semibold text-xl">Preview</h3>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500">Bg Color:</span>
+                  <span className="text-sm text-gray-500 dark:text-slate-400">Bg Color:</span>
                   <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-6 h-6 rounded cursor-pointer" />
                 </div>
               </div>

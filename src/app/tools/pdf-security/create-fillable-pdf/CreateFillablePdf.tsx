@@ -644,7 +644,7 @@ export default function CreateFillablePdf() {
                           type="checkbox"
                           checked={!!selectedField.checked}
                           onChange={(e) => updateSelectedField({ checked: e.target.checked })}
-                          className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300"
+                          className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-slate-700"
                         />
                         <span className="font-semibold text-gray-700 dark:text-slate-300">
                           Checked by Default

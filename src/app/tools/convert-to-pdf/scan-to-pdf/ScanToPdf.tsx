@@ -112,11 +112,11 @@ export default function ScanToPdf() {
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
-          <nav className="text-sm text-gray-500 mb-4">
+          <nav className="text-sm text-gray-500 dark:text-slate-400 mb-4">
             <Link href="/" className="hover:text-primary-600">Home</Link> / Scan to PDF
           </nav>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Scan to PDF</h1>
-          <p className="text-gray-600">Convert physical documents or photos into a unified PDF.</p>
+          <p className="text-gray-600 dark:text-slate-300">Convert physical documents or photos into a unified PDF.</p>
         </div>
 
         <AdSlot format="horizontal" />
@@ -140,7 +140,7 @@ export default function ScanToPdf() {
                 <div className="pointer-events-none flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-slate-300">
                   <span>📁</span>
                   <span className="font-semibold text-primary-600 group-hover:text-primary-700">Choose Photos</span>
-                  <span className="text-xs text-gray-400">or drop here</span>
+                  <span className="text-xs text-gray-400 dark:text-slate-400">or drop here</span>
                 </div>
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function ScanToPdf() {
             <div className="mb-6">
               <video ref={videoRef} autoPlay playsInline className="w-full max-h-[400px] object-contain bg-black rounded-xl mb-4"></video>
               <div className="flex gap-4 mb-4">
-                <select value={filter} onChange={(e) => setFilter(e.target.value as any)} className="rounded-xl border border-gray-300 p-2">
+                <select value={filter} onChange={(e) => setFilter(e.target.value as any)} className="rounded-xl border border-gray-300 dark:border-slate-700 p-2">
                   <option value="normal">Normal Color</option>
                   <option value="grayscale">Grayscale</option>
                   <option value="contrast">High Contrast</option>
@@ -173,7 +173,7 @@ export default function ScanToPdf() {
               <h3 className="font-semibold mb-2">Pages ({images.length})</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {images.map((img, idx) => (
-                  <div key={idx} className="relative aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
+                  <div key={idx} className="relative aspect-[3/4] bg-gray-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-gray-200 dark:border-slate-800">
                     <img src={img} alt={`Page ${idx + 1}`} className="w-full h-full object-cover" />
                     <button onClick={() => removeImage(idx)} className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">×</button>
                   </div>
@@ -220,8 +220,8 @@ export default function ScanToPdf() {
         )}
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-300">
             <li>Upload images of your document or use your device's camera to snap pages.</li>
             <li>Use the document filters if scanning physical paper via camera.</li>
             <li>Review the snapped pages and remove any mistakes.</li>

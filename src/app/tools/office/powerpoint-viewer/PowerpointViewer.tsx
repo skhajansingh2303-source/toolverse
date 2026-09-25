@@ -255,7 +255,7 @@ export default function PowerpointViewer() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6">
+      <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
         <span>/</span>
         <Link href="/#tools" className="hover:text-primary-600 transition-colors">Tools</Link>
@@ -389,7 +389,7 @@ export default function PowerpointViewer() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Thumbnails list */}
             <div className="lg:col-span-1 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-4 max-h-[600px] overflow-y-auto space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Slides ({slides.length})</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-slate-400 mb-2">Slides ({slides.length})</h3>
               {slides.map((s, idx) => (
                 <button
                   key={s.id}

@@ -1080,7 +1080,7 @@ export default function ElectronicInvoice() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs">
                     <thead>
-                      <tr className="border-b border-gray-200 dark:border-slate-700 text-gray-500 font-bold">
+                      <tr className="border-b border-gray-200 dark:border-slate-700 text-gray-500 dark:text-slate-400 font-bold">
                         <th className="text-left pb-2 w-1/2">Description</th>
                         <th className="text-center pb-2 w-16">Qty</th>
                         <th className="text-right pb-2 w-28">Unit Price</th>
@@ -1134,7 +1134,7 @@ export default function ElectronicInvoice() {
                             <button
                               onClick={() => removeLineItem(item.id)}
                               disabled={lineItems.length <= 1}
-                              className="text-gray-400 hover:text-red-500 disabled:opacity-30 p-1"
+                              className="text-gray-400 dark:text-slate-400 hover:text-red-500 disabled:opacity-30 p-1"
                               title="Delete Item"
                             >
                               ✕
@@ -1346,25 +1346,25 @@ export default function ElectronicInvoice() {
                     {/* Key Attributes */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                       <div className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
-                        <span className="text-gray-500 block">Invoice Number</span>
+                        <span className="text-gray-500 dark:text-slate-400 block">Invoice Number</span>
                         <span className="font-bold text-gray-900 dark:text-white text-sm">
                           {validationReport.invoiceNumber}
                         </span>
                       </div>
                       <div className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
-                        <span className="text-gray-500 block">Issue Date</span>
+                        <span className="text-gray-500 dark:text-slate-400 block">Issue Date</span>
                         <span className="font-bold text-gray-900 dark:text-white text-sm">
                           {validationReport.issueDate}
                         </span>
                       </div>
                       <div className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
-                        <span className="text-gray-500 block">Currency</span>
+                        <span className="text-gray-500 dark:text-slate-400 block">Currency</span>
                         <span className="font-bold text-gray-900 dark:text-white text-sm">
                           {validationReport.currency}
                         </span>
                       </div>
                       <div className="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
-                        <span className="text-gray-500 block">Arithmetic Check</span>
+                        <span className="text-gray-500 dark:text-slate-400 block">Arithmetic Check</span>
                         <span
                           className={`font-bold text-sm ${
                             validationReport.arithmeticCheckPassed ? 'text-emerald-600' : 'text-amber-600'
@@ -1382,7 +1382,7 @@ export default function ElectronicInvoice() {
                         <p className="font-semibold text-gray-900 dark:text-white text-sm">
                           {validationReport.sellerName}
                         </p>
-                        <p className="text-gray-500 mt-1">VAT ID: {validationReport.sellerVat}</p>
+                        <p className="text-gray-500 dark:text-slate-400 mt-1">VAT ID: {validationReport.sellerVat}</p>
                       </div>
 
                       <div className="p-4 bg-gray-50 dark:bg-slate-800/40 rounded-xl border border-gray-200 dark:border-slate-800">
@@ -1390,7 +1390,7 @@ export default function ElectronicInvoice() {
                         <p className="font-semibold text-gray-900 dark:text-white text-sm">
                           {validationReport.buyerName}
                         </p>
-                        <p className="text-gray-500 mt-1">VAT ID: {validationReport.buyerVat}</p>
+                        <p className="text-gray-500 dark:text-slate-400 mt-1">VAT ID: {validationReport.buyerVat}</p>
                       </div>
                     </div>
 

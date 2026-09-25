@@ -496,7 +496,7 @@ ${pagesData.map((p) => p.htmlContent).join('\n')}
                   </div>
                   <div>
                     <span className="font-bold text-sm text-gray-900 dark:text-white block">{file.name}</span>
-                    <span className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</span>
+                    <span className="text-xs text-gray-500 dark:text-slate-400">{(file.size / 1024).toFixed(1)} KB</span>
                   </div>
                 </div>
 
@@ -673,7 +673,7 @@ ${pagesData.map((p) => p.htmlContent).join('\n')}
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col overflow-hidden h-[700px]">
                   <div className="px-4 py-2.5 bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-gray-700 dark:text-gray-300">
                     <span>Rendered Webpage Container</span>
-                    <span className="text-[11px] text-gray-400">Viewport: {previewViewport}</span>
+                    <span className="text-[11px] text-gray-400 dark:text-slate-400">Viewport: {previewViewport}</span>
                   </div>
 
                   <div className="flex-1 bg-gray-200/60 dark:bg-slate-950 p-4 overflow-auto flex justify-center items-start">
@@ -693,7 +693,7 @@ ${pagesData.map((p) => p.htmlContent).join('\n')}
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col overflow-hidden h-[700px]">
                   <div className="px-4 py-2.5 bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between text-xs font-bold text-gray-700 dark:text-gray-300">
                     <span>HTML5 Source Code</span>
-                    <span className="font-mono text-[11px] text-gray-400">
+                    <span className="font-mono text-[11px] text-gray-400 dark:text-slate-400">
                       {(htmlCode.length / 1024).toFixed(1)} KB
                     </span>
                   </div>

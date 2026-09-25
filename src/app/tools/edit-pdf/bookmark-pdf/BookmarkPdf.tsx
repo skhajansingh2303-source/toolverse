@@ -449,7 +449,7 @@ export default function BookmarkPdf() {
                       }}
                     >
                       <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                        <span className="text-xs text-gray-400 font-mono">
+                        <span className="text-xs text-gray-400 dark:text-slate-400 font-mono">
                           {bm.level > 0 ? '↳ ' : '• '}
                         </span>
                         <input
@@ -461,7 +461,7 @@ export default function BookmarkPdf() {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-slate-400">
                           <span>Page:</span>
                           <input
                             type="number"

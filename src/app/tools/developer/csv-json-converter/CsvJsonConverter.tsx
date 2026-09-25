@@ -135,14 +135,14 @@ export default function CsvJsonConverter() {
           <button
             onClick={handleCopy}
             disabled={!output}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-40"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             {copied ? '✓ Copied' : 'Copy Output'}
           </button>
           <button
             onClick={handleDownload}
             disabled={!output}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-40"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             Download File
           </button>
@@ -158,35 +158,35 @@ export default function CsvJsonConverter() {
       {/* Editor Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700 flex justify-between">
+          <div className="px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-slate-200 flex justify-between">
             <span>Input ({mode === 'csv2json' ? 'CSV Format' : 'JSON Array'})</span>
-            <span className="text-gray-400 font-normal">{input.length} chars</span>
+            <span className="text-gray-400 dark:text-slate-400 font-normal">{input.length} chars</span>
           </div>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={mode === 'csv2json' ? 'Paste CSV with headers here...' : 'Paste JSON array here...'}
-            className="w-full h-80 p-4 font-mono text-xs text-gray-800 outline-none resize-none leading-relaxed"
+            className="w-full h-80 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 outline-none resize-none leading-relaxed"
           />
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700 flex justify-between">
+          <div className="px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-slate-200 flex justify-between">
             <span>Output ({mode === 'csv2json' ? 'JSON Array' : 'CSV Format'})</span>
-            <span className="text-gray-400 font-normal">{output.length} chars</span>
+            <span className="text-gray-400 dark:text-slate-400 font-normal">{output.length} chars</span>
           </div>
           <textarea
             readOnly
             value={output}
             placeholder="Converted result will appear here..."
-            className="w-full h-80 p-4 font-mono text-xs text-gray-800 bg-gray-50/50 outline-none resize-none leading-relaxed"
+            className="w-full h-80 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 bg-gray-50/50 outline-none resize-none leading-relaxed"
           />
         </div>
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
-        <h2 className="text-base font-bold text-gray-900 mb-2">How to Convert CSV &amp; JSON</h2>
-        <ul className="list-disc list-inside space-y-1.5 text-xs text-gray-600">
+        <h2 className="text-base font-bold text-gray-900 dark:text-white mb-2">How to Convert CSV &amp; JSON</h2>
+        <ul className="list-disc list-inside space-y-1.5 text-xs text-gray-600 dark:text-slate-300">
           <li>For CSV to JSON: ensure the first row has column headers (e.g. name, email, role).</li>
           <li>For JSON to CSV: ensure the input is an array of objects (e.g. [&#123;&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;&#125;]).</li>
           <li>Click <strong>Convert Now</strong> and copy the result or download the converted spreadsheet.</li>

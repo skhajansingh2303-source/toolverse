@@ -410,7 +410,7 @@ export default function ComparePdf() {
               <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
                 Document A (Original Version)
               </span>
-              <span className="text-[11px] text-gray-400">Reference draft</span>
+              <span className="text-[11px] text-gray-400 dark:text-slate-400">Reference draft</span>
             </div>
 
             {!fileA ? (
@@ -473,7 +473,7 @@ export default function ComparePdf() {
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                 Document B (Modified Version)
               </span>
-              <span className="text-[11px] text-gray-400">New revision</span>
+              <span className="text-[11px] text-gray-400 dark:text-slate-400">New revision</span>
             </div>
 
             {!fileB ? (

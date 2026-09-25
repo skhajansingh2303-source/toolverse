@@ -84,26 +84,26 @@ export default function UrlTool() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">URL Encoder/Decoder</span>
+          <span className="text-gray-900 dark:text-white">URL Encoder/Decoder</span>
         </nav>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">URL Encoder / Decoder</h1>
-              <p className="text-gray-600">Encode special characters for URLs or decode encoded strings back to human-readable text.</p>
+              <p className="text-gray-600 dark:text-slate-300">Encode special characters for URLs or decode encoded strings back to human-readable text.</p>
             </div>
 
             <div className="space-y-6">
               <div>
-                <label htmlFor="input" className="block text-sm font-medium text-gray-700 mb-2">Input String or URL</label>
+                <label htmlFor="input" className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Input String or URL</label>
                 <textarea
                   id="input"
                   rows={4}
-                  className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm"
+                  className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm"
                   placeholder="https://example.com/?q=hello world"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -160,11 +160,11 @@ export default function UrlTool() {
               )}
 
               <div>
-                <label htmlFor="output" className="block text-sm font-medium text-gray-700 mb-2">Output</label>
+                <label htmlFor="output" className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Output</label>
                 <textarea
                   id="output"
                   rows={4}
-                  className="w-full rounded-xl border border-gray-300 bg-gray-50 p-4 text-gray-700 font-mono text-sm"
+                  className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 p-4 text-gray-700 dark:text-slate-200 font-mono text-sm"
                   readOnly
                   value={output}
                   placeholder="Result will appear here..."
@@ -188,43 +188,43 @@ export default function UrlTool() {
         {parsedUrl && input && (
           <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
             <div className="p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Parsed URL Details</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Parsed URL Details</h3>
               <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 pb-4">
-                  <div className="font-semibold text-gray-600">Protocol</div>
-                  <div className="sm:col-span-2 font-mono text-gray-900">{parsedUrl.protocol}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 dark:border-slate-800 pb-4">
+                  <div className="font-semibold text-gray-600 dark:text-slate-300">Protocol</div>
+                  <div className="sm:col-span-2 font-mono text-gray-900 dark:text-white">{parsedUrl.protocol}</div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 pb-4">
-                  <div className="font-semibold text-gray-600">Host</div>
-                  <div className="sm:col-span-2 font-mono text-gray-900">{parsedUrl.host}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 dark:border-slate-800 pb-4">
+                  <div className="font-semibold text-gray-600 dark:text-slate-300">Host</div>
+                  <div className="sm:col-span-2 font-mono text-gray-900 dark:text-white">{parsedUrl.host}</div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 pb-4">
-                  <div className="font-semibold text-gray-600">Path</div>
-                  <div className="sm:col-span-2 font-mono text-gray-900 break-all">{parsedUrl.pathname}</div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 dark:border-slate-800 pb-4">
+                  <div className="font-semibold text-gray-600 dark:text-slate-300">Path</div>
+                  <div className="sm:col-span-2 font-mono text-gray-900 dark:text-white break-all">{parsedUrl.pathname}</div>
                 </div>
                 {parsedUrl.hash && (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 pb-4">
-                    <div className="font-semibold text-gray-600">Hash</div>
-                    <div className="sm:col-span-2 font-mono text-gray-900">{parsedUrl.hash}</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-gray-100 dark:border-slate-800 pb-4">
+                    <div className="font-semibold text-gray-600 dark:text-slate-300">Hash</div>
+                    <div className="sm:col-span-2 font-mono text-gray-900 dark:text-white">{parsedUrl.hash}</div>
                   </div>
                 )}
                 
                 {Object.keys(parsedUrl.searchParams).length > 0 && (
                   <div className="mt-6">
-                    <h4 className="font-semibold text-gray-700 mb-3">Query Parameters</h4>
-                    <div className="border border-gray-200 rounded-lg overflow-hidden">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <h4 className="font-semibold text-gray-700 dark:text-slate-200 mb-3">Query Parameters</h4>
+                    <div className="border border-gray-200 dark:border-slate-800 rounded-lg overflow-hidden">
+                      <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-800">
+                        <thead className="bg-gray-50 dark:bg-slate-800/60">
                           <tr>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Key</th>
-                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Key</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Value</th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-slate-800">
                           {Object.entries(parsedUrl.searchParams).map(([key, value]) => (
                             <tr key={key}>
-                              <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 font-mono">{key}</td>
-                              <td className="px-4 py-3 text-sm text-gray-500 font-mono break-all">{value}</td>
+                              <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white font-mono">{key}</td>
+                              <td className="px-4 py-3 text-sm text-gray-500 dark:text-slate-400 font-mono break-all">{value}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -239,7 +239,7 @@ export default function UrlTool() {
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-4 text-gray-600">
+          <ol className="list-decimal list-inside space-y-4 text-gray-600 dark:text-slate-300">
             <li>Paste your URL or text into the Input area.</li>
             <li>Click <strong>Encode Component</strong> for query parameters or fragments, or <strong>Encode Full URL</strong> for an entire web address.</li>
             <li>Click <strong>Decode</strong> to convert encoded gibberish back into readable text.</li>

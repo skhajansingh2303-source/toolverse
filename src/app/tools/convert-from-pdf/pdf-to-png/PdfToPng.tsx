@@ -327,7 +327,7 @@ export default function PdfToPng() {
                   </div>
                   <div>
                     <span className="font-bold text-sm text-gray-900 dark:text-white block">{file.name}</span>
-                    <span className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</span>
+                    <span className="text-xs text-gray-500 dark:text-slate-400">{(file.size / 1024).toFixed(1)} KB</span>
                   </div>
                 </div>
 
@@ -445,7 +445,7 @@ export default function PdfToPng() {
                       className="max-w-full max-h-full object-contain shadow-xs group-hover:scale-[1.02] transition-transform"
                     />
                     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                      <span className="px-3 py-1.5 rounded-lg bg-white/90 text-gray-900 text-xs font-bold shadow">
+                      <span className="px-3 py-1.5 rounded-lg bg-white/90 text-gray-900 dark:text-white text-xs font-bold shadow">
                         Click to Zoom
                       </span>
                     </div>
@@ -457,7 +457,7 @@ export default function PdfToPng() {
                       <span className="font-bold text-sm text-gray-900 dark:text-white block">
                         Page {png.pageNumber}
                       </span>
-                      <span className="text-[11px] text-gray-400">
+                      <span className="text-[11px] text-gray-400 dark:text-slate-400">
                         {png.width} × {png.height} px • {png.sizeKb} KB
                       </span>
                     </div>
@@ -495,7 +495,7 @@ export default function PdfToPng() {
                 </span>
                 <button
                   onClick={() => setZoomModalPage(null)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg font-bold"
+                  className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg font-bold"
                 >
                   ✕
                 </button>

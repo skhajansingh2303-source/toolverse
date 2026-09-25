@@ -225,7 +225,7 @@ export default function FdCalculator() {
               onChange={(e) => setAmount(e.target.value)}
               className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
-            <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[11px] text-gray-400 dark:text-slate-400 mt-1">
               <span>{currency}{depositType === 'fd' ? '10 K' : '500'}</span>
               <span>{currency}{depositType === 'fd' ? '10 L' : '50 K'}</span>
               <span>{currency}{depositType === 'fd' ? '20 L' : '1 L'}</span>
@@ -260,7 +260,7 @@ export default function FdCalculator() {
               onChange={(e) => setRate(e.target.value)}
               className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
-            <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[11px] text-gray-400 dark:text-slate-400 mt-1">
               <span>3%</span>
               <span>7.5%</span>
               <span>12%</span>
@@ -408,7 +408,7 @@ export default function FdCalculator() {
               <div className="text-2xl font-black text-gray-900 dark:text-white">
                 {currency}{formatNumber(calculation.totalInvested)}
               </div>
-              <span className="text-[11px] text-gray-400 block mt-0.5">
+              <span className="text-[11px] text-gray-400 dark:text-slate-400 block mt-0.5">
                 {depositType === 'fd' ? 'One-time lump sum' : `Monthly installments`}
               </span>
             </div>
@@ -431,13 +431,13 @@ export default function FdCalculator() {
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
               <h3 className="text-sm font-black text-gray-900 dark:text-white mb-4 flex items-center justify-between">
                 <span>Annual Growth &amp; Compounding Schedule</span>
-                <span className="text-xs font-semibold text-gray-400">Yearly Balance</span>
+                <span className="text-xs font-semibold text-gray-400 dark:text-slate-400">Yearly Balance</span>
               </h3>
 
               <div className="overflow-x-auto max-h-72 overflow-y-auto">
                 <table className="w-full text-xs text-left">
                   <thead className="sticky top-0 bg-white dark:bg-slate-900">
-                    <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 font-bold">
+                    <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-400 font-bold">
                       <th className="pb-2.5">Period</th>
                       <th className="pb-2.5 text-right">Principal</th>
                       <th className="pb-2.5 text-right">Interest Gained</th>

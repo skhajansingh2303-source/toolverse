@@ -117,7 +117,7 @@ export default function TimestampConverter() {
         <div className="bg-gray-900 text-white px-4 py-2 rounded-2xl flex items-center gap-2.5 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <div className="flex flex-col">
-            <span className="text-[10px] text-gray-400 font-medium">Current Unix Epoch</span>
+            <span className="text-[10px] text-gray-400 dark:text-slate-400 font-medium">Current Unix Epoch</span>
             <span className="font-mono text-sm font-bold">{currentEpoch}</span>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function TimestampConverter() {
 
         {/* Quick presets */}
         <div className="flex flex-wrap items-center gap-2 pt-2 text-xs">
-          <span className="text-gray-400 font-medium">Quick jump:</span>
+          <span className="text-gray-400 dark:text-slate-400 font-medium">Quick jump:</span>
           {[
             { id: 'startOfDay', label: 'Start of Today' },
             { id: 'startOfYear', label: 'Start of Year' },
@@ -174,17 +174,17 @@ export default function TimestampConverter() {
           {/* Main Key Dates */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
+              <span className="text-[11px] font-bold uppercase text-gray-400 dark:text-slate-400 block mb-1">
                 Relative Time
               </span>
               <span className="text-base font-bold text-primary-600 block mb-2">
                 {formatRelativeTime(dateObj)}
               </span>
-              <span className="text-xs text-gray-400">Calculated from right now</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400">Calculated from right now</span>
             </div>
 
             <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
+              <span className="text-[11px] font-bold uppercase text-gray-400 dark:text-slate-400 block mb-1">
                 ISO 8601 (UTC)
               </span>
               <span className="text-xs font-mono font-bold text-gray-900 dark:text-white block truncate mb-2">
@@ -199,7 +199,7 @@ export default function TimestampConverter() {
             </div>
 
             <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
-              <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
+              <span className="text-[11px] font-bold uppercase text-gray-400 dark:text-slate-400 block mb-1">
                 Local Device Time
               </span>
               <span className="text-xs font-semibold text-gray-900 dark:text-white block truncate mb-2">

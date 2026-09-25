@@ -301,7 +301,7 @@ export default function PowerpointToHtml() {
               />
               <div className="text-5xl mb-4">🌐</div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload PPTX File</h3>
-              <p className="text-sm text-gray-500">Drag and drop or click to browse</p>
+              <p className="text-sm text-gray-500 dark:text-slate-400">Drag and drop or click to browse</p>
             </div>
             <div className="text-center">
               <button onClick={loadDemo} className="text-sm text-cyan-600 hover:underline">Load Sample Presentation</button>
@@ -313,7 +313,7 @@ export default function PowerpointToHtml() {
               <h3 className="font-bold text-gray-900 dark:text-white">{fileName}</h3>
               <button
                 onClick={() => setSlides([])}
-                className="text-sm text-gray-500 hover:text-cyan-600"
+                className="text-sm text-gray-500 dark:text-slate-400 hover:text-cyan-600"
               >
                 Clear
               </button>
@@ -321,14 +321,14 @@ export default function PowerpointToHtml() {
             
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Theme</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Theme</label>
                 <select value={theme} onChange={(e) => setTheme(e.target.value as any)} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Presentation Mode</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Presentation Mode</label>
                 <select value={presentationMode} onChange={(e) => setPresentationMode(e.target.value as any)} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value="scrollable">Scrollable (All slides visible)</option>
                   <option value="slider">Interactive Slider (One slide at a time)</option>

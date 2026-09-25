@@ -290,7 +290,7 @@ export default function SalaryCalculator() {
               onChange={(e) => setGrossInput(e.target.value)}
               className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-600"
             />
-            <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[11px] text-gray-400 dark:text-slate-400 mt-1">
               <span>{currency}{salaryInputMode === 'annual' ? '2 L' : '20 K'}</span>
               <span>{currency}{salaryInputMode === 'annual' ? '30 L' : '2.5 L'}</span>
               <span>{currency}{salaryInputMode === 'annual' ? '60 L' : '5 L'}</span>
@@ -354,10 +354,10 @@ export default function SalaryCalculator() {
               <div>
                 <div className="flex justify-between items-center text-xs mb-1 font-semibold text-gray-700 dark:text-slate-300">
                   <span>Section 80C (PPF, ELSS, EPF, Life Ins.)</span>
-                  <span className="text-gray-400 text-[11px]">Max 1.5 Lakh</span>
+                  <span className="text-gray-400 dark:text-slate-400 text-[11px]">Max 1.5 Lakh</span>
                 </div>
                 <div className="flex items-center px-3 py-2 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
-                  <span className="text-gray-400 mr-1 text-xs">{currency}</span>
+                  <span className="text-gray-400 dark:text-slate-400 mr-1 text-xs">{currency}</span>
                   <input
                     type="number"
                     min="0"
@@ -372,10 +372,10 @@ export default function SalaryCalculator() {
               <div>
                 <div className="flex justify-between items-center text-xs mb-1 font-semibold text-gray-700 dark:text-slate-300">
                   <span>Section 80D (Health Insurance Premium)</span>
-                  <span className="text-gray-400 text-[11px]">Up to 25k/50k</span>
+                  <span className="text-gray-400 dark:text-slate-400 text-[11px]">Up to 25k/50k</span>
                 </div>
                 <div className="flex items-center px-3 py-2 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
-                  <span className="text-gray-400 mr-1 text-xs">{currency}</span>
+                  <span className="text-gray-400 dark:text-slate-400 mr-1 text-xs">{currency}</span>
                   <input
                     type="number"
                     min="0"
@@ -390,10 +390,10 @@ export default function SalaryCalculator() {
               <div>
                 <div className="flex justify-between items-center text-xs mb-1 font-semibold text-gray-700 dark:text-slate-300">
                   <span>HRA Exemption (House Rent Allowance)</span>
-                  <span className="text-gray-400 text-[11px]">Annual rent relief</span>
+                  <span className="text-gray-400 dark:text-slate-400 text-[11px]">Annual rent relief</span>
                 </div>
                 <div className="flex items-center px-3 py-2 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
-                  <span className="text-gray-400 mr-1 text-xs">{currency}</span>
+                  <span className="text-gray-400 dark:text-slate-400 mr-1 text-xs">{currency}</span>
                   <input
                     type="number"
                     min="0"
@@ -428,7 +428,7 @@ export default function SalaryCalculator() {
             {includeEPF && (
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] text-gray-500 font-semibold block mb-1">
+                  <label className="text-[11px] text-gray-500 dark:text-slate-400 font-semibold block mb-1">
                     PF Rate (% of Basic)
                   </label>
                   <div className="flex items-center px-3 py-2 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
@@ -440,16 +440,16 @@ export default function SalaryCalculator() {
                       onChange={(e) => setEpfPercent(e.target.value)}
                       className="w-full bg-transparent text-xs font-bold text-gray-900 dark:text-white outline-none"
                     />
-                    <span className="text-gray-400 ml-1 text-xs">%</span>
+                    <span className="text-gray-400 dark:text-slate-400 ml-1 text-xs">%</span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-gray-500 font-semibold block mb-1">
+                  <label className="text-[11px] text-gray-500 dark:text-slate-400 font-semibold block mb-1">
                     Professional Tax / State Tax (Annual)
                   </label>
                   <div className="flex items-center px-3 py-2 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
-                    <span className="text-gray-400 mr-1 text-xs">{currency}</span>
+                    <span className="text-gray-400 dark:text-slate-400 mr-1 text-xs">{currency}</span>
                     <input
                       type="number"
                       min="0"
@@ -538,7 +538,7 @@ export default function SalaryCalculator() {
               <div className="text-xl font-black text-rose-600 dark:text-rose-400">
                 {currency}{formatNumber(results.annualTax)}
               </div>
-              <span className="text-[11px] text-gray-400 block mt-0.5">
+              <span className="text-[11px] text-gray-400 dark:text-slate-400 block mt-0.5">
                 {currency}{formatNumber(results.monthlyTax)} / month
               </span>
             </div>
@@ -550,7 +550,7 @@ export default function SalaryCalculator() {
               <div className="text-xl font-black text-amber-600 dark:text-amber-400">
                 {currency}{formatNumber(results.annualPF)}
               </div>
-              <span className="text-[11px] text-gray-400 block mt-0.5">
+              <span className="text-[11px] text-gray-400 dark:text-slate-400 block mt-0.5">
                 {currency}{formatNumber(results.monthlyPF)} / month
               </span>
             </div>
@@ -572,13 +572,13 @@ export default function SalaryCalculator() {
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
             <h3 className="text-sm font-black text-gray-900 dark:text-white mb-4 flex items-center justify-between">
               <span>Itemized Salary &amp; Deductions Statement</span>
-              <span className="text-xs font-semibold text-gray-400">Annual vs Monthly</span>
+              <span className="text-xs font-semibold text-gray-400 dark:text-slate-400">Annual vs Monthly</span>
             </h3>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
                 <thead>
-                  <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 font-bold">
+                  <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-400 font-bold">
                     <th className="pb-2.5">Salary Component</th>
                     <th className="pb-2.5 text-right">Monthly</th>
                     <th className="pb-2.5 text-right">Annual</th>

@@ -139,7 +139,7 @@ export default function TextDiffChecker() {
       {/* Settings Ribbon */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4 text-xs">
-          <label className="flex items-center gap-2 text-gray-700 cursor-pointer font-medium">
+          <label className="flex items-center gap-2 text-gray-700 dark:text-slate-200 cursor-pointer font-medium">
             <input
               type="checkbox"
               checked={ignoreWhitespace}
@@ -148,7 +148,7 @@ export default function TextDiffChecker() {
             />
             Ignore Whitespace
           </label>
-          <label className="flex items-center gap-2 text-gray-700 cursor-pointer font-medium">
+          <label className="flex items-center gap-2 text-gray-700 dark:text-slate-200 cursor-pointer font-medium">
             <input
               type="checkbox"
               checked={ignoreCase}
@@ -166,7 +166,7 @@ export default function TextDiffChecker() {
           <span className="inline-flex items-center gap-1 text-red-700 bg-red-50 px-2.5 py-1 rounded-lg font-semibold border border-red-200">
             -{diffResult.removedCount} removed
           </span>
-          <span className="inline-flex items-center gap-1 text-gray-600 bg-gray-50 px-2.5 py-1 rounded-lg font-semibold border border-gray-200">
+          <span className="inline-flex items-center gap-1 text-gray-600 dark:text-slate-300 bg-gray-50 dark:bg-slate-800/60 px-2.5 py-1 rounded-lg font-semibold border border-gray-200 dark:border-slate-800">
             {diffResult.unchangedCount} unchanged
           </span>
         </div>
@@ -175,26 +175,26 @@ export default function TextDiffChecker() {
       {/* Side by Side Input Textareas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700">
+          <div className="px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-slate-200">
             Original Text (Before)
           </div>
           <textarea
             value={oldText}
             onChange={(e) => setOldText(e.target.value)}
             placeholder="Paste initial text or code..."
-            className="w-full h-64 p-4 font-mono text-xs text-gray-800 outline-none resize-none leading-relaxed"
+            className="w-full h-64 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 outline-none resize-none leading-relaxed"
           />
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700">
+          <div className="px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-slate-200">
             Modified Text (After)
           </div>
           <textarea
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
             placeholder="Paste modified text or code..."
-            className="w-full h-64 p-4 font-mono text-xs text-gray-800 outline-none resize-none leading-relaxed"
+            className="w-full h-64 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 outline-none resize-none leading-relaxed"
           />
         </div>
       </div>
@@ -203,12 +203,12 @@ export default function TextDiffChecker() {
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden mb-8">
         <div className="px-6 py-3.5 bg-gray-900 text-white flex items-center justify-between text-xs font-bold">
           <span>Unified Diff Output</span>
-          <span className="text-gray-400 font-normal text-[11px]">
+          <span className="text-gray-400 dark:text-slate-400 font-normal text-[11px]">
             {diffResult.lines.length} total lines rendered
           </span>
         </div>
 
-        <div className="font-mono text-xs overflow-x-auto divide-y divide-gray-100">
+        <div className="font-mono text-xs overflow-x-auto divide-y divide-gray-100 dark:divide-slate-800">
           {diffResult.lines.map((line, idx) => {
             const isAdded = line.type === 'added';
             const isRemoved = line.type === 'removed';
@@ -225,7 +225,7 @@ export default function TextDiffChecker() {
                 }`}
               >
                 {/* Line number indicators */}
-                <div className="w-16 flex items-center justify-between text-[10px] text-gray-400 select-none mr-4 shrink-0 font-mono">
+                <div className="w-16 flex items-center justify-between text-[10px] text-gray-400 dark:text-slate-400 select-none mr-4 shrink-0 font-mono">
                   <span>{line.oldLineNum || ''}</span>
                   <span>{line.newLineNum || ''}</span>
                   <span className="font-bold ml-1">

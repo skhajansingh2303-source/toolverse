@@ -291,7 +291,7 @@ export default function HalvePdfPages() {
                         }`}
                       >
                         <div className="text-xs font-bold">Left → Right (LTR)</div>
-                        <div className="text-[10px] text-gray-400">English, Latin, Spanish</div>
+                        <div className="text-[10px] text-gray-400 dark:text-slate-400">English, Latin, Spanish</div>
                       </button>
 
                       <button
@@ -304,7 +304,7 @@ export default function HalvePdfPages() {
                         }`}
                       >
                         <div className="text-xs font-bold">Right → Left (RTL)</div>
-                        <div className="text-[10px] text-gray-400">Arabic, Hebrew, Manga</div>
+                        <div className="text-[10px] text-gray-400 dark:text-slate-400">Arabic, Hebrew, Manga</div>
                       </button>
                     </div>
                   ) : (
@@ -319,7 +319,7 @@ export default function HalvePdfPages() {
                         }`}
                       >
                         <div className="text-xs font-bold">Top → Bottom</div>
-                        <div className="text-[10px] text-gray-400">Upper page first</div>
+                        <div className="text-[10px] text-gray-400 dark:text-slate-400">Upper page first</div>
                       </button>
 
                       <button
@@ -332,7 +332,7 @@ export default function HalvePdfPages() {
                         }`}
                       >
                         <div className="text-xs font-bold">Bottom → Top</div>
-                        <div className="text-[10px] text-gray-400">Lower page first</div>
+                        <div className="text-[10px] text-gray-400 dark:text-slate-400">Lower page first</div>
                       </button>
                     </div>
                   )}
@@ -352,7 +352,7 @@ export default function HalvePdfPages() {
                             : originalPageCount * 2
                         );
                       }}
-                      className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300"
+                      className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-slate-700"
                     />
                     <div className="text-xs">
                       <span className="font-bold text-gray-900 dark:text-white block">
@@ -368,7 +368,7 @@ export default function HalvePdfPages() {
 
               {/* Visual Split Guide Diagram */}
               <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">
+                <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider mb-3">
                   Live Split Cut Visualization
                 </span>
 
@@ -380,7 +380,7 @@ export default function HalvePdfPages() {
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-primary-600 text-white shadow-xs">
                           {verticalOrder === 'ltr' ? 'Page 1' : 'Page 2'}
                         </span>
-                        <span className="text-[10px] text-gray-400 mt-1">Left Half</span>
+                        <span className="text-[10px] text-gray-400 dark:text-slate-400 mt-1">Left Half</span>
                       </div>
 
                       {/* Right Half */}
@@ -388,7 +388,7 @@ export default function HalvePdfPages() {
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-primary-600 text-white shadow-xs">
                           {verticalOrder === 'ltr' ? 'Page 2' : 'Page 1'}
                         </span>
-                        <span className="text-[10px] text-gray-400 mt-1">Right Half</span>
+                        <span className="text-[10px] text-gray-400 dark:text-slate-400 mt-1">Right Half</span>
                       </div>
 
                       {/* Cut line tag */}
@@ -400,7 +400,7 @@ export default function HalvePdfPages() {
                     <div className="w-full h-full flex flex-col">
                       {/* Top Half */}
                       <div className="w-full h-1/2 flex items-center justify-between px-4 bg-blue-50/40 dark:bg-blue-950/20 border-b-2 border-dashed border-red-500 relative">
-                        <span className="text-[10px] text-gray-400">Top Half</span>
+                        <span className="text-[10px] text-gray-400 dark:text-slate-400">Top Half</span>
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-primary-600 text-white shadow-xs">
                           {horizontalOrder === 'top-to-bottom' ? 'Page 1' : 'Page 2'}
                         </span>
@@ -408,7 +408,7 @@ export default function HalvePdfPages() {
 
                       {/* Bottom Half */}
                       <div className="w-full h-1/2 flex items-center justify-between px-4 bg-emerald-50/40 dark:bg-emerald-950/20 relative">
-                        <span className="text-[10px] text-gray-400">Bottom Half</span>
+                        <span className="text-[10px] text-gray-400 dark:text-slate-400">Bottom Half</span>
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-primary-600 text-white shadow-xs">
                           {horizontalOrder === 'top-to-bottom' ? 'Page 2' : 'Page 1'}
                         </span>

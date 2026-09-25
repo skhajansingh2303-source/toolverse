@@ -219,12 +219,12 @@ export default function JsonFormatter() {
 
         {/* Indent option & Actions */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 text-xs text-gray-600 font-medium">
+          <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-slate-300 font-medium">
             <span>Indent:</span>
             <select
               value={indent}
               onChange={(e) => setIndent(e.target.value)}
-              className="bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-800 outline-none focus:ring-1 focus:ring-primary-500"
+              className="bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-lg px-2.5 py-1 text-xs text-gray-800 dark:text-slate-100 outline-none focus:ring-1 focus:ring-primary-500"
             >
               <option value={2}>2 Spaces</option>
               <option value={4}>4 Spaces</option>
@@ -235,7 +235,7 @@ export default function JsonFormatter() {
           <button
             onClick={handleCopy}
             disabled={!output && !input}
-            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-40"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             {copied ? '✓ Copied' : 'Copy'}
           </button>
@@ -243,7 +243,7 @@ export default function JsonFormatter() {
           <button
             onClick={handleDownload}
             disabled={!output && !input}
-            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-40"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             Download .json
           </button>
@@ -270,9 +270,9 @@ export default function JsonFormatter() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Pane */}
         <div className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600">
+          <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-semibold text-gray-600 dark:text-slate-300">
             <span>Input JSON</span>
-            <span className="text-gray-400 font-normal">
+            <span className="text-gray-400 dark:text-slate-400 font-normal">
               {input.length} characters
             </span>
           </div>
@@ -283,16 +283,16 @@ export default function JsonFormatter() {
               if (error) setError(null);
             }}
             placeholder="Paste raw unformatted or minified JSON here..."
-            className="w-full h-96 p-4 font-mono text-xs text-gray-800 resize-none outline-none focus:ring-1 focus:ring-primary-400 leading-relaxed"
+            className="w-full h-96 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 resize-none outline-none focus:ring-1 focus:ring-primary-400 leading-relaxed"
             spellCheck={false}
           />
         </div>
 
         {/* Output Pane */}
         <div className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600">
+          <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-200 dark:border-slate-800 text-xs font-semibold text-gray-600 dark:text-slate-300">
             <span>Formatted Result</span>
-            <span className="text-gray-400 font-normal">
+            <span className="text-gray-400 dark:text-slate-400 font-normal">
               {output ? `${output.split('\n').length} lines` : 'Waiting for format'}
             </span>
           </div>
@@ -300,7 +300,7 @@ export default function JsonFormatter() {
             readOnly
             value={output}
             placeholder="Prettified or minified output will appear here..."
-            className="w-full h-96 p-4 font-mono text-xs text-gray-800 bg-slate-50/50 resize-none outline-none leading-relaxed"
+            className="w-full h-96 p-4 font-mono text-xs text-gray-800 dark:text-slate-100 bg-slate-50/50 resize-none outline-none leading-relaxed"
             spellCheck={false}
           />
         </div>
@@ -309,25 +309,25 @@ export default function JsonFormatter() {
       {/* Real-time Document Diagnostics Bar */}
       {stats && stats.isValid && (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-5 shadow-xs mb-10">
-          <h3 className="text-xs uppercase font-bold text-gray-400 tracking-wider mb-3">
+          <h3 className="text-xs uppercase font-bold text-gray-400 dark:text-slate-400 tracking-wider mb-3">
             Structure Diagnostics
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-            <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-              <span className="block text-lg font-black text-gray-900">{stats.keys}</span>
-              <span className="text-[11px] text-gray-500">Object Keys</span>
+            <div className="p-3 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-100 dark:border-slate-800">
+              <span className="block text-lg font-black text-gray-900 dark:text-white">{stats.keys}</span>
+              <span className="text-[11px] text-gray-500 dark:text-slate-400">Object Keys</span>
             </div>
-            <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-              <span className="block text-lg font-black text-gray-900">{stats.depth}</span>
-              <span className="text-[11px] text-gray-500">Nesting Depth</span>
+            <div className="p-3 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-100 dark:border-slate-800">
+              <span className="block text-lg font-black text-gray-900 dark:text-white">{stats.depth}</span>
+              <span className="text-[11px] text-gray-500 dark:text-slate-400">Nesting Depth</span>
             </div>
-            <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-              <span className="block text-lg font-black text-gray-900">{stats.arrays}</span>
-              <span className="text-[11px] text-gray-500">Arrays Count</span>
+            <div className="p-3 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-100 dark:border-slate-800">
+              <span className="block text-lg font-black text-gray-900 dark:text-white">{stats.arrays}</span>
+              <span className="text-[11px] text-gray-500 dark:text-slate-400">Arrays Count</span>
             </div>
-            <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
-              <span className="block text-lg font-black text-gray-900">{stats.bytes} B</span>
-              <span className="text-[11px] text-gray-500">Payload Size</span>
+            <div className="p-3 bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-100 dark:border-slate-800">
+              <span className="block text-lg font-black text-gray-900 dark:text-white">{stats.bytes} B</span>
+              <span className="text-[11px] text-gray-500 dark:text-slate-400">Payload Size</span>
             </div>
           </div>
         </div>
@@ -335,16 +335,16 @@ export default function JsonFormatter() {
 
       {/* Step by Step Guide & SEO Description */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
-        <h2 className="text-lg font-bold text-gray-900 mb-3">How to Use the JSON Formatter</h2>
-        <ol className="list-decimal list-inside space-y-2 text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">How to Use the JSON Formatter</h2>
+        <ol className="list-decimal list-inside space-y-2 text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed mb-6">
           <li>Paste any valid or invalid JSON string into the left input pane.</li>
           <li>Click <strong>Prettify / Format</strong> to indent and restructure, or <strong>Minify</strong> to condense into one line.</li>
           <li>If an error occurs, inspect the exact line and column pointer to correct missing quotes or trailing commas.</li>
           <li>Click <strong>Copy</strong> to clipboard or <strong>Download .json</strong> to save the formatted file.</li>
         </ol>
 
-        <h3 className="text-sm font-bold text-gray-900 mb-2">Privacy &amp; Security Guarantee</h3>
-        <p className="text-xs text-gray-500 leading-relaxed">
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2">Privacy &amp; Security Guarantee</h3>
+        <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed">
           Your confidential JSON data is evaluated locally inside your browser using the native V8 JavaScript parser. No network requests are made, ensuring your API tokens and credentials remain completely confidential.
         </p>
       </div>

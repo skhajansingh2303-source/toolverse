@@ -614,7 +614,7 @@ export default function MarkdownToPdf() {
                 className="px-4 py-2.5 rounded-xl border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800 font-semibold text-xs transition-colors flex items-center gap-1.5"
                 title="Open browser print dialog for pixel-perfect PDF export"
               >
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-gray-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
                 Print / Save as PDF
@@ -732,7 +732,7 @@ export default function MarkdownToPdf() {
               <span className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 Markdown Source Editor
               </span>
-              <span className="text-xs text-gray-500 font-mono">
+              <span className="text-xs text-gray-500 dark:text-slate-400 font-mono">
                 {markdown.length} chars • {markdown.trim().split(/\s+/).filter(Boolean).length} words
               </span>
             </div>
@@ -770,7 +770,7 @@ export default function MarkdownToPdf() {
               >
                 <RenderLiveMarkdown content={markdown} accentHex={colorMap[accentColor]?.hex || '#4f46e5'} />
                 {includePageNumbers && (
-                  <div className="mt-12 pt-4 border-t border-gray-200 flex items-center justify-between text-[11px] text-gray-400">
+                  <div className="mt-12 pt-4 border-t border-gray-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-gray-400 dark:text-slate-400">
                     <span>{documentTitle}</span>
                     <span>Page 1 of 1</span>
                   </div>
@@ -847,23 +847,23 @@ function RenderLiveMarkdown({ content, accentHex }: { content: string; accentHex
 
     const el = (
       <div key={`table-${k}`} className="overflow-x-auto my-4">
-        <table className="min-w-full text-xs border border-gray-200 divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full text-xs border border-gray-200 dark:border-slate-800 divide-y divide-gray-200 dark:divide-slate-800">
+          <thead className="bg-gray-50 dark:bg-slate-800/60">
             <tr>
               {headers.map((h, i) => (
-                <th key={i} className="px-3 py-2 text-left font-bold text-gray-800">
+                <th key={i} className="px-3 py-2 text-left font-bold text-gray-800 dark:text-slate-100">
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-gray-200 dark:divide-slate-800 bg-white">
             {dataRows.map((rStr, rIdx) => {
               const cells = parseCells(rStr);
               return (
                 <tr key={rIdx}>
                   {cells.map((c, cIdx) => (
-                    <td key={cIdx} className="px-3 py-1.5 text-gray-700">
+                    <td key={cIdx} className="px-3 py-1.5 text-gray-700 dark:text-slate-200">
                       {c}
                     </td>
                   ))}
@@ -916,23 +916,23 @@ function RenderLiveMarkdown({ content, accentHex }: { content: string; accentHex
       );
     } else if (line.startsWith('## ')) {
       elements.push(
-        <h2 key={idx} className="text-lg font-bold text-gray-900 mt-4 mb-1">
+        <h2 key={idx} className="text-lg font-bold text-gray-900 dark:text-white mt-4 mb-1">
           {line.replace(/^##\s+/, '')}
         </h2>
       );
     } else if (line.startsWith('### ')) {
       elements.push(
-        <h3 key={idx} className="text-sm font-bold text-gray-800 mt-3 mb-1">
+        <h3 key={idx} className="text-sm font-bold text-gray-800 dark:text-slate-100 mt-3 mb-1">
           {line.replace(/^###\s+/, '')}
         </h3>
       );
     } else if (line.startsWith('---')) {
-      elements.push(<hr key={idx} className="my-3 border-gray-200" />);
+      elements.push(<hr key={idx} className="my-3 border-gray-200 dark:border-slate-800" />);
     } else if (line.startsWith('>')) {
       elements.push(
         <blockquote
           key={idx}
-          className="border-l-4 pl-3 py-1 italic text-gray-600 my-2 text-xs"
+          className="border-l-4 pl-3 py-1 italic text-gray-600 dark:text-slate-300 my-2 text-xs"
           style={{ borderColor: accentHex }}
         >
           {line.replace(/^>\s*/, '')}
@@ -940,27 +940,27 @@ function RenderLiveMarkdown({ content, accentHex }: { content: string; accentHex
       );
     } else if (line.trim().startsWith('- [x]')) {
       elements.push(
-        <div key={idx} className="flex items-center gap-2 text-xs text-gray-700 my-1 ml-2">
+        <div key={idx} className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-200 my-1 ml-2">
           <span className="text-emerald-600 font-bold">☑</span>
           <span>{line.replace(/^-\s*\[x\]\s*/, '')}</span>
         </div>
       );
     } else if (line.trim().startsWith('- [ ]')) {
       elements.push(
-        <div key={idx} className="flex items-center gap-2 text-xs text-gray-700 my-1 ml-2">
-          <span className="text-gray-400">☐</span>
+        <div key={idx} className="flex items-center gap-2 text-xs text-gray-700 dark:text-slate-200 my-1 ml-2">
+          <span className="text-gray-400 dark:text-slate-400">☐</span>
           <span>{line.replace(/^-\s*\[\s*\]\s*/, '')}</span>
         </div>
       );
     } else if (line.startsWith('- ') || line.startsWith('* ')) {
       elements.push(
-        <li key={idx} className="ml-5 list-disc text-xs text-gray-700 my-1">
+        <li key={idx} className="ml-5 list-disc text-xs text-gray-700 dark:text-slate-200 my-1">
           {line.replace(/^[-*]\s+/, '')}
         </li>
       );
     } else if (line.trim() !== '') {
       elements.push(
-        <p key={idx} className="text-xs text-gray-700 my-1.5 leading-relaxed">
+        <p key={idx} className="text-xs text-gray-700 dark:text-slate-200 my-1.5 leading-relaxed">
           {line}
         </p>
       );

@@ -88,13 +88,13 @@ export default function ColorPaletteGenerator() {
       <div className="mb-8">
         <nav className="text-sm mb-4">
           <Link href="/" className="text-primary-600 hover:underline">Home</Link>
-          <span className="mx-2 text-gray-500">/</span>
-          <span className="text-gray-700">Color Palette Generator</span>
+          <span className="mx-2 text-gray-500 dark:text-slate-400">/</span>
+          <span className="text-gray-700 dark:text-slate-200">Color Palette Generator</span>
         </nav>
         <div className="flex justify-between items-end">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Color Palette Generator</h1>
-            <p className="text-gray-600">Press spacebar to generate new beautiful color schemes.</p>
+            <p className="text-gray-600 dark:text-slate-300">Press spacebar to generate new beautiful color schemes.</p>
           </div>
           <div className="flex gap-4">
             <button onClick={exportCSS} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-4 py-2 font-semibold">
@@ -139,8 +139,8 @@ export default function ColorPaletteGenerator() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-        <ol className="list-decimal list-inside space-y-2 text-gray-600">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+        <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-300">
           <li>Press the Spacebar or click "Generate" to create a new random palette.</li>
           <li>Hover over a color and click the lock icon to keep it when generating new colors.</li>
           <li>Click on a hex code to copy it to your clipboard.</li>

@@ -88,7 +88,7 @@ export default function PercentageCalculator() {
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Percentage of a Value
             </span>
-            <h3 className="text-base font-bold text-gray-900 mb-4">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4">
               What is P% of X?
             </h3>
             <div className="flex items-center gap-2 text-xs">
@@ -97,20 +97,20 @@ export default function PercentageCalculator() {
                 type="number"
                 value={c1P}
                 onChange={(e) => setC1P(e.target.value)}
-                className="w-20 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-20 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>% of</span>
               <input
                 type="number"
                 value={c1X}
                 onChange={(e) => setC1X(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>?</span>
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">Result:</span>
+          <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-xs text-gray-500 dark:text-slate-400">Result:</span>
             <span className="text-2xl font-black text-purple-600">{r1}</span>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function PercentageCalculator() {
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Proportion Fraction
             </span>
-            <h3 className="text-base font-bold text-gray-900 mb-4">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4">
               X is what percent of Y?
             </h3>
             <div className="flex items-center gap-2 text-xs">
@@ -129,20 +129,20 @@ export default function PercentageCalculator() {
                 type="number"
                 value={c2X}
                 onChange={(e) => setC2X(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>is what % of</span>
               <input
                 type="number"
                 value={c2Y}
                 onChange={(e) => setC2Y(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>?</span>
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">Result:</span>
+          <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-xs text-gray-500 dark:text-slate-400">Result:</span>
             <span className="text-2xl font-black text-purple-600">{r2}</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function PercentageCalculator() {
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Growth &amp; Reduction
             </span>
-            <h3 className="text-base font-bold text-gray-900 mb-4">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4">
               Percentage Change from X to Y
             </h3>
             <div className="flex items-center gap-2 text-xs">
@@ -162,19 +162,19 @@ export default function PercentageCalculator() {
                 type="number"
                 value={c3X}
                 onChange={(e) => setC3X(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>to</span>
               <input
                 type="number"
                 value={c3Y}
                 onChange={(e) => setC3Y(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">Difference:</span>
+          <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-xs text-gray-500 dark:text-slate-400">Difference:</span>
             <span className={`text-2xl font-black ${r3.startsWith('+') ? 'text-emerald-600' : 'text-red-600'}`}>
               {r3}
             </span>
@@ -187,7 +187,7 @@ export default function PercentageCalculator() {
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Shopping &amp; Retail
             </span>
-            <h3 className="text-base font-bold text-gray-900 mb-4">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-4">
               Price after Discount
             </h3>
             <div className="flex items-center gap-2 text-xs">
@@ -196,20 +196,20 @@ export default function PercentageCalculator() {
                 type="number"
                 value={c4Price}
                 onChange={(e) => setC4Price(e.target.value)}
-                className="w-24 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>with</span>
               <input
                 type="number"
                 value={c4Discount}
                 onChange={(e) => setC4Discount(e.target.value)}
-                className="w-20 bg-gray-50 border border-gray-200 rounded-xl p-2 font-bold text-gray-900 text-center outline-none"
+                className="w-20 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2 font-bold text-gray-900 dark:text-white text-center outline-none"
               />
               <span>% off</span>
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">You save ${r4.saved}</span>
+          <div className="mt-6 pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-xs text-gray-500 dark:text-slate-400">You save ${r4.saved}</span>
             <span className="text-2xl font-black text-purple-600">${r4.final}</span>
           </div>
         </div>

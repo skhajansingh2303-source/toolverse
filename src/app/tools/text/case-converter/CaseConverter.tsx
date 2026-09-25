@@ -163,9 +163,9 @@ export default function CaseConverter() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter text to convert..."
-          className="w-full h-36 p-4 rounded-2xl bg-gray-50 border border-gray-200 text-sm text-gray-900 outline-none resize-none focus:ring-1 focus:ring-primary-500"
+          className="w-full h-36 p-4 rounded-2xl bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 text-sm text-gray-900 dark:text-white outline-none resize-none focus:ring-1 focus:ring-primary-500"
         />
-        <div className="flex items-center justify-between text-xs text-gray-400 mt-2">
+        <div className="flex items-center justify-between text-xs text-gray-400 dark:text-slate-400 mt-2">
           <span>{text.length} characters • {text.trim() ? text.trim().split(/\s+/).length : 0} words</span>
           <span>Click any card below to copy converted text</span>
         </div>
@@ -183,14 +183,14 @@ export default function CaseConverter() {
             >
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  <span className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                     {c.label}
                   </span>
                   <span className="text-[11px] font-semibold text-primary-600 group-hover:underline">
                     {isCopied ? '✓ Copied' : 'Copy'}
                   </span>
                 </div>
-                <p className="font-mono text-xs text-gray-900 break-all line-clamp-3 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                <p className="font-mono text-xs text-gray-900 dark:text-white break-all line-clamp-3 bg-gray-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-gray-100 dark:border-slate-800">
                   {c.value || <span className="text-gray-300 italic">No text</span>}
                 </p>
               </div>

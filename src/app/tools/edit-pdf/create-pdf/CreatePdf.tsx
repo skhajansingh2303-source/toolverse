@@ -682,7 +682,7 @@ export default function CreatePdf() {
             {/* Template Selector & Export Button */}
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-1.5 text-xs">
-                <span className="text-gray-400">Template:</span>
+                <span className="text-gray-400 dark:text-slate-400">Template:</span>
                 <button
                   onClick={() => loadTemplate('blank')}
                   className="px-2.5 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg text-gray-700 dark:text-slate-200 font-medium"
@@ -761,7 +761,7 @@ export default function CreatePdf() {
           </button>
           <button
             onClick={() => addElement('divider')}
-            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-colors flex items-center gap-1"
+            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:hover:bg-slate-700 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-colors flex items-center gap-1"
           >
             ― Divider
           </button>
@@ -785,11 +785,11 @@ export default function CreatePdf() {
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between text-xs font-bold uppercase text-gray-600 dark:text-slate-400 mb-1">
               <span>Document Elements ({elements.length})</span>
-              <span className="text-[11px] font-normal text-gray-400">Click an item to configure</span>
+              <span className="text-[11px] font-normal text-gray-400 dark:text-slate-400">Click an item to configure</span>
             </div>
 
             {elements.length === 0 ? (
-              <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 text-center text-xs text-gray-400">
+              <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 text-center text-xs text-gray-400 dark:text-slate-400">
                 No elements added yet. Click buttons in the toolbar above to start!
               </div>
             ) : (
@@ -821,7 +821,7 @@ export default function CreatePdf() {
                         <button
                           onClick={() => moveElement(idx, 'up')}
                           disabled={idx === 0}
-                          className="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white disabled:opacity-20 text-xs"
+                          className="p-1 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-white disabled:opacity-20 text-xs"
                           title="Move up"
                         >
                           ▲
@@ -829,14 +829,14 @@ export default function CreatePdf() {
                         <button
                           onClick={() => moveElement(idx, 'down')}
                           disabled={idx === elements.length - 1}
-                          className="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white disabled:opacity-20 text-xs"
+                          className="p-1 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-white disabled:opacity-20 text-xs"
                           title="Move down"
                         >
                           ▼
                         </button>
                         <button
                           onClick={() => removeElement(el.id)}
-                          className="p-1 text-gray-400 hover:text-red-500 text-xs"
+                          className="p-1 text-gray-400 dark:text-slate-400 hover:text-red-500 text-xs"
                           title="Delete element"
                         >
                           ✕
@@ -955,7 +955,7 @@ export default function CreatePdf() {
                           <div className="space-y-2">
                             {(el.bulletItems || []).map((item, bIdx) => (
                               <div key={bIdx} className="flex items-center gap-1.5">
-                                <span className="text-gray-400">•</span>
+                                <span className="text-gray-400 dark:text-slate-400">•</span>
                                 <input
                                   type="text"
                                   value={item}
@@ -971,7 +971,7 @@ export default function CreatePdf() {
                                     const next = (el.bulletItems || []).filter((_, i) => i !== bIdx);
                                     updateElement(el.id, { bulletItems: next });
                                   }}
-                                  className="text-gray-400 hover:text-red-500 text-xs px-1"
+                                  className="text-gray-400 dark:text-slate-400 hover:text-red-500 text-xs px-1"
                                 >
                                   ✕
                                 </button>
@@ -1019,7 +1019,7 @@ export default function CreatePdf() {
                                         const next = (el.tableData || []).filter((_, i) => i !== rIdx);
                                         updateElement(el.id, { tableData: next });
                                       }}
-                                      className="text-gray-400 hover:text-red-500 text-xs px-1"
+                                      className="text-gray-400 dark:text-slate-400 hover:text-red-500 text-xs px-1"
                                     >
                                       ✕
                                     </button>
@@ -1050,7 +1050,7 @@ export default function CreatePdf() {
                                 <img
                                   src={el.imageDataUrl}
                                   alt="Uploaded graphic"
-                                  className="h-16 w-24 object-contain rounded border border-gray-200 bg-gray-50"
+                                  className="h-16 w-24 object-contain rounded border border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/60"
                                 />
                                 <button
                                   onClick={() => {
@@ -1068,13 +1068,13 @@ export default function CreatePdf() {
                                   setPendingImageElemId(el.id);
                                   imageInputRef.current?.click();
                                 }}
-                                className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl text-xs text-gray-500 hover:border-primary-500"
+                                className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl text-xs text-gray-500 dark:text-slate-400 hover:border-primary-500"
                               >
                                 Upload Logo or Photo
                               </button>
                             )}
                             <div>
-                              <label className="text-[11px] text-gray-500 block mb-1">
+                              <label className="text-[11px] text-gray-500 dark:text-slate-400 block mb-1">
                                 Image Width: {el.imageWidthPercent || 60}%
                               </label>
                               <input
@@ -1160,7 +1160,7 @@ export default function CreatePdf() {
             <div className="sticky top-6">
               <div className="flex items-center justify-between text-xs font-bold uppercase text-gray-600 dark:text-slate-400 mb-2">
                 <span>Live Document Sheet Preview</span>
-                <span className="text-[11px] font-normal text-gray-400">
+                <span className="text-[11px] font-normal text-gray-400 dark:text-slate-400">
                   {paperSize} • {orientation}
                 </span>
               </div>

@@ -45,18 +45,18 @@ export default function RegexTester() {
         <div className="max-w-5xl mx-auto p-6">
             <nav className="text-sm mb-8">
                 <Link href="/" className="text-primary-600 hover:underline">Home</Link>
-                <span className="text-gray-500 mx-2">/</span>
-                <span className="text-gray-900">Regex Tester</span>
+                <span className="text-gray-500 dark:text-slate-400 mx-2">/</span>
+                <span className="text-gray-900 dark:text-white">Regex Tester</span>
             </nav>
             <h1 className="text-3xl font-bold mb-2">Regex Tester</h1>
-            <p className="text-gray-600 mb-8">Test your regular expressions in real-time with syntax highlighting and match extraction.</p>
+            <p className="text-gray-600 dark:text-slate-300 mb-8">Test your regular expressions in real-time with syntax highlighting and match extraction.</p>
 
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8">
                 <div className="mb-6">
                     <label className="block text-sm font-semibold mb-2">Regular Expression</label>
                     <div className="flex flex-col md:flex-row gap-4">
-                        <div className="flex-1 flex border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
-                            <span className="bg-gray-100 text-gray-500 px-4 py-3 border-r border-gray-300 font-mono">/</span>
+                        <div className="flex-1 flex border border-gray-300 dark:border-slate-700 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
+                            <span className="bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 px-4 py-3 border-r border-gray-300 dark:border-slate-700 font-mono">/</span>
                             <input
                                 type="text"
                                 value={pattern}
@@ -64,13 +64,13 @@ export default function RegexTester() {
                                 className="flex-1 px-4 py-3 focus:outline-none font-mono"
                                 placeholder="[a-zA-Z0-9]+"
                             />
-                            <span className="bg-gray-100 text-gray-500 px-4 py-3 border-l border-gray-300 font-mono">/</span>
+                            <span className="bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 px-4 py-3 border-l border-gray-300 dark:border-slate-700 font-mono">/</span>
                         </div>
-                        <div className="flex gap-4 items-center bg-gray-50 px-4 rounded-xl border border-gray-300">
+                        <div className="flex gap-4 items-center bg-gray-50 dark:bg-slate-800/60 px-4 rounded-xl border border-gray-300 dark:border-slate-700">
                             {(['g', 'i', 'm', 's'] as const).map(f => (
                                 <label key={f} className="flex items-center gap-1 cursor-pointer" title={`Flag: ${f}`}>
                                     <input type="checkbox" checked={flags[f]} onChange={() => handleFlagChange(f)} />
-                                    <span className="font-mono font-bold text-gray-700">{f}</span>
+                                    <span className="font-mono font-bold text-gray-700 dark:text-slate-200">{f}</span>
                                 </label>
                             ))}
                         </div>
@@ -81,10 +81,10 @@ export default function RegexTester() {
                 <div className="mb-6">
                     <h3 className="text-sm font-semibold mb-2">Quick Patterns</h3>
                     <div className="flex flex-wrap gap-2">
-                        <button onClick={() => insertPattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}')} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-sm rounded border border-gray-300">Email</button>
-                        <button onClick={() => insertPattern('https?://[^\\s]+')} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-sm rounded border border-gray-300">URL</button>
-                        <button onClick={() => insertPattern('\\d{3}[-.\\s]?\\d{3}[-.\\s]?\\d{4}')} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-sm rounded border border-gray-300">Phone</button>
-                        <button onClick={() => insertPattern('\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}')} className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-sm rounded border border-gray-300">IPv4</button>
+                        <button onClick={() => insertPattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}')} className="px-3 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-sm rounded border border-gray-300 dark:border-slate-700">Email</button>
+                        <button onClick={() => insertPattern('https?://[^\\s]+')} className="px-3 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-sm rounded border border-gray-300 dark:border-slate-700">URL</button>
+                        <button onClick={() => insertPattern('\\d{3}[-.\\s]?\\d{3}[-.\\s]?\\d{4}')} className="px-3 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-sm rounded border border-gray-300 dark:border-slate-700">Phone</button>
+                        <button onClick={() => insertPattern('\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}')} className="px-3 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-sm rounded border border-gray-300 dark:border-slate-700">IPv4</button>
                     </div>
                 </div>
 
@@ -93,22 +93,22 @@ export default function RegexTester() {
                     <textarea
                         value={testString}
                         onChange={(e) => setTestString(e.target.value)}
-                        className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-4 font-mono"
+                        className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-4 font-mono"
                         rows={6}
                         placeholder="Enter text to test your regex against..."
                     />
                 </div>
 
-                <div className="border-t border-gray-200 pt-6">
+                <div className="border-t border-gray-200 dark:border-slate-800 pt-6">
                     <h3 className="font-bold mb-4">Results <span className="bg-primary-100 text-primary-800 text-xs px-2 py-1 rounded ml-2">{matches.length} matches</span></h3>
                     {matches.length > 0 ? (
-                        <div className="max-h-64 overflow-y-auto bg-gray-50 border border-gray-200 rounded-xl p-4">
+                        <div className="max-h-64 overflow-y-auto bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-4">
                             {matches.map((m, i) => (
-                                <div key={i} className="mb-2 p-2 bg-white rounded border border-gray-200">
-                                    <div className="font-bold text-sm text-gray-700 mb-1">Match {i + 1} (Index: {m.index})</div>
+                                <div key={i} className="mb-2 p-2 bg-white rounded border border-gray-200 dark:border-slate-800">
+                                    <div className="font-bold text-sm text-gray-700 dark:text-slate-200 mb-1">Match {i + 1} (Index: {m.index})</div>
                                     <div className="font-mono text-sm bg-yellow-100 p-1 rounded inline-block mb-1">{m[0]}</div>
                                     {m.length > 1 && (
-                                        <div className="text-xs text-gray-500 mt-1">
+                                        <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">
                                             Groups: {m.slice(1).map((g, gi) => <span key={gi} className="ml-2 bg-gray-200 px-1 rounded">Group {gi+1}: {g}</span>)}
                                         </div>
                                     )}
@@ -116,7 +116,7 @@ export default function RegexTester() {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-gray-500 italic">No matches found.</div>
+                        <div className="text-gray-500 dark:text-slate-400 italic">No matches found.</div>
                     )}
                 </div>
             </div>

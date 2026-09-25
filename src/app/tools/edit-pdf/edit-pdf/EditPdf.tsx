@@ -717,7 +717,7 @@ export default function EditPdf() {
               <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                 Home
               </Link>
-              <svg className="w-3 h-3 mx-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3 h-3 mx-2 text-gray-400 dark:text-slate-400" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"
                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -789,7 +789,7 @@ export default function EditPdf() {
                 <button
                   disabled={currentPage <= 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="px-2 py-1 rounded bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 disabled:opacity-40 hover:bg-gray-200 transition"
+                  className="px-2 py-1 rounded bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 disabled:opacity-40 hover:bg-gray-200 dark:hover:bg-slate-700 transition"
                 >
                   ◀
                 </button>
@@ -799,7 +799,7 @@ export default function EditPdf() {
                 <button
                   disabled={currentPage >= totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="px-2 py-1 rounded bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 disabled:opacity-40 hover:bg-gray-200 transition"
+                  className="px-2 py-1 rounded bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 disabled:opacity-40 hover:bg-gray-200 dark:hover:bg-slate-700 transition"
                 >
                   ▶
                 </button>
@@ -846,7 +846,7 @@ export default function EditPdf() {
                   <button
                     onClick={handleUndo}
                     disabled={totalCurrentPageAnnotations === 0}
-                    className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 disabled:opacity-40"
+                    className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-40"
                     title="Undo last annotation"
                   >
                     ↩ Undo

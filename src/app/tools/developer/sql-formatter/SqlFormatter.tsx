@@ -64,15 +64,15 @@ export default function SqlFormatter() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
-      <nav className="text-sm mb-6 text-gray-500">
+      <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">SQL Formatter</span>
+        <span className="text-gray-900 dark:text-white font-medium">SQL Formatter</span>
       </nav>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">SQL Formatter</h1>
-        <p className="text-gray-600">Beautify, indent, and format messy SQL queries to make them readable.</p>
+        <p className="text-gray-600 dark:text-slate-300">Beautify, indent, and format messy SQL queries to make them readable.</p>
       </header>
 
       <AdSlot format="horizontal" />
@@ -81,13 +81,13 @@ export default function SqlFormatter() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-semibold text-gray-700">Input SQL Query</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200">Input SQL Query</label>
               <button onClick={loadSample} className="text-sm text-primary-600 hover:text-primary-700">Load Sample</button>
             </div>
             <textarea
               value={inputSql}
               onChange={(e) => setInputSql(e.target.value)}
-              className="w-full rounded-2xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm min-h-[350px]"
+              className="w-full rounded-2xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm min-h-[350px]"
               placeholder="Paste your unformatted SQL query here..."
             />
             <div className="flex gap-3 mt-4">
@@ -99,7 +99,7 @@ export default function SqlFormatter() {
               </button>
               <button 
                 onClick={minifySql}
-                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl px-6 py-3 font-semibold transition-colors"
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:text-slate-100 rounded-xl px-6 py-3 font-semibold transition-colors"
               >
                 Minify SQL
               </button>
@@ -108,7 +108,7 @@ export default function SqlFormatter() {
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-semibold text-gray-700">Output SQL Query</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200">Output SQL Query</label>
               {outputSql && (
                 <button onClick={handleCopy} className="text-xs font-medium text-primary-600 hover:text-primary-700 bg-primary-50 px-3 py-1.5 rounded-lg">
                   {copied ? 'Copied!' : 'Copy to Clipboard'}
@@ -118,7 +118,7 @@ export default function SqlFormatter() {
             <textarea
               value={outputSql}
               readOnly
-              className="w-full rounded-2xl border border-gray-300 bg-gray-50 p-4 font-mono text-sm min-h-[350px] whitespace-pre-wrap"
+              className="w-full rounded-2xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 p-4 font-mono text-sm min-h-[350px] whitespace-pre-wrap"
               placeholder="Formatted output will appear here..."
             />
           </div>
@@ -126,8 +126,8 @@ export default function SqlFormatter() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the SQL Formatter</h2>
-        <ol className="list-decimal pl-5 space-y-3 text-gray-700">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use the SQL Formatter</h2>
+        <ol className="list-decimal pl-5 space-y-3 text-gray-700 dark:text-slate-200">
           <li>Paste your raw or minified SQL query into the <strong>Input SQL Query</strong> box.</li>
           <li>Click the <strong>Format SQL</strong> button to beautify the query. It will uppercase keywords and add logical line breaks and indents.</li>
           <li>If you want to compress a formatted query into a single line, click <strong>Minify SQL</strong>.</li>

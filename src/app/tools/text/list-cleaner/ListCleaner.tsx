@@ -117,7 +117,7 @@ export default function ListCleaner() {
       {/* Action Toolbar */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 shadow-xs mb-6 space-y-4">
         <div>
-          <span className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
+          <span className="block text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-wider mb-2">
             Quick Operations
           </span>
           <div className="flex flex-wrap gap-2">
@@ -167,23 +167,23 @@ export default function ListCleaner() {
         </div>
 
         {/* Prefix / Suffix and Joiner */}
-        <div className="pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+        <div className="pt-3 border-t border-gray-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-gray-500 font-medium">Add Prefix:</span>
+            <span className="text-gray-500 dark:text-slate-400 font-medium">Add Prefix:</span>
             <input
               type="text"
               value={prefix}
               onChange={(e) => setPrefix(e.target.value)}
               placeholder="e.g. - or quotes"
-              className="w-24 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-xs"
+              className="w-24 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs"
             />
-            <span className="text-gray-500 font-medium ml-2">Suffix:</span>
+            <span className="text-gray-500 dark:text-slate-400 font-medium ml-2">Suffix:</span>
             <input
               type="text"
               value={suffix}
               onChange={(e) => setSuffix(e.target.value)}
               placeholder="e.g. , or quotes"
-              className="w-20 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-xs"
+              className="w-20 bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs"
             />
             <button
               onClick={applyAffixes}
@@ -193,26 +193,26 @@ export default function ListCleaner() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-gray-600">
+          <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-slate-300">
             <span>Join with:</span>
-            <button onClick={() => joinDelimiter(', ')} className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 rounded">Comma (,)</button>
-            <button onClick={() => joinDelimiter('; ')} className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 rounded">Semicolon (;)</button>
-            <button onClick={() => joinDelimiter(' ')} className="px-2 py-0.5 bg-gray-100 hover:bg-gray-200 rounded">Space</button>
+            <button onClick={() => joinDelimiter(', ')} className="px-2 py-0.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded">Comma (,)</button>
+            <button onClick={() => joinDelimiter('; ')} className="px-2 py-0.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded">Semicolon (;)</button>
+            <button onClick={() => joinDelimiter(' ')} className="px-2 py-0.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded">Space</button>
           </div>
         </div>
       </div>
 
       {/* Main Textarea */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden mb-8">
-        <div className="px-6 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-600">
+        <div className="px-6 py-3 bg-gray-50 dark:bg-slate-800/60 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-gray-600 dark:text-slate-300">
           <span>List Content</span>
-          <span className="text-gray-500">{linesCount} items</span>
+          <span className="text-gray-500 dark:text-slate-400">{linesCount} items</span>
         </div>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Paste one item per line here..."
-          className="w-full h-96 p-6 font-mono text-xs text-gray-800 outline-none resize-none leading-relaxed"
+          className="w-full h-96 p-6 font-mono text-xs text-gray-800 dark:text-slate-100 outline-none resize-none leading-relaxed"
         />
       </div>
     </div>

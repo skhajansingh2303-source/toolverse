@@ -87,19 +87,19 @@ export default function PasswordGenerator() {
       <div className="mb-8">
         <nav className="text-sm mb-4">
           <Link href="/" className="text-primary-600 hover:underline">Home</Link>
-          <span className="mx-2 text-gray-500">/</span>
-          <span className="text-gray-700">Password Generator</span>
+          <span className="mx-2 text-gray-500 dark:text-slate-400">/</span>
+          <span className="text-gray-700 dark:text-slate-200">Password Generator</span>
         </nav>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Password Generator</h1>
-        <p className="text-gray-600">Create strong, secure passwords instantly.</p>
+        <p className="text-gray-600 dark:text-slate-300">Create strong, secure passwords instantly.</p>
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 mb-8">
         <div className="relative mb-6">
-          <div className="flex justify-between items-center bg-gray-50 border border-gray-300 rounded-xl p-4">
-            <span className="font-mono text-xl text-gray-800 break-all">{password || 'Select options...'}</span>
+          <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-800/60 border border-gray-300 dark:border-slate-700 rounded-xl p-4">
+            <span className="font-mono text-xl text-gray-800 dark:text-slate-100 break-all">{password || 'Select options...'}</span>
             <div className="flex gap-2 ml-4 flex-shrink-0">
-              <button onClick={generatePassword} className="p-2 text-gray-500 hover:text-primary-600 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors" aria-label="Regenerate">
+              <button onClick={generatePassword} className="p-2 text-gray-500 dark:text-slate-400 hover:text-primary-600 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors" aria-label="Regenerate">
                 🔄
               </button>
               <button onClick={() => copyToClipboard(password)} className="bg-primary-600 hover:bg-primary-700 text-white rounded-lg px-4 py-2 font-medium">
@@ -109,7 +109,7 @@ export default function PasswordGenerator() {
           </div>
           <div className="mt-4">
             <div className="flex justify-between text-sm mb-1">
-              <span className="font-medium text-gray-700">Strength: {strength.label}</span>
+              <span className="font-medium text-gray-700 dark:text-slate-200">Strength: {strength.label}</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div className={`${strength.color} ${strength.w} h-2 rounded-full transition-all duration-300`}></div>
@@ -120,7 +120,7 @@ export default function PasswordGenerator() {
         <div className="space-y-6">
           <div>
             <div className="flex justify-between mb-2">
-              <label className="text-sm font-medium text-gray-700">Password Length</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-slate-200">Password Length</label>
               <span className="text-primary-600 font-bold">{length}</span>
             </div>
             <input
@@ -134,33 +134,33 @@ export default function PasswordGenerator() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <label className="flex items-center space-x-3 p-3 border border-gray-200 rounded-xl hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" checked={useUpper} onChange={(e) => setUseUpper(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300" />
-              <span className="text-gray-700">Uppercase (A-Z)</span>
+            <label className="flex items-center space-x-3 p-3 border border-gray-200 dark:border-slate-800 rounded-xl hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" checked={useUpper} onChange={(e) => setUseUpper(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300 dark:border-slate-700" />
+              <span className="text-gray-700 dark:text-slate-200">Uppercase (A-Z)</span>
             </label>
-            <label className="flex items-center space-x-3 p-3 border border-gray-200 rounded-xl hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" checked={useLower} onChange={(e) => setUseLower(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300" />
-              <span className="text-gray-700">Lowercase (a-z)</span>
+            <label className="flex items-center space-x-3 p-3 border border-gray-200 dark:border-slate-800 rounded-xl hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" checked={useLower} onChange={(e) => setUseLower(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300 dark:border-slate-700" />
+              <span className="text-gray-700 dark:text-slate-200">Lowercase (a-z)</span>
             </label>
-            <label className="flex items-center space-x-3 p-3 border border-gray-200 rounded-xl hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" checked={useNumbers} onChange={(e) => setUseNumbers(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300" />
-              <span className="text-gray-700">Numbers (0-9)</span>
+            <label className="flex items-center space-x-3 p-3 border border-gray-200 dark:border-slate-800 rounded-xl hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" checked={useNumbers} onChange={(e) => setUseNumbers(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300 dark:border-slate-700" />
+              <span className="text-gray-700 dark:text-slate-200">Numbers (0-9)</span>
             </label>
-            <label className="flex items-center space-x-3 p-3 border border-gray-200 rounded-xl hover:bg-gray-50 cursor-pointer">
-              <input type="checkbox" checked={useSymbols} onChange={(e) => setUseSymbols(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300" />
-              <span className="text-gray-700">Symbols (!@#$...)</span>
+            <label className="flex items-center space-x-3 p-3 border border-gray-200 dark:border-slate-800 rounded-xl hover:bg-gray-50 cursor-pointer">
+              <input type="checkbox" checked={useSymbols} onChange={(e) => setUseSymbols(e.target.checked)} className="h-5 w-5 text-primary-600 rounded focus:ring-primary-500 border-gray-300 dark:border-slate-700" />
+              <span className="text-gray-700 dark:text-slate-200">Symbols (!@#$...)</span>
             </label>
           </div>
 
-          <div className="pt-4 border-t border-gray-200">
+          <div className="pt-4 border-t border-gray-200 dark:border-slate-800">
             <button onClick={generateBulk} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-6 py-3 font-semibold w-full mb-4">
               Bulk Generate (5 Passwords)
             </button>
             {bulkPasswords.length > 0 && (
               <div className="space-y-2">
                 {bulkPasswords.map((pwd, i) => (
-                  <div key={i} className="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-200">
-                    <span className="font-mono text-sm text-gray-800 break-all mr-2">{pwd}</span>
+                  <div key={i} className="flex justify-between items-center bg-gray-50 dark:bg-slate-800/60 p-3 rounded-lg border border-gray-200 dark:border-slate-800">
+                    <span className="font-mono text-sm text-gray-800 dark:text-slate-100 break-all mr-2">{pwd}</span>
                     <button onClick={() => copyToClipboard(pwd)} className="text-primary-600 hover:text-primary-700 text-sm font-medium whitespace-nowrap">
                       Copy
                     </button>
@@ -173,8 +173,8 @@ export default function PasswordGenerator() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-        <ol className="list-decimal list-inside space-y-2 text-gray-600">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+        <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-300">
           <li>Use the slider to choose your desired password length.</li>
           <li>Check or uncheck the character types you want to include.</li>
           <li>Click the copy button or the refresh button to generate a new password.</li>

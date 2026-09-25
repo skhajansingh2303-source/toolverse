@@ -415,7 +415,7 @@ export default function InvoiceGenerator() {
                   </span>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="text-gray-400 hover:text-rose-500 p-1 text-sm transition-colors"
+                    className="text-gray-400 dark:text-slate-400 hover:text-rose-500 p-1 text-sm transition-colors"
                     title="Remove item"
                   >
                     ✕
@@ -480,21 +480,21 @@ export default function InvoiceGenerator() {
                   <p className="text-xs text-primary-600 dark:text-primary-400 font-bold mt-0.5">{invoiceNumber}</p>
                 </div>
                 <div className="text-right text-xs">
-                  <p className="text-gray-400">Date: <strong className="text-gray-900 dark:text-white">{invoiceDate}</strong></p>
-                  {dueDate && <p className="text-gray-400 mt-0.5">Due: <strong className="text-gray-900 dark:text-white">{dueDate}</strong></p>}
+                  <p className="text-gray-400 dark:text-slate-400">Date: <strong className="text-gray-900 dark:text-white">{invoiceDate}</strong></p>
+                  {dueDate && <p className="text-gray-400 dark:text-slate-400 mt-0.5">Due: <strong className="text-gray-900 dark:text-white">{dueDate}</strong></p>}
                 </div>
               </div>
 
               {/* From / Bill To */}
               <div className="grid grid-cols-2 gap-6 text-xs">
                 <div>
-                  <span className="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider">From</span>
+                  <span className="text-[10px] uppercase font-extrabold text-gray-400 dark:text-slate-400 tracking-wider">From</span>
                   <p className="font-bold text-gray-950 dark:text-white mt-1">{fromName || 'Your Business'}</p>
                   <p className="text-gray-500 dark:text-slate-400 text-[11px]">{fromEmail}</p>
                   <p className="text-gray-500 dark:text-slate-400 text-[11px] whitespace-pre-line">{fromAddress}</p>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-extrabold text-gray-400 tracking-wider">Billed To</span>
+                  <span className="text-[10px] uppercase font-extrabold text-gray-400 dark:text-slate-400 tracking-wider">Billed To</span>
                   <p className="font-bold text-gray-950 dark:text-white mt-1">{toName || 'Client Name'}</p>
                   <p className="text-gray-500 dark:text-slate-400 text-[11px]">{toEmail}</p>
                   <p className="text-gray-500 dark:text-slate-400 text-[11px] whitespace-pre-line">{toAddress}</p>
@@ -563,7 +563,7 @@ export default function InvoiceGenerator() {
 
             {/* Quick Action in Card */}
             <div className="p-4 bg-gray-50 dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
-              <span className="text-[11px] text-gray-400 font-medium">Auto-calculated in real time</span>
+              <span className="text-[11px] text-gray-400 dark:text-slate-400 font-medium">Auto-calculated in real time</span>
               <button
                 onClick={generatePDF}
                 className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline flex items-center gap-1"

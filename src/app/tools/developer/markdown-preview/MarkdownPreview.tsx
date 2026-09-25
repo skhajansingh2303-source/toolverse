@@ -105,17 +105,17 @@ export default function MarkdownPreview() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-7xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Markdown Preview</span>
+          <span className="text-gray-900 dark:text-white">Markdown Preview</span>
         </nav>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Markdown Preview</h1>
-              <p className="text-gray-600">Write markdown and see the HTML preview instantly.</p>
+              <p className="text-gray-600 dark:text-slate-300">Write markdown and see the HTML preview instantly.</p>
             </div>
             <div className="flex gap-2">
               <button
@@ -136,13 +136,13 @@ export default function MarkdownPreview() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center mb-2">
-                <label className="font-semibold text-gray-700">Markdown Input</label>
+                <label className="font-semibold text-gray-700 dark:text-slate-200">Markdown Input</label>
                 <button onClick={copyMarkdown} className="text-sm text-primary-600 hover:text-primary-700 font-medium">
                   {copiedMd ? 'Copied!' : 'Copy MD'}
                 </button>
               </div>
               <textarea
-                className="flex-grow w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm resize-none"
+                className="flex-grow w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm resize-none"
                 value={markdown}
                 onChange={(e) => setMarkdown(e.target.value)}
                 placeholder="Type your markdown here..."
@@ -151,7 +151,7 @@ export default function MarkdownPreview() {
 
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center mb-2">
-                <label className="font-semibold text-gray-700">Live Preview</label>
+                <label className="font-semibold text-gray-700 dark:text-slate-200">Live Preview</label>
                 <button onClick={copyHtml} className="text-sm text-primary-600 hover:text-primary-700 font-medium">
                   {copiedHtml ? 'Copied HTML!' : 'Copy HTML'}
                 </button>
@@ -166,7 +166,7 @@ export default function MarkdownPreview() {
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-4 text-gray-600">
+          <ol className="list-decimal list-inside space-y-4 text-gray-600 dark:text-slate-300">
             <li>Type or paste your Markdown text into the left editor pane.</li>
             <li>See the formatted output instantly in the right preview pane.</li>
             <li>Use the <strong>Load Sample</strong> button to see examples of Markdown syntax.</li>

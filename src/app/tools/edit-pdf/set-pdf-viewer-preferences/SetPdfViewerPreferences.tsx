@@ -426,7 +426,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={hideToolbar}
                       onChange={(e) => setHideToolbar(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Hide Toolbar</span>
@@ -439,7 +439,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={hideMenubar}
                       onChange={(e) => setHideMenubar(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Hide Menubar</span>
@@ -452,7 +452,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={hideWindowUI}
                       onChange={(e) => setHideWindowUI(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Hide Window UI</span>
@@ -465,7 +465,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={fitWindow}
                       onChange={(e) => setFitWindow(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Fit Window</span>
@@ -478,7 +478,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={centerWindow}
                       onChange={(e) => setCenterWindow(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Center Window</span>
@@ -491,7 +491,7 @@ export default function SetPdfViewerPreferences() {
                       type="checkbox"
                       checked={displayDocTitle}
                       onChange={(e) => setDisplayDocTitle(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                      className="mt-0.5 h-4 w-4 text-primary-600 rounded border-gray-300 dark:border-slate-700 focus:ring-primary-500"
                     />
                     <div>
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">Display Doc Title</span>

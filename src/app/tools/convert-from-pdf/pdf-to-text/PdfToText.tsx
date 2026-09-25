@@ -96,15 +96,15 @@ export default function PdfToText() {
         onLoad={handleScriptLoad}
       />
       <div className="max-w-4xl mx-auto px-4">
-        <nav className="text-sm mb-8 text-gray-500">
+        <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400">
           <Link href="/" className="hover:text-primary-600">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">PDF to Text</span>
+          <span className="text-gray-900 dark:text-white">PDF to Text</span>
         </nav>
 
         <header className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">PDF to Text Extractor</h1>
-          <p className="text-gray-600">Extract plain text from your PDF documents instantly.</p>
+          <p className="text-gray-600 dark:text-slate-300">Extract plain text from your PDF documents instantly.</p>
         </header>
 
         <AdSlot format="horizontal" />
@@ -128,7 +128,7 @@ export default function PdfToText() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Extract Text
               </span>
-              <span className="text-xs text-gray-400 mb-4">or drag and drop your document here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400 mb-4">or drag and drop your document here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>

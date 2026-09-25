@@ -146,7 +146,7 @@ export default function WordCounter() {
           <button
             onClick={handleCopy}
             disabled={!text}
-            className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 transition-colors disabled:opacity-40"
+            className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 bg-white hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             {copied ? '✓ Copied' : 'Copy Text'}
           </button>
@@ -168,7 +168,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.words}
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             Words
           </span>
         </div>
@@ -177,7 +177,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.characters}
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             Characters
           </span>
         </div>
@@ -186,7 +186,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.charactersNoSpaces}
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             No Spaces
           </span>
         </div>
@@ -195,7 +195,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.sentences}
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             Sentences
           </span>
         </div>
@@ -204,7 +204,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.paragraphs}
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             Paragraphs
           </span>
         </div>
@@ -213,7 +213,7 @@ export default function WordCounter() {
           <span className="block text-2xl sm:text-3xl font-black text-teal-600">
             ~{stats.readingTimeMinutes} min
           </span>
-          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
             Read Time
           </span>
         </div>

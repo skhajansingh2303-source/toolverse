@@ -215,7 +215,7 @@ export default function GstCalculator() {
                 className="w-4 h-4 rounded-sm text-primary-600 focus:ring-primary-500 accent-primary-600"
               />
             </label>
-            <p className="text-[11px] text-gray-400 mt-1">
+            <p className="text-[11px] text-gray-400 dark:text-slate-400 mt-1">
               {isInterstate ? 'Integrated GST (100% IGST)' : 'Intra-State split: 50% CGST + 50% SGST'}
             </p>
           </div>
@@ -280,7 +280,7 @@ export default function GstCalculator() {
 
           {/* Invoice Summary Box */}
           <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-xs space-y-3 font-mono text-xs">
-            <h4 className="font-bold text-xs uppercase text-gray-400 tracking-wider font-sans mb-3">
+            <h4 className="font-bold text-xs uppercase text-gray-400 dark:text-slate-400 tracking-wider font-sans mb-3">
               Tax Invoice Breakdown
             </h4>
 

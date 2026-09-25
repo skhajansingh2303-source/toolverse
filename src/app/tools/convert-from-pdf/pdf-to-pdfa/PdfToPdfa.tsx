@@ -298,7 +298,7 @@ export default function PdfToPdfa() {
                 <label className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
                   Select ISO PDF/A Conformance Standard
                 </label>
-                <span className="text-[11px] text-gray-500">ISO 19005 Series</span>
+                <span className="text-[11px] text-gray-500 dark:text-slate-400">ISO 19005 Series</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

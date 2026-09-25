@@ -346,7 +346,7 @@ export default function FillPdfForm() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500"
                     />
-                    <span className="absolute left-2.5 top-2.5 text-xs text-gray-400">🔍</span>
+                    <span className="absolute left-2.5 top-2.5 text-xs text-gray-400 dark:text-slate-400">🔍</span>
                   </div>
 
                   <div className="flex items-center gap-1.5 self-start sm:self-auto overflow-x-auto w-full sm:w-auto">
@@ -470,7 +470,7 @@ export default function FillPdfForm() {
                                   value={opt}
                                   checked={fieldValues[field.name] === opt}
                                   onChange={() => handleValueChange(field.name, opt)}
-                                  className="w-4 h-4 text-primary-600 focus:ring-primary-500 border-gray-300"
+                                  className="w-4 h-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-slate-700"
                                 />
                                 <span>{opt}</span>
                               </label>
@@ -489,7 +489,7 @@ export default function FillPdfForm() {
                       type="checkbox"
                       checked={flattenOnSave}
                       onChange={(e) => setFlattenOnSave(e.target.checked)}
-                      className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300"
+                      className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-slate-700"
                     />
                     <div>
                       <span className="text-xs font-bold text-gray-900 dark:text-white block">

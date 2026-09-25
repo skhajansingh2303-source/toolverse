@@ -333,7 +333,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Compress
               </span>
-              <span className="text-xs text-gray-400 mb-4">or drag and drop your PDF file here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400 mb-4">or drag and drop your PDF file here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>
@@ -380,7 +380,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
                       📄 Original PDF ({formatSize(result.original)})
                     </button>
                   </div>
-                  <span className="text-[11px] text-gray-500 hidden sm:inline px-2">
+                  <span className="text-[11px] text-gray-500 dark:text-slate-400 hidden sm:inline px-2">
                     {previewTab === 'compressed' ? 'Live preview of compressed file' : 'Original file preview'}
                   </span>
                 </div>
@@ -421,7 +421,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
               <div className="space-y-6">
                 {/* Compression Strategy Mode Selector */}
                 <div className="space-y-2">
-                  <label className="text-xs uppercase font-extrabold text-gray-400 tracking-wider">
+                  <label className="text-xs uppercase font-extrabold text-gray-400 dark:text-slate-400 tracking-wider">
                     Compression Mode
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -470,7 +470,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
                 {/* Compression Level Selector (for Smart Visual mode) */}
                 {compressionMode === 'smart' && (
                   <div className="space-y-3">
-                    <h3 className="text-xs uppercase font-extrabold text-gray-400 tracking-wider">
+                    <h3 className="text-xs uppercase font-extrabold text-gray-400 dark:text-slate-400 tracking-wider">
                       Select Compression Level
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -568,7 +568,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
                     <div className="flex justify-end pt-1">
                       <button
                         onClick={cancelCompression}
-                        className="text-[11px] font-semibold text-gray-500 hover:text-red-600 transition-colors"
+                        className="text-[11px] font-semibold text-gray-500 dark:text-slate-400 hover:text-red-600 transition-colors"
                       >
                         Cancel Process
                       </button>

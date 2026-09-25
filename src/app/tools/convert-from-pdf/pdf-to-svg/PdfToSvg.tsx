@@ -279,7 +279,7 @@ export default function PdfToSvg() {
                   </div>
                   <div>
                     <span className="font-bold text-sm text-gray-900 dark:text-white block">{file.name}</span>
-                    <span className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</span>
+                    <span className="text-xs text-gray-500 dark:text-slate-400">{(file.size / 1024).toFixed(1)} KB</span>
                   </div>
                 </div>
 
@@ -451,7 +451,7 @@ export default function PdfToSvg() {
                       </button>
                       <button
                         onClick={() => setZoomLevel(1.0)}
-                        className="ml-1 px-1.5 py-0.5 text-[11px] text-gray-500 hover:text-black dark:hover:text-white"
+                        className="ml-1 px-1.5 py-0.5 text-[11px] text-gray-500 dark:text-slate-400 hover:text-black dark:hover:text-white"
                       >
                         Reset
                       </button>

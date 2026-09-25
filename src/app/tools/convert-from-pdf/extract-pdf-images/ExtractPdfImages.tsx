@@ -284,7 +284,7 @@ export default function ExtractPdfImages() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Extract Images
               </span>
-              <span className="text-xs text-gray-400 mb-4">Drag and drop your document here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400 mb-4">Drag and drop your document here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>
@@ -331,7 +331,7 @@ export default function ExtractPdfImages() {
 
                 <button
                   onClick={() => { setFile(null); setImages([]); }}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs font-semibold p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700"
+                  className="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-white text-xs font-semibold p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700"
                 >
                   Change File
                 </button>
@@ -347,7 +347,7 @@ export default function ExtractPdfImages() {
                 </p>
               </div>
             ) : images.length === 0 ? (
-              <div className="py-12 text-center text-xs text-gray-500">
+              <div className="py-12 text-center text-xs text-gray-500 dark:text-slate-400">
                 No images found in this PDF document.
               </div>
             ) : (
@@ -373,7 +373,7 @@ export default function ExtractPdfImages() {
                         <p className="font-bold text-gray-900 dark:text-white text-[11px] truncate max-w-[80px]">
                           #{img.id}
                         </p>
-                        <p className="text-[10px] text-gray-400">{img.width}×{img.height}</p>
+                        <p className="text-[10px] text-gray-400 dark:text-slate-400">{img.width}×{img.height}</p>
                       </div>
 
                       <button

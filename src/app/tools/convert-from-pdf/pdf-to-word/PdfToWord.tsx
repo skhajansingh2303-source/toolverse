@@ -766,7 +766,7 @@ export default function PdfToWord() {
                     }}
                   />
                 </div>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 dark:text-slate-400">
                   Extracting typography, tables, and paragraphs client-side...
                 </p>
               </div>
@@ -904,7 +904,7 @@ export default function PdfToWord() {
                         className="bg-white dark:bg-slate-900 text-gray-900 dark:text-white rounded-lg shadow-md p-8 sm:p-12 mx-auto max-w-2xl min-h-[500px] relative border border-gray-200 dark:border-slate-800"
                         style={{ fontFamily }}
                       >
-                        <div className="absolute top-3 right-4 text-[10px] font-mono text-gray-400">
+                        <div className="absolute top-3 right-4 text-[10px] font-mono text-gray-400 dark:text-slate-400">
                           Page {p.pageNumber} of {pages.length}
                         </div>
 
@@ -943,7 +943,7 @@ export default function PdfToWord() {
                             if (block.type === 'bullet') {
                               return (
                                 <div key={bIdx} className="flex items-start gap-2 pl-4 text-sm">
-                                  <span className="text-gray-400">•</span>
+                                  <span className="text-gray-400 dark:text-slate-400">•</span>
                                   <span>{block.text}</span>
                                 </div>
                               );

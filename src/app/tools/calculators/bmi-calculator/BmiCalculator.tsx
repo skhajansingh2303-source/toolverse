@@ -139,7 +139,7 @@ export default function BmiCalculator() {
                     onChange={(e) => setWeightKg(e.target.value)}
                     className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
-                  <span className="text-xs font-bold text-gray-500 px-2">kg</span>
+                  <span className="text-xs font-bold text-gray-500 dark:text-slate-400 px-2">kg</span>
                 </div>
               </div>
 
@@ -154,7 +154,7 @@ export default function BmiCalculator() {
                     onChange={(e) => setHeightCm(e.target.value)}
                     className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
-                  <span className="text-xs font-bold text-gray-500 px-2">cm</span>
+                  <span className="text-xs font-bold text-gray-500 dark:text-slate-400 px-2">cm</span>
                 </div>
               </div>
             </>
@@ -171,7 +171,7 @@ export default function BmiCalculator() {
                     onChange={(e) => setWeightLbs(e.target.value)}
                     className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
-                  <span className="text-xs font-bold text-gray-500 px-2">lbs</span>
+                  <span className="text-xs font-bold text-gray-500 dark:text-slate-400 px-2">lbs</span>
                 </div>
               </div>
 
@@ -187,7 +187,7 @@ export default function BmiCalculator() {
                       onChange={(e) => setHeightFeet(e.target.value)}
                       className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none"
                     />
-                    <span className="text-xs font-bold text-gray-500">ft</span>
+                    <span className="text-xs font-bold text-gray-500 dark:text-slate-400">ft</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -196,7 +196,7 @@ export default function BmiCalculator() {
                       onChange={(e) => setHeightInches(e.target.value)}
                       className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none"
                     />
-                    <span className="text-xs font-bold text-gray-500">in</span>
+                    <span className="text-xs font-bold text-gray-500 dark:text-slate-400">in</span>
                   </div>
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function BmiCalculator() {
         <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           {bmiResult ? (
             <div>
-              <span className="text-xs uppercase font-bold text-gray-400 tracking-wider block mb-2">
+              <span className="text-xs uppercase font-bold text-gray-400 dark:text-slate-400 tracking-wider block mb-2">
                 Your BMI Result
               </span>
 
@@ -229,7 +229,7 @@ export default function BmiCalculator() {
                     style={{ left: `${bmiResult.percentage}%` }}
                   />
                 </div>
-                <div className="flex justify-between text-[10px] font-bold text-gray-400 mt-2">
+                <div className="flex justify-between text-[10px] font-bold text-gray-400 dark:text-slate-400 mt-2">
                   <span>18.5 Under</span>
                   <span>18.5 - 24.9 Normal</span>
                   <span>25 - 29.9 Over</span>
@@ -238,13 +238,13 @@ export default function BmiCalculator() {
               </div>
 
               {/* Recommended Range */}
-              <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                <span className="text-xs text-gray-500 block mb-1">Healthy Weight Range for Your Height:</span>
-                <span className="text-sm font-bold text-gray-900">{bmiResult.idealRange}</span>
+              <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-slate-800">
+                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Healthy Weight Range for Your Height:</span>
+                <span className="text-sm font-bold text-gray-900 dark:text-white">{bmiResult.idealRange}</span>
               </div>
             </div>
           ) : (
-            <div className="text-center py-10 text-gray-400 text-xs">
+            <div className="text-center py-10 text-gray-400 dark:text-slate-400 text-xs">
               Enter valid weight and height above to view your BMI score.
             </div>
           )}

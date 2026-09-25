@@ -263,17 +263,17 @@ export default function SplitPdf() {
       ) : (
         /* Document Control Center */
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 sm:p-8 mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 dark:border-slate-800 mb-6">
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs uppercase font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">
                   Loaded
                 </span>
-                <h3 className="text-sm font-bold text-gray-900 truncate max-w-sm">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white truncate max-w-sm">
                   {file.name}
                 </h3>
               </div>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 dark:text-slate-400 mt-1">
                 {(file.size / (1024 * 1024)).toFixed(2)} MB • {totalPages} total pages
               </p>
             </div>
@@ -284,7 +284,7 @@ export default function SplitPdf() {
                 setTotalPages(0);
                 setSelectedPages([]);
               }}
-              className="text-xs font-semibold text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-xl transition-colors"
+              className="text-xs font-semibold text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 px-3 py-1.5 rounded-xl transition-colors"
             >
               Choose Different File
             </button>
@@ -395,7 +395,7 @@ export default function SplitPdf() {
           )}
 
           {/* Action Trigger */}
-          <div className="pt-4 border-t border-gray-100 flex items-center justify-end">
+          <div className="pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center justify-end">
             <button
               onClick={processSplit}
               disabled={isProcessing || (mode === 'extract' && selectedPages.length === 0)}
@@ -440,8 +440,8 @@ export default function SplitPdf() {
 
       {/* Explanation Guide */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
-        <h2 className="text-base font-bold text-gray-900 mb-2">How to Extract Pages from a PDF</h2>
-        <ol className="list-decimal list-inside space-y-1.5 text-xs text-gray-600 leading-relaxed">
+        <h2 className="text-base font-bold text-gray-900 dark:text-white mb-2">How to Extract Pages from a PDF</h2>
+        <ol className="list-decimal list-inside space-y-1.5 text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
           <li>Upload your multi-page PDF document.</li>
           <li>Click the visual page tiles or type a range like &ldquo;1-3, 5, 8&rdquo; into the range input box.</li>
           <li>Choose whether to combine selected pages into one file or split each page into a standalone download.</li>

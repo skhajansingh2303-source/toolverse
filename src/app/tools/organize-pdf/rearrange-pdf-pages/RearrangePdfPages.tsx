@@ -135,7 +135,7 @@ export default function RearrangePdfPages() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Reorder
               </span>
-              <span className="text-xs text-gray-400 mb-4">Drag and drop your document here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400 mb-4">Drag and drop your document here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>
@@ -148,7 +148,7 @@ export default function RearrangePdfPages() {
             <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-gray-50 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700">
               <div className="text-xs">
                 <span className="font-bold text-gray-900 dark:text-white">{file.name}</span>
-                <span className="text-gray-400 ml-2">({pageOrder.length} pages)</span>
+                <span className="text-gray-400 dark:text-slate-400 ml-2">({pageOrder.length} pages)</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -166,7 +166,7 @@ export default function RearrangePdfPages() {
                 </button>
                 <button
                   onClick={() => setFile(null)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white"
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white"
                 >
                   Change File
                 </button>
@@ -182,11 +182,11 @@ export default function RearrangePdfPages() {
                 >
                   {/* Page Preview Placeholder */}
                   <div className="w-full aspect-[3/4] rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-2xs flex flex-col items-center justify-center p-2 mb-2">
-                    <span className="text-xs uppercase font-extrabold text-gray-400">Orig</span>
+                    <span className="text-xs uppercase font-extrabold text-gray-400 dark:text-slate-400">Orig</span>
                     <span className="text-lg font-black text-primary-600 dark:text-primary-400">
                       p.{pageIdx + 1}
                     </span>
-                    <span className="text-[10px] text-gray-400 mt-1">
+                    <span className="text-[10px] text-gray-400 dark:text-slate-400 mt-1">
                       → Pos {currentPosition + 1}
                     </span>
                   </div>

@@ -156,7 +156,7 @@ export default function UnitConverter() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
           {/* From Column */}
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <label className="block text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
               From
             </label>
             <input
@@ -168,7 +168,7 @@ export default function UnitConverter() {
             <select
               value={fromUnit}
               onChange={(e) => setFromUnit(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-800 outline-none"
+              className="w-full bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2.5 text-xs text-gray-800 dark:text-slate-100 outline-none"
             >
               {(unitDefinitions[category] as any).units.map((u: any) => (
                 <option key={u.id} value={u.id}>{u.name}</option>
@@ -192,7 +192,7 @@ export default function UnitConverter() {
 
           {/* To Column */}
           <div className="md:col-span-2 space-y-2">
-            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <label className="block text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider">
               To (Result)
             </label>
             <div className="w-full bg-primary-50/40 border border-primary-100 rounded-2xl p-4 text-xl font-black text-primary-700 select-all truncate">
@@ -201,7 +201,7 @@ export default function UnitConverter() {
             <select
               value={toUnit}
               onChange={(e) => setToUnit(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-800 outline-none"
+              className="w-full bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-2.5 text-xs text-gray-800 dark:text-slate-100 outline-none"
             >
               {(unitDefinitions[category] as any).units.map((u: any) => (
                 <option key={u.id} value={u.id}>{u.name}</option>

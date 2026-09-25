@@ -120,15 +120,15 @@ export default function CodeBeautifierMinifier() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
-      <nav className="text-sm mb-6 text-gray-500">
+      <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">Code Beautifier & Minifier</span>
+        <span className="text-gray-900 dark:text-white font-medium">Code Beautifier & Minifier</span>
       </nav>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Code Beautifier & Minifier</h1>
-        <p className="text-gray-600">Format or minify your HTML, CSS, and JavaScript code easily.</p>
+        <p className="text-gray-600 dark:text-slate-300">Format or minify your HTML, CSS, and JavaScript code easily.</p>
       </header>
 
       <AdSlot format="horizontal" />
@@ -136,7 +136,7 @@ export default function CodeBeautifierMinifier() {
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-6">
         <div className="flex flex-wrap gap-4 items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <label className="font-semibold text-gray-700">Language:</label>
+            <label className="font-semibold text-gray-700 dark:text-slate-200">Language:</label>
             <select
               value={language}
               onChange={(e) => {
@@ -171,21 +171,21 @@ export default function CodeBeautifierMinifier() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Input Code</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Input Code</label>
             <textarea
               value={inputCode}
               onChange={(e) => setInputCode(e.target.value)}
-              className="w-full rounded-2xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm min-h-[400px]"
+              className="w-full rounded-2xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm min-h-[400px]"
               placeholder="Paste your code here..."
             />
           </div>
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-semibold text-gray-700">Output Code</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200">Output Code</label>
               {outputCode && (
                 <div className="flex gap-2">
-                  <button onClick={handleDownload} className="text-xs text-gray-600 hover:text-gray-900 bg-gray-100 px-2 py-1 rounded">Download</button>
-                  <button onClick={handleCopy} className="text-xs text-gray-600 hover:text-gray-900 bg-gray-100 px-2 py-1 rounded">
+                  <button onClick={handleDownload} className="text-xs text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded">Download</button>
+                  <button onClick={handleCopy} className="text-xs text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded">
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                 </div>
@@ -194,11 +194,11 @@ export default function CodeBeautifierMinifier() {
             <textarea
               value={outputCode}
               readOnly
-              className="w-full rounded-2xl border border-gray-300 bg-gray-50 p-4 font-mono text-sm min-h-[400px]"
+              className="w-full rounded-2xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/60 p-4 font-mono text-sm min-h-[400px]"
               placeholder="Output will appear here..."
             />
             {stats && (
-              <div className="mt-3 text-sm text-gray-600 flex justify-between bg-green-50 p-3 rounded-xl border border-green-100">
+              <div className="mt-3 text-sm text-gray-600 dark:text-slate-300 flex justify-between bg-green-50 p-3 rounded-xl border border-green-100">
                 <span>Original: <strong>{stats.orig} bytes</strong></span>
                 <span>Minified: <strong>{stats.new} bytes</strong></span>
                 <span className="text-green-700 font-semibold">Reduced by {stats.reduction}%</span>
@@ -209,8 +209,8 @@ export default function CodeBeautifierMinifier() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the Code Beautifier & Minifier</h2>
-        <ol className="list-decimal pl-5 space-y-3 text-gray-700">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use the Code Beautifier & Minifier</h2>
+        <ol className="list-decimal pl-5 space-y-3 text-gray-700 dark:text-slate-200">
           <li>Select your code <strong>Language</strong> (HTML, CSS, or JavaScript) from the dropdown.</li>
           <li>Paste your unformatted or minified code into the <strong>Input Code</strong> box on the left.</li>
           <li>Click <strong>Beautify</strong> to add proper indentation and line breaks to make the code readable.</li>

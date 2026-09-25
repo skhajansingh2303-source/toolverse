@@ -232,18 +232,18 @@ export default function ImageToPdf() {
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
             <li className="flex items-center">
-              <Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link>
-              <svg className="fill-current w-3 h-3 mx-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <Link href="/" className="text-gray-500 dark:text-slate-400 hover:text-gray-700">Home</Link>
+              <svg className="fill-current w-3 h-3 mx-3 text-gray-400 dark:text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
             </li>
             <li>
-              <span className="text-gray-700" aria-current="page">Image to PDF</span>
+              <span className="text-gray-700 dark:text-slate-200" aria-current="page">Image to PDF</span>
             </li>
           </ol>
         </nav>
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Image to PDF</h1>
-          <p className="text-gray-600">Convert JPG, PNG, and WebP images into a single PDF document.</p>
+          <p className="text-gray-600 dark:text-slate-300">Convert JPG, PNG, and WebP images into a single PDF document.</p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8 mb-8">
@@ -282,7 +282,7 @@ export default function ImageToPdf() {
           {images.length > 0 && (
             <div className="mb-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {images.map((img, index) => (
-                <div key={index} className="relative group border border-gray-200 rounded-lg overflow-hidden bg-gray-50 aspect-square">
+                <div key={index} className="relative group border border-gray-200 dark:border-slate-800 rounded-lg overflow-hidden bg-gray-50 dark:bg-slate-800/60 aspect-square">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={img.previewUrl} alt={img.file.name} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2">
@@ -305,24 +305,24 @@ export default function ImageToPdf() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Page Size</label>
-              <select value={pageSize} onChange={(e) => setPageSize(e.target.value as any)} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Page Size</label>
+              <select value={pageSize} onChange={(e) => setPageSize(e.target.value as any)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3">
                 <option value="A4">A4</option>
                 <option value="Letter">Letter</option>
                 <option value="Fit">Fit to Image</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Orientation</label>
-              <select value={orientation} onChange={(e) => setOrientation(e.target.value as any)} disabled={pageSize === 'Fit'} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 disabled:bg-gray-100 disabled:text-gray-400">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Orientation</label>
+              <select value={orientation} onChange={(e) => setOrientation(e.target.value as any)} disabled={pageSize === 'Fit'} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 disabled:bg-gray-100 disabled:text-gray-400">
                 <option value="Portrait">Portrait</option>
                 <option value="Landscape">Landscape</option>
                 <option value="Auto">Auto (based on image)</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Margin</label>
-              <select value={margin} onChange={(e) => setMargin(e.target.value as any)} disabled={pageSize === 'Fit'} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 disabled:bg-gray-100 disabled:text-gray-400">
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Margin</label>
+              <select value={margin} onChange={(e) => setMargin(e.target.value as any)} disabled={pageSize === 'Fit'} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 disabled:bg-gray-100 disabled:text-gray-400">
                 <option value="None">None</option>
                 <option value="Small">Small</option>
                 <option value="Medium">Medium</option>
@@ -370,8 +370,8 @@ export default function ImageToPdf() {
         )}
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal pl-5 space-y-3 text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal pl-5 space-y-3 text-gray-600 dark:text-slate-300">
             <li>Upload one or more images (JPG, PNG, WebP) by dragging and dropping or selecting them.</li>
             <li>Reorder the images if necessary using the arrow buttons that appear when hovering over a thumbnail.</li>
             <li>Choose your preferred page size, orientation, and margin settings for the PDF document.</li>

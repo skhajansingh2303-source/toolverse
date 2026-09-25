@@ -622,7 +622,7 @@ export default function PdfToExcel() {
                     }}
                   />
                 </div>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-gray-400 dark:text-slate-400">
                   Detecting horizontal baselines, cell delimiters, and numeric columns...
                 </p>
               </div>
@@ -725,7 +725,7 @@ export default function PdfToExcel() {
                   <table className="min-w-full text-xs border-collapse">
                     <thead className="bg-slate-100 dark:bg-slate-800 sticky top-0 z-10 border-b border-gray-300 dark:border-slate-700">
                       <tr>
-                        <th className="w-10 px-2 py-2 text-center text-gray-400 font-mono text-[10px] border-r border-gray-200 dark:border-slate-700">
+                        <th className="w-10 px-2 py-2 text-center text-gray-400 dark:text-slate-400 font-mono text-[10px] border-r border-gray-200 dark:border-slate-700">
                           #
                         </th>
                         {currentGrid[0]?.map((_, cIdx) => (
@@ -734,12 +734,12 @@ export default function PdfToExcel() {
                             className="px-3 py-2 text-left font-bold text-gray-800 dark:text-slate-200 border-r border-gray-200 dark:border-slate-700 last:border-r-0 group relative"
                           >
                             <div className="flex items-center justify-between gap-1">
-                              <span className="font-mono text-[10px] text-gray-400">{getColLetter(cIdx)}</span>
+                              <span className="font-mono text-[10px] text-gray-400 dark:text-slate-400">{getColLetter(cIdx)}</span>
                               {currentGrid[0]?.length > 1 && (
                                 <button
                                   onClick={() => deleteColumn(cIdx)}
                                   title="Delete Column"
-                                  className="text-[10px] text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className="text-[10px] text-gray-400 dark:text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                   ✕
                                 </button>
@@ -747,7 +747,7 @@ export default function PdfToExcel() {
                             </div>
                           </th>
                         ))}
-                        <th className="w-10 px-2 py-2 text-center text-gray-400">Act</th>
+                        <th className="w-10 px-2 py-2 text-center text-gray-400 dark:text-slate-400">Act</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -760,7 +760,7 @@ export default function PdfToExcel() {
                               isHeader ? 'bg-gray-50 dark:bg-slate-850 font-bold' : ''
                             }`}
                           >
-                            <td className="px-2 py-1.5 text-center text-gray-400 font-mono text-[10px] border-r border-gray-200 dark:border-slate-700 select-none bg-gray-50 dark:bg-slate-800/40">
+                            <td className="px-2 py-1.5 text-center text-gray-400 dark:text-slate-400 font-mono text-[10px] border-r border-gray-200 dark:border-slate-700 select-none bg-gray-50 dark:bg-slate-800/40">
                               {rIdx + 1}
                             </td>
                             {row.map((cell, cIdx) => (
@@ -783,7 +783,7 @@ export default function PdfToExcel() {
                                 <button
                                   onClick={() => deleteRow(rIdx)}
                                   title="Delete Row"
-                                  className="text-gray-400 hover:text-red-500 text-xs px-1"
+                                  className="text-gray-400 dark:text-slate-400 hover:text-red-500 text-xs px-1"
                                 >
                                   ✕
                                 </button>

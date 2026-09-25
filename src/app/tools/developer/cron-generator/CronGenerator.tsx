@@ -75,15 +75,15 @@ export default function CronGenerator() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
-      <nav className="text-sm mb-6 text-gray-500">
+      <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">Cron Generator</span>
+        <span className="text-gray-900 dark:text-white font-medium">Cron Generator</span>
       </nav>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Cron Expression Generator</h1>
-        <p className="text-gray-600">Visually build and translate cron expressions for your scheduled tasks.</p>
+        <p className="text-gray-600 dark:text-slate-300">Visually build and translate cron expressions for your scheduled tasks.</p>
       </header>
 
       <AdSlot format="horizontal" />
@@ -104,8 +104,8 @@ export default function CronGenerator() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Minute</label>
-            <select value={minute} onChange={(e) => setMinute(e.target.value)} className="w-full rounded-xl border border-gray-300 p-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Minute</label>
+            <select value={minute} onChange={(e) => setMinute(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-3">
               <option value="*">Every minute (*)</option>
               <option value="*/2">Every 2 minutes (*/2)</option>
               <option value="*/5">Every 5 minutes (*/5)</option>
@@ -116,8 +116,8 @@ export default function CronGenerator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Hour</label>
-            <select value={hour} onChange={(e) => setHour(e.target.value)} className="w-full rounded-xl border border-gray-300 p-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Hour</label>
+            <select value={hour} onChange={(e) => setHour(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-3">
               <option value="*">Every hour (*)</option>
               <option value="*/2">Every 2 hours (*/2)</option>
               <option value="*/4">Every 4 hours (*/4)</option>
@@ -128,8 +128,8 @@ export default function CronGenerator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Day of Month</label>
-            <select value={dayOfMonth} onChange={(e) => setDayOfMonth(e.target.value)} className="w-full rounded-xl border border-gray-300 p-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Day of Month</label>
+            <select value={dayOfMonth} onChange={(e) => setDayOfMonth(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-3">
               <option value="*">Every day (*)</option>
               <option value="1">1st of month (1)</option>
               <option value="15">15th of month (15)</option>
@@ -138,8 +138,8 @@ export default function CronGenerator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Month</label>
-            <select value={month} onChange={(e) => setMonth(e.target.value)} className="w-full rounded-xl border border-gray-300 p-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Month</label>
+            <select value={month} onChange={(e) => setMonth(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-3">
               <option value="*">Every month (*)</option>
               <option value="1">January (1)</option>
               <option value="6">June (6)</option>
@@ -149,8 +149,8 @@ export default function CronGenerator() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Day of Week</label>
-            <select value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} className="w-full rounded-xl border border-gray-300 p-3">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Day of Week</label>
+            <select value={dayOfWeek} onChange={(e) => setDayOfWeek(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-3">
               <option value="*">Every day (*)</option>
               <option value="1-5">Weekdays (1-5)</option>
               <option value="0,6">Weekends (0,6)</option>
@@ -160,8 +160,8 @@ export default function CronGenerator() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Common Presets</h3>
+        <div className="border-t border-gray-200 dark:border-slate-800 pt-6">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-200 mb-3">Common Presets</h3>
           <div className="flex flex-wrap gap-2">
             <button onClick={() => loadPreset('*/5 * * * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every 5 minutes</button>
             <button onClick={() => loadPreset('0 * * * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every hour</button>
@@ -173,8 +173,8 @@ export default function CronGenerator() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the Cron Generator</h2>
-        <ol className="list-decimal pl-5 space-y-3 text-gray-700">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use the Cron Generator</h2>
+        <ol className="list-decimal pl-5 space-y-3 text-gray-700 dark:text-slate-200">
           <li>Select the desired schedule parameters using the dropdowns for <strong>Minute</strong>, <strong>Hour</strong>, <strong>Day of Month</strong>, <strong>Month</strong>, and <strong>Day of Week</strong>.</li>
           <li>As you make selections, the cron expression at the top will update automatically.</li>
           <li>A human-readable description is generated below the cron expression to verify your intent.</li>

@@ -185,7 +185,7 @@ export default function CalorieBmrCalculator() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-12 text-xs text-gray-400">
+            <div className="text-center py-12 text-xs text-gray-400 dark:text-slate-400">
               Enter age, weight, and height to compute calorie targets.
             </div>
           )}

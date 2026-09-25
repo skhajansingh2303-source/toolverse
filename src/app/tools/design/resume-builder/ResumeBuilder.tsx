@@ -51,16 +51,16 @@ export default function ResumeBuilder() {
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 print:bg-white print:py-0 transition-colors">
       <div className="max-w-7xl mx-auto px-4 print:p-0">
         <div className="mb-8 print:hidden">
-          <nav className="text-sm text-gray-500 mb-4">
+          <nav className="text-sm text-gray-500 dark:text-slate-400 mb-4">
             <Link href="/" className="hover:text-primary-600">Home</Link> / Resume Builder
           </nav>
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Resume Builder</h1>
-              <p className="text-gray-600">Create and download a professional resume easily.</p>
+              <p className="text-gray-600 dark:text-slate-300">Create and download a professional resume easily.</p>
             </div>
             <div className="flex gap-4">
-              <select value={theme} onChange={e => setTheme(e.target.value)} className="rounded-xl border border-gray-300 p-2">
+              <select value={theme} onChange={e => setTheme(e.target.value)} className="rounded-xl border border-gray-300 dark:border-slate-700 p-2">
                 <option value="modern">Modern Clean</option>
                 <option value="slate">Minimalist Slate</option>
                 <option value="navy">Executive Navy</option>
@@ -99,10 +99,10 @@ export default function ResumeBuilder() {
             <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Work Experience</h2>
-                <button onClick={addWork} className="text-sm bg-gray-100 px-3 py-1 rounded-xl">+ Add</button>
+                <button onClick={addWork} className="text-sm bg-gray-100 dark:bg-slate-800 px-3 py-1 rounded-xl">+ Add</button>
               </div>
               {work.map((w, i) => (
-                <div key={w.id} className="mb-4 pb-4 border-b border-gray-100">
+                <div key={w.id} className="mb-4 pb-4 border-b border-gray-100 dark:border-slate-800">
                   <div className="grid grid-cols-2 gap-4 mb-2">
                     <input type="text" placeholder="Job Title" value={w.title} onChange={e => updateWork(w.id, 'title', e.target.value)} className="w-full rounded-xl border p-3" />
                     <input type="text" placeholder="Company" value={w.company} onChange={e => updateWork(w.id, 'company', e.target.value)} className="w-full rounded-xl border p-3" />
@@ -116,10 +116,10 @@ export default function ResumeBuilder() {
             <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Education</h2>
-                <button onClick={addEdu} className="text-sm bg-gray-100 px-3 py-1 rounded-xl">+ Add</button>
+                <button onClick={addEdu} className="text-sm bg-gray-100 dark:bg-slate-800 px-3 py-1 rounded-xl">+ Add</button>
               </div>
               {education.map(e => (
-                <div key={e.id} className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-100">
+                <div key={e.id} className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-gray-100 dark:border-slate-800">
                   <input type="text" placeholder="School" value={e.school} onChange={evt => updateEdu(e.id, 'school', evt.target.value)} className="w-full rounded-xl border p-3" />
                   <input type="text" placeholder="Degree" value={e.degree} onChange={evt => updateEdu(e.id, 'degree', evt.target.value)} className="w-full rounded-xl border p-3" />
                   <input type="text" placeholder="Year" value={e.year} onChange={evt => updateEdu(e.id, 'year', evt.target.value)} className="col-span-2 w-full rounded-xl border p-3" />
@@ -195,8 +195,8 @@ export default function ResumeBuilder() {
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mt-8 print:hidden">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-300">
             <li>Fill out your personal information, summary, experience, education, and skills on the left panel.</li>
             <li>Select a theme from the top right dropdown to change the styling.</li>
             <li>Preview your resume in real-time on the right.</li>

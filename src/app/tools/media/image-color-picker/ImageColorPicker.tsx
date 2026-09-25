@@ -127,14 +127,14 @@ export default function ImageColorPicker() {
               <svg className="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
             </li>
             <li>
-              <span className="text-gray-500" aria-current="page">Image Color Picker</span>
+              <span className="text-gray-500 dark:text-slate-400" aria-current="page">Image Color Picker</span>
             </li>
           </ol>
         </nav>
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Image Color Picker</h1>
-          <p className="text-lg text-gray-600">Extract colors easily from any image by clicking on it.</p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Image Color Picker</h1>
+          <p className="text-lg text-gray-600 dark:text-slate-300">Extract colors easily from any image by clicking on it.</p>
         </div>
 
         <AdSlot format="horizontal" />
@@ -192,26 +192,26 @@ export default function ImageColorPicker() {
               </div>
 
               <div className="w-full md:w-80 flex flex-col gap-6">
-                <div className="p-6 border border-gray-200 rounded-2xl">
+                <div className="p-6 border border-gray-200 dark:border-slate-800 rounded-2xl">
                   <h3 className="font-semibold mb-4 text-lg">Hovered Color</h3>
                   {hoverColor ? (
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-xl border border-gray-300 shadow-inner" style={{ backgroundColor: hoverColor.hex }}></div>
+                      <div className="w-16 h-16 rounded-xl border border-gray-300 dark:border-slate-700 shadow-inner" style={{ backgroundColor: hoverColor.hex }}></div>
                       <div>
                         <p className="text-sm font-medium">{hoverColor.hex}</p>
-                        <p className="text-xs text-gray-500">{hoverColor.rgb}</p>
+                        <p className="text-xs text-gray-500 dark:text-slate-400">{hoverColor.rgb}</p>
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">Hover over the image</p>
+                    <p className="text-sm text-gray-500 dark:text-slate-400">Hover over the image</p>
                   )}
                 </div>
 
-                <div className="p-6 border border-gray-200 rounded-2xl bg-gray-50">
+                <div className="p-6 border border-gray-200 dark:border-slate-800 rounded-2xl bg-gray-50 dark:bg-slate-800/60">
                   <h3 className="font-semibold mb-4 text-lg">Picked Color</h3>
                   {pickedColor ? (
                     <div className="flex flex-col gap-4">
-                      <div className="w-full h-24 rounded-xl border border-gray-300 shadow-inner mb-2" style={{ backgroundColor: pickedColor.hex }}></div>
+                      <div className="w-full h-24 rounded-xl border border-gray-300 dark:border-slate-700 shadow-inner mb-2" style={{ backgroundColor: pickedColor.hex }}></div>
                       
                       <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-3 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white">
                         <span className="text-sm font-mono">{pickedColor.hex}</span>
@@ -229,18 +229,18 @@ export default function ImageColorPicker() {
                       </div>
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">Click on the image to pick a color</p>
+                    <p className="text-sm text-gray-500 dark:text-slate-400">Click on the image to pick a color</p>
                   )}
                 </div>
 
                 {history.length > 0 && (
-                  <div className="p-6 border border-gray-200 rounded-2xl">
+                  <div className="p-6 border border-gray-200 dark:border-slate-800 rounded-2xl">
                     <h3 className="font-semibold mb-4 text-lg">History</h3>
                     <div className="flex flex-wrap gap-2">
                       {history.map((color, idx) => (
                         <div 
                           key={idx} 
-                          className="w-8 h-8 rounded-full border border-gray-300 shadow-sm cursor-pointer hover:scale-110 transition-transform" 
+                          className="w-8 h-8 rounded-full border border-gray-300 dark:border-slate-700 shadow-sm cursor-pointer hover:scale-110 transition-transform" 
                           style={{ backgroundColor: color.hex }}
                           title={color.hex}
                           onClick={() => setPickedColor(color)}

@@ -77,34 +77,34 @@ export default function LoremIpsumGenerator() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Lorem Ipsum Generator</span>
+          <span className="text-gray-900 dark:text-white">Lorem Ipsum Generator</span>
         </nav>
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Lorem Ipsum Generator</h1>
-              <p className="text-gray-600">Generate custom dummy text for your layouts and mockups.</p>
+              <p className="text-gray-600 dark:text-slate-300">Generate custom dummy text for your layouts and mockups.</p>
             </div>
 
             <div className="flex flex-wrap items-end gap-6 mb-8">
               <div className="w-full sm:w-auto">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Count</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Count</label>
                 <input
                   type="number"
                   min="1"
                   max="100"
                   value={count}
                   onChange={(e) => setCount(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-full sm:w-24 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                  className="w-full sm:w-24 rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
                 />
               </div>
 
               <div className="w-full sm:w-auto">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Type</label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as any)}
@@ -122,9 +122,9 @@ export default function LoremIpsumGenerator() {
                   id="startWithLorem"
                   checked={startWithLorem}
                   onChange={(e) => setStartWithLorem(e.target.checked)}
-                  className="h-5 w-5 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  className="h-5 w-5 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-slate-700 rounded"
                 />
-                <label htmlFor="startWithLorem" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="startWithLorem" className="ml-2 block text-sm text-gray-700 dark:text-slate-200">
                   Start with 'Lorem ipsum...'
                 </label>
               </div>
@@ -140,7 +140,7 @@ export default function LoremIpsumGenerator() {
             {output && (
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-500">
+                  <span className="text-sm font-medium text-gray-500 dark:text-slate-400">
                     {wordCount} words generated
                   </span>
                   <button
@@ -150,7 +150,7 @@ export default function LoremIpsumGenerator() {
                     {copied ? 'Copied!' : 'Copy to Clipboard'}
                   </button>
                 </div>
-                <div className="bg-gray-50 rounded-xl border border-gray-200 p-6 whitespace-pre-wrap text-gray-700 leading-relaxed max-h-96 overflow-y-auto">
+                <div className="bg-gray-50 dark:bg-slate-800/60 rounded-xl border border-gray-200 dark:border-slate-800 p-6 whitespace-pre-wrap text-gray-700 dark:text-slate-200 leading-relaxed max-h-96 overflow-y-auto">
                   {output}
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function LoremIpsumGenerator() {
 
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-4 text-gray-600">
+          <ol className="list-decimal list-inside space-y-4 text-gray-600 dark:text-slate-300">
             <li>Enter the number of paragraphs, sentences, or words you want to generate.</li>
             <li>Select the structural type (Paragraphs, Sentences, or Words) from the dropdown.</li>
             <li>Check or uncheck the 'Start with Lorem ipsum' box depending on your preference.</li>

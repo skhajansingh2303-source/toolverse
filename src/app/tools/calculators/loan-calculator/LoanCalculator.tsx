@@ -110,7 +110,7 @@ export default function LoanCalculator() {
           </div>
 
           <div>
-            <div className="flex justify-between text-xs font-bold text-gray-700 mb-2">
+            <div className="flex justify-between text-xs font-bold text-gray-700 dark:text-slate-200 mb-2">
               <span className="uppercase tracking-wider">Annual Interest Rate</span>
               <span className="text-emerald-700 font-mono bg-emerald-50 px-2 py-0.5 rounded">
                 {interestRate}%
@@ -183,7 +183,7 @@ export default function LoanCalculator() {
           {/* Yearly Amortization Table */}
           <div className="overflow-x-auto max-h-56 divide-y divide-gray-100 dark:divide-slate-800 border border-gray-100 dark:border-slate-800 rounded-2xl">
             <table className="w-full text-left text-xs">
-              <thead className="bg-gray-50 text-[10px] uppercase font-bold text-gray-400 sticky top-0">
+              <thead className="bg-gray-50 dark:bg-slate-800/60 text-[10px] uppercase font-bold text-gray-400 dark:text-slate-400 sticky top-0">
                 <tr>
                   <th className="p-2.5">Year</th>
                   <th className="p-2.5">Principal Paid</th>
@@ -191,7 +191,7 @@ export default function LoanCalculator() {
                   <th className="p-2.5">Balance</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 text-gray-700">
+              <tbody className="divide-y divide-gray-100 dark:divide-slate-800 text-gray-700 dark:text-slate-200">
                 {loanResults.schedule.map((row) => (
                   <tr key={row.year} className="hover:bg-gray-50">
                     <td className="p-2.5 font-bold">{row.year}</td>

@@ -326,7 +326,7 @@ export default function PowerpointToImages() {
               />
               <div className="text-5xl mb-4">🖼️</div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload PPTX File</h3>
-              <p className="text-sm text-gray-500">Drag and drop or click to browse</p>
+              <p className="text-sm text-gray-500 dark:text-slate-400">Drag and drop or click to browse</p>
             </div>
             <div className="text-center">
               <button onClick={loadDemo} className="text-sm text-pink-600 hover:underline">Load Sample Presentation</button>
@@ -338,7 +338,7 @@ export default function PowerpointToImages() {
               <h3 className="font-bold text-gray-900 dark:text-white">{fileName}</h3>
               <button
                 onClick={() => setSlides([])}
-                className="text-sm text-gray-500 hover:text-pink-600"
+                className="text-sm text-gray-500 dark:text-slate-400 hover:text-pink-600"
               >
                 Clear
               </button>
@@ -346,7 +346,7 @@ export default function PowerpointToImages() {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Format</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Format</label>
                 <select value={format} onChange={(e) => { setFormat(e.target.value as any); setTimeout(updateRendering, 100); }} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value="png">PNG</option>
                   <option value="jpg">JPG</option>
@@ -354,7 +354,7 @@ export default function PowerpointToImages() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Scale</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Scale</label>
                 <select value={scaleFactor} onChange={(e) => { setScaleFactor(Number(e.target.value)); setTimeout(updateRendering, 100); }} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value={1}>1x</option>
                   <option value={2}>2x</option>
@@ -362,7 +362,7 @@ export default function PowerpointToImages() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Quality</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Quality</label>
                 <input type="range" min="0.1" max="1" step="0.1" value={quality} onChange={(e) => { setQuality(Number(e.target.value)); setTimeout(updateRendering, 100); }} className="w-full" />
               </div>
             </div>
@@ -371,7 +371,7 @@ export default function PowerpointToImages() {
               {slides.map((slide, idx) => (
                 <div key={slide.id} className="border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden relative group">
                   {slide.dataUrl && <img src={slide.dataUrl} alt={`Slide ${idx + 1}`} className="w-full h-auto" />}
-                  <div className="p-2 text-center text-xs text-gray-500">Slide {idx + 1}</div>
+                  <div className="p-2 text-center text-xs text-gray-500 dark:text-slate-400">Slide {idx + 1}</div>
                   <a href={slide.dataUrl} download={`slide_${idx+1}.${format}`} className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white font-bold">
                     Download
                   </a>

@@ -226,7 +226,7 @@ export default function WordEditor() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6">
+      <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
         <span>/</span>
         <Link href="/#tools" className="hover:text-primary-600 transition-colors">Tools</Link>
@@ -309,7 +309,7 @@ export default function WordEditor() {
       </div>
 
       {/* Formatting Ribbon */}
-      <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-t-2xl p-3 border-b border-gray-200 dark:border-slate-800 flex flex-wrap items-center gap-2 text-xs">
+      <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-t-2xl p-3 border-b flex flex-wrap items-center gap-2 text-xs">
         {/* Undo / Redo */}
         <button
           onClick={() => executeCommand('undo')}

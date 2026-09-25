@@ -320,19 +320,19 @@ export default function CompoundInterestCalculator() {
           {/* Quick Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Return on Investment</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Return on Investment</span>
               <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
                 {results.totalDeposits > 0 ? ((results.totalInterest / results.totalDeposits) * 100).toFixed(1) : 0}%
               </span>
             </div>
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Compounding Rate</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Compounding Rate</span>
               <span className="text-base font-black text-indigo-600 dark:text-indigo-400">
                 {compoundFrequency === '365' ? 'Daily' : compoundFrequency === '12' ? 'Monthly' : compoundFrequency === '4' ? 'Quarterly' : 'Annually'}
               </span>
             </div>
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Total Multiplier</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Total Multiplier</span>
               <span className="text-base font-black text-gray-900 dark:text-white">
                 {(results.futureValue / (results.totalDeposits || 1)).toFixed(2)}x
               </span>
@@ -361,7 +361,7 @@ export default function CompoundInterestCalculator() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 uppercase text-[10px] font-extrabold">
+                <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-400 uppercase text-[10px] font-extrabold">
                   <th className="pb-3">Year</th>
                   <th className="pb-3">Total Deposited</th>
                   <th className="pb-3">Accumulated Interest</th>

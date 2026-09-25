@@ -193,7 +193,7 @@ export default function SipCalculator() {
               onChange={(e) => setAmount(e.target.value)}
               className="w-full accent-primary-600 h-2 bg-gray-100 dark:bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-400 mt-1">
               <span>{currency}{investmentType === 'sip' ? '500' : '5,000'}</span>
               <span>{currency}{investmentType === 'sip' ? '1,00,000' : '20,00,000'}</span>
             </div>
@@ -225,7 +225,7 @@ export default function SipCalculator() {
               onChange={(e) => setRate(e.target.value)}
               className="w-full accent-emerald-600 h-2 bg-gray-100 dark:bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-400 mt-1">
               <span>1% (Conservative)</span>
               <span>12% (Equity MF)</span>
               <span>30% (Aggressive)</span>
@@ -256,7 +256,7 @@ export default function SipCalculator() {
               onChange={(e) => setYears(e.target.value)}
               className="w-full accent-purple-600 h-2 bg-gray-100 dark:bg-slate-800 rounded-lg cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+            <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-400 mt-1">
               <span>1 Year</span>
               <span>20 Years</span>
               <span>40 Years</span>
@@ -357,19 +357,19 @@ export default function SipCalculator() {
           {/* Quick Insights Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Growth Multiplier</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Growth Multiplier</span>
               <span className="text-base font-black text-gray-900 dark:text-white">
                 {(calculation.totalValue / (calculation.investedAmount || 1)).toFixed(2)}x
               </span>
             </div>
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Monthly Gain Rate</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Monthly Gain Rate</span>
               <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
                 {(parseFloat(rate) / 12).toFixed(2)}% / mo
               </span>
             </div>
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800">
-              <span className="text-[11px] font-bold text-gray-400 uppercase block mb-1">Compounding Magic</span>
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-400 uppercase block mb-1">Compounding Magic</span>
               <span className="text-base font-black text-indigo-600 dark:text-indigo-400">
                 {returnPercent > 50 ? 'Gains exceed Capital' : 'Accumulation Phase'}
               </span>
@@ -398,7 +398,7 @@ export default function SipCalculator() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
               <thead>
-                <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 uppercase text-[10px] font-extrabold">
+                <tr className="border-b border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-400 uppercase text-[10px] font-extrabold">
                   <th className="pb-3">Year</th>
                   <th className="pb-3">Invested Capital</th>
                   <th className="pb-3">Accumulated Gains</th>

@@ -211,7 +211,7 @@ export default function NupPdf() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Format
               </span>
-              <span className="text-xs text-gray-400 mb-4">Drag and drop slides, notes, or essays here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-400 mb-4">Drag and drop slides, notes, or essays here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>

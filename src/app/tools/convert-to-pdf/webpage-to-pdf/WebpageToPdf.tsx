@@ -320,7 +320,7 @@ export default function WebpageToPdf() {
               <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                 Home
               </Link>
-              <svg className="w-3 h-3 mx-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3 h-3 mx-2 text-gray-400 dark:text-slate-400" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"
                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -389,7 +389,7 @@ export default function WebpageToPdf() {
 
             {/* Quick Presets */}
             <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
-              <span className="text-gray-400 font-medium">Try Samples:</span>
+              <span className="text-gray-400 dark:text-slate-400 font-medium">Try Samples:</span>
               <button
                 onClick={() => setUrlInput('https://en.wikipedia.org/wiki/World_Wide_Web')}
                 className="px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300"
@@ -420,22 +420,22 @@ export default function WebpageToPdf() {
                 HTML & CSS Code:
               </label>
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-gray-400">Templates:</span>
+                <span className="text-gray-400 dark:text-slate-400">Templates:</span>
                 <button
                   onClick={() => setHtmlCode(TEMPLATES.article)}
-                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 text-gray-700 dark:text-slate-300 rounded"
+                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 rounded"
                 >
                   Article
                 </button>
                 <button
                   onClick={() => setHtmlCode(TEMPLATES.invoice)}
-                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 text-gray-700 dark:text-slate-300 rounded"
+                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 rounded"
                 >
                   Invoice
                 </button>
                 <button
                   onClick={() => setHtmlCode(TEMPLATES.resume)}
-                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 text-gray-700 dark:text-slate-300 rounded"
+                  className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 rounded"
                 >
                   Resume
                 </button>

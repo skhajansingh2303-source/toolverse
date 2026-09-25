@@ -493,7 +493,7 @@ export default function HandwritingStudio() {
               {options.showSidebar && (
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-gray-500 font-semibold mb-1">Sidebar Label</label>
+                    <label className="block text-gray-500 dark:text-slate-400 font-semibold mb-1">Sidebar Label</label>
                     <input
                       type="text"
                       value={options.sidebarText}
@@ -502,7 +502,7 @@ export default function HandwritingStudio() {
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-500 font-semibold mb-1">Border Color</label>
+                    <label className="block text-gray-500 dark:text-slate-400 font-semibold mb-1">Border Color</label>
                     <div className="flex items-center gap-1.5 mt-1">
                       <input
                         type="color"

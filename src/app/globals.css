@@ -81,6 +81,42 @@ textarea::placeholder {
   border-color: #334155;
 }
 
+/* Dark mode text readability fallbacks across all tools */
+.dark .text-gray-950:not([data-keep-color]):not(.text-black):not(.keep-light):not(.keep-light *):not(#print-document-root *),
+.dark .text-gray-900:not([data-keep-color]):not(.text-black):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #f8fafc;
+}
+
+.dark .text-gray-800:not([data-keep-color]):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #f1f5f9;
+}
+
+.dark .text-gray-700:not([data-keep-color]):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #e2e8f0;
+}
+
+.dark .text-gray-600:not([data-keep-color]):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #cbd5e1;
+}
+
+.dark .text-gray-500:not([data-keep-color]):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #94a3b8;
+}
+
+.dark .text-gray-400:not([data-keep-color]):not(.keep-light):not(.keep-light *):not(#print-document-root *) {
+  color: #94a3b8;
+}
+
+/* In dark mode, ensure container cards and buttons that have bg-white also adopt dark background */
+.dark .bg-white:not([data-keep-light]):not(canvas):not(iframe):not(#print-document-root):not(#print-document-root *):not(.keep-light):not(.keep-white) {
+  background-color: #0f172a;
+}
+
+.dark button.bg-white:not([data-keep-light]):not(.keep-light) {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -491,7 +491,7 @@ export default function HeicToJpg() {
                   onChange={(e) => setQuality(parseInt(e.target.value, 10))}
                   className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-primary-600"
                 />
-                <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+                <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-400 mt-1">
                   <span>Smaller Size (20%)</span>
                   <span>Balanced (85%)</span>
                   <span>Maximum Quality (100%)</span>
@@ -635,7 +635,7 @@ export default function HeicToJpg() {
                         </p>
                       </div>
                     ) : (
-                      <span className="text-xs text-gray-400 font-mono">
+                      <span className="text-xs text-gray-400 dark:text-slate-400 font-mono">
                         Queued for conversion
                       </span>
                     )}
@@ -677,7 +677,7 @@ export default function HeicToJpg() {
                         )}
                       </div>
                       {item.width && item.height && (
-                        <p className="text-[10px] text-gray-400 mt-0.5">
+                        <p className="text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">
                           {item.width} × {item.height} px
                         </p>
                       )}

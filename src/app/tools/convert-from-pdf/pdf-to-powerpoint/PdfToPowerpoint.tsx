@@ -969,7 +969,7 @@ export default function PdfToPowerpoint() {
                         onClick={() => moveSlide(index, 'left')}
                         disabled={index === 0}
                         title="Move Left"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30"
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30"
                       >
                         ◀
                       </button>
@@ -977,14 +977,14 @@ export default function PdfToPowerpoint() {
                         onClick={() => moveSlide(index, 'right')}
                         disabled={index === slides.length - 1}
                         title="Move Right"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30"
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30"
                       >
                         ▶
                       </button>
                       <button
                         onClick={() => rotateSlide(index)}
                         title="Rotate 90°"
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700"
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-xs text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700"
                       >
                         🔄
                       </button>

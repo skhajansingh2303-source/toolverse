@@ -276,7 +276,7 @@ export default function OverlayPdf() {
                 <span className="text-xs font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400">
                   1. Base Document
                 </span>
-                <span className="text-[11px] text-gray-400">Contract, invoice, report</span>
+                <span className="text-[11px] text-gray-400 dark:text-slate-400">Contract, invoice, report</span>
               </div>
 
               {!baseFile ? (
@@ -342,7 +342,7 @@ export default function OverlayPdf() {
                 <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
                   2. Overlay / Stationery PDF
                 </span>
-                <span className="text-[11px] text-gray-400">Letterhead, border, watermark</span>
+                <span className="text-[11px] text-gray-400 dark:text-slate-400">Letterhead, border, watermark</span>
               </div>
 
               {!overlayFile ? (
@@ -465,7 +465,7 @@ export default function OverlayPdf() {
                 <label className="text-xs font-bold uppercase text-gray-700 dark:text-slate-300">
                   Overlay Opacity: {opacity}%
                 </label>
-                <span className="text-[11px] text-gray-400">
+                <span className="text-[11px] text-gray-400 dark:text-slate-400">
                   {opacity === 100 ? 'Solid (100%)' : opacity < 40 ? 'Watermark' : 'Semi-transparent'}
                 </span>
               </div>
@@ -478,7 +478,7 @@ export default function OverlayPdf() {
                 onChange={(e) => setOpacity(parseInt(e.target.value, 10))}
                 className="w-full accent-primary-600 h-2 bg-gray-200 dark:bg-slate-700 rounded-lg cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] text-gray-400 mt-1">
+              <div className="flex justify-between text-[10px] text-gray-400 dark:text-slate-400 mt-1">
                 <span>10% (Faint)</span>
                 <span>50%</span>
                 <span>100% (Full)</span>
@@ -510,7 +510,7 @@ export default function OverlayPdf() {
                     placeholder="e.g. 1-2, 4"
                     className="w-full text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-2.5"
                   />
-                  <p className="text-[10px] text-gray-400 mt-1">Comma-separated page numbers or ranges (e.g. 1, 3-5)</p>
+                  <p className="text-[10px] text-gray-400 dark:text-slate-400 mt-1">Comma-separated page numbers or ranges (e.g. 1, 3-5)</p>
                 </div>
               )}
             </div>

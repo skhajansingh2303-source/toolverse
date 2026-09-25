@@ -412,7 +412,7 @@ export default function RasterizePdf() {
                   <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
                     Rasterized Page Previews ({thumbnails.length})
                   </h3>
-                  <span className="text-[11px] text-gray-400">Pure Flat Images</span>
+                  <span className="text-[11px] text-gray-400 dark:text-slate-400">Pure Flat Images</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 max-h-80 overflow-y-auto p-2 bg-gray-50 dark:bg-slate-950/50 rounded-xl border border-gray-200 dark:border-slate-800">
                   {thumbnails.map((thumb, i) => (

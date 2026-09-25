@@ -433,7 +433,7 @@ export default function PdfToMarkdown() {
                   </div>
                   <div>
                     <span className="font-bold text-sm text-gray-900 dark:text-white block">{file.name}</span>
-                    <span className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</span>
+                    <span className="text-xs text-gray-500 dark:text-slate-400">{(file.size / 1024).toFixed(1)} KB</span>
                   </div>
                 </div>
 
@@ -608,7 +608,7 @@ export default function PdfToMarkdown() {
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col overflow-hidden h-[650px]">
                   <div className="px-4 py-2.5 bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider flex items-center justify-between">
                     <span>Raw Markdown Code</span>
-                    <span className="text-[11px] font-mono text-gray-400">Editable</span>
+                    <span className="text-[11px] font-mono text-gray-400 dark:text-slate-400">Editable</span>
                   </div>
                   <textarea
                     value={markdown}
@@ -681,7 +681,7 @@ export default function PdfToMarkdown() {
 
 // Lightweight, pure React Markdown Preview Renderer without external libraries
 function MarkdownPreviewRenderer({ content }: { content: string }) {
-  if (!content) return <p className="text-gray-400 italic">No markdown generated yet.</p>;
+  if (!content) return <p className="text-gray-400 dark:text-slate-400 italic">No markdown generated yet.</p>;
 
   const lines = content.split('\n');
   const elements: React.ReactNode[] = [];

@@ -683,7 +683,7 @@ export default function PdfReader() {
                     placeholder="Search in PDF..."
                     className="w-32 sm:w-44 pl-7 pr-7 py-1 text-xs rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-primary-500 focus:outline-none"
                   />
-                  <svg className="w-3.5 h-3.5 absolute left-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 absolute left-2 text-gray-400 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   {searchQuery && (
@@ -693,7 +693,7 @@ export default function PdfReader() {
                         setSearchResults([]);
                         setCurrentMatchIndex(-1);
                       }}
-                      className="absolute right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xs font-bold"
+                      className="absolute right-2 text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-gray-200 text-xs font-bold"
                     >
                       ×
                     </button>
@@ -839,7 +839,7 @@ export default function PdfReader() {
                             className="w-full h-full object-contain"
                           />
                         ) : (
-                          <span className="text-xs text-gray-400">P. {pNum}</span>
+                          <span className="text-xs text-gray-400 dark:text-slate-400">P. {pNum}</span>
                         )}
                       </div>
                       <span className="mt-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 group-hover:text-primary-600">

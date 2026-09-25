@@ -330,15 +330,15 @@ export default function MergePdf() {
           </div>
 
           {/* Merge Settings & Action */}
-          <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="pt-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-gray-500 font-medium">Output Name:</span>
+              <span className="text-gray-500 dark:text-slate-400 font-medium">Output Name:</span>
               <input
                 type="text"
                 value={outputName}
                 onChange={(e) => setOutputName(e.target.value)}
                 placeholder="merged_document.pdf"
-                className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-800 outline-none focus:ring-1 focus:ring-primary-500"
+                className="bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-gray-800 dark:text-slate-100 outline-none focus:ring-1 focus:ring-primary-500"
               />
             </div>
 
@@ -353,7 +353,7 @@ export default function MergePdf() {
 
           {/* Progress bar */}
           {isMerging && (
-            <div className="w-full bg-gray-100 rounded-full h-2 mt-4 overflow-hidden">
+            <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
               <div
                 className="bg-red-600 h-2 transition-all duration-300 rounded-full"
                 style={{ width: `${progress}%` }}
@@ -391,26 +391,26 @@ export default function MergePdf() {
 
       {/* Guide section */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
-        <h2 className="text-base font-bold text-gray-900 mb-3">
+        <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3">
           How to Combine PDF Documents
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-gray-600 mb-6">
-          <div className="p-4 bg-gray-50 rounded-2xl">
-            <strong className="block text-gray-900 mb-1">1. Select Files</strong>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-gray-600 dark:text-slate-300 mb-6">
+          <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl">
+            <strong className="block text-gray-900 dark:text-white mb-1">1. Select Files</strong>
             Drop multiple PDF files or browse your local storage to choose your files.
           </div>
-          <div className="p-4 bg-gray-50 rounded-2xl">
-            <strong className="block text-gray-900 mb-1">2. Arrange Order</strong>
+          <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl">
+            <strong className="block text-gray-900 dark:text-white mb-1">2. Arrange Order</strong>
             Use the sequence arrows to arrange the documents in your preferred reading sequence.
           </div>
-          <div className="p-4 bg-gray-50 rounded-2xl">
-            <strong className="block text-gray-900 mb-1">3. Download</strong>
+          <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl">
+            <strong className="block text-gray-900 dark:text-white mb-1">3. Download</strong>
             Click Merge to instantly create and download your consolidated PDF file.
           </div>
         </div>
 
-        <h3 className="text-sm font-bold text-gray-900 mb-2">Enterprise-Level Security</h3>
-        <p className="text-xs text-gray-500 leading-relaxed">
+        <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-2">Enterprise-Level Security</h3>
+        <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed">
           Standard online PDF converters upload your confidential agreements, invoices, and bank statements to remote servers. ToolsVerse works entirely on your local CPU memory using WebAssembly. Your documents never touch any server.
         </p>
       </div>

@@ -341,7 +341,7 @@ export default function PowerpointToPdf() {
               />
               <div className="text-5xl mb-4">📊</div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Upload PPTX File</h3>
-              <p className="text-sm text-gray-500">Drag and drop or click to browse</p>
+              <p className="text-sm text-gray-500 dark:text-slate-400">Drag and drop or click to browse</p>
             </div>
             <div className="text-center">
               <button onClick={loadDemo} className="text-sm text-red-600 hover:underline">Load Sample Presentation</button>
@@ -353,7 +353,7 @@ export default function PowerpointToPdf() {
               <h3 className="font-bold text-gray-900 dark:text-white">{fileName}</h3>
               <button
                 onClick={() => setSlides([])}
-                className="text-sm text-gray-500 hover:text-red-600"
+                className="text-sm text-gray-500 dark:text-slate-400 hover:text-red-600"
               >
                 Clear
               </button>
@@ -361,7 +361,7 @@ export default function PowerpointToPdf() {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Page Size</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Page Size</label>
                 <select value={pageSize} onChange={(e) => setPageSize(e.target.value as any)} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value="match">Match Slide</option>
                   <option value="a4">A4</option>
@@ -369,7 +369,7 @@ export default function PowerpointToPdf() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Quality</label>
+                <label className="block text-xs text-gray-500 dark:text-slate-400 mb-1">Quality</label>
                 <select value={quality} onChange={(e) => setQuality(e.target.value as any)} className="w-full text-sm p-2 border rounded dark:bg-slate-800 dark:border-slate-700">
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -382,7 +382,7 @@ export default function PowerpointToPdf() {
               {slides.map((slide, idx) => (
                 <div key={slide.id} className="border border-gray-200 dark:border-slate-700 rounded-lg overflow-hidden">
                   {slide.dataUrl && <img src={slide.dataUrl} alt={`Slide ${idx + 1}`} className="w-full h-auto" />}
-                  <div className="p-2 text-center text-xs text-gray-500">Slide {idx + 1}</div>
+                  <div className="p-2 text-center text-xs text-gray-500 dark:text-slate-400">Slide {idx + 1}</div>
                 </div>
               ))}
             </div>

@@ -96,15 +96,15 @@ export default function ImageConverter() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500">
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Image Converter</span>
+          <span className="text-gray-900 dark:text-white">Image Converter</span>
         </nav>
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Image Format Converter</h1>
-          <p className="text-gray-600">Convert your images between PNG, JPG, and WebP instantly in your browser.</p>
+          <p className="text-gray-600 dark:text-slate-300">Convert your images between PNG, JPG, and WebP instantly in your browser.</p>
         </div>
 
         <AdSlot format="horizontal" />
@@ -130,7 +130,7 @@ export default function ImageConverter() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <p className="text-lg font-medium text-gray-900 dark:text-white">Click or drop an image here</p>
-                <p className="text-xs text-gray-400 mb-4">Supports PNG, JPG, BMP, WebP</p>
+                <p className="text-xs text-gray-400 dark:text-slate-400 mb-4">Supports PNG, JPG, BMP, WebP</p>
                 <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                   Browse Files
                 </span>
@@ -138,8 +138,8 @@ export default function ImageConverter() {
             </div>
           ) : (
             <div className="space-y-8">
-              <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <div className="text-sm font-medium text-gray-900 truncate">
+              <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-800/60 p-4 rounded-xl border border-gray-200 dark:border-slate-800">
+                <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
                   Original Format: {file?.type.split('/')[1].toUpperCase()}
                 </div>
                 <button
@@ -150,17 +150,17 @@ export default function ImageConverter() {
                 </button>
               </div>
 
-              <div className="flex justify-center max-h-64 bg-gray-100 rounded-xl overflow-hidden p-2">
+              <div className="flex justify-center max-h-64 bg-gray-100 dark:bg-slate-800 rounded-xl overflow-hidden p-2">
                 <img src={previewUrl} alt="Preview" className="object-contain h-full" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Convert to Format</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">Convert to Format</label>
                   <select
                     value={targetFormat}
                     onChange={(e) => setTargetFormat(e.target.value as ImageFormat)}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
                   >
                     <option value="image/png">PNG</option>
                     <option value="image/jpeg">JPG / JPEG</option>
@@ -170,7 +170,7 @@ export default function ImageConverter() {
 
                 {(targetFormat === 'image/jpeg' || targetFormat === 'image/webp') && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-2">
                       Quality: {Math.round(quality * 100)}%
                     </label>
                     <input
@@ -186,7 +186,7 @@ export default function ImageConverter() {
                 )}
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-gray-200">
+              <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-slate-800">
                 <button
                   onClick={handleProcess}
                   disabled={isProcessing}

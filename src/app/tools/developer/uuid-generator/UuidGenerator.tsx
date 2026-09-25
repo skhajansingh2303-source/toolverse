@@ -78,15 +78,15 @@ export default function UuidGenerator() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
-      <nav className="text-sm mb-6 text-gray-500">
+      <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">UUID Generator</span>
+        <span className="text-gray-900 dark:text-white font-medium">UUID Generator</span>
       </nav>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">UUID Generator</h1>
-        <p className="text-gray-600">Generate secure version 4 universally unique identifiers (UUIDs/GUIDs) instantly.</p>
+        <p className="text-gray-600 dark:text-slate-300">Generate secure version 4 universally unique identifiers (UUIDs/GUIDs) instantly.</p>
       </header>
 
       <AdSlot format="horizontal" />
@@ -95,7 +95,7 @@ export default function UuidGenerator() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Quantity</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Quantity</label>
               <select 
                 value={quantity} 
                 onChange={(e) => setQuantity(Number(e.target.value))}
@@ -111,7 +111,7 @@ export default function UuidGenerator() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Case</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Case</label>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="radio" checked={!uppercase} onChange={() => setUppercase(false)} className="text-primary-600 focus:ring-primary-500" />
@@ -125,7 +125,7 @@ export default function UuidGenerator() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Hyphens</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Hyphens</label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={hyphens} onChange={(e) => setHyphens(e.target.checked)} className="text-primary-600 rounded focus:ring-primary-500" />
                 <span>Include Hyphens</span>
@@ -135,7 +135,7 @@ export default function UuidGenerator() {
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Wrapper</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Wrapper</label>
               <select 
                 value={wrapper} 
                 onChange={(e) => setWrapper(e.target.value)}
@@ -148,7 +148,7 @@ export default function UuidGenerator() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Separator</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Separator</label>
               <select 
                 value={separator} 
                 onChange={(e) => setSeparator(e.target.value)}
@@ -170,13 +170,13 @@ export default function UuidGenerator() {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-6">
+        <div className="border-t border-gray-200 dark:border-slate-800 pt-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">Generated UUIDs</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-slate-100">Generated UUIDs</h2>
             <div className="flex gap-3">
               <button 
                 onClick={handleDownload}
-                className="text-gray-600 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="text-gray-600 dark:text-slate-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Download .txt
               </button>
@@ -189,14 +189,14 @@ export default function UuidGenerator() {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-2xl border border-gray-200 p-4 max-h-[400px] overflow-y-auto">
+          <div className="bg-gray-50 dark:bg-slate-800/60 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 max-h-[400px] overflow-y-auto">
             {separator === 'comma' ? (
-              <p className="font-mono text-sm text-gray-700 break-all">{getOutputString()}</p>
+              <p className="font-mono text-sm text-gray-700 dark:text-slate-200 break-all">{getOutputString()}</p>
             ) : (
               <ul className="space-y-1">
                 {uuids.map((uuid, i) => (
-                  <li key={i} className="flex justify-between items-center group hover:bg-gray-100 p-2 rounded-lg transition-colors">
-                    <span className="font-mono text-sm text-gray-700">{uuid}</span>
+                  <li key={i} className="flex justify-between items-center group hover:bg-gray-100 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors">
+                    <span className="font-mono text-sm text-gray-700 dark:text-slate-200">{uuid}</span>
                     <button 
                       onClick={() => handleCopySingle(uuid, i)}
                       className={`text-xs px-2 py-1 rounded font-medium transition-colors ${copiedIndex === i ? 'bg-green-100 text-green-700' : 'opacity-0 group-hover:opacity-100 bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'}`}
@@ -212,8 +212,8 @@ export default function UuidGenerator() {
       </div>
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the UUID Generator</h2>
-        <ol className="list-decimal pl-5 space-y-3 text-gray-700">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use the UUID Generator</h2>
+        <ol className="list-decimal pl-5 space-y-3 text-gray-700 dark:text-slate-200">
           <li>Select the number of UUIDs you want to generate using the <strong>Quantity</strong> dropdown.</li>
           <li>Choose whether you want the letters to be <strong>Lowercase</strong> or <strong>Uppercase</strong>.</li>
           <li>Toggle <strong>Include Hyphens</strong> to add or remove standard dashes in the UUID.</li>
