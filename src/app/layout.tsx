@@ -247,12 +247,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
+                var l = localStorage.getItem('toolsverse_lang');
+                if (l) {
+                  document.documentElement.setAttribute('lang', l);
+                }
+              } catch(e) {}
+              try {
                 var t = localStorage.getItem('toolsverse_theme');
                 if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.documentElement.classList.add('dark');
                 } else {
                   document.documentElement.classList.remove('dark');
                 }
+              } catch(e) {}
               try {
                 if (window.location.hostname.endsWith('.pages.dev')) {
                   var r = document.querySelector('meta[name="robots"]');

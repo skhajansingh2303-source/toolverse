@@ -37,10 +37,14 @@ export default function GoogleTranslator() {
       // Ignore
     }
 
-    // Set cookie proactively so Google translate loads in target language immediately
-    if (initialLang && initialLang !== 'en') {
-      document.cookie = `googtrans=/en/${initialLang}; path=/;`;
-      document.cookie = `googtrans=/en/${initialLang}; path=/; domain=${window.location.hostname};`;
+    // Set cookie proactively and update <html lang="..."> attribute in DOM
+    if (initialLang) {
+      document.documentElement.lang = initialLang;
+      document.documentElement.setAttribute('lang', initialLang);
+      if (initialLang !== 'en') {
+        document.cookie = `googtrans=/en/${initialLang}; path=/;`;
+        document.cookie = `googtrans=/en/${initialLang}; path=/; domain=${window.location.hostname};`;
+      }
     }
 
     // Define global callback for Google Translate

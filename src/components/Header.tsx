@@ -29,6 +29,8 @@ export default function Header() {
       const savedLang = localStorage.getItem('toolsverse_lang');
       if (savedLang) {
         setSelectedLang(savedLang);
+        document.documentElement.lang = savedLang;
+        document.documentElement.setAttribute('lang', savedLang);
       }
       const storedRecent = localStorage.getItem('toolsverse_recent');
       if (storedRecent) {
@@ -73,6 +75,10 @@ export default function Header() {
   const handleSelectLang = (code: string, label: string) => {
     setSelectedLang(code);
     setLangMenuOpen(false);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = code;
+      document.documentElement.setAttribute('lang', code);
+    }
 
     try {
       localStorage.setItem('toolsverse_lang', code);
