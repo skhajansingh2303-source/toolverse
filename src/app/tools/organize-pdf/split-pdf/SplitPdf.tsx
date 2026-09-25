@@ -197,12 +197,12 @@ export default function SplitPdf() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">
           Home
         </Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Split PDF</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Split PDF</span>
       </nav>
 
       {/* Header */}
@@ -212,11 +212,11 @@ export default function SplitPdf() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               ✂️
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Split PDF &amp; Extract Pages
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Visually select pages to extract into a new document or split every page into standalone files. 100% private in-browser tool.
           </p>
         </div>
@@ -262,7 +262,7 @@ export default function SplitPdf() {
         </div>
       ) : (
         /* Document Control Center */
-        <div className="bg-white rounded-3xl border border-gray-200 shadow-xs p-6 sm:p-8 mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 sm:p-8 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100 mb-6">
             <div>
               <div className="flex items-center gap-2">
@@ -296,8 +296,8 @@ export default function SplitPdf() {
               onClick={() => setMode('extract')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 mode === 'extract'
-                  ? 'bg-gray-950 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-primary-600 text-white shadow-sm'
+                  : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
               }`}
             >
               Extract Selected Pages
@@ -306,8 +306,8 @@ export default function SplitPdf() {
               onClick={() => setMode('all')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 mode === 'all'
-                  ? 'bg-gray-950 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-primary-600 text-white shadow-sm'
+                  : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
               }`}
             >
               Split Every Page ({totalPages} files)
@@ -317,9 +317,9 @@ export default function SplitPdf() {
           {mode === 'extract' && (
             <div className="mb-6 space-y-4">
               {/* Range Input & Quick Buttons */}
-              <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="bg-gray-50 dark:bg-slate-800/80 p-4 rounded-2xl border border-gray-200/80 dark:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-1">
                     Page Range or List (e.g. 1-3, 5, 8-10):
                   </label>
                   <input
@@ -327,20 +327,20 @@ export default function SplitPdf() {
                     value={rangeInput}
                     onChange={(e) => handleRangeInputChange(e.target.value)}
                     placeholder="e.g. 1-3, 5"
-                    className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs font-mono text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-1 focus:ring-primary-500"
                   />
                 </div>
 
                 <div className="flex items-center gap-2 pt-4 md:pt-0">
                   <button
                     onClick={selectAll}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 hover:bg-gray-100 text-gray-700"
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300"
                   >
                     Select All
                   </button>
                   <button
                     onClick={clearSelection}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-gray-200 hover:bg-gray-100 text-gray-700"
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300"
                   >
                     Clear Selection
                   </button>
@@ -349,10 +349,10 @@ export default function SplitPdf() {
 
               {/* Visual Page Tiles Grid */}
               <div>
-                <p className="text-xs font-semibold text-gray-600 mb-3">
+                <p className="text-xs font-semibold text-gray-600 dark:text-slate-400 mb-3">
                   Click any page to toggle selection ({selectedPages.length} selected):
                 </p>
-                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3 max-h-72 overflow-y-auto p-3 bg-gray-50/50 rounded-2xl border border-gray-200/60">
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3 max-h-72 overflow-y-auto p-3 bg-gray-50/50 dark:bg-slate-800/50 rounded-2xl border border-gray-200/60 dark:border-slate-700">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => {
                     const isSelected = selectedPages.includes(num);
                     return (
@@ -362,7 +362,7 @@ export default function SplitPdf() {
                         className={`aspect-3/4 rounded-xl border flex flex-col items-center justify-center text-xs font-bold transition-all relative ${
                           isSelected
                             ? 'bg-orange-500 border-orange-600 text-white shadow-xs scale-105'
-                            : 'bg-white border-gray-200 text-gray-700 hover:border-orange-300'
+                            : 'bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300 hover:border-orange-300'
                         }`}
                       >
                         <span className="text-[10px] opacity-75">Page</span>
@@ -439,7 +439,7 @@ export default function SplitPdf() {
       )}
 
       {/* Explanation Guide */}
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
         <h2 className="text-base font-bold text-gray-900 mb-2">How to Extract Pages from a PDF</h2>
         <ol className="list-decimal list-inside space-y-1.5 text-xs text-gray-600 leading-relaxed">
           <li>Upload your multi-page PDF document.</li>

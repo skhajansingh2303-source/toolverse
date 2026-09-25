@@ -108,7 +108,7 @@ export default function LoremIpsumGenerator() {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as any)}
-                  className="w-full sm:w-48 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 bg-white"
+                  className="w-full sm:w-48 rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
                 >
                   <option value="paragraphs">Paragraphs</option>
                   <option value="sentences">Sentences</option>

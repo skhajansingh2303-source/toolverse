@@ -99,7 +99,7 @@ export default function UuidGenerator() {
               <select 
                 value={quantity} 
                 onChange={(e) => setQuantity(Number(e.target.value))}
-                className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-3 bg-white"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
               >
                 <option value="1">1</option>
                 <option value="5">5</option>
@@ -139,7 +139,7 @@ export default function UuidGenerator() {
               <select 
                 value={wrapper} 
                 onChange={(e) => setWrapper(e.target.value)}
-                className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-3 bg-white"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
               >
                 <option value="none">None</option>
                 <option value="braces">Braces {'{...}'}</option>
@@ -152,7 +152,7 @@ export default function UuidGenerator() {
               <select 
                 value={separator} 
                 onChange={(e) => setSeparator(e.target.value)}
-                className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-3 bg-white"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
               >
                 <option value="newline">New Line</option>
                 <option value="comma">Comma ( , )</option>

@@ -139,7 +139,7 @@ export default function ImageColorPicker() {
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
           <div className="flex flex-col gap-6">
             <div className="flex gap-4">
               <input
@@ -213,17 +213,17 @@ export default function ImageColorPicker() {
                     <div className="flex flex-col gap-4">
                       <div className="w-full h-24 rounded-xl border border-gray-300 shadow-inner mb-2" style={{ backgroundColor: pickedColor.hex }}></div>
                       
-                      <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-200">
+                      <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-3 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white">
                         <span className="text-sm font-mono">{pickedColor.hex}</span>
                         <button onClick={() => copyToClipboard(pickedColor.hex)} className="text-primary-600 hover:text-primary-700 text-sm font-semibold">Copy HEX</button>
                       </div>
                       
-                      <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-200">
+                      <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-3 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white">
                         <span className="text-sm font-mono">{pickedColor.rgb}</span>
                         <button onClick={() => copyToClipboard(pickedColor.rgb)} className="text-primary-600 hover:text-primary-700 text-sm font-semibold">Copy RGB</button>
                       </div>
 
-                      <div className="flex justify-between items-center bg-white p-3 rounded-xl border border-gray-200">
+                      <div className="flex justify-between items-center bg-white dark:bg-slate-800 p-3 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white">
                         <span className="text-sm font-mono">{pickedColor.hsl}</span>
                         <button onClick={() => copyToClipboard(pickedColor.hsl)} className="text-primary-600 hover:text-primary-700 text-sm font-semibold">Copy HSL</button>
                       </div>
@@ -254,9 +254,9 @@ export default function ImageColorPicker() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
-          <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Upload an image from your device or click "Paste URL" to use an online image.</li>
             <li>Hover over the image to see a live preview of the pixel color under your cursor.</li>
             <li>Click on any pixel to lock in the color and view its HEX, RGB, and HSL values.</li>

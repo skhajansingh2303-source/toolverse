@@ -70,7 +70,7 @@ export default function HashGenerator() {
             <h1 className="text-3xl font-bold mb-2">Hash Generator</h1>
             <p className="text-gray-600 mb-8">Generate cryptographic hashes (SHA-256, SHA-1, SHA-512) for text or files securely in your browser.</p>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden mb-8">
                 <div className="flex border-b border-gray-200">
                     <button onClick={() => setMode('text')} className={`flex-1 py-4 font-semibold ${mode === 'text' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>Text Hash</button>
                     <button onClick={() => setMode('file')} className={`flex-1 py-4 font-semibold ${mode === 'file' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>File Hash</button>
@@ -127,7 +127,7 @@ export default function HashGenerator() {
                                         {copied === algo ? 'Copied!' : 'Copy'}
                                     </button>
                                 </div>
-                                <div className="font-mono text-sm text-gray-600 break-all bg-white p-3 rounded border border-gray-200 min-h-[46px]">
+                                <div className="font-mono text-sm text-gray-600 dark:text-slate-300 break-all bg-white dark:bg-slate-800 p-3 rounded border border-gray-200 dark:border-slate-700 min-h-[46px]">
                                     {hash || '...'}
                                 </div>
                             </div>
@@ -136,9 +136,9 @@ export default function HashGenerator() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-                <h2 className="text-xl font-bold mb-4">How to Use</h2>
-                <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
                     <li>Select either "Text Hash" or "File Hash" mode.</li>
                     <li>Enter your text or upload a file.</li>
                     <li>The tool will automatically compute all hashes securely in your browser.</li>

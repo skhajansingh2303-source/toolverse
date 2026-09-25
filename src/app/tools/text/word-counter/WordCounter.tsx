@@ -118,12 +118,12 @@ export default function WordCounter() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">
           Home
         </Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Word Counter</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Word Counter</span>
       </nav>
 
       {/* Header */}
@@ -137,7 +137,7 @@ export default function WordCounter() {
               Word Counter &amp; Text Analyzer
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Real-time word, character, sentence count, reading ease scores, and keyword density diagnostics.
           </p>
         </div>
@@ -225,9 +225,9 @@ export default function WordCounter() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Start typing or paste your article, essay, or copy here to analyze..."
-          className="w-full h-80 p-6 text-sm text-gray-800 placeholder-gray-400 outline-none resize-none leading-relaxed"
+          className="w-full h-80 p-6 text-sm bg-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 outline-none resize-none leading-relaxed"
         />
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+        <div className="px-6 py-3 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs text-gray-500 dark:text-slate-400">
           <span>Speaking Time: ~{stats.speakingTimeMinutes} min (at 130 wpm)</span>
           <span>Syllables: ~{stats.syllables}</span>
         </div>
@@ -237,21 +237,21 @@ export default function WordCounter() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Readability Score */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
-          <h3 className="text-sm font-bold text-gray-900 mb-1">
+          <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">
             Readability &amp; Grade Level
           </h3>
-          <p className="text-xs text-gray-400 mb-4">
+          <p className="text-xs text-gray-400 dark:text-slate-400 mb-4">
             Calculated via the Flesch-Kincaid Reading Ease formula.
           </p>
 
-          <div className="flex items-center gap-6 p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4">
-            <div className="w-16 h-16 rounded-2xl bg-teal-100 text-teal-800 flex flex-col items-center justify-center shrink-0">
+          <div className="flex items-center gap-6 p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-slate-700 mb-4">
+            <div className="w-16 h-16 rounded-2xl bg-teal-100 dark:bg-teal-950/80 text-teal-800 dark:text-teal-300 flex flex-col items-center justify-center shrink-0">
               <span className="text-xl font-black">{stats.readingEase}</span>
               <span className="text-[9px] uppercase font-bold tracking-tight">Score</span>
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900">{stats.readingLevel}</p>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-sm font-bold text-gray-900 dark:text-white">{stats.readingLevel}</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
                 Higher scores (60-80) represent accessible, high-converting copy.
               </p>
             </div>
@@ -260,15 +260,15 @@ export default function WordCounter() {
 
         {/* Keyword Density */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
-          <h3 className="text-sm font-bold text-gray-900 mb-1">
+          <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">
             Top Keyword Frequency
           </h3>
-          <p className="text-xs text-gray-400 mb-4">
+          <p className="text-xs text-gray-400 dark:text-slate-400 mb-4">
             Most frequent terms in your copy (excluding common stop words).
           </p>
 
           {stats.topKeywords.length === 0 ? (
-            <p className="text-xs text-gray-400 italic py-6 text-center">
+            <p className="text-xs text-gray-400 dark:text-slate-500 italic py-6 text-center">
               Type at least a few sentences to reveal keyword distribution.
             </p>
           ) : (
@@ -276,11 +276,11 @@ export default function WordCounter() {
               {stats.topKeywords.map((kw) => (
                 <div
                   key={kw.word}
-                  className="flex items-center justify-between p-2.5 bg-gray-50 rounded-xl text-xs"
+                  className="flex items-center justify-between p-2.5 bg-gray-50 dark:bg-slate-800/60 rounded-xl text-xs"
                 >
-                  <span className="font-semibold text-gray-800">{kw.word}</span>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <span className="bg-white px-2 py-0.5 rounded border border-gray-200 font-mono text-[10px]">
+                  <span className="font-semibold text-gray-800 dark:text-slate-200">{kw.word}</span>
+                  <div className="flex items-center gap-2 text-gray-500 dark:text-slate-400">
+                    <span className="bg-white dark:bg-slate-700 px-2 py-0.5 rounded border border-gray-200 dark:border-slate-600 font-mono text-[10px] text-gray-800 dark:text-slate-200">
                       {kw.count}x
                     </span>
                     <span className="font-medium text-[11px]">{kw.percentage}%</span>

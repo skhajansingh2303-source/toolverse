@@ -69,10 +69,10 @@ export default function LoanCalculator() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Loan &amp; Mortgage Calculator</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Loan &amp; Mortgage Calculator</span>
       </nav>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -85,7 +85,7 @@ export default function LoanCalculator() {
               Loan &amp; Mortgage EMI Calculator
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Calculate your monthly repayment, total interest cost, and visual annual amortization schedule.
           </p>
         </div>
@@ -98,14 +98,14 @@ export default function LoanCalculator() {
         {/* Left Inputs */}
         <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
               Loan Principal Amount ($)
             </label>
             <input
               type="number"
               value={principal}
               onChange={(e) => setPrincipal(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-lg font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-lg font-bold outline-none focus:ring-1 focus:ring-primary-500"
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function LoanCalculator() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
               Loan Term (Years)
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -138,8 +138,8 @@ export default function LoanCalculator() {
                   onClick={() => setYears(yr)}
                   className={`py-2 rounded-xl text-xs font-bold transition-all ${
                     years === yr
-                      ? 'bg-gray-950 text-white shadow-xs'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-primary-600 text-white shadow-xs'
+                      : 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {yr} Yrs
@@ -152,17 +152,17 @@ export default function LoanCalculator() {
         {/* Right Output Cards */}
         <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div className="p-4 bg-emerald-50/70 border border-emerald-100 rounded-2xl text-center">
-              <span className="block text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">
+            <div className="p-4 bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900/50 rounded-2xl text-center">
+              <span className="block text-[11px] font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider mb-1">
                 Monthly EMI
               </span>
-              <span className="text-2xl font-black text-emerald-700">
+              <span className="text-2xl font-black text-emerald-700 dark:text-emerald-400">
                 ${loanResults.monthlyPayment}
               </span>
             </div>
 
-            <div className="p-4 bg-gray-50 border border-gray-100 rounded-2xl text-center">
-              <span className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+            <div className="p-4 bg-gray-50 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-2xl text-center">
+              <span className="block text-[11px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-1">
                 Total Interest
               </span>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -170,8 +170,8 @@ export default function LoanCalculator() {
               </span>
             </div>
 
-            <div className="p-4 bg-gray-50 border border-gray-100 rounded-2xl text-center">
-              <span className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
+            <div className="p-4 bg-gray-50 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-2xl text-center">
+              <span className="block text-[11px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-1">
                 Total Payment
               </span>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -181,7 +181,7 @@ export default function LoanCalculator() {
           </div>
 
           {/* Yearly Amortization Table */}
-          <div className="overflow-x-auto max-h-56 divide-y divide-gray-100 border border-gray-100 rounded-2xl">
+          <div className="overflow-x-auto max-h-56 divide-y divide-gray-100 dark:divide-slate-800 border border-gray-100 dark:border-slate-800 rounded-2xl">
             <table className="w-full text-left text-xs">
               <thead className="bg-gray-50 text-[10px] uppercase font-bold text-gray-400 sticky top-0">
                 <tr>

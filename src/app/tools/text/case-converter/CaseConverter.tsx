@@ -120,12 +120,12 @@ export default function CaseConverter() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">
           Home
         </Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Case Converter</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Case Converter</span>
       </nav>
 
       {/* Header */}
@@ -139,7 +139,7 @@ export default function CaseConverter() {
               Text Case Converter
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Convert text instantly between UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and URL slugs.
           </p>
         </div>
@@ -156,7 +156,7 @@ export default function CaseConverter() {
 
       {/* Main Text Input */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 mb-8">
-        <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+        <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
           Type or Paste Text Below
         </label>
         <textarea
@@ -179,7 +179,7 @@ export default function CaseConverter() {
             <div
               key={c.key}
               onClick={() => copyVal(c.value, c.key)}
-              className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs hover:border-primary-400 hover:shadow-md cursor-pointer transition-all duration-200 flex flex-col justify-between group"
+              className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs hover:border-primary-400 hover:shadow-md cursor-pointer transition-all duration-200 flex flex-col justify-between group"
             >
               <div className="mb-3">
                 <div className="flex items-center justify-between mb-1.5">

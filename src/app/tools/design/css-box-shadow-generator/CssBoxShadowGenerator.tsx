@@ -79,7 +79,7 @@ export default function CssBoxShadowGenerator() {
 
         <div className="flex flex-col lg:flex-row gap-8 mb-8">
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs">
               <h3 className="font-semibold text-xl mb-6">Settings</h3>
               
               <div className="space-y-6">
@@ -142,7 +142,7 @@ export default function CssBoxShadowGenerator() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs">
               <h3 className="font-semibold text-xl mb-4">Presets</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {presets.map((preset, idx) => (
@@ -159,7 +159,7 @@ export default function CssBoxShadowGenerator() {
           </div>
 
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs flex-1 flex flex-col">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs flex-1 flex flex-col">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="font-semibold text-xl">Preview</h3>
                 <div className="flex items-center gap-2">
@@ -208,9 +208,9 @@ export default function CssBoxShadowGenerator() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
-          <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Use the sliders to adjust the horizontal offset, vertical offset, blur radius, and spread radius of your shadow.</li>
             <li>Select a shadow color and adjust the opacity for the desired intensity.</li>
             <li>Toggle "Inset Shadow" to make the shadow appear inside the element instead of outside.</li>

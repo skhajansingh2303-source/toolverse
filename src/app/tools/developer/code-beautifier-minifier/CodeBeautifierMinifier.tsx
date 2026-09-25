@@ -145,7 +145,7 @@ export default function CodeBeautifierMinifier() {
                 setOutputCode('');
                 setStats(null);
               }}
-              className="rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 p-2 bg-white min-w-[150px]"
+              className="rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white min-w-[150px]"
             >
               <option value="html">HTML</option>
               <option value="css">CSS</option>

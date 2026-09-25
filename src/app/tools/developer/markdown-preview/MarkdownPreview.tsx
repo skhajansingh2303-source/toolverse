@@ -157,7 +157,7 @@ export default function MarkdownPreview() {
                 </button>
               </div>
               <div 
-                className="flex-grow w-full rounded-xl border border-gray-300 bg-white p-6 overflow-y-auto prose prose-indigo max-w-none"
+                className="flex-grow w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 overflow-y-auto prose prose-indigo dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             </div>

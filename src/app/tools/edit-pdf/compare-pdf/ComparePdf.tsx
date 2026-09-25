@@ -553,7 +553,7 @@ export default function ComparePdf() {
                   onClick={() => setCompareMode('text')}
                   className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
                     compareMode === 'text'
-                      ? 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white shadow-xs'
+                      ? 'bg-white dark:bg-slate-700 dark:text-white shadow-xs'
                       : 'text-gray-500 dark:text-slate-400 hover:text-gray-900'
                   }`}
                 >

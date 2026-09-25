@@ -201,7 +201,7 @@ export default function ImageConverter() {
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Upload an image file using the area above.</li>
             <li>Select the format you want to convert it to (PNG, JPG, or WebP).</li>
             <li>If selecting JPG or WebP, adjust the quality slider to balance image size and clarity.</li>

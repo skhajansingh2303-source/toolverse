@@ -78,10 +78,10 @@ export default function BmiCalculator() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">BMI Calculator</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">BMI Calculator</span>
       </nav>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -94,17 +94,17 @@ export default function BmiCalculator() {
               Body Mass Index (BMI) Calculator
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Calculate your BMI score, health classification category, and ideal healthy weight target.
           </p>
         </div>
 
         {/* Unit Toggle */}
-        <div className="flex items-center bg-gray-100 p-1 rounded-2xl">
+        <div className="flex items-center bg-gray-100 dark:bg-slate-800 p-1 rounded-2xl border border-gray-200 dark:border-slate-700">
           <button
             onClick={() => setUnit('metric')}
             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              unit === 'metric' ? 'bg-white text-gray-950 shadow-xs' : 'text-gray-500 hover:text-gray-900'
+              unit === 'metric' ? 'bg-white dark:bg-slate-900 text-gray-950 dark:text-white shadow-xs' : 'text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
             Metric (kg, cm)
@@ -112,7 +112,7 @@ export default function BmiCalculator() {
           <button
             onClick={() => setUnit('imperial')}
             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              unit === 'imperial' ? 'bg-white text-gray-950 shadow-xs' : 'text-gray-500 hover:text-gray-900'
+              unit === 'imperial' ? 'bg-white dark:bg-slate-900 text-gray-950 dark:text-white shadow-xs' : 'text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
             US Units (lbs, feet)
@@ -129,7 +129,7 @@ export default function BmiCalculator() {
           {unit === 'metric' ? (
             <>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Weight (Kilograms)
                 </label>
                 <div className="flex items-center gap-2">
@@ -137,14 +137,14 @@ export default function BmiCalculator() {
                     type="number"
                     value={weightKg}
                     onChange={(e) => setWeightKg(e.target.value)}
-                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">kg</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Height (Centimeters)
                 </label>
                 <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ export default function BmiCalculator() {
                     type="number"
                     value={heightCm}
                     onChange={(e) => setHeightCm(e.target.value)}
-                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">cm</span>
                 </div>
@@ -161,7 +161,7 @@ export default function BmiCalculator() {
           ) : (
             <>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Weight (Pounds)
                 </label>
                 <div className="flex items-center gap-2">
@@ -169,14 +169,14 @@ export default function BmiCalculator() {
                     type="number"
                     value={weightLbs}
                     onChange={(e) => setWeightLbs(e.target.value)}
-                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">lbs</span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                   Height (Feet &amp; Inches)
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -185,7 +185,7 @@ export default function BmiCalculator() {
                       type="number"
                       value={heightFeet}
                       onChange={(e) => setHeightFeet(e.target.value)}
-                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
+                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none"
                     />
                     <span className="text-xs font-bold text-gray-500">ft</span>
                   </div>
@@ -194,7 +194,7 @@ export default function BmiCalculator() {
                       type="number"
                       value={heightInches}
                       onChange={(e) => setHeightInches(e.target.value)}
-                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
+                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold outline-none"
                     />
                     <span className="text-xs font-bold text-gray-500">in</span>
                   </div>

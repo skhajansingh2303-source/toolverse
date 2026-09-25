@@ -89,28 +89,28 @@ export default function AspectRatioCalculator() {
 
         <div className="flex flex-col lg:flex-row gap-8 mb-8">
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs">
-              <h3 className="font-semibold text-xl mb-6">Calculator</h3>
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs">
+              <h3 className="font-semibold text-xl text-gray-900 dark:text-white mb-6">Calculator</h3>
               
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Ratio Width (W)</label>
-                  <input type="number" value={ratioW} onChange={(e) => { setRatioW(e.target.value); handleWidthChange(String(width)); }} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Ratio Width (W)</label>
+                  <input type="number" value={ratioW} onChange={(e) => { setRatioW(e.target.value); handleWidthChange(String(width)); }} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Ratio Height (H)</label>
-                  <input type="number" value={ratioH} onChange={(e) => { setRatioH(e.target.value); handleWidthChange(String(width)); }} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Ratio Height (H)</label>
+                  <input type="number" value={ratioH} onChange={(e) => { setRatioH(e.target.value); handleWidthChange(String(width)); }} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Width (px)</label>
-                  <input type="number" value={width} onChange={(e) => handleWidthChange(e.target.value)} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Width (px)</label>
+                  <input type="number" value={width} onChange={(e) => handleWidthChange(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Height (px)</label>
-                  <input type="number" value={height} onChange={(e) => handleHeightChange(e.target.value)} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Height (px)</label>
+                  <input type="number" value={height} onChange={(e) => handleHeightChange(e.target.value)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 text-lg font-semibold" />
                 </div>
               </div>
               
@@ -119,17 +119,17 @@ export default function AspectRatioCalculator() {
               </button>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs">
-              <h3 className="font-semibold text-xl mb-4">Common Presets</h3>
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs">
+              <h3 className="font-semibold text-xl text-gray-900 dark:text-white mb-4">Common Presets</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {PRESETS.map((preset, idx) => (
                   <button 
                     key={idx}
                     onClick={() => applyPreset(preset.w, preset.h)}
-                    className="p-4 border border-gray-200 hover:border-primary-500 hover:bg-primary-50 rounded-2xl flex flex-col items-center justify-center transition-all text-center"
+                    className="p-4 border border-gray-200 dark:border-slate-800 hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-slate-800 text-gray-900 dark:text-white rounded-2xl flex flex-col items-center justify-center transition-all text-center"
                   >
                     <span className="font-bold text-lg">{preset.label}</span>
-                    <span className="text-xs text-gray-500">{preset.desc}</span>
+                    <span className="text-xs text-gray-500 dark:text-slate-400">{preset.desc}</span>
                   </button>
                 ))}
               </div>
@@ -137,10 +137,10 @@ export default function AspectRatioCalculator() {
           </div>
 
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs flex-1 flex flex-col items-center justify-center min-h-[400px]">
-              <h3 className="font-semibold text-xl mb-6 self-start w-full">Visual Preview</h3>
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs flex-1 flex flex-col items-center justify-center min-h-[400px]">
+              <h3 className="font-semibold text-xl text-gray-900 dark:text-white mb-6 self-start w-full">Visual Preview</h3>
               
-              <div className="w-full max-w-sm aspect-square bg-gray-50 flex items-center justify-center border border-dashed border-gray-300 rounded-xl p-4">
+              <div className="w-full max-w-sm aspect-square bg-gray-50 dark:bg-slate-950 flex items-center justify-center border border-dashed border-gray-300 dark:border-slate-800 rounded-xl p-4">
                 <div 
                   className="bg-primary-100 border-2 border-primary-500 rounded-lg flex items-center justify-center shadow-inner transition-all duration-300"
                   style={{
@@ -155,9 +155,9 @@ export default function AspectRatioCalculator() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
-          <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li><strong>Resize Dimensions:</strong> Enter a known width or height in the bottom inputs. As long as the ratio is set, the other dimension will calculate automatically.</li>
             <li><strong>Find an Aspect Ratio:</strong> Enter your exact pixel Width and Height, then click "Calculate Ratio from Width/Height" to find its simplified aspect ratio.</li>
             <li><strong>Use Presets:</strong> Click on any of the common presets (like 16:9 or 1:1) to quickly set the ratio and re-calculate your dimensions based on your current width.</li>

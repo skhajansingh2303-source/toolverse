@@ -104,10 +104,10 @@ export default function UnitConverter() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Universal Unit Converter</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Universal Unit Converter</span>
       </nav>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -120,7 +120,7 @@ export default function UnitConverter() {
               Universal Unit Converter
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Real-time conversion across length, mass, temperature, data bytes, and speed.
           </p>
         </div>
@@ -142,8 +142,8 @@ export default function UnitConverter() {
             onClick={() => switchCategory(item.id as UnitCategory)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
               category === item.id
-                ? 'bg-gray-950 text-white shadow-xs'
-                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                ? 'bg-primary-600 text-white shadow-xs'
+                : 'bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
             }`}
           >
             {item.label}
@@ -163,7 +163,7 @@ export default function UnitConverter() {
               type="number"
               value={fromVal}
               onChange={(e) => setFromVal(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-4 text-xl font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-4 text-xl font-bold outline-none focus:ring-1 focus:ring-primary-500"
             />
             <select
               value={fromUnit}

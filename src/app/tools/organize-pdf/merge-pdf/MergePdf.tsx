@@ -167,12 +167,12 @@ export default function MergePdf() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">
           Home
         </Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Merge PDF</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Merge PDF</span>
       </nav>
 
       {/* Header */}
@@ -182,11 +182,11 @@ export default function MergePdf() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               📎
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Merge PDF Files Online
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Combine multiple PDF files into one clean document with custom ordering. Fast, free, and processed 100% in your browser.
           </p>
         </div>
@@ -263,20 +263,20 @@ export default function MergePdf() {
 
       {/* Uploaded File List & Sequence Controller */}
       {items.length > 0 && (
-        <div className="bg-white rounded-3xl border border-gray-200 shadow-xs p-6 mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-gray-100">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-gray-100 dark:border-slate-800">
             <div>
-              <h3 className="text-sm font-bold text-gray-900">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white">
                 Documents Sequence ({items.length} files)
               </h3>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-400 dark:text-slate-400">
                 Files will be merged in the order shown below. Use the arrows to reorder.
               </p>
             </div>
-            <div className="flex items-center gap-3 text-xs text-gray-600 font-medium">
-              <span>Total size: <strong className="text-gray-900">{formatFileSize(totalBytes)}</strong></span>
+            <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-slate-400 font-medium">
+              <span>Total size: <strong className="text-gray-900 dark:text-white">{formatFileSize(totalBytes)}</strong></span>
               <span>•</span>
-              <span>Est. pages: <strong className="text-gray-900">{totalPagesEstimate || 'Calculating...'}</strong></span>
+              <span>Est. pages: <strong className="text-gray-900 dark:text-white">{totalPagesEstimate || 'Calculating...'}</strong></span>
             </div>
           </div>
 
@@ -284,17 +284,17 @@ export default function MergePdf() {
             {items.map((item, index) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between p-3.5 bg-gray-50/80 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors"
+                className="flex items-center justify-between p-3.5 bg-gray-50/80 dark:bg-slate-800/80 rounded-2xl border border-gray-100 dark:border-slate-700 hover:border-gray-200 dark:hover:border-slate-600 transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="w-6 h-6 rounded-lg bg-gray-200/70 text-gray-700 text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-6 h-6 rounded-lg bg-gray-200/70 dark:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center shrink-0">
                     {index + 1}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-gray-900 truncate">
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
                       {item.name}
                     </p>
-                    <p className="text-[11px] text-gray-400">
+                    <p className="text-[11px] text-gray-400 dark:text-slate-400">
                       {formatFileSize(item.size)} • {item.pages !== null ? `${item.pages} pages` : 'Reading...'}
                     </p>
                   </div>
@@ -305,7 +305,7 @@ export default function MergePdf() {
                     onClick={() => moveItem(index, 'up')}
                     disabled={index === 0}
                     title="Move earlier"
-                    className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-200 disabled:opacity-30 text-xs"
+                    className="p-1.5 rounded-lg text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30 text-xs"
                   >
                     ▲
                   </button>
@@ -313,7 +313,7 @@ export default function MergePdf() {
                     onClick={() => moveItem(index, 'down')}
                     disabled={index === items.length - 1}
                     title="Move later"
-                    className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-200 disabled:opacity-30 text-xs"
+                    className="p-1.5 rounded-lg text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 disabled:opacity-30 text-xs"
                   >
                     ▼
                   </button>
@@ -390,7 +390,7 @@ export default function MergePdf() {
       )}
 
       {/* Guide section */}
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
         <h2 className="text-base font-bold text-gray-900 mb-3">
           How to Combine PDF Documents
         </h2>

@@ -41,10 +41,10 @@ export default function CalorieBmrCalculator() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Calorie &amp; BMR Calculator</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Calorie &amp; BMR Calculator</span>
       </nav>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -57,7 +57,7 @@ export default function CalorieBmrCalculator() {
               Calorie &amp; BMR Calculator
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Calculate Basal Metabolic Rate (BMR) and daily maintenance calories for weight loss, maintenance, or muscle gain.
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function CalorieBmrCalculator() {
         {/* Left Form */}
         <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
               Biological Gender
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -97,48 +97,48 @@ export default function CalorieBmrCalculator() {
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Age
               </label>
               <input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold outline-none"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Weight (kg)
               </label>
               <input
                 type="number"
                 value={weightKg}
                 onChange={(e) => setWeightKg(e.target.value)}
-                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold outline-none"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                 Height (cm)
               </label>
               <input
                 type="number"
                 value={heightCm}
                 onChange={(e) => setHeightCm(e.target.value)}
-                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
               Daily Activity Level
             </label>
             <select
               value={activity}
               onChange={(e) => setActivity(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs text-gray-800 outline-none"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-xl p-3 text-xs outline-none"
             >
               <option value="1.2">Sedentary (Little or no exercise, desk job)</option>
               <option value="1.375">Lightly Active (Light exercise 1-3 days/week)</option>
@@ -153,32 +153,32 @@ export default function CalorieBmrCalculator() {
         <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           {results ? (
             <div className="space-y-4">
-              <div className="p-6 bg-orange-50 border border-orange-200/80 rounded-2xl text-center">
-                <span className="text-xs uppercase font-bold text-orange-800 tracking-wider block mb-1">
+              <div className="p-6 bg-orange-50 dark:bg-orange-950/40 border border-orange-200/80 dark:border-orange-900/50 rounded-2xl text-center">
+                <span className="text-xs uppercase font-bold text-orange-800 dark:text-orange-300 tracking-wider block mb-1">
                   Daily Maintenance Calories
                 </span>
-                <span className="text-4xl font-black text-orange-600">
+                <span className="text-4xl font-black text-orange-600 dark:text-orange-400">
                   {results.maintenance.toLocaleString()}
                 </span>
-                <span className="text-xs font-semibold text-gray-600 block mt-1">
+                <span className="text-xs font-semibold text-gray-600 dark:text-slate-400 block mt-1">
                   Calories / day to stay at current weight
                 </span>
               </div>
 
               <div className="space-y-2.5">
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl text-xs">
-                  <span className="text-gray-600 font-medium">Basal Metabolic Rate (BMR resting)</span>
-                  <span className="font-bold text-gray-900">{results.bmr} kcal</span>
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800/80 rounded-xl text-xs">
+                  <span className="text-gray-600 dark:text-slate-400 font-medium">Basal Metabolic Rate (BMR resting)</span>
+                  <span className="font-bold text-gray-900 dark:text-white">{results.bmr} kcal</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-emerald-50 text-emerald-900 rounded-xl text-xs">
+                <div className="flex items-center justify-between p-3 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-300 rounded-xl text-xs border border-emerald-100 dark:border-emerald-900/40">
                   <span className="font-medium">Mild Weight Loss (-0.25 kg/wk)</span>
                   <span className="font-bold">{results.mildLoss} kcal</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-emerald-100 text-emerald-900 rounded-xl text-xs">
+                <div className="flex items-center justify-between p-3 bg-emerald-100/70 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-300 rounded-xl text-xs border border-emerald-200 dark:border-emerald-800/50">
                   <span className="font-medium">Standard Weight Loss (-0.5 kg/wk)</span>
                   <span className="font-bold">{results.weightLoss} kcal</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-blue-50 text-blue-900 rounded-xl text-xs">
+                <div className="flex items-center justify-between p-3 bg-blue-50 dark:bg-blue-950/50 text-blue-900 dark:text-blue-300 rounded-xl text-xs border border-blue-100 dark:border-blue-900/40">
                   <span className="font-medium">Muscle / Weight Gain (+0.5 kg/wk)</span>
                   <span className="font-bold">{results.weightGain} kcal</span>
                 </div>

@@ -89,12 +89,12 @@ export default function TimestampConverter() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">
           Home
         </Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Unix Timestamp Converter</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Unix Timestamp Converter</span>
       </nav>
 
       {/* Header */}
@@ -108,7 +108,7 @@ export default function TimestampConverter() {
               Unix Timestamp Converter
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Convert epoch timestamps to human-readable dates across international timezones with millisecond detection.
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function TimestampConverter() {
 
       {/* Input Box */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 sm:p-8 mb-8">
-        <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+        <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
           Enter Epoch Timestamp (Seconds or Milliseconds)
         </label>
         
@@ -137,7 +137,7 @@ export default function TimestampConverter() {
             value={inputTimestamp}
             onChange={(e) => setInputTimestamp(e.target.value.replace(/[^0-9]/g, ''))}
             placeholder="e.g. 1726034400"
-            className="flex-1 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl px-4 py-3 text-base font-mono text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+            className="flex-1 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl px-4 py-3 text-base font-mono outline-none focus:ring-1 focus:ring-primary-500"
           />
           <button
             onClick={() => quickSet('now')}
@@ -173,7 +173,7 @@ export default function TimestampConverter() {
         <div className="space-y-6 mb-8">
           {/* Main Key Dates */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
               <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
                 Relative Time
               </span>
@@ -183,31 +183,31 @@ export default function TimestampConverter() {
               <span className="text-xs text-gray-400">Calculated from right now</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
               <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
                 ISO 8601 (UTC)
               </span>
-              <span className="text-xs font-mono font-bold text-gray-900 block truncate mb-2">
+              <span className="text-xs font-mono font-bold text-gray-900 dark:text-white block truncate mb-2">
                 {dateObj.toISOString()}
               </span>
               <button
                 onClick={() => copyVal(dateObj.toISOString(), 'iso')}
-                className="text-xs text-primary-600 hover:underline font-semibold"
+                className="text-xs text-primary-600 dark:text-primary-400 hover:underline font-semibold"
               >
                 {copiedKey === 'iso' ? '✓ Copied' : 'Copy ISO'}
               </button>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs">
               <span className="text-[11px] font-bold uppercase text-gray-400 block mb-1">
                 Local Device Time
               </span>
-              <span className="text-xs font-semibold text-gray-900 block truncate mb-2">
+              <span className="text-xs font-semibold text-gray-900 dark:text-white block truncate mb-2">
                 {dateObj.toLocaleString()}
               </span>
               <button
                 onClick={() => copyVal(dateObj.toLocaleString(), 'local')}
-                className="text-xs text-primary-600 hover:underline font-semibold"
+                className="text-xs text-primary-600 dark:text-primary-400 hover:underline font-semibold"
               >
                 {copiedKey === 'local' ? '✓ Copied' : 'Copy Local'}
               </button>
@@ -216,12 +216,12 @@ export default function TimestampConverter() {
 
           {/* International Timezone Breakdown */}
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-xs font-bold text-gray-700">
+            <div className="px-6 py-4 bg-gray-50 dark:bg-slate-800/80 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-gray-700 dark:text-slate-300">
               <span>Timezone Breakdown</span>
-              <span className="text-gray-400 font-normal">Click any row to copy formatted date</span>
+              <span className="text-gray-400 dark:text-slate-400 font-normal">Click any row to copy formatted date</span>
             </div>
 
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-slate-800">
               {timezones.map((tz) => {
                 const formatted = dateObj.toLocaleString('en-US', {
                   timeZone: tz.tz,
@@ -234,13 +234,13 @@ export default function TimestampConverter() {
                   <div
                     key={tz.tz}
                     onClick={() => copyVal(formatted, tz.tz)}
-                    className="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-primary-50/40 cursor-pointer transition-colors"
+                    className="px-6 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-primary-50/40 dark:hover:bg-slate-800/50 cursor-pointer transition-colors"
                   >
                     <div>
-                      <p className="text-xs font-bold text-gray-900">{tz.label}</p>
-                      <p className="font-mono text-xs text-gray-600 mt-0.5">{formatted}</p>
+                      <p className="text-xs font-bold text-gray-900 dark:text-white">{tz.label}</p>
+                      <p className="font-mono text-xs text-gray-600 dark:text-slate-300 mt-0.5">{formatted}</p>
                     </div>
-                    <span className="text-[11px] font-semibold text-primary-600 self-end sm:self-center">
+                    <span className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 self-end sm:self-center">
                       {isCopied ? '✓ Copied' : 'Copy'}
                     </span>
                   </div>

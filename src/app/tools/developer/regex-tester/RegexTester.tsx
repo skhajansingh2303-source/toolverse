@@ -122,8 +122,8 @@ export default function RegexTester() {
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
-                <h2 className="text-xl font-bold mb-4">How to Use</h2>
-                <ol className="list-decimal list-inside space-y-2 text-gray-700">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+                <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
                     <li>Enter your regular expression in the top input box (without the surrounding slashes).</li>
                     <li>Toggle regex flags like 'g' (global) and 'i' (case insensitive) as needed.</li>
                     <li>Enter a test string in the text area below.</li>

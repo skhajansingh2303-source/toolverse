@@ -107,30 +107,30 @@ export default function ColorPaletteGenerator() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row h-[50vh] min-h-[400px] mb-8 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
+      <div className="flex flex-col md:flex-row h-[50vh] min-h-[400px] mb-8 rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-slate-800">
         {colors.map((color, index) => (
           <div
             key={index}
             className="flex-1 flex flex-col justify-end p-6 transition-all duration-300 relative group"
             style={{ backgroundColor: color.hex }}
           >
-            <div className="opacity-0 group-hover:opacity-100 absolute inset-0 flex flex-col items-center justify-center transition-opacity bg-black bg-opacity-10">
+            <div className="opacity-0 group-hover:opacity-100 absolute inset-0 flex flex-col items-center justify-center transition-opacity bg-black/20">
               <button
                 onClick={() => toggleLock(index)}
-                className="bg-white text-gray-900 p-3 rounded-full shadow-lg mb-4 hover:bg-gray-100 transition-colors"
+                className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 rounded-full shadow-lg mb-4 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
                 aria-label={color.locked ? "Unlock" : "Lock"}
               >
                 {color.locked ? '🔒' : '🔓'}
               </button>
             </div>
-            <div className="bg-white bg-opacity-90 p-4 rounded-xl shadow-sm z-10 text-center">
+            <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs p-4 rounded-xl shadow-sm z-10 text-center border border-gray-100 dark:border-slate-800">
               <button
                 onClick={() => copyToClipboard(color.hex)}
-                className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors uppercase"
+                className="text-lg font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors uppercase"
               >
                 {copiedColor === color.hex ? 'COPIED!' : color.hex}
               </button>
-              <div className="text-sm text-gray-600 font-mono mt-1">
+              <div className="text-sm text-gray-600 dark:text-slate-400 font-mono mt-1">
                 RGB: {hexToRgb(color.hex)}
               </div>
             </div>

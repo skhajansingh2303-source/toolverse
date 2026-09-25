@@ -511,7 +511,7 @@ export default function WebpageToPdf() {
             <span className="block text-xs font-semibold text-gray-600 dark:text-slate-400 mb-2">
               Document Live Render Preview:
             </span>
-            <div className="border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden bg-white h-72 shadow-inner">
+            <div className="border border-gray-200 dark:border-slate-700 rounded-2xl overflow-hidden bg-white dark:bg-slate-900 h-72 shadow-inner">
               <iframe
                 ref={iframeRef}
                 title="Preview"

@@ -250,7 +250,7 @@ export default function ImageResizer() {
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Upload an image by clicking the drop zone.</li>
             <li>Choose how you want to resize: by specific pixels or by a percentage.</li>
             <li>If using pixels, check "Maintain Aspect Ratio" to prevent distortion.</li>

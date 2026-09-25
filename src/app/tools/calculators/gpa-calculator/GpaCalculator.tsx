@@ -81,7 +81,7 @@ export default function GpaCalculator() {
 
         <div className="grid md:grid-cols-3 gap-8 mb-8 mt-8">
           <div className="md:col-span-2 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">Courses</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Courses</h2>
             
             <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-100">
               <div>

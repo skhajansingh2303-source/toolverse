@@ -182,7 +182,7 @@ export default function PdfToText() {
           {extractedText && (
             <div className="mt-4">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-                <div className="text-sm text-gray-600 font-medium">
+                <div className="text-sm text-gray-600 dark:text-slate-400 font-medium">
                   Words: {extractedText.split(/\s+/).filter(w => w.length > 0).length} | Characters: {extractedText.length}
                 </div>
                 <div className="flex gap-4 w-full sm:w-auto">
@@ -203,15 +203,15 @@ export default function PdfToText() {
               <textarea 
                 value={extractedText}
                 readOnly
-                className="w-full h-96 p-4 rounded-xl border border-gray-300 bg-gray-50 focus:ring-0 text-gray-800 resize-y"
+                className="w-full h-96 p-4 rounded-xl border border-gray-300 dark:border-slate-700 bg-gray-50 dark:bg-slate-900 focus:ring-0 text-gray-900 dark:text-slate-100 resize-y"
               />
             </div>
           )}
         </div>
 
-        <section className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside text-gray-700 space-y-2">
+        <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside text-gray-700 dark:text-slate-300 space-y-2">
             <li>Upload your PDF file using the file picker.</li>
             <li>Click "Extract Text" to process the document.</li>
             <li>Review the extracted text in the reading pane.</li>

@@ -86,10 +86,10 @@ export default function AgeCalculator() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <nav className="flex items-center text-xs font-medium text-gray-500 mb-6">
+      <nav className="flex items-center text-xs font-medium text-gray-500 dark:text-slate-400 mb-6">
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-        <span className="mx-2 text-gray-300">/</span>
-        <span className="text-gray-900 font-semibold">Age Calculator</span>
+        <span className="mx-2 text-gray-300 dark:text-slate-600">/</span>
+        <span className="text-gray-900 dark:text-white font-semibold">Age Calculator</span>
       </nav>
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
@@ -102,7 +102,7 @@ export default function AgeCalculator() {
               Exact Age Calculator
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 max-w-2xl">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400 max-w-2xl">
             Calculate your exact age in years, months, days, and seconds with next birthday countdown and milestone stats.
           </p>
         </div>
@@ -114,26 +114,26 @@ export default function AgeCalculator() {
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs mb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
               Date of Birth
             </label>
             <input
               type="date"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-sm font-semibold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-sm font-semibold outline-none focus:ring-1 focus:ring-primary-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-700 dark:text-slate-300 uppercase tracking-wider mb-2">
               Calculate Age on Date (Default: Today)
             </label>
             <input
               type="date"
               value={targetDate}
               onChange={(e) => setTargetDate(e.target.value)}
-              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-sm font-semibold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-sm font-semibold outline-none focus:ring-1 focus:ring-primary-500"
             />
           </div>
         </div>
@@ -147,19 +147,19 @@ export default function AgeCalculator() {
             <span className="text-xs uppercase font-bold text-amber-800 tracking-wider block mb-2">
               Your Current Age
             </span>
-            <div className="flex flex-wrap items-baseline justify-center gap-2 sm:gap-4 text-gray-900">
-              <span className="text-4xl sm:text-6xl font-black text-rose-600">{ageData.years}</span>
-              <span className="text-sm sm:text-lg font-bold text-gray-700">Years</span>
-              <span className="text-4xl sm:text-6xl font-black text-amber-600">{ageData.months}</span>
-              <span className="text-sm sm:text-lg font-bold text-gray-700">Months</span>
-              <span className="text-4xl sm:text-6xl font-black text-orange-600">{ageData.days}</span>
-              <span className="text-sm sm:text-lg font-bold text-gray-700">Days</span>
+            <div className="flex flex-wrap items-baseline justify-center gap-2 sm:gap-4 text-gray-900 dark:text-white">
+              <span className="text-4xl sm:text-6xl font-black text-rose-600 dark:text-rose-400">{ageData.years}</span>
+              <span className="text-sm sm:text-lg font-bold text-gray-700 dark:text-slate-300">Years</span>
+              <span className="text-4xl sm:text-6xl font-black text-amber-600 dark:text-amber-400">{ageData.months}</span>
+              <span className="text-sm sm:text-lg font-bold text-gray-700 dark:text-slate-300">Months</span>
+              <span className="text-4xl sm:text-6xl font-black text-orange-600 dark:text-orange-400">{ageData.days}</span>
+              <span className="text-sm sm:text-lg font-bold text-gray-700 dark:text-slate-300">Days</span>
             </div>
-            <div className="mt-4 flex flex-wrap justify-center gap-3 text-xs font-semibold text-gray-600">
-              <span className="bg-white/80 px-3 py-1 rounded-full border border-gray-200">
+            <div className="mt-4 flex flex-wrap justify-center gap-3 text-xs font-semibold text-gray-600 dark:text-slate-400">
+              <span className="bg-white/80 dark:bg-slate-800/80 px-3 py-1 rounded-full border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300">
                 Zodiac: {ageData.zodiac}
               </span>
-              <span className="bg-white/80 px-3 py-1 rounded-full border border-gray-200">
+              <span className="bg-white/80 dark:bg-slate-800/80 px-3 py-1 rounded-full border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300">
                 Next Birthday: {ageData.daysToNextBday} days left ({ageData.nextBdayDayOfWeek})
               </span>
             </div>
@@ -167,39 +167,39 @@ export default function AgeCalculator() {
 
           {/* Breakdown Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 text-center shadow-xs">
-              <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 text-center shadow-xs">
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
                 Total Weeks
               </span>
-              <span className="text-xl font-black text-gray-900">{ageData.totalWeeks.toLocaleString()}</span>
+              <span className="text-xl font-black text-gray-900 dark:text-white">{ageData.totalWeeks.toLocaleString()}</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 text-center shadow-xs">
-              <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 text-center shadow-xs">
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
                 Total Days
               </span>
-              <span className="text-xl font-black text-gray-900">{ageData.totalDays.toLocaleString()}</span>
+              <span className="text-xl font-black text-gray-900 dark:text-white">{ageData.totalDays.toLocaleString()}</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 text-center shadow-xs">
-              <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 text-center shadow-xs">
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
                 Total Hours
               </span>
-              <span className="text-xl font-black text-gray-900">{ageData.totalHours.toLocaleString()}</span>
+              <span className="text-xl font-black text-gray-900 dark:text-white">{ageData.totalHours.toLocaleString()}</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 text-center shadow-xs">
-              <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 text-center shadow-xs">
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
                 Total Minutes
               </span>
-              <span className="text-xl font-black text-gray-900">{ageData.totalMinutes.toLocaleString()}</span>
+              <span className="text-xl font-black text-gray-900 dark:text-white">{ageData.totalMinutes.toLocaleString()}</span>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 text-center shadow-xs col-span-2 sm:col-span-1">
-              <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+            <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-gray-200 dark:border-slate-800 text-center shadow-xs col-span-2 sm:col-span-1">
+              <span className="text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
                 Total Seconds
               </span>
-              <span className="text-xl font-black text-rose-600">{ageData.totalSeconds.toLocaleString()}</span>
+              <span className="text-xl font-black text-rose-600 dark:text-rose-400">{ageData.totalSeconds.toLocaleString()}</span>
             </div>
           </div>
         </div>
