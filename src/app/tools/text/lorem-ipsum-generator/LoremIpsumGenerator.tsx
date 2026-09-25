@@ -75,7 +75,7 @@ export default function LoremIpsumGenerator() {
   const wordCount = output ? output.split(/\s+/).filter(w => w.length > 0).length : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
         <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
@@ -83,10 +83,10 @@ export default function LoremIpsumGenerator() {
           <span className="text-gray-900">Lorem Ipsum Generator</span>
         </nav>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Lorem Ipsum Generator</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Lorem Ipsum Generator</h1>
               <p className="text-gray-600">Generate custom dummy text for your layouts and mockups.</p>
             </div>
 
@@ -158,8 +158,8 @@ export default function LoremIpsumGenerator() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">How to Use</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
           <ol className="list-decimal list-inside space-y-4 text-gray-600">
             <li>Enter the number of paragraphs, sentences, or words you want to generate.</li>
             <li>Select the structural type (Paragraphs, Sentences, or Words) from the dropdown.</li>

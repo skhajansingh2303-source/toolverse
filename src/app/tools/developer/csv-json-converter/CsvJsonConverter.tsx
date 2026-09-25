@@ -87,7 +87,7 @@ export default function CsvJsonConverter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               📊
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               CSV ↔ JSON Converter
             </h1>
           </div>
@@ -105,7 +105,7 @@ export default function CsvJsonConverter() {
               setOutput('');
               setError('');
             }}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors"
           >
             ⇄ Switch to {mode === 'csv2json' ? 'JSON to CSV' : 'CSV to JSON'}
           </button>
@@ -115,7 +115,7 @@ export default function CsvJsonConverter() {
       <AdSlot format="horizontal" />
 
       {/* Action controls */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <button
             onClick={convert}
@@ -157,7 +157,7 @@ export default function CsvJsonConverter() {
 
       {/* Editor Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700 flex justify-between">
             <span>Input ({mode === 'csv2json' ? 'CSV Format' : 'JSON Array'})</span>
             <span className="text-gray-400 font-normal">{input.length} chars</span>
@@ -170,7 +170,7 @@ export default function CsvJsonConverter() {
           />
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700 flex justify-between">
             <span>Output ({mode === 'csv2json' ? 'JSON Array' : 'CSV Format'})</span>
             <span className="text-gray-400 font-normal">{output.length} chars</span>
@@ -184,7 +184,7 @@ export default function CsvJsonConverter() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
         <h2 className="text-base font-bold text-gray-900 mb-2">How to Convert CSV &amp; JSON</h2>
         <ul className="list-disc list-inside space-y-1.5 text-xs text-gray-600">
           <li>For CSV to JSON: ensure the first row has column headers (e.g. name, email, role).</li>

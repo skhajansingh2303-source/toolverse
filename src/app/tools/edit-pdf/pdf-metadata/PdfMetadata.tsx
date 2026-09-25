@@ -93,25 +93,25 @@ export default function PdfMetadata() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500">
-          <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400">
+          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">PDF Metadata Editor</span>
+          <span className="text-gray-900 dark:text-white font-medium">PDF Metadata Editor</span>
         </nav>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">PDF Metadata Editor</h1>
-          <p className="text-gray-600">View and edit document properties like title, author, and keywords.</p>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">PDF Metadata Editor</h1>
+          <p className="text-gray-600 dark:text-slate-400">View and edit document properties like title, author, and keywords.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 space-y-6">
           {!file ? (
             <div
-              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group"
+              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group bg-white/50 dark:bg-slate-900/50"
             >
               <input
                 type="file"
@@ -129,7 +129,7 @@ export default function PdfMetadata() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <p className="text-lg font-medium text-gray-900 dark:text-white">Click or drop a PDF file here</p>
-                <p className="text-xs text-gray-400 mb-4">View and edit document properties</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500 mb-4">View and edit document properties</p>
                 <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                   Browse Files
                 </span>
@@ -137,13 +137,13 @@ export default function PdfMetadata() {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <div className="text-lg font-medium text-gray-900 truncate" title={file.name}>
+              <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-800/60 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                <div className="text-lg font-medium text-gray-900 dark:text-white truncate" title={file.name}>
                   {file.name}
                 </div>
                 <button
                   onClick={() => { setFile(null); setPdfDoc(null); }}
-                  className="text-sm text-red-600 hover:text-red-800"
+                  className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                 >
                   Remove File
                 </button>
@@ -153,57 +153,57 @@ export default function PdfMetadata() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Title</label>
                   <input
                     type="text"
                     value={metadata.title}
                     onChange={(e) => setMetadata({ ...metadata, title: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Author</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Author</label>
                   <input
                     type="text"
                     value={metadata.author}
                     onChange={(e) => setMetadata({ ...metadata, author: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Subject</label>
                   <input
                     type="text"
                     value={metadata.subject}
                     onChange={(e) => setMetadata({ ...metadata, subject: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Keywords (comma separated)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Keywords (comma separated)</label>
                   <input
                     type="text"
                     value={metadata.keywords}
                     onChange={(e) => setMetadata({ ...metadata, keywords: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Producer</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Producer</label>
                   <input
                     type="text"
                     value={metadata.producer}
                     onChange={(e) => setMetadata({ ...metadata, producer: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Creator</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Creator</label>
                   <input
                     type="text"
                     value={metadata.creator}
                     onChange={(e) => setMetadata({ ...metadata, creator: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
               </div>
@@ -221,13 +221,13 @@ export default function PdfMetadata() {
           )}
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-400">
             <li>Upload your PDF file using the drop zone above.</li>
             <li>The tool will automatically read and display the current metadata.</li>
             <li>Edit any of the fields: Title, Author, Subject, Keywords, etc.</li>
-            <li>Click "Update & Save PDF" to apply your changes and download the updated file.</li>
+            <li>Click &quot;Update &amp; Save PDF&quot; to apply your changes and download the updated file.</li>
             <li>All processing is done securely in your browser.</li>
           </ol>
         </div>

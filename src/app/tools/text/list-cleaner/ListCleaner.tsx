@@ -86,7 +86,7 @@ export default function ListCleaner() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               📋
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               List Cleaner &amp; Sorter
             </h1>
           </div>
@@ -115,7 +115,7 @@ export default function ListCleaner() {
       <AdSlot format="horizontal" />
 
       {/* Action Toolbar */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs mb-6 space-y-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 shadow-xs mb-6 space-y-4">
         <div>
           <span className="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
             Quick Operations
@@ -129,37 +129,37 @@ export default function ListCleaner() {
             </button>
             <button
               onClick={() => sortLines('asc')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Sort A → Z
             </button>
             <button
               onClick={() => sortLines('desc')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Sort Z → A
             </button>
             <button
               onClick={() => sortLines('length')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Sort by Length
             </button>
             <button
               onClick={() => sortLines('shuffle')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Shuffle / Randomize
             </button>
             <button
               onClick={trimLines}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Trim Spaces &amp; Blanks
             </button>
             <button
               onClick={numberLines}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 transition-colors"
             >
               Add Numbers (1, 2, 3...)
             </button>
@@ -203,7 +203,7 @@ export default function ListCleaner() {
       </div>
 
       {/* Main Textarea */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden mb-8">
         <div className="px-6 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-xs font-semibold text-gray-600">
           <span>List Content</span>
           <span className="text-gray-500">{linesCount} items</span>

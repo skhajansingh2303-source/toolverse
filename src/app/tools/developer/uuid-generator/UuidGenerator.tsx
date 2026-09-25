@@ -77,7 +77,7 @@ export default function UuidGenerator() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 text-gray-800 bg-gray-50 min-h-screen">
+    <div className="max-w-4xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
       <nav className="text-sm mb-6 text-gray-500">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
@@ -85,13 +85,13 @@ export default function UuidGenerator() {
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">UUID Generator</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">UUID Generator</h1>
         <p className="text-gray-600">Generate secure version 4 universally unique identifiers (UUIDs/GUIDs) instantly.</p>
       </header>
 
       <AdSlot format="horizontal" />
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 mb-8 mt-6">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="space-y-6">
             <div>
@@ -211,7 +211,7 @@ export default function UuidGenerator() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the UUID Generator</h2>
         <ol className="list-decimal pl-5 space-y-3 text-gray-700">
           <li>Select the number of UUIDs you want to generate using the <strong>Quantity</strong> dropdown.</li>

@@ -119,7 +119,7 @@ export default function CodeBeautifierMinifier() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 text-gray-800 bg-gray-50 min-h-screen">
+    <div className="max-w-6xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
       <nav className="text-sm mb-6 text-gray-500">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
@@ -127,13 +127,13 @@ export default function CodeBeautifierMinifier() {
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Code Beautifier & Minifier</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Code Beautifier & Minifier</h1>
         <p className="text-gray-600">Format or minify your HTML, CSS, and JavaScript code easily.</p>
       </header>
 
       <AdSlot format="horizontal" />
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 mb-8 mt-6">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-6">
         <div className="flex flex-wrap gap-4 items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <label className="font-semibold text-gray-700">Language:</label>
@@ -208,7 +208,7 @@ export default function CodeBeautifierMinifier() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the Code Beautifier & Minifier</h2>
         <ol className="list-decimal pl-5 space-y-3 text-gray-700">
           <li>Select your code <strong>Language</strong> (HTML, CSS, or JavaScript) from the dropdown.</li>

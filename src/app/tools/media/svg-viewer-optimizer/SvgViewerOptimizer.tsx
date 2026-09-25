@@ -74,7 +74,7 @@ export default function SvgViewerOptimizer() {
   const dims = extractDimensions();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -89,13 +89,13 @@ export default function SvgViewerOptimizer() {
         </nav>
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">SVG Viewer & Optimizer</h1>
-          <p className="text-lg text-gray-600">View, minify, and extract data from SVG files online.</p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">SVG Viewer & Optimizer</h1>
+          <p className="text-lg text-gray-600 dark:text-slate-400">View, minify, and extract data from SVG files online.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
           <div className="mb-6 flex gap-4 items-center">
             <div className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl p-3 text-center hover:border-primary-500 cursor-pointer bg-gray-50/50 dark:bg-slate-950/40 group max-w-sm w-full">
               <input 
@@ -117,15 +117,15 @@ export default function SvgViewerOptimizer() {
 
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full lg:w-1/2 flex flex-col gap-4">
-              <h3 className="font-semibold text-lg">SVG Preview</h3>
-              <div className="flex-1 bg-gray-100 rounded-2xl border border-gray-300 flex items-center justify-center p-8 min-h-[400px]">
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">SVG Preview</h3>
+              <div className="flex-1 bg-gray-100 dark:bg-slate-800 rounded-2xl border border-gray-300 dark:border-slate-700 flex items-center justify-center p-8 min-h-[400px]">
                 {svgCode ? (
                   <div dangerouslySetInnerHTML={{ __html: svgCode }} className="max-w-full max-h-full [&>svg]:max-w-full [&>svg]:max-h-full" />
                 ) : (
-                  <p className="text-gray-500">No SVG loaded</p>
+                  <p className="text-gray-500 dark:text-slate-400">No SVG loaded</p>
                 )}
               </div>
-              <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 text-sm">
+              <div className="bg-gray-50 dark:bg-slate-800/80 p-4 rounded-xl border border-gray-200 dark:border-slate-700 text-sm text-gray-700 dark:text-slate-300">
                 <p><strong>Width:</strong> {dims.width}</p>
                 <p><strong>Height:</strong> {dims.height}</p>
                 <p><strong>viewBox:</strong> {dims.viewBox}</p>
@@ -134,9 +134,9 @@ export default function SvgViewerOptimizer() {
             </div>
 
             <div className="w-full lg:w-1/2 flex flex-col gap-4">
-              <h3 className="font-semibold text-lg">SVG Code</h3>
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">SVG Code</h3>
               <textarea 
-                className="flex-1 w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm bg-gray-50 min-h-[400px]"
+                className="flex-1 w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 font-mono text-sm bg-gray-50 dark:bg-slate-800/60 text-gray-900 dark:text-white min-h-[400px]"
                 value={svgCode}
                 onChange={(e) => setSvgCode(e.target.value)}
                 placeholder="Paste SVG code here..."
@@ -144,17 +144,17 @@ export default function SvgViewerOptimizer() {
               
               <div className="flex flex-wrap gap-4">
                 <button onClick={minifySvg} className="bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-6 py-3 font-semibold">Minify SVG</button>
-                <button onClick={() => copyToClipboard(svgCode)} className="bg-gray-800 hover:bg-gray-900 text-white rounded-xl px-6 py-3 font-semibold">Copy Code</button>
-                <button onClick={() => copyToClipboard(getDataUrl())} className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl px-6 py-3 font-semibold">Copy Data URL</button>
-                <button onClick={downloadSvg} className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl px-6 py-3 font-semibold">Download .svg</button>
+                <button onClick={() => copyToClipboard(svgCode)} className="bg-gray-800 hover:bg-gray-900 dark:bg-slate-800 dark:hover:bg-slate-700 text-white rounded-xl px-6 py-3 font-semibold">Copy Code</button>
+                <button onClick={() => copyToClipboard(getDataUrl())} className="bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-6 py-3 font-semibold">Copy Data URL</button>
+                <button onClick={downloadSvg} className="bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-6 py-3 font-semibold">Download .svg</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
-          <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Paste your SVG code directly into the text area or upload an .svg file.</li>
             <li>View the rendered SVG in the preview panel and check its dimensions.</li>
             <li>Click "Minify SVG" to automatically remove unnecessary metadata, comments, and whitespace, reducing the file size.</li>

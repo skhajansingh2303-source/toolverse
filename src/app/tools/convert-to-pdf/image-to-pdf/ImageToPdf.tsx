@@ -227,7 +227,7 @@ export default function ImageToPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -242,11 +242,11 @@ export default function ImageToPdf() {
         </nav>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Image to PDF</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Image to PDF</h1>
           <p className="text-gray-600">Convert JPG, PNG, and WebP images into a single PDF document.</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8 mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8 mb-8">
           <div
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -369,7 +369,7 @@ export default function ImageToPdf() {
           />
         )}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
           <ol className="list-decimal pl-5 space-y-3 text-gray-600">
             <li>Upload one or more images (JPG, PNG, WebP) by dragging and dropping or selecting them.</li>

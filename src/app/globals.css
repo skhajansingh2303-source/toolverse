@@ -18,6 +18,65 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Dark mode input & form control defaults across all tools */
+.dark input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='button']):not([type='submit']),
+.dark select,
+.dark textarea {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Ensure preset buttons and badges with bg-gray-100 invert properly in dark mode */
+.dark button.bg-gray-100,
+.dark a.bg-gray-100 {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+.dark button.bg-gray-100:hover,
+.dark a.bg-gray-100:hover {
+  background-color: #334155;
+}
+
+/* Dark mode fallback container and card rules across all tools */
+.dark .min-h-screen.bg-gray-50,
+.dark .min-h-screen.bg-slate-50,
+.dark .min-h-screen.text-gray-800.bg-gray-50 {
+  background-color: transparent !important;
+  color: #f1f5f9;
+}
+
+.dark .bg-gray-50:not([data-keep-light]):not(iframe) {
+  background-color: #0f172a;
+}
+
+.dark .text-gray-900:not([data-keep-color]):not(.text-black) {
+  color: #f8fafc;
+}
+
+.dark .text-gray-800:not([data-keep-color]) {
+  color: #f1f5f9;
+}
+
+.dark .text-gray-700:not([data-keep-color]) {
+  color: #cbd5e1;
+}
+
+.dark .text-gray-600:not([data-keep-color]) {
+  color: #94a3b8;
+}
+
+.dark .border-gray-200:not([data-keep-border]),
+.dark .border-gray-300:not([data-keep-border]) {
+  border-color: #334155;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

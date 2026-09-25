@@ -56,7 +56,7 @@ export default function CssBoxShadowGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -149,7 +149,7 @@ export default function CssBoxShadowGenerator() {
                   <button 
                     key={idx}
                     onClick={() => applyPreset(preset)}
-                    className="py-2 px-3 text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl font-medium transition-colors"
+                    className="py-2 px-3 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl font-medium transition-colors"
                   >
                     {preset.name}
                   </button>

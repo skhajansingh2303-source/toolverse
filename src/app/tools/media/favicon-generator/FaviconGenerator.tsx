@@ -145,7 +145,7 @@ export default function FaviconGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -160,13 +160,13 @@ export default function FaviconGenerator() {
         </nav>
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Favicon Generator</h1>
-          <p className="text-lg text-gray-600">Generate standard favicons for browsers, iOS, and Android from a single image.</p>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Favicon Generator</h1>
+          <p className="text-lg text-gray-600 dark:text-slate-400">Generate standard favicons for browsers, iOS, and Android from a single image.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
           <div className="flex flex-col items-center gap-6 mb-12">
             <div className="relative w-full max-w-md flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl cursor-pointer bg-gray-50 dark:bg-slate-950/40 hover:bg-gray-100 dark:hover:bg-slate-800/50 group">
               <input
@@ -190,8 +190,8 @@ export default function FaviconGenerator() {
             </div>
             
             {imageSrc && (
-              <div className="w-32 h-32 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                <img src={imageSrc} alt="Source Preview" className="w-full h-full object-contain bg-gray-100" />
+              <div className="w-32 h-32 rounded-xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-sm">
+                <img src={imageSrc} alt="Source Preview" className="w-full h-full object-contain bg-gray-100 dark:bg-slate-800" />
               </div>
             )}
           </div>
@@ -214,20 +214,20 @@ export default function FaviconGenerator() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {SIZES.map((icon, idx) => (
-                  <div key={idx} className="border border-gray-200 rounded-2xl p-6 flex flex-col items-center bg-gray-50">
+                  <div key={idx} className="border border-gray-200 dark:border-slate-800 rounded-2xl p-6 flex flex-col items-center bg-gray-50 dark:bg-slate-800/60">
                     <div className="h-24 flex items-center justify-center mb-4">
-                      <img src={imageSrc} alt={icon.name} style={{ width: icon.size, height: icon.size }} className="shadow-sm bg-white" />
+                      <img src={imageSrc} alt={icon.name} style={{ width: icon.size, height: icon.size }} className="shadow-sm bg-white rounded" />
                     </div>
-                    <h3 className="font-semibold text-lg">{icon.name}</h3>
-                    <p className="text-sm text-gray-500 mb-4">{icon.size}x{icon.size} {icon.format.toUpperCase()}</p>
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{icon.name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-slate-400 mb-4">{icon.size}x{icon.size} {icon.format.toUpperCase()}</p>
                     <button onClick={() => downloadIcon(icon.size, icon.file)} className="bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-4 py-2 font-semibold text-sm w-full">Download {icon.file}</button>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-gray-800 text-gray-100 rounded-2xl p-6">
+              <div className="bg-gray-800 dark:bg-slate-950 text-gray-100 rounded-2xl p-6 border border-gray-700 dark:border-slate-800">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-semibold text-lg">HTML Integration</h3>
+                  <h3 className="font-semibold text-lg text-white">HTML Integration</h3>
                   <button onClick={() => copyToClipboard(htmlTags)} className="bg-gray-700 hover:bg-gray-600 text-white rounded-xl px-4 py-2 font-semibold text-sm">Copy Code</button>
                 </div>
                 <pre className="overflow-x-auto text-sm font-mono text-gray-300">
@@ -238,9 +238,9 @@ export default function FaviconGenerator() {
           )}
         </div>
 
-        <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xs mb-8">
-          <h2 className="text-2xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-gray-200 dark:border-slate-800 shadow-xs mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Upload a square image (preferably your logo) using the upload box. A size of 512x512 pixels or larger is recommended.</li>
             <li>The tool will automatically resize your image to all standard favicon formats.</li>
             <li>Review the generated icons in the preview cards.</li>

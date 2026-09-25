@@ -97,7 +97,7 @@ export default function ImageResizer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
         <nav className="text-sm font-medium text-gray-500">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
@@ -105,14 +105,14 @@ export default function ImageResizer() {
           <span className="text-gray-900">Image Resizer</span>
         </nav>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Image Resizer</h1>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Image Resizer</h1>
           <p className="text-gray-600">Quickly resize your images online without losing quality.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 space-y-6">
           {!previewUrl ? (
             <div
               className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group"
@@ -248,8 +248,8 @@ export default function ImageResizer() {
           )}
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
           <ol className="list-decimal list-inside space-y-2 text-gray-700">
             <li>Upload an image by clicking the drop zone.</li>
             <li>Choose how you want to resize: by specific pixels or by a percentage.</li>

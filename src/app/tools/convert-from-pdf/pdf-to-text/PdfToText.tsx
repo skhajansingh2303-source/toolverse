@@ -90,7 +90,7 @@ export default function PdfToText() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <Script 
         src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" 
         onLoad={handleScriptLoad}
@@ -103,7 +103,7 @@ export default function PdfToText() {
         </nav>
 
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">PDF to Text Extractor</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">PDF to Text Extractor</h1>
           <p className="text-gray-600">Extract plain text from your PDF documents instantly.</p>
         </header>
 
@@ -188,7 +188,7 @@ export default function PdfToText() {
                 <div className="flex gap-4 w-full sm:w-auto">
                   <button 
                     onClick={copyToClipboard}
-                    className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-xl font-medium transition-colors"
+                    className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 px-4 py-2 rounded-xl font-medium transition-colors"
                   >
                     {copied ? 'Copied!' : 'Copy All Text'}
                   </button>

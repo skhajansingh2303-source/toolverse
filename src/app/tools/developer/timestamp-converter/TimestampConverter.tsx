@@ -104,7 +104,7 @@ export default function TimestampConverter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               ⏱️
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Unix Timestamp Converter
             </h1>
           </div>
@@ -126,7 +126,7 @@ export default function TimestampConverter() {
       <AdSlot format="horizontal" />
 
       {/* Input Box */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-xs p-6 sm:p-8 mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 sm:p-8 mb-8">
         <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
           Enter Epoch Timestamp (Seconds or Milliseconds)
         </label>
@@ -137,7 +137,7 @@ export default function TimestampConverter() {
             value={inputTimestamp}
             onChange={(e) => setInputTimestamp(e.target.value.replace(/[^0-9]/g, ''))}
             placeholder="e.g. 1726034400"
-            className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-base font-mono text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+            className="flex-1 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl px-4 py-3 text-base font-mono text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
           />
           <button
             onClick={() => quickSet('now')}
@@ -160,7 +160,7 @@ export default function TimestampConverter() {
             <button
               key={item.id}
               onClick={() => quickSet(item.id)}
-              className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors"
+              className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-lg font-medium transition-colors"
             >
               {item.label}
             </button>
@@ -215,7 +215,7 @@ export default function TimestampConverter() {
           </div>
 
           {/* International Timezone Breakdown */}
-          <div className="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
             <div className="px-6 py-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-xs font-bold text-gray-700">
               <span>Timezone Breakdown</span>
               <span className="text-gray-400 font-normal">Click any row to copy formatted date</span>

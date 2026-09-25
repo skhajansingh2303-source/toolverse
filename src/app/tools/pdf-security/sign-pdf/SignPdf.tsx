@@ -119,17 +119,17 @@ export default function SignPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
-        <nav className="text-sm mb-8 text-gray-500">
-          <Link href="/" className="hover:text-primary-600">Home</Link>
+        <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400">
+          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Sign PDF</span>
+          <span className="text-gray-900 dark:text-white font-medium">Sign PDF</span>
         </nav>
 
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Sign PDF Online</h1>
-          <p className="text-gray-600">Add an electronic signature to your PDF document quickly and securely.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Sign PDF Online</h1>
+          <p className="text-gray-600 dark:text-slate-400">Add an electronic signature to your PDF document quickly and securely.</p>
         </header>
 
         <AdSlot format="horizontal" />
@@ -180,11 +180,11 @@ export default function SignPdf() {
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm mb-8">
           {file && (
             <div className="mb-6">
-              <p className="text-gray-700 font-medium mb-4">Selected File: {file.name} ({pageCount} pages)</p>
+              <p className="text-gray-700 dark:text-slate-300 font-medium mb-4">Selected File: {file.name} ({pageCount} pages)</p>
               
               <div className="mb-4 flex gap-4">
-                  <button onClick={() => setMode('draw')} className={`px-4 py-2 rounded-xl font-medium ${mode === 'draw' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}>Draw</button>
-                  <button onClick={() => setMode('type')} className={`px-4 py-2 rounded-xl font-medium ${mode === 'type' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700'}`}>Type</button>
+                  <button onClick={() => setMode('draw')} className={`px-4 py-2 rounded-xl font-medium ${mode === 'draw' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200'}`}>Draw</button>
+                  <button onClick={() => setMode('type')} className={`px-4 py-2 rounded-xl font-medium ${mode === 'type' ? 'bg-primary-600 text-white' : 'bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200'}`}>Type</button>
               </div>
 
               {mode === 'draw' ? (
@@ -200,12 +200,12 @@ export default function SignPdf() {
                         onTouchStart={startDrawing}
                         onTouchEnd={stopDrawing}
                         onTouchMove={draw}
-                        className="border border-gray-300 rounded-xl mb-4 bg-white touch-none" 
+                        className="border border-gray-300 dark:border-slate-700 rounded-xl mb-4 bg-white touch-none" 
                     />
-                    <button onClick={clearCanvas} className="text-sm text-gray-500 hover:text-gray-700 block mb-4">Clear Signature</button>
+                    <button onClick={clearCanvas} className="text-sm text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 block mb-4">Clear Signature</button>
                   </div>
               ) : (
-                  <input type="text" value={signatureText} onChange={e => setSignatureText(e.target.value)} placeholder="Type your signature here" className="w-full max-w-md rounded-xl border border-gray-300 p-4 font-serif italic text-2xl mb-4" />
+                  <input type="text" value={signatureText} onChange={e => setSignatureText(e.target.value)} placeholder="Type your signature here" className="w-full max-w-md rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-4 font-serif italic text-2xl mb-4" />
               )}
               
               <button onClick={handleSign} className="bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-6 py-3 font-semibold mt-4 block w-full sm:w-auto">
@@ -215,9 +215,9 @@ export default function SignPdf() {
           )}
         </div>
 
-        <section className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside text-gray-700 space-y-2">
+        <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside text-gray-700 dark:text-slate-300 space-y-2">
             <li>Upload your PDF file using the file picker.</li>
             <li>Select your preferred signature mode: "Draw" or "Type".</li>
             <li>If drawing, use your mouse or finger to sign in the canvas area.</li>

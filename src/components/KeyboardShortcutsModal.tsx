@@ -46,43 +46,43 @@ export default function KeyboardShortcutsModal() {
       onClick={() => setIsOpen(false)}
     >
       <div 
-        className="bg-white rounded-2xl shadow-2xl border border-gray-200 max-w-md w-full overflow-hidden p-6"
+        className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-slate-800 max-w-md w-full overflow-hidden p-6 text-gray-900 dark:text-slate-100 transition-colors"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+        <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center font-bold text-sm">
+            <span className="w-8 h-8 rounded-xl bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 flex items-center justify-center font-bold text-sm">
               ⌨️
             </span>
             <div>
-              <h3 className="text-base font-bold text-gray-900">Keyboard Shortcuts</h3>
-              <p className="text-xs text-gray-500">Speed up your workflow across ToolsVerse</p>
+              <h3 className="text-base font-bold text-gray-900 dark:text-white">Keyboard Shortcuts</h3>
+              <p className="text-xs text-gray-500 dark:text-slate-400">Speed up your workflow across ToolsVerse</p>
             </div>
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 text-sm"
+            className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-sm"
           >
             ✕
           </button>
         </div>
 
-        <div className="divide-y divide-gray-100 my-4">
+        <div className="divide-y divide-gray-100 dark:divide-slate-800 my-4">
           {shortcuts.map((s, idx) => (
             <div key={idx} className="flex items-center justify-between py-2.5 text-xs">
-              <span className="text-gray-700 font-medium">{s.desc}</span>
-              <kbd className="px-2.5 py-1 bg-gray-100 border border-gray-200 text-gray-800 rounded-lg font-mono font-bold text-[11px] shadow-2xs">
+              <span className="text-gray-700 dark:text-slate-300 font-medium">{s.desc}</span>
+              <kbd className="px-2.5 py-1 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 rounded-lg font-mono font-bold text-[11px] shadow-2xs">
                 {s.key}
               </kbd>
             </div>
           ))}
         </div>
 
-        <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
-          <span>Pro tip: Press <kbd className="font-mono bg-gray-100 px-1.5 py-0.5 rounded">⌘K</kbd> anywhere to switch tools</span>
+        <div className="pt-3 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-gray-500 dark:text-slate-400">
+          <span>Pro tip: Press <kbd className="font-mono bg-gray-100 dark:bg-slate-800 dark:border-slate-700 px-1.5 py-0.5 rounded text-gray-800 dark:text-slate-200">⌘K</kbd> anywhere to switch tools</span>
           <button
             onClick={() => setIsOpen(false)}
-            className="px-3 py-1.5 bg-gray-950 text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+            className="px-3 py-1.5 bg-gray-950 dark:bg-primary-600 text-white rounded-lg font-semibold hover:bg-gray-800 dark:hover:bg-primary-700 transition-colors"
           >
             Got it
           </button>

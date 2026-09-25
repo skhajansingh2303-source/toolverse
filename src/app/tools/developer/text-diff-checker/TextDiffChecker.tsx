@@ -102,7 +102,7 @@ export default function TextDiffChecker() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lime-500 to-green-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               🔍
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Text &amp; Code Diff Checker
             </h1>
           </div>
@@ -118,7 +118,7 @@ export default function TextDiffChecker() {
               setOldText(newText);
               setNewText(temp);
             }}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors"
           >
             ⇄ Swap Texts
           </button>
@@ -137,7 +137,7 @@ export default function TextDiffChecker() {
       <AdSlot format="horizontal" />
 
       {/* Settings Ribbon */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-4 shadow-xs mb-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4 text-xs">
           <label className="flex items-center gap-2 text-gray-700 cursor-pointer font-medium">
             <input
@@ -174,7 +174,7 @@ export default function TextDiffChecker() {
 
       {/* Side by Side Input Textareas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700">
             Original Text (Before)
           </div>
@@ -186,7 +186,7 @@ export default function TextDiffChecker() {
           />
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-700">
             Modified Text (After)
           </div>
@@ -200,7 +200,7 @@ export default function TextDiffChecker() {
       </div>
 
       {/* Visual Diff Output Panel */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden mb-8">
         <div className="px-6 py-3.5 bg-gray-900 text-white flex items-center justify-between text-xs font-bold">
           <span>Unified Diff Output</span>
           <span className="text-gray-400 font-normal text-[11px]">

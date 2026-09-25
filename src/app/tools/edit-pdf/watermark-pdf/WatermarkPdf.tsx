@@ -175,29 +175,29 @@ export default function WatermarkPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto">
-        <nav className="text-sm mb-8" aria-label="Breadcrumb">
+        <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
             <li className="flex items-center">
-              <Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link>
-              <svg className="fill-current w-3 h-3 mx-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Home</Link>
+              <svg className="fill-current w-3 h-3 mx-3 text-gray-400 dark:text-slate-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
             </li>
             <li>
-              <span className="text-gray-700" aria-current="page">Add Watermark to PDF</span>
+              <span className="text-gray-700 dark:text-slate-300 font-medium" aria-current="page">Add Watermark to PDF</span>
             </li>
           </ol>
         </nav>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Add Watermark to PDF</h1>
-          <p className="text-gray-600">Stamp your PDF document with custom text watermarks for security or branding.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Add Watermark to PDF</h1>
+          <p className="text-gray-600 dark:text-slate-400">Stamp your PDF document with custom text watermarks for security or branding.</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8 mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8 mb-8">
           {!file ? (
             <div
-              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 rounded-2xl p-10 text-center transition-colors group"
+              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 rounded-2xl p-10 text-center transition-colors group bg-white/50 dark:bg-slate-900/50"
             >
               <input
                 type="file"
@@ -223,33 +223,33 @@ export default function WatermarkPdf() {
             </div>
           ) : (
             <div>
-              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6">
+              <div className="flex items-center justify-between bg-gray-50 dark:bg-slate-800/60 p-4 rounded-xl border border-gray-200 dark:border-slate-700 mb-6">
                 <div className="flex items-center">
                   <svg className="w-8 h-8 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"></path></svg>
                   <div>
-                    <p className="font-medium text-gray-900">{file.name}</p>
-                    <p className="text-sm text-gray-500">{totalPages} pages • {(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{file.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-slate-400">{totalPages} pages • {(file.size / 1024 / 1024).toFixed(2)} MB</p>
                   </div>
                 </div>
-                <button onClick={() => { setFile(null); setTotalPages(0); }} className="text-sm text-red-600 hover:text-red-800 font-medium">
+                <button onClick={() => { setFile(null); setTotalPages(0); }} className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium">
                   Remove
                 </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Watermark Text</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Watermark Text</label>
                   <input
                     type="text"
                     value={watermarkText}
                     onChange={(e) => setWatermarkText(e.target.value)}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 outline-none"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Position</label>
-                  <select value={position} onChange={(e) => setPosition(e.target.value as any)} className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 bg-white">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Position</label>
+                  <select value={position} onChange={(e) => setPosition(e.target.value as any)} className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-4 outline-none">
                     <option value="diagonal">Diagonal (45°)</option>
                     <option value="center">Center</option>
                     <option value="top">Top</option>
@@ -258,7 +258,7 @@ export default function WatermarkPdf() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Font Size: {fontSize}px
                   </label>
                   <input
@@ -272,7 +272,7 @@ export default function WatermarkPdf() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Opacity: {Math.round(opacity * 100)}%
                   </label>
                   <input
@@ -287,7 +287,7 @@ export default function WatermarkPdf() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Color</label>
                   <div className="flex items-center space-x-3">
                     <input
                       type="color"
@@ -295,20 +295,20 @@ export default function WatermarkPdf() {
                       onChange={(e) => setColor(e.target.value)}
                       className="h-10 w-20 cursor-pointer border-0 rounded"
                     />
-                    <span className="text-sm text-gray-500 uppercase">{color}</span>
+                    <span className="text-sm text-gray-500 dark:text-slate-400 uppercase">{color}</span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Apply to Pages</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Apply to Pages</label>
                   <div className="flex space-x-4 mb-2">
                     <label className="flex items-center cursor-pointer">
                       <input type="radio" checked={applyTo === 'all'} onChange={() => setApplyTo('all')} className="text-primary-600 focus:ring-primary-500 w-4 h-4 mr-2" />
-                      <span className="text-gray-700 text-sm">All</span>
+                      <span className="text-gray-700 dark:text-slate-300 text-sm">All</span>
                     </label>
                     <label className="flex items-center cursor-pointer">
                       <input type="radio" checked={applyTo === 'specific'} onChange={() => setApplyTo('specific')} className="text-primary-600 focus:ring-primary-500 w-4 h-4 mr-2" />
-                      <span className="text-gray-700 text-sm">Specific</span>
+                      <span className="text-gray-700 dark:text-slate-300 text-sm">Specific</span>
                     </label>
                   </div>
                   {applyTo === 'specific' && (
@@ -317,14 +317,14 @@ export default function WatermarkPdf() {
                       value={specificPages}
                       onChange={(e) => setSpecificPages(e.target.value)}
                       placeholder="e.g. 1-3, 5"
-                      className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-2 text-sm"
+                      className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-2 text-sm outline-none"
                     />
                   )}
                 </div>
               </div>
 
-              {error && <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl">{error}</div>}
-              {success && <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl">{success}</div>}
+              {error && <div className="mb-6 p-4 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 rounded-xl border border-red-200 dark:border-red-900/50">{error}</div>}
+              {success && <div className="mb-6 p-4 bg-green-50 dark:bg-emerald-950/40 text-green-700 dark:text-emerald-400 rounded-xl border border-emerald-200 dark:border-emerald-900/50">{success}</div>}
 
               <button
                 onClick={processWatermark}
@@ -363,14 +363,14 @@ export default function WatermarkPdf() {
           />
         )}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal pl-5 space-y-3 text-gray-600">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal pl-5 space-y-3 text-gray-600 dark:text-slate-400">
             <li>Select the PDF file you want to watermark.</li>
-            <li>Enter your desired watermark text (e.g., "CONFIDENTIAL", "DRAFT").</li>
+            <li>Enter your desired watermark text (e.g., &quot;CONFIDENTIAL&quot;, &quot;DRAFT&quot;).</li>
             <li>Customize the position, font size, opacity, and color to suit your needs.</li>
             <li>Choose whether to apply the watermark to all pages or specific pages.</li>
-            <li>Click "Add Watermark" to generate and download your updated PDF.</li>
+            <li>Click &quot;Add Watermark&quot; to generate and download your updated PDF.</li>
           </ol>
         </div>
       </div>

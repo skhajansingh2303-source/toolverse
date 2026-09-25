@@ -120,40 +120,40 @@ export default function TextToPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
-        <nav className="text-sm mb-8 text-gray-500">
-          <Link href="/" className="hover:text-primary-600">Home</Link>
+        <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400">
+          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Text to PDF</span>
+          <span className="text-gray-900 dark:text-white font-medium">Text to PDF</span>
         </nav>
 
         <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Text to PDF Converter</h1>
-          <p className="text-gray-600">Convert your notes, essays, and text into a clean PDF document.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Text to PDF Converter</h1>
+          <p className="text-gray-600 dark:text-slate-400">Convert your notes, essays, and text into a clean PDF document.</p>
         </header>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm mb-8">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm mb-8">
           <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="sm:col-span-3">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Document Title (Optional)</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Document Title (Optional)</label>
               <input 
                 type="text" 
                 value={title} 
                 onChange={e => setTitle(e.target.value)} 
                 placeholder="Enter title here"
-                className="w-full rounded-xl border border-gray-300 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Font Size</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Font Size</label>
               <select 
                 value={fontSize} 
                 onChange={e => setFontSize(Number(e.target.value))}
-                className="w-full rounded-xl border border-gray-300 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
               >
                 <option value={12}>12pt (Standard)</option>
                 <option value={14}>14pt (Medium)</option>
@@ -162,11 +162,11 @@ export default function TextToPdf() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Page Margins</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Page Margins</label>
               <select 
                 value={margin} 
                 onChange={e => setMargin(Number(e.target.value))}
-                className="w-full rounded-xl border border-gray-300 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
               >
                 <option value={36}>Narrow (0.5 inch)</option>
                 <option value={72}>Normal (1 inch)</option>
@@ -176,12 +176,12 @@ export default function TextToPdf() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Document Content</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Document Content</label>
             <textarea 
               value={text} 
               onChange={e => setText(e.target.value)} 
               placeholder="Type or paste your text here..."
-              className="w-full h-96 rounded-xl border border-gray-300 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-y font-serif"
+              className="w-full h-96 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-y font-serif"
             ></textarea>
           </div>
           
@@ -194,9 +194,9 @@ export default function TextToPdf() {
           </button>
         </div>
 
-        <section className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-xl font-bold mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside text-gray-700 space-y-2">
+        <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside text-gray-700 dark:text-slate-300 space-y-2">
             <li>(Optional) Enter a document title for the top of your PDF.</li>
             <li>Select your preferred font size and page margins.</li>
             <li>Type or paste your text content into the main text area.</li>

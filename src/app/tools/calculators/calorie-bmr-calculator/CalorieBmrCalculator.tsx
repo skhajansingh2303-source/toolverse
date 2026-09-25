@@ -53,7 +53,7 @@ export default function CalorieBmrCalculator() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               🔥
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Calorie &amp; BMR Calculator
             </h1>
           </div>
@@ -68,7 +68,7 @@ export default function CalorieBmrCalculator() {
       {/* Input Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
         {/* Left Form */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div>
             <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
               Biological Gender
@@ -104,7 +104,7 @@ export default function CalorieBmrCalculator() {
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
               />
             </div>
             <div>
@@ -115,7 +115,7 @@ export default function CalorieBmrCalculator() {
                 type="number"
                 value={weightKg}
                 onChange={(e) => setWeightKg(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
               />
             </div>
             <div>
@@ -126,7 +126,7 @@ export default function CalorieBmrCalculator() {
                 type="number"
                 value={heightCm}
                 onChange={(e) => setHeightCm(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
+                className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-sm font-bold text-gray-900 outline-none"
               />
             </div>
           </div>
@@ -150,7 +150,7 @@ export default function CalorieBmrCalculator() {
         </div>
 
         {/* Right Output Results */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           {results ? (
             <div className="space-y-4">
               <div className="p-6 bg-orange-50 border border-orange-200/80 rounded-2xl text-center">

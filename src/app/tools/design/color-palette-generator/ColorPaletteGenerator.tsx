@@ -93,11 +93,11 @@ export default function ColorPaletteGenerator() {
         </nav>
         <div className="flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Color Palette Generator</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Color Palette Generator</h1>
             <p className="text-gray-600">Press spacebar to generate new beautiful color schemes.</p>
           </div>
           <div className="flex gap-4">
-            <button onClick={exportCSS} className="bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-4 py-2 font-semibold">
+            <button onClick={exportCSS} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-4 py-2 font-semibold">
               Export CSS
             </button>
             <button onClick={generatePalette} className="bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-6 py-2 font-semibold">
@@ -138,7 +138,7 @@ export default function ColorPaletteGenerator() {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
         <ol className="list-decimal list-inside space-y-2 text-gray-600">
           <li>Press the Spacebar or click "Generate" to create a new random palette.</li>

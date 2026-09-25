@@ -150,7 +150,7 @@ export default function JsonFormatter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               {'{ }'}
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               JSON Formatter &amp; Validator
             </h1>
           </div>
@@ -181,7 +181,7 @@ export default function JsonFormatter() {
       <AdSlot format="horizontal" />
 
       {/* Controls Toolbar */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-xs p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs p-4 mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleFormat}
@@ -201,7 +201,7 @@ export default function JsonFormatter() {
               setOutput('');
               setError(null);
             }}
-            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+            className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors"
           >
             Load Sample
           </button>
@@ -269,7 +269,7 @@ export default function JsonFormatter() {
       {/* Editor Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Input Pane */}
-        <div className="flex flex-col bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600">
             <span>Input JSON</span>
             <span className="text-gray-400 font-normal">
@@ -289,7 +289,7 @@ export default function JsonFormatter() {
         </div>
 
         {/* Output Pane */}
-        <div className="flex flex-col bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+        <div className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden">
           <div className="flex items-center justify-between px-4 py-2.5 bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-600">
             <span>Formatted Result</span>
             <span className="text-gray-400 font-normal">
@@ -308,7 +308,7 @@ export default function JsonFormatter() {
 
       {/* Real-time Document Diagnostics Bar */}
       {stats && stats.isValid && (
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs mb-10">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-5 shadow-xs mb-10">
           <h3 className="text-xs uppercase font-bold text-gray-400 tracking-wider mb-3">
             Structure Diagnostics
           </h3>
@@ -334,7 +334,7 @@ export default function JsonFormatter() {
       )}
 
       {/* Step by Step Guide & SEO Description */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
         <h2 className="text-lg font-bold text-gray-900 mb-3">How to Use the JSON Formatter</h2>
         <ol className="list-decimal list-inside space-y-2 text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
           <li>Paste any valid or invalid JSON string into the left input pane.</li>

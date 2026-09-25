@@ -82,7 +82,7 @@ export default function UrlTool() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
         <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
@@ -90,10 +90,10 @@ export default function UrlTool() {
           <span className="text-gray-900">URL Encoder/Decoder</span>
         </nav>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">URL Encoder / Decoder</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">URL Encoder / Decoder</h1>
               <p className="text-gray-600">Encode special characters for URLs or decode encoded strings back to human-readable text.</p>
             </div>
 
@@ -140,14 +140,14 @@ export default function UrlTool() {
               <div className="flex gap-4">
                 <button
                   onClick={handleSwap}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-3 font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-3 font-semibold transition-colors"
                   title="Swap Input and Output"
                 >
                   ↕️ Swap Input/Output
                 </button>
                 <button
                   onClick={handleClear}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-3 font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-3 font-semibold transition-colors"
                 >
                   Clear All
                 </button>
@@ -186,7 +186,7 @@ export default function UrlTool() {
         </div>
 
         {parsedUrl && input && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
             <div className="p-8">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Parsed URL Details</h3>
               <div className="space-y-4">
@@ -237,8 +237,8 @@ export default function UrlTool() {
           </div>
         )}
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">How to Use</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
           <ol className="list-decimal list-inside space-y-4 text-gray-600">
             <li>Paste your URL or text into the Input area.</li>
             <li>Click <strong>Encode Component</strong> for query parameters or fragments, or <strong>Encode Full URL</strong> for an entire web address.</li>

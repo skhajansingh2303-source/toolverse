@@ -133,7 +133,7 @@ export default function WordCounter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               📝
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Word Counter &amp; Text Analyzer
             </h1>
           </div>
@@ -164,8 +164,8 @@ export default function WordCounter() {
 
       {/* Metrics Top Ribbon */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
-          <span className="block text-2xl sm:text-3xl font-black text-gray-950">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
+          <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.words}
           </span>
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
@@ -173,8 +173,8 @@ export default function WordCounter() {
           </span>
         </div>
 
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
-          <span className="block text-2xl sm:text-3xl font-black text-gray-950">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
+          <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.characters}
           </span>
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
@@ -182,8 +182,8 @@ export default function WordCounter() {
           </span>
         </div>
 
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
-          <span className="block text-2xl sm:text-3xl font-black text-gray-950">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
+          <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.charactersNoSpaces}
           </span>
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
@@ -191,8 +191,8 @@ export default function WordCounter() {
           </span>
         </div>
 
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
-          <span className="block text-2xl sm:text-3xl font-black text-gray-950">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
+          <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.sentences}
           </span>
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
@@ -200,8 +200,8 @@ export default function WordCounter() {
           </span>
         </div>
 
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
-          <span className="block text-2xl sm:text-3xl font-black text-gray-950">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
+          <span className="block text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
             {stats.paragraphs}
           </span>
           <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
@@ -209,7 +209,7 @@ export default function WordCounter() {
           </span>
         </div>
 
-        <div className="p-4 bg-white rounded-2xl border border-gray-200 shadow-2xs text-center">
+        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs text-center">
           <span className="block text-2xl sm:text-3xl font-black text-teal-600">
             ~{stats.readingTimeMinutes} min
           </span>
@@ -220,7 +220,7 @@ export default function WordCounter() {
       </div>
 
       {/* Main Text Input Area */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs overflow-hidden mb-8">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -236,7 +236,7 @@ export default function WordCounter() {
       {/* Diagnostics: Readability Score & Top Keywords */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Readability Score */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
           <h3 className="text-sm font-bold text-gray-900 mb-1">
             Readability &amp; Grade Level
           </h3>
@@ -259,7 +259,7 @@ export default function WordCounter() {
         </div>
 
         {/* Keyword Density */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs">
           <h3 className="text-sm font-bold text-gray-900 mb-1">
             Top Keyword Frequency
           </h3>

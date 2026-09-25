@@ -51,7 +51,7 @@ export default function RegexTester() {
             <h1 className="text-3xl font-bold mb-2">Regex Tester</h1>
             <p className="text-gray-600 mb-8">Test your regular expressions in real-time with syntax highlighting and match extraction.</p>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mb-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8">
                 <div className="mb-6">
                     <label className="block text-sm font-semibold mb-2">Regular Expression</label>
                     <div className="flex flex-col md:flex-row gap-4">
@@ -121,7 +121,7 @@ export default function RegexTester() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
                 <h2 className="text-xl font-bold mb-4">How to Use</h2>
                 <ol className="list-decimal list-inside space-y-2 text-gray-700">
                     <li>Enter your regular expression in the top input box (without the surrounding slashes).</li>

@@ -90,7 +90,7 @@ export default function BmiCalculator() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               🏃
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Body Mass Index (BMI) Calculator
             </h1>
           </div>
@@ -125,7 +125,7 @@ export default function BmiCalculator() {
       {/* Calculator Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
         {/* Left Inputs */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           {unit === 'metric' ? (
             <>
               <div>
@@ -137,7 +137,7 @@ export default function BmiCalculator() {
                     type="number"
                     value={weightKg}
                     onChange={(e) => setWeightKg(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">kg</span>
                 </div>
@@ -152,7 +152,7 @@ export default function BmiCalculator() {
                     type="number"
                     value={heightCm}
                     onChange={(e) => setHeightCm(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">cm</span>
                 </div>
@@ -169,7 +169,7 @@ export default function BmiCalculator() {
                     type="number"
                     value={weightLbs}
                     onChange={(e) => setWeightLbs(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+                    className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
                   />
                   <span className="text-xs font-bold text-gray-500 px-2">lbs</span>
                 </div>
@@ -185,7 +185,7 @@ export default function BmiCalculator() {
                       type="number"
                       value={heightFeet}
                       onChange={(e) => setHeightFeet(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
+                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
                     />
                     <span className="text-xs font-bold text-gray-500">ft</span>
                   </div>
@@ -194,7 +194,7 @@ export default function BmiCalculator() {
                       type="number"
                       value={heightInches}
                       onChange={(e) => setHeightInches(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
+                      className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3.5 text-base font-bold text-gray-900 outline-none"
                     />
                     <span className="text-xs font-bold text-gray-500">in</span>
                   </div>
@@ -205,7 +205,7 @@ export default function BmiCalculator() {
         </div>
 
         {/* Right Output */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           {bmiResult ? (
             <div>
               <span className="text-xs uppercase font-bold text-gray-400 tracking-wider block mb-2">

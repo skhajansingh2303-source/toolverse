@@ -67,20 +67,20 @@ export default function GpaCalculator() {
   }, [courses, priorGpa, priorCredits]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
           <nav className="text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-primary-600">Home</Link> / GPA Calculator
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">GPA Calculator</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">GPA Calculator</h1>
           <p className="text-gray-600">Track and calculate your current or cumulative GPA for school.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
         <div className="grid md:grid-cols-3 gap-8 mb-8 mt-8">
-          <div className="md:col-span-2 bg-white rounded-3xl border border-gray-200 shadow-sm p-6">
+          <div className="md:col-span-2 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
             <h2 className="text-xl font-bold mb-4">Courses</h2>
             
             <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-100">
@@ -110,12 +110,12 @@ export default function GpaCalculator() {
                 </div>
               ))}
             </div>
-            <button onClick={addCourse} className="mt-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-4 py-2 font-semibold text-sm">
+            <button onClick={addCourse} className="mt-4 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-4 py-2 font-semibold text-sm">
               + Add Course
             </button>
           </div>
 
-          <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 flex flex-col items-center justify-center text-center">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 flex flex-col items-center justify-center text-center">
             <h3 className="text-gray-500 font-medium mb-2">Cumulative GPA</h3>
             <div className="relative w-48 h-48 flex items-center justify-center mb-4 transition-all duration-500">
               <svg viewBox="0 0 36 36" className="w-full h-full text-primary-500">
@@ -141,7 +141,7 @@ export default function GpaCalculator() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
           <ol className="list-decimal list-inside space-y-2 text-gray-600">
             <li>(Optional) Enter your previous cumulative GPA and total credits to calculate your overall GPA.</li>

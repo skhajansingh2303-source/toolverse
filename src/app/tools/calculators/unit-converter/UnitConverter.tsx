@@ -116,7 +116,7 @@ export default function UnitConverter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               ⚖️
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Universal Unit Converter
             </h1>
           </div>
@@ -152,7 +152,7 @@ export default function UnitConverter() {
       </div>
 
       {/* Converter Card */}
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-10 shadow-xs mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-10 shadow-xs mb-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
           {/* From Column */}
           <div className="md:col-span-2 space-y-2">
@@ -163,7 +163,7 @@ export default function UnitConverter() {
               type="number"
               value={fromVal}
               onChange={(e) => setFromVal(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-xl font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-4 text-xl font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
             />
             <select
               value={fromUnit}
@@ -184,7 +184,7 @@ export default function UnitConverter() {
                 setFromUnit(toUnit);
                 setToUnit(temp);
               }}
-              className="p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-2xl text-base font-bold transition-transform hover:scale-105"
+              className="p-3 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-2xl text-base font-bold transition-transform hover:scale-105"
             >
               ⇄
             </button>

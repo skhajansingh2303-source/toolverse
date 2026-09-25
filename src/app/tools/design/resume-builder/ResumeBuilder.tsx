@@ -48,7 +48,7 @@ export default function ResumeBuilder() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 print:bg-white print:py-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 print:bg-white print:py-0 transition-colors">
       <div className="max-w-7xl mx-auto px-4 print:p-0">
         <div className="mb-8 print:hidden">
           <nav className="text-sm text-gray-500 mb-4">
@@ -56,7 +56,7 @@ export default function ResumeBuilder() {
           </nav>
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Resume Builder</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Resume Builder</h1>
               <p className="text-gray-600">Create and download a professional resume easily.</p>
             </div>
             <div className="flex gap-4">
@@ -80,7 +80,7 @@ export default function ResumeBuilder() {
           
           {/* Editor (Hidden on Print) */}
           <div className="flex-1 space-y-6 print:hidden h-[800px] overflow-y-auto pr-4 custom-scrollbar">
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <h2 className="text-lg font-bold mb-4">Personal Info</h2>
               <div className="grid grid-cols-2 gap-4">
                 <input type="text" placeholder="Name" value={personal.name} onChange={e => setPersonal({...personal, name: e.target.value})} className="w-full rounded-xl border p-3" />
@@ -91,12 +91,12 @@ export default function ResumeBuilder() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <h2 className="text-lg font-bold mb-4">Professional Summary</h2>
               <textarea rows={3} value={summary} onChange={e => setSummary(e.target.value)} className="w-full rounded-xl border p-3"></textarea>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Work Experience</h2>
                 <button onClick={addWork} className="text-sm bg-gray-100 px-3 py-1 rounded-xl">+ Add</button>
@@ -113,7 +113,7 @@ export default function ResumeBuilder() {
               ))}
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Education</h2>
                 <button onClick={addEdu} className="text-sm bg-gray-100 px-3 py-1 rounded-xl">+ Add</button>
@@ -127,7 +127,7 @@ export default function ResumeBuilder() {
               ))}
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm">
               <h2 className="text-lg font-bold mb-4">Skills</h2>
               <input type="text" placeholder="Comma separated skills" value={skills} onChange={e => setSkills(e.target.value)} className="w-full rounded-xl border p-3" />
             </div>
@@ -194,7 +194,7 @@ export default function ResumeBuilder() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-8 print:hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mt-8 print:hidden">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
           <ol className="list-decimal list-inside space-y-2 text-gray-600">
             <li>Fill out your personal information, summary, experience, education, and skills on the left panel.</li>

@@ -11,9 +11,9 @@ export default function RedactPdf() {
   const [file, setFile] = useState<File | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [xPos, setXPos] = useState(50);
-  const [yPos, setYPos] = useState(50);
+  const [yPos, setYPos] = useState(700);
   const [width, setWidth] = useState(200);
-  const [height, setHeight] = useState(50);
+  const [height, setHeight] = useState(30);
   const [isProcessing, setIsProcessing] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [resultSize, setResultSize] = useState<number>(0);
@@ -26,9 +26,10 @@ export default function RedactPdf() {
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       
       const pages = pdfDoc.getPages();
-      if (pageNumber > 0 && pageNumber <= pages.length) {
-        const page = pages[pageNumber - 1];
-        page.drawRectangle({
+      const targetPage = pages[pageNumber - 1];
+      
+      if (targetPage) {
+        targetPage.drawRectangle({
           x: xPos,
           y: yPos,
           width: width,
@@ -59,20 +60,22 @@ export default function RedactPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
-          <nav className="text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-primary-600">Home</Link> / Redact PDF
+          <nav className="text-sm text-gray-500 dark:text-slate-400 mb-4">
+            <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 dark:text-white font-medium">Redact PDF</span>
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Redact PDF</h1>
-          <p className="text-gray-600">Blackout sensitive information on your PDF documents securely in your browser.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Redact PDF</h1>
+          <p className="text-gray-600 dark:text-slate-400">Blackout sensitive information on your PDF documents securely in your browser.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
         {!file ? (
-          <div className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-500 rounded-2xl p-10 transition-colors group bg-gray-50/50 dark:bg-slate-950/40 mb-8 mt-8">
+          <div className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-500 rounded-3xl p-10 transition-colors group bg-white/70 dark:bg-slate-900/50 mb-8 mt-8 shadow-xs">
             <input
               type="file"
               accept=".pdf,application/pdf"
@@ -90,7 +93,7 @@ export default function RedactPdf() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Redact
               </span>
-              <span className="text-xs text-gray-400 mb-4">or drag and drop your document here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-500 mb-4">or drag and drop your document here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>
@@ -106,28 +109,53 @@ export default function RedactPdf() {
           </div>
         )}
 
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8">
-
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 mb-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Page #</label>
-              <input type="number" min="1" value={pageNumber} onChange={e => setPageNumber(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Page #</label>
+              <input
+                type="number"
+                min="1"
+                value={pageNumber}
+                onChange={e => setPageNumber(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">X (pt)</label>
-              <input type="number" value={xPos} onChange={e => setXPos(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">X (pt)</label>
+              <input
+                type="number"
+                value={xPos}
+                onChange={e => setXPos(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Y (pt)</label>
-              <input type="number" value={yPos} onChange={e => setYPos(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Y (pt)</label>
+              <input
+                type="number"
+                value={yPos}
+                onChange={e => setYPos(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Width</label>
-              <input type="number" value={width} onChange={e => setWidth(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Width</label>
+              <input
+                type="number"
+                value={width}
+                onChange={e => setWidth(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Height</label>
-              <input type="number" value={height} onChange={e => setHeight(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Height</label>
+              <input
+                type="number"
+                value={height}
+                onChange={e => setHeight(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
           </div>
 
@@ -169,13 +197,13 @@ export default function RedactPdf() {
           />
         )}
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-600">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-400 text-sm">
             <li>Upload a PDF file using the file input above.</li>
             <li>Specify the page number where you want to add the redaction block.</li>
             <li>Set the X and Y coordinates (from bottom-left in points) and the width/height of the rectangle.</li>
-            <li>Click "Download Redacted PDF" to generate and download your redacted file.</li>
+            <li>Click &quot;Apply Redaction &amp; Preview PDF&quot; to generate and preview your redacted file.</li>
             <li>All processing is done entirely in your browser. No files are uploaded to any server.</li>
           </ol>
         </div>

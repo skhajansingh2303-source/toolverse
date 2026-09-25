@@ -81,7 +81,7 @@ export default function LoanCalculator() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               🏦
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Loan &amp; Mortgage EMI Calculator
             </h1>
           </div>
@@ -96,7 +96,7 @@ export default function LoanCalculator() {
       {/* Input Parameters & Summary Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
         {/* Left Inputs */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           <div>
             <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
               Loan Principal Amount ($)
@@ -105,7 +105,7 @@ export default function LoanCalculator() {
               type="number"
               value={principal}
               onChange={(e) => setPrincipal(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 text-lg font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
+              className="w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-white rounded-2xl p-3 text-lg font-bold text-gray-900 outline-none focus:ring-1 focus:ring-primary-500"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function LoanCalculator() {
         </div>
 
         {/* Right Output Cards */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col justify-between">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div className="p-4 bg-emerald-50/70 border border-emerald-100 rounded-2xl text-center">
               <span className="block text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">
@@ -165,7 +165,7 @@ export default function LoanCalculator() {
               <span className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
                 Total Interest
               </span>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">
                 ${loanResults.totalInterest}
               </span>
             </div>
@@ -174,7 +174,7 @@ export default function LoanCalculator() {
               <span className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
                 Total Payment
               </span>
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">
                 ${loanResults.totalPayment}
               </span>
             </div>

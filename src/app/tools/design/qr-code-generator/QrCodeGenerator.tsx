@@ -98,7 +98,7 @@ export default function QrCodeGenerator() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               📱
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Professional QR Code Generator
             </h1>
           </div>
@@ -118,7 +118,7 @@ export default function QrCodeGenerator() {
       {/* Main Container */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
         {/* Left Side: Configuration Controls */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
           
           {/* Preset Tabs */}
           <div>
@@ -323,7 +323,7 @@ export default function QrCodeGenerator() {
         </div>
 
         {/* Right Side: Live QR Canvas & Export */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs flex flex-col items-center justify-between text-center">
+        <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs flex flex-col items-center justify-between text-center">
           <div>
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">
               Real-time Output Preview
@@ -349,7 +349,7 @@ export default function QrCodeGenerator() {
             </button>
             <button
               onClick={handleCopyImage}
-              className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-xl transition-colors"
+              className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 font-semibold text-xs rounded-xl transition-colors"
             >
               {copied ? '✓ Copied to Clipboard' : 'Copy Image to Clipboard'}
             </button>
@@ -358,7 +358,7 @@ export default function QrCodeGenerator() {
       </div>
 
       {/* Instructional Guide */}
-      <div className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs">
         <h2 className="text-base font-bold text-gray-900 mb-2">How to Generate Custom QR Codes</h2>
         <ul className="list-disc list-inside space-y-1.5 text-xs text-gray-600">
           <li>Select your payload type: Website URL, WiFi automatic connection, Mailto, or raw text.</li>

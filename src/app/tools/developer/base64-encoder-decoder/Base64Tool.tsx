@@ -56,7 +56,7 @@ export default function Base64Tool() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
         <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
@@ -64,10 +64,10 @@ export default function Base64Tool() {
           <span className="text-gray-900">Base64 Encoder/Decoder</span>
         </nav>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 overflow-hidden">
           <div className="p-8">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">Base64 Encoder / Decoder</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Base64 Encoder / Decoder</h1>
               <p className="text-gray-600">Easily encode text to Base64 format or decode Base64 strings back to text.</p>
             </div>
 
@@ -102,14 +102,14 @@ export default function Base64Tool() {
                 </button>
                 <button
                   onClick={handleSwap}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-3 font-semibold transition-colors"
+                  className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-3 font-semibold transition-colors"
                   title="Swap Input and Output"
                 >
                   ↕️ Swap
                 </button>
                 <button
                   onClick={handleClear}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-3 font-semibold transition-colors ml-auto"
+                  className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-3 font-semibold transition-colors ml-auto"
                 >
                   Clear
                 </button>
@@ -150,8 +150,8 @@ export default function Base64Tool() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">How to Use</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
           <ol className="list-decimal list-inside space-y-4 text-gray-600">
             <li>Paste your plain text or Base64 encoded string into the Input area.</li>
             <li>Click <strong>Encode</strong> to convert plain text into Base64 format.</li>

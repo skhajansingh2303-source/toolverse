@@ -75,7 +75,7 @@ export default function JwtDecoder() {
   const status = getStatus();
 
   return (
-    <div className="max-w-6xl mx-auto p-6 text-gray-800 bg-gray-50 min-h-screen">
+    <div className="max-w-6xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
       <nav className="text-sm mb-6 text-gray-500">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
@@ -83,13 +83,13 @@ export default function JwtDecoder() {
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">JWT Decoder</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">JWT Decoder</h1>
         <p className="text-gray-600">Decode, inspect, and verify JSON Web Tokens securely in your browser.</p>
       </header>
       
       <AdSlot format="horizontal" />
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 mb-8 mt-6">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-6">
         <div className="flex justify-between items-center mb-4">
           <label className="block text-sm font-semibold text-gray-700">Encoded JWT (Paste here)</label>
           <button 
@@ -198,7 +198,7 @@ export default function JwtDecoder() {
         )}
       </div>
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the JWT Decoder</h2>
         <ol className="list-decimal pl-5 space-y-3 text-gray-700">
           <li>Paste your JSON Web Token string into the <strong>Encoded JWT</strong> field.</li>

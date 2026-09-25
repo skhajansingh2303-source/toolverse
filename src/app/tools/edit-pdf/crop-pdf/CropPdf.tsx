@@ -67,20 +67,22 @@ export default function CropPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
-          <nav className="text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-primary-600">Home</Link> / Crop PDF
+          <nav className="text-sm text-gray-500 dark:text-slate-400 mb-4">
+            <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 dark:text-white font-medium">Crop PDF</span>
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Crop PDF</h1>
-          <p className="text-gray-600">Trim margins and adjust dimensions of your PDF pages online.</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Crop PDF</h1>
+          <p className="text-gray-600 dark:text-slate-400">Trim margins and adjust dimensions of your PDF pages online.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
         {!file ? (
-          <div className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-500 rounded-2xl p-10 transition-colors group bg-gray-50/50 dark:bg-slate-950/40 mb-8 mt-8">
+          <div className="relative flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-primary-500 rounded-3xl p-10 transition-colors group bg-white/70 dark:bg-slate-900/50 mb-8 mt-8 shadow-xs">
             <input
               type="file"
               accept=".pdf,application/pdf"
@@ -98,7 +100,7 @@ export default function CropPdf() {
               <span className="text-sm font-bold text-gray-900 dark:text-white mb-1">
                 Choose PDF to Crop
               </span>
-              <span className="text-xs text-gray-400 mb-4">or drag and drop your document here</span>
+              <span className="text-xs text-gray-400 dark:text-slate-500 mb-4">or drag and drop your document here</span>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
               </span>
@@ -114,30 +116,64 @@ export default function CropPdf() {
           </div>
         )}
 
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8">
-
-          <div className="mb-6 flex gap-4">
-            <button onClick={() => applyPreset('10percent')} className="text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl">Trim 10% Margins</button>
-            <button onClick={() => applyPreset('square')} className="text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl">Square Crop</button>
-            <button onClick={() => applyPreset('reset')} className="text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl">Custom Crop / Reset</button>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 sm:p-8 mb-8">
+          <div className="mb-6 flex flex-wrap gap-3">
+            <button
+              onClick={() => applyPreset('10percent')}
+              className="text-xs sm:text-sm bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 font-semibold px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 transition-colors"
+            >
+              Trim 10% Margins
+            </button>
+            <button
+              onClick={() => applyPreset('square')}
+              className="text-xs sm:text-sm bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 font-semibold px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 transition-colors"
+            >
+              Square Crop
+            </button>
+            <button
+              onClick={() => applyPreset('reset')}
+              className="text-xs sm:text-sm bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 font-semibold px-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-700 transition-colors"
+            >
+              Custom Crop / Reset
+            </button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Crop Top (pt)</label>
-              <input type="number" value={cropTop} onChange={e => setCropTop(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Crop Top (pt)</label>
+              <input
+                type="number"
+                value={cropTop}
+                onChange={e => setCropTop(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Crop Bottom (pt)</label>
-              <input type="number" value={cropBottom} onChange={e => setCropBottom(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Crop Bottom (pt)</label>
+              <input
+                type="number"
+                value={cropBottom}
+                onChange={e => setCropBottom(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Crop Left (pt)</label>
-              <input type="number" value={cropLeft} onChange={e => setCropLeft(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Crop Left (pt)</label>
+              <input
+                type="number"
+                value={cropLeft}
+                onChange={e => setCropLeft(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Crop Right (pt)</label>
-              <input type="number" value={cropRight} onChange={e => setCropRight(Number(e.target.value))} className="w-full rounded-xl border border-gray-300 p-3" />
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">Crop Right (pt)</label>
+              <input
+                type="number"
+                value={cropRight}
+                onChange={e => setCropRight(Number(e.target.value))}
+                className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 outline-none focus:ring-2 focus:ring-primary-500 font-bold text-sm"
+              />
             </div>
           </div>
 
@@ -180,12 +216,12 @@ export default function CropPdf() {
           />
         )}
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-600">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 sm:p-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-600 dark:text-slate-400 text-sm">
             <li>Upload a PDF file using the file input above.</li>
             <li>Select a preset or enter custom margin values (in points).</li>
-            <li>Click "Download Cropped PDF" to generate and download your trimmed file.</li>
+            <li>Click &quot;Crop &amp; Preview PDF&quot; to generate and preview your trimmed file.</li>
             <li>All processing is done entirely in your browser. No files are uploaded to any server.</li>
           </ol>
         </div>

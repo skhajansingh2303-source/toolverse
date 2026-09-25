@@ -118,7 +118,7 @@ export default function ImageColorPicker() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">

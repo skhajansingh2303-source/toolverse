@@ -103,25 +103,25 @@ export default function RemovePdfPages() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Breadcrumbs */}
-        <nav className="text-sm font-medium text-gray-500">
-          <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400">
+          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Remove PDF Pages</span>
+          <span className="text-gray-900 dark:text-white font-semibold">Remove PDF Pages</span>
         </nav>
 
         {/* Header */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Remove Pages from PDF</h1>
-          <p className="text-gray-600">Select the pages you want to delete and download the updated document.</p>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Remove Pages from PDF</h1>
+          <p className="text-gray-600 dark:text-slate-400">Select the pages you want to delete and download the updated document.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
         {/* Main Content */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 space-y-6">
           {!file ? (
             <div
               className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group"
@@ -142,7 +142,7 @@ export default function RemovePdfPages() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <p className="text-lg font-medium text-gray-900 dark:text-white">Click or drop a PDF file here</p>
-                <p className="text-xs text-gray-400 mb-4">Select pages you want to remove</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500 mb-4">Select pages you want to remove</p>
                 <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                   Browse Files
                 </span>
@@ -151,12 +151,12 @@ export default function RemovePdfPages() {
           ) : (
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <div className="text-lg font-medium text-gray-900 truncate max-w-md" title={file.name}>
+                <div className="text-lg font-medium text-gray-900 dark:text-white truncate max-w-md" title={file.name}>
                   {file.name} ({numPages} pages)
                 </div>
                 <button
                   onClick={() => { setFile(null); setNumPages(0); setSelectedPages(new Set()); }}
-                  className="text-sm text-red-600 hover:text-red-800"
+                  className="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-medium"
                 >
                   Remove File
                 </button>
@@ -171,11 +171,11 @@ export default function RemovePdfPages() {
                     onClick={() => togglePageSelection(i)}
                     className={`relative cursor-pointer aspect-[1/1.4] rounded-xl border-2 flex items-center justify-center transition-all ${
                       selectedPages.has(i)
-                        ? 'border-red-500 bg-red-50'
-                        : 'border-gray-200 bg-gray-50 hover:border-primary-400'
+                        ? 'border-red-500 bg-red-50 dark:bg-red-950/40'
+                        : 'border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 hover:border-primary-400'
                     }`}
                   >
-                    <span className={`text-xl font-bold ${selectedPages.has(i) ? 'text-red-500' : 'text-gray-400'}`}>
+                    <span className={`text-xl font-bold ${selectedPages.has(i) ? 'text-red-500' : 'text-gray-400 dark:text-slate-500'}`}>
                       {i + 1}
                     </span>
                     {selectedPages.has(i) && (
@@ -189,8 +189,8 @@ export default function RemovePdfPages() {
                 ))}
               </div>
 
-              <div className="pt-4 border-t border-gray-200 flex justify-between items-center">
-                <span className="text-gray-600">
+              <div className="pt-4 border-t border-gray-200 dark:border-slate-800 flex justify-between items-center">
+                <span className="text-gray-600 dark:text-slate-400">
                   {selectedPages.size} pages selected for deletion
                 </span>
                 <button
@@ -238,9 +238,9 @@ export default function RemovePdfPages() {
         </div>
 
         {/* How to Use Section */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-300">
             <li>Click the upload area to select a PDF file from your device.</li>
             <li>Once loaded, you will see a grid representing all the pages in your PDF.</li>
             <li>Click on the pages you want to remove. They will be highlighted in red with a trash icon.</li>

@@ -109,19 +109,19 @@ export default function ScanToPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
           <nav className="text-sm text-gray-500 mb-4">
             <Link href="/" className="hover:text-primary-600">Home</Link> / Scan to PDF
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Scan to PDF</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Scan to PDF</h1>
           <p className="text-gray-600">Convert physical documents or photos into a unified PDF.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 mb-8 mt-8">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-8">
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Upload Photos</label>
@@ -147,7 +147,7 @@ export default function ScanToPdf() {
             <div className="flex-1 flex items-end">
               <button 
                 onClick={toggleCamera}
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-4 py-3 font-semibold"
+                className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-4 py-3 font-semibold"
               >
                 {isCameraOn ? 'Turn Off Camera' : 'Use Camera'}
               </button>
@@ -219,7 +219,7 @@ export default function ScanToPdf() {
           />
         )}
 
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
           <ol className="list-decimal list-inside space-y-2 text-gray-600">
             <li>Upload images of your document or use your device's camera to snap pages.</li>

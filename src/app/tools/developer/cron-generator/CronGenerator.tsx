@@ -74,7 +74,7 @@ export default function CronGenerator() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 text-gray-800 bg-gray-50 min-h-screen">
+    <div className="max-w-4xl mx-auto p-6 text-gray-800 dark:text-slate-100 bg-gray-50 dark:bg-slate-950 min-h-screen transition-colors">
       <nav className="text-sm mb-6 text-gray-500">
         <Link href="/" className="hover:text-primary-600">Home</Link>
         <span className="mx-2">/</span>
@@ -82,13 +82,13 @@ export default function CronGenerator() {
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Cron Expression Generator</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Cron Expression Generator</h1>
         <p className="text-gray-600">Visually build and translate cron expressions for your scheduled tasks.</p>
       </header>
 
       <AdSlot format="horizontal" />
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 mb-8 mt-6">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8 mt-6">
         <div className="mb-8 p-6 bg-primary-50 rounded-2xl border border-primary-100 text-center">
           <div className="font-mono text-4xl font-bold text-primary-700 tracking-wider mb-2">
             {cronString}
@@ -163,16 +163,16 @@ export default function CronGenerator() {
         <div className="border-t border-gray-200 pt-6">
           <h3 className="text-sm font-semibold text-gray-700 mb-3">Common Presets</h3>
           <div className="flex flex-wrap gap-2">
-            <button onClick={() => loadPreset('*/5 * * * *')} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1.5 rounded-lg">Every 5 minutes</button>
-            <button onClick={() => loadPreset('0 * * * *')} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1.5 rounded-lg">Every hour</button>
-            <button onClick={() => loadPreset('0 0 * * *')} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1.5 rounded-lg">Every day at midnight</button>
-            <button onClick={() => loadPreset('0 9 * * 1')} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1.5 rounded-lg">Every Monday 9 AM</button>
-            <button onClick={() => loadPreset('0 0 1 * *')} className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-3 py-1.5 rounded-lg">First of every month</button>
+            <button onClick={() => loadPreset('*/5 * * * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every 5 minutes</button>
+            <button onClick={() => loadPreset('0 * * * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every hour</button>
+            <button onClick={() => loadPreset('0 0 * * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every day at midnight</button>
+            <button onClick={() => loadPreset('0 9 * * 1')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">Every Monday 9 AM</button>
+            <button onClick={() => loadPreset('0 0 1 * *')} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-sm px-3 py-1.5 rounded-lg">First of every month</button>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-sm p-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use the Cron Generator</h2>
         <ol className="list-decimal pl-5 space-y-3 text-gray-700">
           <li>Select the desired schedule parameters using the dropdowns for <strong>Minute</strong>, <strong>Hour</strong>, <strong>Day of Month</strong>, <strong>Month</strong>, and <strong>Day of Week</strong>.</li>

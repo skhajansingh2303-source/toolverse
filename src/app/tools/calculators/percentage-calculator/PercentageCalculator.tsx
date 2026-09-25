@@ -68,7 +68,7 @@ export default function PercentageCalculator() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               %
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Percentage Calculator
             </h1>
           </div>
@@ -83,7 +83,7 @@ export default function PercentageCalculator() {
       {/* Grid of 4 common calculators */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Card 1 */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Percentage of a Value
@@ -116,7 +116,7 @@ export default function PercentageCalculator() {
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Proportion Fraction
@@ -148,7 +148,7 @@ export default function PercentageCalculator() {
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Growth &amp; Reduction
@@ -182,7 +182,7 @@ export default function PercentageCalculator() {
         </div>
 
         {/* Card 4 */}
-        <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs uppercase font-bold text-purple-600 tracking-wider block mb-2">
               Shopping &amp; Retail

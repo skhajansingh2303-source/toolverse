@@ -107,25 +107,25 @@ export default function NumberPdf() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-4xl mx-auto space-y-8">
-        <nav className="text-sm font-medium text-gray-500">
-          <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
+        <nav className="text-sm font-medium text-gray-500 dark:text-slate-400">
+          <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Add Page Numbers to PDF</span>
+          <span className="text-gray-900 dark:text-white font-medium">Add Page Numbers to PDF</span>
         </nav>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Add Page Numbers to PDF</h1>
-          <p className="text-gray-600">Customize and add page numbers to your PDF documents instantly.</p>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Add Page Numbers to PDF</h1>
+          <p className="text-gray-600 dark:text-slate-400">Customize and add page numbers to your PDF documents instantly.</p>
         </div>
 
         <AdSlot format="horizontal" />
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8 space-y-6">
           {!file ? (
             <div
-              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group"
+              className="relative border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-primary-500 transition-colors group bg-white/50 dark:bg-slate-900/50"
             >
               <input
                 type="file"
@@ -143,7 +143,7 @@ export default function NumberPdf() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 <p className="text-lg font-medium text-gray-900 dark:text-white">Click or drop a PDF file here</p>
-                <p className="text-xs text-gray-400 mb-4">Add numbers to your PDF pages</p>
+                <p className="text-xs text-gray-400 dark:text-slate-500 mb-4">Add numbers to your PDF pages</p>
                 <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                   Browse Files
                 </span>
@@ -151,13 +151,13 @@ export default function NumberPdf() {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <div className="text-lg font-medium text-gray-900 truncate" title={file.name}>
+              <div className="flex justify-between items-center bg-gray-50 dark:bg-slate-800/60 p-4 rounded-xl border border-gray-200 dark:border-slate-700">
+                <div className="text-lg font-medium text-gray-900 dark:text-white truncate" title={file.name}>
                   {file.name}
                 </div>
                 <button
                   onClick={() => setFile(null)}
-                  className="text-sm text-red-600 hover:text-red-800"
+                  className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                 >
                   Remove File
                 </button>
@@ -167,11 +167,11 @@ export default function NumberPdf() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Position</label>
                   <select
                     value={position}
                     onChange={(e) => setPosition(e.target.value as Position)}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   >
                     <option value="bottomCenter">Bottom Center</option>
                     <option value="bottomRight">Bottom Right</option>
@@ -180,11 +180,11 @@ export default function NumberPdf() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Format</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Format</label>
                   <select
                     value={format}
                     onChange={(e) => setFormat(e.target.value as Format)}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   >
                     <option value="Page X of Y">Page 1 of 5</option>
                     <option value="X of Y">1 of 5</option>
@@ -194,22 +194,22 @@ export default function NumberPdf() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Starting Number</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Starting Number</label>
                   <input
                     type="number"
                     min="1"
                     value={startNum}
                     onChange={(e) => setStartNum(parseInt(e.target.value) || 1)}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Font Size</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">Font Size</label>
                   <select
                     value={fontSize}
                     onChange={(e) => setFontSize(parseInt(e.target.value))}
-                    className="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3"
+                    className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 p-3 outline-none"
                   >
                     <option value="10">Small (10pt)</option>
                     <option value="12">Medium (12pt)</option>
@@ -263,9 +263,9 @@ export default function NumberPdf() {
           )}
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">How to Use</h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-slate-400">
             <li>Upload your PDF file using the drop zone above.</li>
             <li>Choose where you want the page numbers to appear (Position).</li>
             <li>Select how the page numbers should be formatted.</li>

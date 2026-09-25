@@ -135,7 +135,7 @@ export default function CaseConverter() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
               Aa
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-950">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white">
               Text Case Converter
             </h1>
           </div>
@@ -155,7 +155,7 @@ export default function CaseConverter() {
       <AdSlot format="horizontal" />
 
       {/* Main Text Input */}
-      <div className="bg-white rounded-3xl border border-gray-200 shadow-xs p-6 mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 mb-8">
         <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
           Type or Paste Text Below
         </label>

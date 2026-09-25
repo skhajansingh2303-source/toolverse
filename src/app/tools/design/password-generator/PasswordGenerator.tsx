@@ -90,11 +90,11 @@ export default function PasswordGenerator() {
           <span className="mx-2 text-gray-500">/</span>
           <span className="text-gray-700">Password Generator</span>
         </nav>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Password Generator</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Password Generator</h1>
         <p className="text-gray-600">Create strong, secure passwords instantly.</p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 mb-8">
         <div className="relative mb-6">
           <div className="flex justify-between items-center bg-gray-50 border border-gray-300 rounded-xl p-4">
             <span className="font-mono text-xl text-gray-800 break-all">{password || 'Select options...'}</span>
@@ -153,7 +153,7 @@ export default function PasswordGenerator() {
           </div>
 
           <div className="pt-4 border-t border-gray-200">
-            <button onClick={generateBulk} className="bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-6 py-3 font-semibold w-full mb-4">
+            <button onClick={generateBulk} className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-6 py-3 font-semibold w-full mb-4">
               Bulk Generate (5 Passwords)
             </button>
             {bulkPasswords.length > 0 && (
@@ -172,7 +172,7 @@ export default function PasswordGenerator() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">How to Use</h2>
         <ol className="list-decimal list-inside space-y-2 text-gray-600">
           <li>Use the slider to choose your desired password length.</li>

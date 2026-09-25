@@ -66,7 +66,7 @@ export default function AspectRatioCalculator() {
   const rh = parseFloat(String(ratioH)) || 1;
   
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="text-sm mb-8" aria-label="Breadcrumb">
           <ol className="list-none p-0 inline-flex">
@@ -114,7 +114,7 @@ export default function AspectRatioCalculator() {
                 </div>
               </div>
               
-              <button onClick={calculateRatioFromDimensions} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl px-6 py-3 font-semibold transition-colors">
+              <button onClick={calculateRatioFromDimensions} className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200 rounded-xl px-6 py-3 font-semibold transition-colors">
                 Calculate Ratio from Width/Height
               </button>
             </div>

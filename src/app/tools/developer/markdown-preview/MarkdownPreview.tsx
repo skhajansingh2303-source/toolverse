@@ -103,7 +103,7 @@ export default function MarkdownPreview() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-7xl mx-auto space-y-8">
         <nav className="text-sm font-medium text-gray-500 mb-8" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
@@ -111,22 +111,22 @@ export default function MarkdownPreview() {
           <span className="text-gray-900">Markdown Preview</span>
         </nav>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Markdown Preview</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Markdown Preview</h1>
               <p className="text-gray-600">Write markdown and see the HTML preview instantly.</p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setMarkdown(sampleMarkdown)}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-2 font-semibold transition-colors"
+                className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-2 font-semibold transition-colors"
               >
                 Load Sample
               </button>
               <button
                 onClick={() => setMarkdown('')}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl px-4 py-2 font-semibold transition-colors"
+                className="bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 rounded-xl px-4 py-2 font-semibold transition-colors"
               >
                 Clear
               </button>
@@ -164,8 +164,8 @@ export default function MarkdownPreview() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">How to Use</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">How to Use</h2>
           <ol className="list-decimal list-inside space-y-4 text-gray-600">
             <li>Type or paste your Markdown text into the left editor pane.</li>
             <li>See the formatted output instantly in the right preview pane.</li>
