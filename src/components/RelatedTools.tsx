@@ -25,17 +25,17 @@ export default function RelatedTools({ currentSlug }: RelatedToolsProps) {
   const related = [...sameCategory, ...otherTools];
 
   return (
-    <div className="mt-12 pt-8 border-t border-gray-200/80">
+    <div className="mt-12 pt-8 border-t border-gray-200/80 dark:border-slate-800">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-primary-600 block">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400 block">
             Discover More
           </span>
-          <h3 className="text-lg font-bold text-gray-950">
+          <h3 className="text-lg font-bold text-gray-950 dark:text-white">
             More Tools You Might Need
           </h3>
         </div>
-        <span className="text-xs font-semibold text-gray-400">
+        <span className="text-xs font-semibold text-gray-400 dark:text-slate-500">
           Category: {currentTool.category}
         </span>
       </div>
@@ -45,7 +45,7 @@ export default function RelatedTools({ currentSlug }: RelatedToolsProps) {
           <Link
             key={tool.slug}
             href={getToolUrl(tool)}
-            className="group bg-white p-4 rounded-2xl border border-gray-200 shadow-2xs hover:shadow-md hover:border-primary-300 hover:-translate-y-0.5 transition-all flex items-center gap-3.5"
+            className="group bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-primary-500 dark:hover:border-primary-500 hover:-translate-y-0.5 transition-all flex items-center gap-3.5"
           >
             <div
               className={`w-10 h-10 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-white text-lg shrink-0 group-hover:scale-105 transition-transform shadow-xs`}
@@ -53,14 +53,14 @@ export default function RelatedTools({ currentSlug }: RelatedToolsProps) {
               {tool.icon}
             </div>
             <div className="min-w-0 flex-1">
-              <span className="text-xs font-bold text-gray-900 group-hover:text-primary-600 transition-colors block truncate">
+              <span className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors block truncate">
                 {tool.name}
               </span>
-              <p className="text-[11px] text-gray-400 truncate mt-0.5">
+              <p className="text-[11px] text-gray-400 dark:text-slate-400 truncate mt-0.5">
                 {tool.description}
               </p>
             </div>
-            <span className="text-xs font-bold text-gray-300 group-hover:text-primary-600 transition-colors">
+            <span className="text-xs font-bold text-gray-300 dark:text-slate-600 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
               →
             </span>
           </Link>

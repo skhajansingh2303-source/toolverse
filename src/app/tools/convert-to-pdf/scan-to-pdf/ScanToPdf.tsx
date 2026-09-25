@@ -170,7 +170,7 @@ export default function ScanToPdf() {
 
           {images.length > 0 && (
             <div className="mb-6">
-              <h3 className="font-semibold mb-2">Pages ({images.length})</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Pages ({images.length})</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {images.map((img, idx) => (
                   <div key={idx} className="relative aspect-[3/4] bg-gray-100 dark:bg-slate-800 rounded-xl overflow-hidden border border-gray-200 dark:border-slate-800">

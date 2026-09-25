@@ -48,12 +48,12 @@ export default function RegexTester() {
                 <span className="text-gray-500 dark:text-slate-400 mx-2">/</span>
                 <span className="text-gray-900 dark:text-white">Regex Tester</span>
             </nav>
-            <h1 className="text-3xl font-bold mb-2">Regex Tester</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Regex Tester</h1>
             <p className="text-gray-600 dark:text-slate-300 mb-8">Test your regular expressions in real-time with syntax highlighting and match extraction.</p>
 
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm p-6 mb-8">
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold mb-2">Regular Expression</label>
+                    <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Regular Expression</label>
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 flex border border-gray-300 dark:border-slate-700 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
                             <span className="bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 px-4 py-3 border-r border-gray-300 dark:border-slate-700 font-mono">/</span>
@@ -61,7 +61,7 @@ export default function RegexTester() {
                                 type="text"
                                 value={pattern}
                                 onChange={(e) => setPattern(e.target.value)}
-                                className="flex-1 px-4 py-3 focus:outline-none font-mono"
+                                className="flex-1 px-4 py-3 focus:outline-none font-mono bg-white dark:bg-slate-900 text-gray-900 dark:text-white"
                                 placeholder="[a-zA-Z0-9]+"
                             />
                             <span className="bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 px-4 py-3 border-l border-gray-300 dark:border-slate-700 font-mono">/</span>
@@ -89,27 +89,27 @@ export default function RegexTester() {
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold mb-2">Test String</label>
+                    <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">Test String</label>
                     <textarea
                         value={testString}
                         onChange={(e) => setTestString(e.target.value)}
-                        className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-4 font-mono"
+                        className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 p-4 font-mono"
                         rows={6}
                         placeholder="Enter text to test your regex against..."
                     />
                 </div>
 
                 <div className="border-t border-gray-200 dark:border-slate-800 pt-6">
-                    <h3 className="font-bold mb-4">Results <span className="bg-primary-100 text-primary-800 text-xs px-2 py-1 rounded ml-2">{matches.length} matches</span></h3>
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-4">Results <span className="bg-primary-100 dark:bg-primary-950/60 text-primary-800 dark:text-primary-300 text-xs px-2 py-1 rounded ml-2">{matches.length} matches</span></h3>
                     {matches.length > 0 ? (
                         <div className="max-h-64 overflow-y-auto bg-gray-50 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-800 rounded-xl p-4">
                             {matches.map((m, i) => (
-                                <div key={i} className="mb-2 p-2 bg-white rounded border border-gray-200 dark:border-slate-800">
+                                <div key={i} className="mb-2 p-2 bg-white dark:bg-slate-900 rounded border border-gray-200 dark:border-slate-800">
                                     <div className="font-bold text-sm text-gray-700 dark:text-slate-200 mb-1">Match {i + 1} (Index: {m.index})</div>
-                                    <div className="font-mono text-sm bg-yellow-100 p-1 rounded inline-block mb-1">{m[0]}</div>
+                                    <div className="font-mono text-sm bg-yellow-100 dark:bg-yellow-950/60 text-yellow-900 dark:text-yellow-200 p-1 rounded inline-block mb-1">{m[0]}</div>
                                     {m.length > 1 && (
                                         <div className="text-xs text-gray-500 dark:text-slate-400 mt-1">
-                                            Groups: {m.slice(1).map((g, gi) => <span key={gi} className="ml-2 bg-gray-200 px-1 rounded">Group {gi+1}: {g}</span>)}
+                                            Groups: {m.slice(1).map((g, gi) => <span key={gi} className="ml-2 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 px-1 rounded">Group {gi+1}: {g}</span>)}
                                         </div>
                                     )}
                                 </div>

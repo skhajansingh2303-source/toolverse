@@ -927,6 +927,7 @@ export default function PdfToPowerpoint() {
                 <button
                   onClick={downloadPowerPoint}
                   disabled={isExportingPptx}
+                  data-keep-light
                   className="flex items-center gap-2 px-6 py-3 bg-white text-primary-900 hover:bg-primary-50 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 disabled:opacity-50"
                 >
                   <span>📥</span>

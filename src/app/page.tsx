@@ -376,9 +376,9 @@ export default function Home() {
             <div ref={searchContainerRef} className="max-w-2xl mx-auto relative text-left">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-indigo-500 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
-                <div className="relative bg-white rounded-2xl flex items-center shadow-2xl p-2 border border-white/20">
+                <div className="relative bg-white dark:bg-slate-900 rounded-2xl flex items-center shadow-2xl p-2 border border-white/20 dark:border-slate-800">
                   <svg
-                    className="w-5 h-5 text-gray-400 ml-3 mr-3 shrink-0"
+                    className="w-5 h-5 text-gray-400 dark:text-slate-500 ml-3 mr-3 shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -403,7 +403,7 @@ export default function Home() {
                       if (search.trim()) setIsDropdownOpen(true);
                     }}
                     onKeyDown={handleKeyDown}
-                    className="w-full py-3 pr-4 text-gray-900 placeholder-gray-400 bg-transparent outline-none text-base font-medium"
+                    className="w-full py-3 pr-4 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 bg-transparent outline-none text-base font-medium"
                   />
                   {search && (
                     <button
@@ -411,13 +411,13 @@ export default function Home() {
                         setSearch('');
                         setIsDropdownOpen(false);
                       }}
-                      className="p-2 text-gray-400 hover:text-gray-600 mr-2 text-sm font-bold"
+                      className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-slate-200 mr-2 text-sm font-bold"
                       title="Clear search"
                     >
                       ✕
                     </button>
                   )}
-                  <span className="hidden sm:inline-flex items-center px-2 py-1 mr-2 text-[11px] font-semibold text-gray-400 bg-gray-100 rounded-lg">
+                  <span className="hidden sm:inline-flex items-center px-2 py-1 mr-2 text-[11px] font-semibold text-gray-400 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 rounded-lg">
                     ⌘K
                   </span>
                 </div>
@@ -425,18 +425,18 @@ export default function Home() {
 
               {/* ─── Live Autocomplete Suggestions Dropdown ─── */}
               {isDropdownOpen && search.trim() && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 text-gray-900 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="p-2.5 bg-gray-50/80 border-b border-gray-100 flex items-center justify-between text-xs text-gray-500 font-semibold px-4">
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden z-50 text-gray-900 dark:text-white animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-2.5 bg-gray-50/80 dark:bg-slate-800/80 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs text-gray-500 dark:text-slate-400 font-semibold px-4">
                     <span>Quick Suggestions ({suggestions.length} found)</span>
-                    <span className="text-[10px] text-gray-400">Press ↑↓ to navigate, Enter to open</span>
+                    <span className="text-[10px] text-gray-400 dark:text-slate-500">Press ↑↓ to navigate, Enter to open</span>
                   </div>
 
                   {suggestions.length === 0 ? (
-                    <div className="p-6 text-center text-gray-400 text-xs">
+                    <div className="p-6 text-center text-gray-400 dark:text-slate-500 text-xs">
                       No tools found matching &ldquo;{search}&rdquo;. Try another term like <em>pdf</em>, <em>calc</em>, or <em>image</em>.
                     </div>
                   ) : (
-                    <div className="max-h-80 overflow-y-auto divide-y divide-gray-50 p-1.5">
+                    <div className="max-h-80 overflow-y-auto divide-y divide-gray-50 dark:divide-slate-800/50 p-1.5">
                       {suggestions.map((tool, idx) => {
                         const isSelected = selectedIndex === idx;
                         return (
@@ -445,7 +445,7 @@ export default function Home() {
                             href={`/tools/${tool.categorySlug || "organize-pdf"}/${tool.slug}`}
                             onClick={() => setIsDropdownOpen(false)}
                             className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
-                              isSelected ? 'bg-primary-50 text-primary-900' : 'hover:bg-gray-50'
+                              isSelected ? 'bg-primary-50 dark:bg-primary-950/60 text-primary-900 dark:text-primary-200' : 'hover:bg-gray-50 dark:hover:bg-slate-800'
                             }`}
                           >
                             <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white text-base shrink-0 shadow-xs`}>
@@ -453,18 +453,18 @@ export default function Home() {
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-gray-900 truncate">
+                                <span className="text-xs font-bold text-gray-900 dark:text-white truncate">
                                   {tool.name}
                                 </span>
-                                <span className="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                                <span className="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                                   {tool.category}
                                 </span>
                               </div>
-                              <p className="text-[11px] text-gray-500 truncate mt-0.5">
+                              <p className="text-[11px] text-gray-500 dark:text-slate-400 truncate mt-0.5">
                                 {tool.description}
                               </p>
                             </div>
-                            <span className="text-xs font-bold text-primary-600 shrink-0 ml-2">
+                            <span className="text-xs font-bold text-primary-600 dark:text-primary-400 shrink-0 ml-2">
                               Open →
                             </span>
                           </Link>

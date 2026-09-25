@@ -146,14 +146,14 @@ export default function WordCounter() {
           <button
             onClick={handleCopy}
             disabled={!text}
-            className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 bg-white hover:bg-gray-50 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
+            className="px-4 py-2 rounded-xl text-xs font-semibold border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-40"
           >
             {copied ? '✓ Copied' : 'Copy Text'}
           </button>
           <button
             onClick={() => setText('')}
             disabled={!text}
-            className="px-4 py-2 rounded-xl text-xs font-semibold bg-red-50 hover:bg-red-100 text-red-600 transition-colors disabled:opacity-40"
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 transition-colors disabled:opacity-40"
           >
             Clear
           </button>

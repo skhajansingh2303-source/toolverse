@@ -67,20 +67,20 @@ export default function HashGenerator() {
                 <span className="text-gray-500 dark:text-slate-400 mx-2">/</span>
                 <span className="text-gray-900 dark:text-white">Hash Generator</span>
             </nav>
-            <h1 className="text-3xl font-bold mb-2">Hash Generator</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Hash Generator</h1>
             <p className="text-gray-600 dark:text-slate-300 mb-8">Generate cryptographic hashes (SHA-256, SHA-1, SHA-512) for text or files securely in your browser.</p>
 
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden mb-8">
                 <div className="flex border-b border-gray-200 dark:border-slate-800">
-                    <button onClick={() => setMode('text')} className={`flex-1 py-4 font-semibold ${mode === 'text' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>Text Hash</button>
-                    <button onClick={() => setMode('file')} className={`flex-1 py-4 font-semibold ${mode === 'file' ? 'text-primary-600 border-b-2 border-primary-600 bg-gray-50' : 'text-gray-600 hover:bg-gray-50'}`}>File Hash</button>
+                    <button onClick={() => setMode('text')} className={`flex-1 py-4 font-semibold ${mode === 'text' ? 'text-primary-600 dark:text-primary-400 border-b-2 border-primary-600 bg-gray-50 dark:bg-slate-800' : 'text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/50'}`}>Text Hash</button>
+                    <button onClick={() => setMode('file')} className={`flex-1 py-4 font-semibold ${mode === 'file' ? 'text-primary-600 dark:text-primary-400 border-b-2 border-primary-600 bg-gray-50 dark:bg-slate-800' : 'text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/50'}`}>File Hash</button>
                 </div>
                 <div className="p-6">
                     {mode === 'text' ? (
                         <textarea
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            className="w-full rounded-xl border border-gray-300 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 p-4 mb-4"
+                            className="w-full rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 p-4 mb-4 font-mono"
                             rows={6}
                             placeholder="Type or paste text to hash..."
                         />
@@ -122,7 +122,7 @@ export default function HashGenerator() {
                                     <button 
                                         onClick={() => handleCopy(hash, algo)} 
                                         disabled={!hash}
-                                        className="text-sm bg-primary-100 text-primary-700 px-3 py-1 rounded-lg hover:bg-primary-200 disabled:opacity-50"
+                                        className="text-sm bg-primary-100 dark:bg-primary-950/60 text-primary-700 dark:text-primary-300 px-3 py-1 rounded-lg hover:bg-primary-200 dark:hover:bg-primary-900/60 disabled:opacity-50"
                                     >
                                         {copied === algo ? 'Copied!' : 'Copy'}
                                     </button>

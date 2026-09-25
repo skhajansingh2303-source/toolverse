@@ -857,7 +857,7 @@ function RenderLiveMarkdown({ content, accentHex }: { content: string; accentHex
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-slate-800 bg-white">
+          <tbody className="divide-y divide-gray-200 dark:divide-slate-800 bg-white dark:bg-slate-900">
             {dataRows.map((rStr, rIdx) => {
               const cells = parseCells(rStr);
               return (

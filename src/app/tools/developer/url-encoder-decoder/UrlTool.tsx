@@ -220,7 +220,7 @@ export default function UrlTool() {
                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Value</th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-slate-800">
+                        <tbody className="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-slate-800">
                           {Object.entries(parsedUrl.searchParams).map(([key, value]) => (
                             <tr key={key}>
                               <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white font-mono">{key}</td>
