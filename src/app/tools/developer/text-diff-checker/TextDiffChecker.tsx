@@ -160,10 +160,10 @@ export default function TextDiffChecker() {
         </div>
 
         <div className="flex items-center gap-3 text-xs">
-          <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg font-semibold border border-emerald-200">
+          <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-lg font-semibold border border-emerald-200 dark:border-emerald-800/60">
             +{diffResult.addedCount} added
           </span>
-          <span className="inline-flex items-center gap-1 text-red-700 bg-red-50 px-2.5 py-1 rounded-lg font-semibold border border-red-200">
+          <span className="inline-flex items-center gap-1 text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/60 px-2.5 py-1 rounded-lg font-semibold border border-red-200 dark:border-red-800/60">
             -{diffResult.removedCount} removed
           </span>
           <span className="inline-flex items-center gap-1 text-gray-600 dark:text-slate-300 bg-gray-50 dark:bg-slate-800/60 px-2.5 py-1 rounded-lg font-semibold border border-gray-200 dark:border-slate-800">

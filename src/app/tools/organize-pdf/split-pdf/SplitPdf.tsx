@@ -221,7 +221,7 @@ export default function SplitPdf() {
           </p>
         </div>
 
-        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
           <span className="w-2 h-2 rounded-full bg-emerald-500" />
           Interactive Page Selector
         </span>
@@ -388,7 +388,7 @@ export default function SplitPdf() {
           )}
 
           {success && (
-            <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl p-4 mb-4 flex items-center gap-2">
+            <div className="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs rounded-xl p-4 mb-4 flex items-center gap-2">
               <span>✓</span>
               <span>{success}</span>
             </div>

@@ -112,7 +112,7 @@ export default function LoanCalculator() {
           <div>
             <div className="flex justify-between text-xs font-bold text-gray-700 dark:text-slate-200 mb-2">
               <span className="uppercase tracking-wider">Annual Interest Rate</span>
-              <span className="text-emerald-700 font-mono bg-emerald-50 px-2 py-0.5 rounded">
+              <span className="text-emerald-700 dark:text-emerald-300 font-mono bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded">
                 {interestRate}%
               </span>
             </div>

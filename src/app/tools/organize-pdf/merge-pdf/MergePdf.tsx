@@ -192,7 +192,7 @@ export default function MergePdf() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             Zero Server Uploads
           </span>
@@ -248,14 +248,14 @@ export default function MergePdf() {
 
       {/* Notifications */}
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl p-4 mb-6 flex items-center gap-2">
+        <div className="bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-300 text-xs rounded-xl p-4 mb-6 flex items-center gap-2">
           <span>⚠️</span>
           <span>{error}</span>
         </div>
       )}
 
       {success && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl p-4 mb-6 flex items-center gap-2">
+        <div className="bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs rounded-xl p-4 mb-6 flex items-center gap-2">
           <span>✓</span>
           <span>{success}</span>
         </div>

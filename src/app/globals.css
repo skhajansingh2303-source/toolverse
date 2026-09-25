@@ -12,10 +12,25 @@
   --background-rgb: 10, 15, 29;
 }
 
+html {
+  background-color: #f8fafc;
+  color-scheme: light;
+}
+
+html.dark {
+  background-color: #020617 !important;
+  color-scheme: dark;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background-color: rgb(var(--background-rgb));
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark body {
+  background-color: #020617 !important;
+  color: #f8fafc !important;
 }
 
 /* Form control defaults across all tools */
@@ -67,13 +82,11 @@ textarea::placeholder {
 /* Dark mode fallback container and border rules across all tools */
 .dark .min-h-screen.bg-gray-50,
 .dark .min-h-screen.bg-slate-50,
-.dark .min-h-screen.text-gray-800.bg-gray-50 {
-  background-color: transparent !important;
+.dark .min-h-screen.text-gray-800.bg-gray-50,
+.dark .bg-gray-50:not([data-keep-light]):not(iframe):not(#print-document-root *),
+.dark .bg-slate-50:not([data-keep-light]):not(iframe):not(#print-document-root *) {
+  background-color: #020617 !important;
   color: #f1f5f9;
-}
-
-.dark .bg-gray-50:not([data-keep-light]):not(iframe) {
-  background-color: #0f172a;
 }
 
 .dark .border-gray-200:not([data-keep-border]),

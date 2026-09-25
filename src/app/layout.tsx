@@ -239,7 +239,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark:bg-slate-950" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/icon.svg" />
@@ -320,7 +320,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200`}>
         <Header />
-        <main className="flex-1 pb-20">{children}</main>
+        <main className="flex-1 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors">{children}</main>
         <ToolDock />
         <BottomNavBar />
         <KeyboardShortcutsModal />
