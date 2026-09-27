@@ -468,11 +468,11 @@ export default function PdfMegaMenu({
       ref={menuRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className="absolute top-full left-0 right-0 w-full bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+      className="absolute top-full left-0 right-0 w-full bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-150 max-h-[85vh] overflow-y-auto overflow-x-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <div
-          className={`grid gap-x-8 gap-y-6 ${
+          className={`grid gap-x-4 lg:gap-x-6 xl:gap-x-8 gap-y-6 ${
             filterConvertOnly
               ? 'grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto'
               : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7'

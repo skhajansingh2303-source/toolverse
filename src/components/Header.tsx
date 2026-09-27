@@ -183,19 +183,19 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className="bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-gray-200/80 dark:border-slate-800 sticky top-0 z-40 transition-colors duration-200"
+        className="bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-gray-200/80 dark:border-slate-800 sticky top-0 z-40 transition-colors duration-200 w-full overflow-x-clip"
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-2">
+        <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between h-16 gap-1 sm:gap-2">
             
             {/* ───── Left: Drawer Menu Button + Logo ───── */}
-            <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
               <button
                 onClick={() => {
                   setDrawerOpen(true);
                   setMegaMenuOpen(false);
                 }}
-                className="p-2 -ml-1 text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                className="p-1.5 sm:p-2 -ml-1 text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
                 title="Open Side Menu Drawer"
                 aria-label="Open Side Menu Drawer"
               >
@@ -208,16 +208,16 @@ export default function Header() {
                 href="/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0"
+                className="flex items-center space-x-1.5 sm:space-x-2 group shrink-0"
               >
-                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-red-600 via-rose-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-red-500/20 group-hover:scale-105 transition-transform duration-200">
-                  <span className="text-white font-black text-sm sm:text-base tracking-tighter">TV</span>
+                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-tr from-red-600 via-rose-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-md shadow-red-500/20 group-hover:scale-105 transition-transform duration-200">
+                  <span className="text-white font-black text-xs sm:text-sm tracking-tighter">TV</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base sm:text-lg xl:text-xl font-black text-gray-900 dark:text-white leading-none">
+                  <span className="text-sm sm:text-base xl:text-lg font-black text-gray-900 dark:text-white leading-none">
                     Tools<span className="text-red-600 dark:text-red-400">Verse</span>
                   </span>
-                  <span className="hidden sm:inline text-[9px] sm:text-[10px] font-bold text-gray-400 dark:text-slate-500 tracking-wider uppercase mt-0.5">
+                  <span className="hidden 2xl:inline text-[9px] font-bold text-gray-400 dark:text-slate-500 tracking-wider uppercase mt-0.5">
                     103+ Free Tools
                   </span>
                 </div>
@@ -225,12 +225,12 @@ export default function Header() {
             </div>
 
             {/* ───── Middle Navigation (iLovePDF Style with Cursor Hover) ───── */}
-            <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-xs xl:text-sm font-bold tracking-tight uppercase shrink-0">
+            <nav className="hidden lg:flex items-center gap-1.5 xl:gap-3 2xl:gap-5 text-[11px] xl:text-xs 2xl:text-sm font-bold tracking-tight uppercase min-w-0">
               <Link
                 href="/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="flex items-center gap-1.5 text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+                className="flex items-center gap-1 text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -241,7 +241,7 @@ export default function Header() {
                 href="/tools/organize-pdf/merge-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
               >
                 Merge PDF
               </Link>
@@ -249,7 +249,7 @@ export default function Header() {
                 href="/tools/organize-pdf/split-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
               >
                 Split PDF
               </Link>
@@ -257,7 +257,7 @@ export default function Header() {
                 href="/tools/optimize-pdf/compress-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
               >
                 Compress PDF
               </Link>
@@ -267,7 +267,7 @@ export default function Header() {
                 onClick={toggleConvertPdf}
                 onMouseEnter={() => handleMenuHoverOpen(true)}
                 onMouseLeave={handleMenuHoverLeave}
-                className={`flex items-center gap-1 transition-colors whitespace-nowrap py-2 ${
+                className={`flex items-center gap-1 transition-colors whitespace-nowrap px-1.5 py-1 ${
                   megaMenuOpen && megaMenuConvertOnly
                     ? 'text-red-600 dark:text-red-400'
                     : 'text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400'
@@ -275,7 +275,7 @@ export default function Header() {
               >
                 <span>Convert PDF</span>
                 <span
-                  className={`text-[10px] transition-transform duration-200 ${
+                  className={`text-[9px] transition-transform duration-200 ${
                     megaMenuOpen && megaMenuConvertOnly ? 'rotate-180 text-red-600' : ''
                   }`}
                 >
@@ -283,12 +283,12 @@ export default function Header() {
                 </span>
               </button>
 
-              {/* ALL PDF TOOLS Mega Menu Trigger with Hover (Prominent Red) */}
+              {/* ALL PDF TOOLS Mega Menu Trigger with Hover */}
               <button
                 onClick={toggleAllPdfTools}
                 onMouseEnter={() => handleMenuHoverOpen(false)}
                 onMouseLeave={handleMenuHoverLeave}
-                className={`flex items-center gap-1 font-extrabold px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap ${
+                className={`flex items-center gap-1 font-extrabold px-2 py-1 rounded-lg transition-all whitespace-nowrap ${
                   megaMenuOpen && !megaMenuConvertOnly
                     ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/60'
                     : 'text-red-600 dark:text-red-400 hover:bg-red-50/70 dark:hover:bg-red-950/40'
@@ -296,7 +296,7 @@ export default function Header() {
               >
                 <span>All PDF Tools</span>
                 <span
-                  className={`text-[10px] transition-transform duration-200 ${
+                  className={`text-[9px] transition-transform duration-200 ${
                     megaMenuOpen && !megaMenuConvertOnly ? 'rotate-180' : ''
                   }`}
                 >
@@ -304,19 +304,19 @@ export default function Header() {
                 </span>
               </button>
 
-              {/* Guides & Blog Link */}
+              {/* Guides & Blog Link (Visible on xl and wider) */}
               <Link
                 href="/blog"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
-                className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+                className="hidden xl:inline-block text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
               >
                 Guides
               </Link>
             </nav>
 
             {/* ───── Right Actions: Search, Language, Theme, PWA, Drawer ───── */}
-            <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+            <div className="flex items-center space-x-1 sm:space-x-1.5 xl:space-x-2 shrink-0">
               
               {/* PWA Install Button (Compact) */}
               {installPrompt && (
@@ -343,7 +343,7 @@ export default function Header() {
                     title="Recently Used Tools"
                   >
                     <span>⏱️</span>
-                    <span className="hidden sm:inline text-[11px] font-bold">Recent</span>
+                    <span className="hidden xl:inline text-[11px] font-bold">Recent</span>
                   </button>
 
                   {recentMenuOpen && (
@@ -389,7 +389,7 @@ export default function Header() {
                   <span className="text-sm">
                     {LANGUAGES.find((l) => l.code === selectedLang)?.flag || '🌐'}
                   </span>
-                  <span className="hidden sm:inline uppercase text-[11px] font-bold">
+                  <span className="hidden xl:inline uppercase text-[11px] font-bold">
                     {selectedLang}
                   </span>
                   <span className="text-[9px] text-gray-400">▼</span>

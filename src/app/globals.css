@@ -15,6 +15,7 @@
 html {
   background-color: #f8fafc;
   color-scheme: light;
+  overflow-x: clip;
 }
 
 html.dark {
@@ -26,6 +27,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-rgb));
   transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: clip;
 }
 
 .dark body {
