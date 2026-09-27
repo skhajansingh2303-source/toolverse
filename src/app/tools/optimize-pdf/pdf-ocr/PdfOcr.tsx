@@ -353,12 +353,25 @@ export default function PdfOcr() {
           img.src = objectUrl;
         });
 
+        let targetWidth = img.naturalWidth || img.width;
+        let targetHeight = img.naturalHeight || img.height;
+        const maxDim = 2400;
+        if (targetWidth > maxDim || targetHeight > maxDim) {
+          if (targetWidth > targetHeight) {
+            targetHeight = Math.round((targetHeight * maxDim) / targetWidth);
+            targetWidth = maxDim;
+          } else {
+            targetWidth = Math.round((targetWidth * maxDim) / targetHeight);
+            targetHeight = maxDim;
+          }
+        }
+
         const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth || img.width;
-        canvas.height = img.naturalHeight || img.height;
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          ctx.drawImage(img, 0, 0);
+          ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
           if (contrastBoost) {
             setProgressStatus('Enhancing contrast & sharpness...');
             normalizeCanvasContrast(canvas);
@@ -431,20 +444,36 @@ export default function PdfOcr() {
         pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
       } else {
         pdfDoc = await PDFDocument.create();
-        const imgBytes = await file.arrayBuffer();
-        let embeddedImg;
-        if (file.type.includes('png') || file.name.toLowerCase().endsWith('.png')) {
-          embeddedImg = await pdfDoc.embedPng(imgBytes);
-        } else {
-          embeddedImg = await pdfDoc.embedJpg(imgBytes);
+        // Convert any photo/image (JPEG, PNG, WebP, AVIF) to clean standard JPEG
+        const img = new Image();
+        const objUrl = URL.createObjectURL(file);
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error('Failed to load image format'));
+          img.src = objUrl;
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) ctx.drawImage(img, 0, 0);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+        URL.revokeObjectURL(objUrl);
+
+        const binStr = atob(dataUrl.split(',')[1]);
+        const imgBytes = new Uint8Array(binStr.length);
+        for (let k = 0; k < binStr.length; k++) {
+          imgBytes[k] = binStr.charCodeAt(k);
         }
-        const imgDims = embeddedImg.scale(1);
-        const page = pdfDoc.addPage([imgDims.width, imgDims.height]);
+
+        const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+        const page = pdfDoc.addPage([canvas.width, canvas.height]);
         page.drawImage(embeddedImg, {
           x: 0,
           y: 0,
-          width: imgDims.width,
-          height: imgDims.height,
+          width: canvas.width,
+          height: canvas.height,
         });
       }
 
@@ -459,14 +488,9 @@ export default function PdfOcr() {
         const scaleX = pdfWidth / res.canvasWidth;
         const scaleY = pdfHeight / res.canvasHeight;
 
-        // Use PDF Standard TextRenderingMode 3 (Invisible Text)
-        // This is the ISO standard for OCR text layers. Unlike zero-alpha graphics states,
-        // Mode 3 is natively indexed for search and cursor selection in Chromium/PDFium and Acrobat.
-        const operators: any[] = [
-          pushGraphicsState(),
-          beginText(),
-          setTextRenderingMode(TextRenderingMode.Invisible),
-        ];
+        // Set TextRenderingMode 3 (Invisible) for standard ISO 32000-1 OCR layer
+        // page.drawText will automatically register the font in page resources
+        page.pushOperators(setTextRenderingMode(TextRenderingMode.Invisible));
 
         if (res.lines && res.lines.length > 0) {
           for (const line of res.lines) {
@@ -474,18 +498,19 @@ export default function PdfOcr() {
             if (!cleanText) continue;
 
             const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
-            const fontSize = Math.max(6, Math.min(36, boxHeight * 0.78));
+            const fontSize = Math.max(6, Math.min(48, boxHeight * 0.75));
             const x = Math.max(0, line.bbox.x0 * scaleX);
             const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
 
             try {
-              operators.push(
-                setFontAndSize(helveticaFont.name, fontSize),
-                setTextMatrix(1, 0, 0, 1, x, y),
-                showText(helveticaFont.encodeText(cleanText))
-              );
+              page.drawText(cleanText, {
+                x,
+                y,
+                size: fontSize,
+                font: helveticaFont,
+              });
             } catch {
-              // Ignore rare font encoding edge cases
+              // Ignore single glyph edge cases
             }
           }
         } else {
@@ -496,19 +521,17 @@ export default function PdfOcr() {
             const cleanText = safeEncodeForFont(helveticaFont, line);
             if (cleanText) {
               try {
-                operators.push(
-                  setFontAndSize(helveticaFont.name, 10),
-                  setTextMatrix(1, 0, 0, 1, 35, currentY),
-                  showText(helveticaFont.encodeText(cleanText))
-                );
+                page.drawText(cleanText, {
+                  x: 35,
+                  y: currentY,
+                  size: 10,
+                  font: helveticaFont,
+                });
               } catch {}
             }
             currentY -= 14;
           }
         }
-
-        operators.push(endText(), popGraphicsState());
-        page.pushOperators(...operators);
       });
 
       const pdfBytes = await pdfDoc.save();
