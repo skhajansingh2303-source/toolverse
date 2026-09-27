@@ -98,34 +98,77 @@ function wrapText(text: string, font: any, fontSize: number, maxWidth: number): 
 }
 
 function extractLinesFromOcr(data: any): OcrLineData[] {
-  const rawLines: any[] = [];
-  if (Array.isArray(data?.lines) && data.lines.length > 0) {
-    rawLines.push(...data.lines);
-  } else if (Array.isArray(data?.blocks)) {
-    for (const block of data.blocks) {
-      if (Array.isArray(block?.paragraphs)) {
-        for (const para of block.paragraphs) {
-          if (Array.isArray(para?.lines)) {
-            for (const line of para.lines) {
-              rawLines.push(line);
+  const resultLines: OcrLineData[] = [];
+
+  // Extract from words first (most granular coordinates for instant word search)
+  if (Array.isArray(data?.words) && data.words.length > 0) {
+    for (const w of data.words) {
+      if (w && typeof w.text === 'string' && w.text.trim().length > 0) {
+        resultLines.push({
+          text: w.text.trim(),
+          bbox: {
+            x0: w.bbox?.x0 ?? 0,
+            y0: w.bbox?.y0 ?? 0,
+            x1: w.bbox?.x1 ?? 0,
+            y1: w.bbox?.y1 ?? 0,
+          },
+        });
+      }
+    }
+  }
+
+  // If words array was not populated, fallback to lines
+  if (resultLines.length === 0) {
+    const rawLines: any[] = [];
+    if (Array.isArray(data?.lines) && data.lines.length > 0) {
+      rawLines.push(...data.lines);
+    } else if (Array.isArray(data?.blocks)) {
+      for (const block of data.blocks) {
+        if (Array.isArray(block?.paragraphs)) {
+          for (const para of block.paragraphs) {
+            if (Array.isArray(para?.lines)) {
+              for (const line of para.lines) {
+                rawLines.push(line);
+              }
             }
           }
         }
       }
     }
+
+    for (const l of rawLines) {
+      if (l && typeof l.text === 'string' && l.text.trim().length > 0) {
+        // Also check if line has words inside it
+        if (Array.isArray(l.words) && l.words.length > 0) {
+          for (const w of l.words) {
+            if (w && typeof w.text === 'string' && w.text.trim().length > 0) {
+              resultLines.push({
+                text: w.text.trim(),
+                bbox: {
+                  x0: w.bbox?.x0 ?? l.bbox?.x0 ?? 0,
+                  y0: w.bbox?.y0 ?? l.bbox?.y0 ?? 0,
+                  x1: w.bbox?.x1 ?? l.bbox?.x1 ?? 0,
+                  y1: w.bbox?.y1 ?? l.bbox?.y1 ?? 0,
+                },
+              });
+            }
+          }
+        } else {
+          resultLines.push({
+            text: l.text.trim(),
+            bbox: {
+              x0: l.bbox?.x0 ?? 0,
+              y0: l.bbox?.y0 ?? 0,
+              x1: l.bbox?.x1 ?? 0,
+              y1: l.bbox?.y1 ?? 0,
+            },
+          });
+        }
+      }
+    }
   }
 
-  return rawLines
-    .filter((l: any) => l && typeof l.text === 'string' && l.text.trim().length > 0)
-    .map((l: any) => ({
-      text: l.text.trim(),
-      bbox: {
-        x0: l.bbox?.x0 ?? 0,
-        y0: l.bbox?.y0 ?? 0,
-        x1: l.bbox?.x1 ?? 0,
-        y1: l.bbox?.y1 ?? 0,
-      },
-    }));
+  return resultLines;
 }
 
 export default function PdfOcr() {
@@ -314,20 +357,42 @@ export default function PdfOcr() {
 
           if (textContent && Array.isArray(textContent.items) && textContent.items.length > 0) {
             for (const item of textContent.items as any[]) {
-              if (!item.str || !item.str.trim()) continue;
+              const fullStr = (item.str || '').trim();
+              if (!fullStr) continue;
               const [vx, vy] = viewport.convertToViewportPoint(item.transform[4], item.transform[5]);
               const fontHeight = Math.abs(item.transform[0] || item.transform[3] || 12);
               const height = Math.max(12, (item.height || fontHeight) * renderScale);
-              const width = Math.max(12, (item.width || 0) * renderScale);
-              nativeLines.push({
-                text: item.str.trim(),
-                bbox: {
-                  x0: Math.max(0, vx),
-                  y0: Math.max(0, vy - height),
-                  x1: Math.min(viewport.width, vx + width),
-                  y1: Math.min(viewport.height, vy),
-                },
-              });
+              const totalWidth = Math.max(12, (item.width || 0) * renderScale);
+
+              // Break item into individual words for precise word-level search matching
+              const words = fullStr.split(/\s+/).filter(Boolean);
+              if (words.length > 1) {
+                let currentWordX = vx;
+                const charWidth = totalWidth / Math.max(1, fullStr.length);
+                for (const w of words) {
+                  const wWidth = Math.max(8, w.length * charWidth);
+                  nativeLines.push({
+                    text: w,
+                    bbox: {
+                      x0: Math.max(0, currentWordX),
+                      y0: Math.max(0, vy - height),
+                      x1: Math.min(viewport.width, currentWordX + wWidth),
+                      y1: Math.min(viewport.height, vy),
+                    },
+                  });
+                  currentWordX += (w.length + 1) * charWidth;
+                }
+              } else {
+                nativeLines.push({
+                  text: fullStr,
+                  bbox: {
+                    x0: Math.max(0, vx),
+                    y0: Math.max(0, vy - height),
+                    x1: Math.min(viewport.width, vx + totalWidth),
+                    y1: Math.min(viewport.height, vy),
+                  },
+                });
+              }
             }
           }
 
@@ -549,9 +614,14 @@ export default function PdfOcr() {
         const scaleX = pdfWidth / res.canvasWidth;
         const scaleY = pdfHeight / res.canvasHeight;
 
-        // Set TextRenderingMode 3 (Invisible) for standard ISO 32000-1 OCR layer
-        // page.drawText will automatically register the font in page resources
-        page.pushOperators(setTextRenderingMode(TextRenderingMode.Invisible));
+        // Register font dictionary in page resources
+        const fontKey = page.node.newFontDictionary(helveticaFont.name, helveticaFont.ref);
+        const rawFontKey = fontKey.asString().replace(/^\//, '');
+
+        const textOps: any[] = [
+          beginText(),
+          setTextRenderingMode(TextRenderingMode.Invisible),
+        ];
 
         if (res.lines && res.lines.length > 0) {
           for (const line of res.lines) {
@@ -564,12 +634,11 @@ export default function PdfOcr() {
             const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
 
             try {
-              page.drawText(cleanText, {
-                x,
-                y,
-                size: fontSize,
-                font: helveticaFont,
-              });
+              textOps.push(
+                setFontAndSize(rawFontKey, fontSize),
+                setTextMatrix(1, 0, 0, 1, x, y),
+                showText(helveticaFont.encodeText(cleanText))
+              );
             } catch {
               // Ignore single glyph edge cases
             }
@@ -582,17 +651,19 @@ export default function PdfOcr() {
             const cleanText = safeEncodeForFont(helveticaFont, line);
             if (cleanText) {
               try {
-                page.drawText(cleanText, {
-                  x: 35,
-                  y: currentY,
-                  size: 10,
-                  font: helveticaFont,
-                });
+                textOps.push(
+                  setFontAndSize(rawFontKey, 10),
+                  setTextMatrix(1, 0, 0, 1, 35, currentY),
+                  showText(helveticaFont.encodeText(cleanText))
+                );
               } catch {}
             }
             currentY -= 14;
           }
         }
+
+        textOps.push(endText());
+        page.pushOperators(...textOps);
       });
 
       const pdfBytes = await pdfDoc.save();
@@ -1199,19 +1270,25 @@ export default function PdfOcr() {
                               return (
                                 <span
                                   key={lIdx}
-                                  className={`absolute transition-all ${
+                                  className={`absolute transition-all select-text ${
                                     isMatch
-                                      ? 'bg-amber-300/80 dark:bg-amber-400/80 ring-2 ring-amber-500 rounded-xs'
+                                      ? 'bg-amber-300 dark:bg-amber-400 ring-2 ring-amber-600 rounded-xs shadow-sm z-10'
                                       : 'hover:bg-blue-400/20'
                                   }`}
                                   style={{
                                     left: `${left}%`,
                                     top: `${top}%`,
-                                    width: `${Math.max(1, width)}%`,
-                                    height: `${Math.max(1.2, height)}%`,
-                                    color: 'transparent',
-                                    whiteSpace: 'pre',
+                                    width: `${Math.max(1.2, width)}%`,
+                                    height: `${Math.max(1.4, height)}%`,
+                                    color: isMatch ? '#78350f' : 'transparent',
+                                    fontWeight: isMatch ? 'bold' : 'normal',
+                                    fontSize: 'clamp(9px, 1.2vw, 16px)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    whiteSpace: 'nowrap',
                                     lineHeight: '1',
+                                    pointerEvents: 'auto',
                                   }}
                                   title={line.text}
                                 >
