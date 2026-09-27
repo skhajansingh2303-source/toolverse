@@ -32,6 +32,8 @@ interface PageOcrResult {
   canvasWidth: number;
   canvasHeight: number;
   lines: OcrLineData[];
+  pdfBytes?: Uint8Array;
+  isNativeDigital?: boolean;
 }
 
 interface GeneratedPdfResult {
@@ -671,16 +673,34 @@ export default function PdfOcr() {
           let finalLines: OcrLineData[] = [];
           let finalText = '';
 
-          // If Force OCR is active, always re-recognize page scan regardless of digital text
-          if (!forceOcr && nativeWordCount >= 10 && !deskewPages && !cleanPages && !removeBackground) {
+          let pagePdfBytes: Uint8Array | undefined = undefined;
+          const isNativeDigital = !forceOcr && nativeWordCount >= 10 && !deskewPages && !cleanPages && !removeBackground;
+
+          // If Force OCR is active or scanned page, recognize text & generate native GlyphLessFont PDF
+          if (isNativeDigital) {
             finalLines = nativeLines;
             finalText = nativeLines.map((l) => l.text).join('\n');
             setProgressStatus(`Page ${i} of ${targetPages}: Extracted ${nativeWordCount} native words.`);
           } else {
-            setProgressStatus(`Page ${i} of ${targetPages}: Recognizing text glyphs with Tesseract...`);
-            const ocrRes = await worker.recognize(canvas);
+            const targetDpi = Math.max(72, Math.min(300, Math.round(renderScale * 72)));
+            try {
+              await worker.setParameters({
+                user_defined_dpi: String(targetDpi),
+              });
+            } catch {}
+
+            setProgressStatus(`Page ${i} of ${targetPages}: Generating searchable text layer (PDF24 GlyphLessFont)...`);
+            const ocrRes = await worker.recognize(
+              canvas,
+              { pdfTitle: pdfTitle || file.name.replace(/\.[^/.]+$/, '') },
+              { text: true, pdf: true }
+            );
             const ocrLines = extractLinesFromOcr(ocrRes.data);
             const ocrText = ocrRes.data.text.trim();
+
+            if (ocrRes.data.pdf) {
+              pagePdfBytes = new Uint8Array(ocrRes.data.pdf);
+            }
 
             if (!forceOcr && nativeLines.length > 0) {
               finalLines = [...nativeLines, ...ocrLines];
@@ -700,6 +720,8 @@ export default function PdfOcr() {
             canvasWidth: canvas.width,
             canvasHeight: canvas.height,
             lines: finalLines,
+            pdfBytes: pagePdfBytes,
+            isNativeDigital,
           };
 
           accumulatedResults.push(pageResult);
@@ -772,12 +794,24 @@ export default function PdfOcr() {
         }
 
         const previewUrl = canvas.toDataURL('image/jpeg', 0.85);
-        setProgressStatus('Recognizing text glyphs with Tesseract...');
+        const targetDpi = Math.max(96, Math.min(300, Math.round(targetWidth / 8.27)));
+        try {
+          await worker.setParameters({
+            user_defined_dpi: String(targetDpi),
+          });
+        } catch {}
+
+        setProgressStatus('Recognizing text & generating searchable PDF layer...');
         setProgressPercent(50);
 
-        const ocrRes = await worker.recognize(canvas);
+        const ocrRes = await worker.recognize(
+          canvas,
+          { pdfTitle: pdfTitle || file.name.replace(/\.[^/.]+$/, '') },
+          { text: true, pdf: true }
+        );
         const rawText = ocrRes.data.text.trim();
         const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
+        const ocrPdfBytes = ocrRes.data.pdf ? new Uint8Array(ocrRes.data.pdf) : undefined;
 
         const pageResult: PageOcrResult = {
           pageNum: 1,
@@ -786,6 +820,8 @@ export default function PdfOcr() {
           canvasWidth: canvas.width,
           canvasHeight: canvas.height,
           lines: linesData,
+          pdfBytes: ocrPdfBytes,
+          isNativeDigital: false,
         };
 
         accumulatedResults.push(pageResult);
@@ -829,43 +865,115 @@ export default function PdfOcr() {
     setErrorMsg('');
 
     try {
-      let pdfDoc: PDFDocument;
+      let pdfDoc = await PDFDocument.create();
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
 
+      let originalPdfDoc: PDFDocument | null = null;
       if (isPdf) {
-        const arrayBuffer = await file.arrayBuffer();
-        pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-      } else {
-        pdfDoc = await PDFDocument.create();
-        const img = new Image();
-        const objUrl = URL.createObjectURL(file);
-        await new Promise<void>((resolve, reject) => {
-          img.onload = () => resolve();
-          img.onerror = () => reject(new Error('Failed to load image format'));
-          img.src = objUrl;
-        });
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          originalPdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+        } catch {}
+      }
 
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth || img.width;
-        canvas.height = img.naturalHeight || img.height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) ctx.drawImage(img, 0, 0);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-        URL.revokeObjectURL(objUrl);
+      let usedNativeOcrPages = false;
 
-        const binStr = atob(dataUrl.split(',')[1]);
-        const imgBytes = new Uint8Array(binStr.length);
-        for (let k = 0; k < binStr.length; k++) {
-          imgBytes[k] = binStr.charCodeAt(k);
+      // Primary strategy (PDF24 style): Assemble from Tesseract's native GlyphLessFont PDF pages
+      const hasTessPages = ocrResults.some((r) => r.pdfBytes && r.pdfBytes.length > 0);
+      if (hasTessPages) {
+        for (let idx = 0; idx < ocrResults.length; idx++) {
+          const pRes = ocrResults[idx];
+          if (pRes.isNativeDigital && originalPdfDoc && idx < originalPdfDoc.getPageCount()) {
+            const [copiedPage] = await pdfDoc.copyPages(originalPdfDoc, [idx]);
+            pdfDoc.addPage(copiedPage);
+            usedNativeOcrPages = true;
+          } else if (pRes.pdfBytes && pRes.pdfBytes.length > 0) {
+            const pageDoc = await PDFDocument.load(pRes.pdfBytes);
+            const [copiedPage] = await pdfDoc.copyPages(pageDoc, [0]);
+            pdfDoc.addPage(copiedPage);
+            usedNativeOcrPages = true;
+          }
+        }
+      }
+
+      // Secondary fallback if pdfBytes was unavailable
+      if (!usedNativeOcrPages || pdfDoc.getPageCount() === 0) {
+        if (isPdf && originalPdfDoc) {
+          pdfDoc = originalPdfDoc;
+        } else {
+          pdfDoc = await PDFDocument.create();
+          const img = new Image();
+          const objUrl = URL.createObjectURL(file);
+          await new Promise<void>((resolve, reject) => {
+            img.onload = () => resolve();
+            img.onerror = () => reject(new Error('Failed to load image format'));
+            img.src = objUrl;
+          });
+
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) ctx.drawImage(img, 0, 0);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+          URL.revokeObjectURL(objUrl);
+
+          const binStr = atob(dataUrl.split(',')[1]);
+          const imgBytes = new Uint8Array(binStr.length);
+          for (let k = 0; k < binStr.length; k++) {
+            imgBytes[k] = binStr.charCodeAt(k);
+          }
+
+          const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+          const page = pdfDoc.addPage([canvas.width, canvas.height]);
+          page.drawImage(embeddedImg, {
+            x: 0,
+            y: 0,
+            width: canvas.width,
+            height: canvas.height,
+          });
         }
 
-        const embeddedImg = await pdfDoc.embedJpg(imgBytes);
-        const page = pdfDoc.addPage([canvas.width, canvas.height]);
-        page.drawImage(embeddedImg, {
-          x: 0,
-          y: 0,
-          width: canvas.width,
-          height: canvas.height,
+        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const pages = pdfDoc.getPages();
+
+        ocrResults.forEach((res, pageIdx) => {
+          if (pageIdx >= pages.length) return;
+          const page = pages[pageIdx];
+          const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+          const scaleX = pdfWidth / res.canvasWidth;
+          const scaleY = pdfHeight / res.canvasHeight;
+
+          const fontKey = page.node.newFontDictionary(helveticaFont.name, helveticaFont.ref);
+          const rawFontKey = fontKey.asString().replace(/^\//, '');
+
+          const textOps: any[] = [
+            beginText(),
+            setTextRenderingMode(TextRenderingMode.Invisible),
+          ];
+
+          if (res.lines && res.lines.length > 0) {
+            for (const line of res.lines) {
+              const cleanText = safeEncodeForFont(helveticaFont, line.text);
+              if (!cleanText) continue;
+
+              const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
+              const fontSize = Math.max(6, Math.min(48, boxHeight * 0.75));
+              const x = Math.max(0, line.bbox.x0 * scaleX);
+              const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
+
+              try {
+                textOps.push(
+                  setFontAndSize(rawFontKey, fontSize),
+                  setTextMatrix(1, 0, 0, 1, x, y),
+                  showText(helveticaFont.encodeText(cleanText))
+                );
+              } catch {}
+            }
+          }
+          textOps.push(endText());
+          page.pushOperators(...textOps);
         });
       }
 
@@ -915,69 +1023,6 @@ export default function PdfOcr() {
           console.warn('PDF/A XMP metadata warning:', xmpErr);
         }
       }
-
-      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const pages = pdfDoc.getPages();
-
-      ocrResults.forEach((res, pageIdx) => {
-        if (pageIdx >= pages.length) return;
-        const page = pages[pageIdx];
-        const { width: pdfWidth, height: pdfHeight } = page.getSize();
-
-        const scaleX = pdfWidth / res.canvasWidth;
-        const scaleY = pdfHeight / res.canvasHeight;
-
-        // Register font dictionary in page resources
-        const fontKey = page.node.newFontDictionary(helveticaFont.name, helveticaFont.ref);
-        const rawFontKey = fontKey.asString().replace(/^\//, '');
-
-        const textOps: any[] = [
-          beginText(),
-          setTextRenderingMode(TextRenderingMode.Invisible),
-        ];
-
-        if (res.lines && res.lines.length > 0) {
-          for (const line of res.lines) {
-            const cleanText = safeEncodeForFont(helveticaFont, line.text);
-            if (!cleanText) continue;
-
-            const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
-            const fontSize = Math.max(6, Math.min(48, boxHeight * 0.75));
-            const x = Math.max(0, line.bbox.x0 * scaleX);
-            const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
-
-            try {
-              textOps.push(
-                setFontAndSize(rawFontKey, fontSize),
-                setTextMatrix(1, 0, 0, 1, x, y),
-                showText(helveticaFont.encodeText(cleanText))
-              );
-            } catch {
-              // Ignore single glyph edge cases
-            }
-          }
-        } else {
-          const lines = res.text.split('\n').filter((l) => l.trim().length > 0);
-          let currentY = pdfHeight - 35;
-          for (const line of lines) {
-            if (currentY < 35) break;
-            const cleanText = safeEncodeForFont(helveticaFont, line);
-            if (cleanText) {
-              try {
-                textOps.push(
-                  setFontAndSize(rawFontKey, 10),
-                  setTextMatrix(1, 0, 0, 1, 35, currentY),
-                  showText(helveticaFont.encodeText(cleanText))
-                );
-              } catch {}
-            }
-            currentY -= 14;
-          }
-        }
-
-        textOps.push(endText());
-        page.pushOperators(...textOps);
-      });
 
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
