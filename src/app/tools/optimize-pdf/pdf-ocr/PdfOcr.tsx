@@ -139,7 +139,8 @@ export default function PdfOcr() {
   const [language, setLanguage] = useState<string>('eng');
   const [ocrResults, setOcrResults] = useState<PageOcrResult[]>([]);
   const [editableText, setEditableText] = useState('');
-  const [activeTab, setActiveTab] = useState<'text' | 'preview'>('text');
+  const [activeTab, setActiveTab] = useState<'interactive' | 'text'>('interactive');
+  const [selectedPageIndex, setSelectedPageIndex] = useState<number>(0);
   const [copied, setCopied] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [searchablePdfResult, setSearchablePdfResult] = useState<GeneratedPdfResult | null>(null);
@@ -974,24 +975,24 @@ export default function PdfOcr() {
                   <div className="flex items-center gap-2">
                     <div className="inline-flex rounded-xl bg-gray-100 dark:bg-slate-800 p-1 text-xs">
                       <button
+                        onClick={() => setActiveTab('interactive')}
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 ${
+                          activeTab === 'interactive'
+                            ? 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white shadow-xs'
+                            : 'text-gray-500 dark:text-slate-400 hover:text-gray-900'
+                        }`}
+                      >
+                        <span>🔍 Interactive View (Google Drive Style)</span>
+                      </button>
+                      <button
                         onClick={() => setActiveTab('text')}
-                        className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                        className={`px-3 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1.5 ${
                           activeTab === 'text'
                             ? 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white shadow-xs'
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-900'
                         }`}
                       >
-                        Recognized Text ({wordCount} words)
-                      </button>
-                      <button
-                        onClick={() => setActiveTab('preview')}
-                        className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
-                          activeTab === 'preview'
-                            ? 'bg-white dark:bg-slate-700 dark:text-white shadow-xs'
-                            : 'text-gray-500 dark:text-slate-400 hover:text-gray-900'
-                        }`}
-                      >
-                        Page Previews ({ocrResults.length})
+                        <span>📝 Text Editor ({wordCount} words)</span>
                       </button>
                     </div>
                   </div>
@@ -1042,27 +1043,159 @@ export default function PdfOcr() {
                   </div>
                 </div>
 
-                {/* Instant Search in Recognized Text */}
-                <div className="mb-3 flex items-center gap-2 bg-gray-50 dark:bg-slate-950 p-2 rounded-xl border border-gray-200 dark:border-slate-800 text-xs">
-                  <span className="text-gray-400">🔍 Test Search:</span>
+                {/* Instant Search in Recognized Text with Visual Match Counter */}
+                <div className="mb-4 flex items-center gap-2 bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-gray-200 dark:border-slate-800 text-xs shadow-xs">
+                  <span className="text-gray-500 font-bold shrink-0">🔍 Search Document:</span>
                   <input
                     type="text"
                     value={searchVerifyQuery}
                     onChange={(e) => setSearchVerifyQuery(e.target.value)}
-                    placeholder="Search a word to verify readability..."
-                    className="flex-1 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-gray-800 dark:text-slate-200 text-xs outline-none"
+                    placeholder="Type any word to find and highlight live on the document..."
+                    className="flex-1 bg-gray-50 dark:bg-slate-950 border border-gray-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-gray-900 dark:text-white text-xs outline-none focus:ring-2 focus:ring-primary-500"
                   />
                   {searchVerifyQuery && (
-                    <span className="text-emerald-600 dark:text-emerald-400 font-bold px-2">
-                      {
-                        (editableText.toLowerCase().match(new RegExp(searchVerifyQuery.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
-                      }{' '}
-                      match(es)
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold px-2 py-0.5 rounded-lg border border-amber-300 dark:border-amber-800 text-[11px]">
+                        {
+                          (editableText.toLowerCase().match(new RegExp(searchVerifyQuery.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
+                        }{' '}
+                        match(es)
+                      </span>
+                      <button
+                        onClick={() => setSearchVerifyQuery('')}
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs font-bold px-1"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   )}
                 </div>
 
-                {activeTab === 'text' ? (
+                {activeTab === 'interactive' ? (
+                  <div>
+                    {/* Interactive Viewer Controls */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-gray-700 dark:text-slate-300">
+                          Page {selectedPageIndex + 1} of {ocrResults.length}
+                        </span>
+                        {ocrResults.length > 1 && (
+                          <div className="flex items-center gap-1">
+                            <button
+                              disabled={selectedPageIndex === 0}
+                              onClick={() => setSelectedPageIndex((p) => Math.max(0, p - 1))}
+                              className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 rounded disabled:opacity-40"
+                            >
+                              ◀ Prev
+                            </button>
+                            <button
+                              disabled={selectedPageIndex === ocrResults.length - 1}
+                              onClick={() => setSelectedPageIndex((p) => Math.min(ocrResults.length - 1, p + 1))}
+                              className="px-2 py-1 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 rounded disabled:opacity-40"
+                            >
+                              Next ▶
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="text-gray-500 dark:text-slate-400 flex items-center gap-1 text-[11px]">
+                        <span>💡 Drag cursor over text on the page to select &amp; copy • Words highlight live</span>
+                      </div>
+                    </div>
+
+                    {/* Page Document with HTML5 Text Selection Overlay (Google Drive architecture) */}
+                    {ocrResults[selectedPageIndex] && (
+                      <div className="relative mx-auto max-w-3xl bg-white dark:bg-slate-900 rounded-2xl shadow-md border border-gray-200 dark:border-slate-800 overflow-hidden select-text">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={ocrResults[selectedPageIndex].previewUrl}
+                          alt={`Page ${ocrResults[selectedPageIndex].pageNum} scan`}
+                          className="w-full h-auto block select-none pointer-events-none"
+                          draggable={false}
+                        />
+
+                        {/* Real HTML5 Text Layer */}
+                        <div
+                          className="absolute inset-0 select-text cursor-text overflow-hidden"
+                          style={{
+                            userSelect: 'text',
+                            WebkitUserSelect: 'text',
+                          }}
+                        >
+                          {ocrResults[selectedPageIndex].lines && ocrResults[selectedPageIndex].lines.length > 0 ? (
+                            ocrResults[selectedPageIndex].lines.map((line, lIdx) => {
+                              const left = (line.bbox.x0 / ocrResults[selectedPageIndex].canvasWidth) * 100;
+                              const top = (line.bbox.y0 / ocrResults[selectedPageIndex].canvasHeight) * 100;
+                              const width = ((line.bbox.x1 - line.bbox.x0) / ocrResults[selectedPageIndex].canvasWidth) * 100;
+                              const height = ((line.bbox.y1 - line.bbox.y0) / ocrResults[selectedPageIndex].canvasHeight) * 100;
+
+                              const isMatch = Boolean(
+                                searchVerifyQuery &&
+                                searchVerifyQuery.trim().length > 0 &&
+                                line.text.toLowerCase().includes(searchVerifyQuery.toLowerCase().trim())
+                              );
+
+                              return (
+                                <span
+                                  key={lIdx}
+                                  className={`absolute transition-all ${
+                                    isMatch
+                                      ? 'bg-amber-300/80 dark:bg-amber-400/80 ring-2 ring-amber-500 rounded-xs'
+                                      : 'hover:bg-blue-400/20'
+                                  }`}
+                                  style={{
+                                    left: `${left}%`,
+                                    top: `${top}%`,
+                                    width: `${Math.max(1, width)}%`,
+                                    height: `${Math.max(1.2, height)}%`,
+                                    color: 'transparent',
+                                    whiteSpace: 'pre',
+                                    lineHeight: '1',
+                                  }}
+                                  title={line.text}
+                                >
+                                  {line.text}
+                                </span>
+                              );
+                            })
+                          ) : (
+                            <div className="absolute inset-x-0 bottom-4 p-3 bg-black/60 text-white text-xs text-center">
+                              Text recognized ({ocrResults[selectedPageIndex].text.split(/\s+/).filter(Boolean).length} words). Switch to Text Editor tab to view and copy.
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Page Thumbnail Selector for multi-page documents */}
+                    {ocrResults.length > 1 && (
+                      <div className="mt-4 flex items-center gap-3 overflow-x-auto pb-2">
+                        {ocrResults.map((item, idx) => (
+                          <button
+                            key={item.pageNum}
+                            onClick={() => setSelectedPageIndex(idx)}
+                            className={`shrink-0 rounded-xl p-1 border transition-all text-center ${
+                              selectedPageIndex === idx
+                                ? 'border-primary-600 bg-primary-50 dark:bg-primary-950/40 ring-2 ring-primary-500'
+                                : 'border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 opacity-70 hover:opacity-100'
+                            }`}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.previewUrl}
+                              alt={`Thumbnail page ${item.pageNum}`}
+                              className="w-16 h-20 object-contain rounded-lg bg-gray-50"
+                            />
+                            <span className="block text-[10px] font-bold text-gray-700 dark:text-slate-300 mt-1">
+                              Page {item.pageNum}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
                   <div>
                     <div className="relative">
                       <textarea
@@ -1077,26 +1210,6 @@ export default function PdfOcr() {
                       <span>You can edit or correct the recognized text directly above before exporting.</span>
                       <span>{charCount} characters • {wordCount} words</span>
                     </div>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {ocrResults.map((item) => (
-                      <div
-                        key={item.pageNum}
-                        className="border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-950 p-2"
-                      >
-                        <div className="text-[11px] font-bold text-gray-500 dark:text-slate-400 mb-1 px-1 flex justify-between">
-                          <span>Page {item.pageNum}</span>
-                          <span>{item.text.split(/\s+/).filter(Boolean).length} words</span>
-                        </div>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.previewUrl}
-                          alt={`Page ${item.pageNum} scan preview`}
-                          className="w-full h-48 object-contain rounded-lg bg-white border border-gray-100 dark:border-slate-800"
-                        />
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>
