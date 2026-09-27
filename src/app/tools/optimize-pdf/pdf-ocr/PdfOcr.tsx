@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
 import AdSlot from '@/components/AdSlot';
 import ToolResultCard from '@/components/ToolResultCard';
 import RelatedTools from '@/components/RelatedTools';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import type { Page, Line } from 'tesseract.js';
 
 interface OcrLineData {
   text: string;
@@ -96,6 +96,8 @@ export default function PdfOcr() {
   const [errorMsg, setErrorMsg] = useState('');
   const [searchablePdfResult, setSearchablePdfResult] = useState<GeneratedPdfResult | null>(null);
   const [searchVerifyQuery, setSearchVerifyQuery] = useState('');
+  const [pageCount, setPageCount] = useState<number>(0);
+  const [maxPagesLimit, setMaxPagesLimit] = useState<number>(0); // 0 means all
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isCancelledRef = useRef(false);
@@ -106,7 +108,7 @@ export default function PdfOcr() {
     };
   }, []);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (selected) {
       setFile(selected);
@@ -117,6 +119,19 @@ export default function PdfOcr() {
       setProgressStatus('');
       setSearchablePdfResult(null);
       setSearchVerifyQuery('');
+      setMaxPagesLimit(0);
+
+      if (selected.type === 'application/pdf' || selected.name.toLowerCase().endsWith('.pdf')) {
+        try {
+          const arrayBuffer = await selected.arrayBuffer();
+          const doc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+          setPageCount(doc.getPageCount());
+        } catch {
+          setPageCount(1);
+        }
+      } else {
+        setPageCount(1);
+      }
     }
   };
 
@@ -138,11 +153,9 @@ export default function PdfOcr() {
       if (lum > maxLum) maxLum = lum;
     }
 
-    // If already high contrast, skip
     if (maxLum - minLum < 30) return canvas;
 
     const range = maxLum - minLum;
-    // Second pass: apply soft linear stretch
     for (let i = 0; i < data.length; i += 4) {
       const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
       const normalized = Math.min(255, Math.max(0, ((gray - minLum) / range) * 255));
@@ -155,56 +168,82 @@ export default function PdfOcr() {
     return canvas;
   };
 
+  const cancelOcr = () => {
+    isCancelledRef.current = true;
+    setIsProcessing(false);
+    setProgressStatus('OCR stopped by user.');
+  };
+
   const runOcr = async () => {
     if (!file) return;
     setIsProcessing(true);
     setErrorMsg('');
     setOcrResults([]);
     setEditableText('');
-    setProgressPercent(5);
-    setProgressStatus('Initializing OCR engine...');
+    setProgressPercent(3);
+    setProgressStatus('Connecting to fast in-browser OCR engine...');
     setSearchablePdfResult(null);
     isCancelledRef.current = false;
 
+    let worker: any = null;
+
     try {
-      // Dynamic import of Tesseract.js to ensure zero server overhead & full WASM support
       const { createWorker } = await import('tesseract.js');
 
-      setProgressStatus(`Loading OCR language dictionary (${language.toUpperCase()})...`);
-      setProgressPercent(10);
-
-      const worker = await createWorker(language, 1, {
+      // Use ultra-fast global jsdelivr CDN for language dictionary
+      worker = await createWorker(language, 1, {
+        workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',
+        corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.0/tesseract-core-simd-lstm.wasm.js',
+        langPath: 'https://cdn.jsdelivr.net/gh/naptha/tessdata@gh-pages/4.0.0_fast',
         logger: (m) => {
-          if (m.status === 'recognizing text' && typeof m.progress === 'number') {
-            // Log progress within current step
+          if (m.status === 'loading language traineddata') {
+            const p = Math.round((m.progress || 0) * 100);
+            setProgressStatus(`Downloading ${language.toUpperCase()} OCR dictionary (${p}%)...`);
+            setProgressPercent(3 + Math.round((m.progress || 0) * 7));
+          } else if (m.status === 'initializing tesseract' || m.status === 'initializing api') {
+            setProgressStatus('Preparing OCR recognition engine...');
+            setProgressPercent(10);
           }
         },
       });
 
+      if (isCancelledRef.current) {
+        await worker.terminate();
+        return;
+      }
+
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-      const results: PageOcrResult[] = [];
+      const accumulatedResults: PageOcrResult[] = [];
 
       if (isPdf) {
         setProgressStatus('Reading PDF pages in browser memory...');
-        setProgressPercent(15);
+        setProgressPercent(12);
 
-        const pdfjsLib = await import('pdfjs-dist');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+        let pdfjsLib: any = (window as any).pdfjsLib;
+        if (!pdfjsLib) {
+          pdfjsLib = await import('pdfjs-dist');
+          pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '4.4.168'}/pdf.worker.min.mjs`;
+        } else {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
 
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        const numPages = pdf.numPages;
+        const totalDocPages = pdf.numPages;
+        const targetPages = maxPagesLimit > 0 ? Math.min(maxPagesLimit, totalDocPages) : totalDocPages;
 
-        for (let i = 1; i <= numPages; i++) {
+        // Adaptive scaling: for large PDFs (e.g. 13 pages), 1.45x is fast and high accuracy without freezing memory
+        const renderScale = targetPages > 8 ? 1.4 : targetPages > 3 ? 1.55 : 1.75;
+
+        for (let i = 1; i <= targetPages; i++) {
           if (isCancelledRef.current) break;
 
-          const basePercent = 15 + Math.round(((i - 1) / numPages) * 75);
+          const basePercent = 12 + Math.round(((i - 1) / targetPages) * 85);
           setProgressPercent(basePercent);
-          setProgressStatus(`Page ${i} of ${numPages}: Rendering high-resolution canvas...`);
+          setProgressStatus(`Page ${i} of ${targetPages}: Rendering page...`);
 
           const page = await pdf.getPage(i);
-          // Scale 2.0 provides optimal DPI for high OCR accuracy without excessive memory
-          const viewport = page.getViewport({ scale: 2.0 });
+          const viewport = page.getViewport({ scale: renderScale });
 
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
@@ -219,34 +258,42 @@ export default function PdfOcr() {
           await page.render({ canvasContext: ctx!, viewport }).promise;
 
           if (contrastBoost) {
-            setProgressStatus(`Page ${i} of ${numPages}: Optimizing contrast...`);
+            setProgressStatus(`Page ${i} of ${targetPages}: Optimizing contrast...`);
             normalizeCanvasContrast(canvas);
           }
 
-          const previewUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const previewUrl = canvas.toDataURL('image/jpeg', 0.82);
 
-          setProgressStatus(`Page ${i} of ${numPages}: Recognizing text glyphs...`);
+          setProgressStatus(`Page ${i} of ${targetPages}: Recognizing text glyphs...`);
           const ocrRes = await worker.recognize(canvas);
           const rawText = ocrRes.data.text.trim();
-
-          // Extract line bounding boxes for accurate searchable PDF overlay
           const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
 
-          results.push({
+          const pageResult: PageOcrResult = {
             pageNum: i,
             text: rawText || `[No readable text detected on Page ${i}]`,
             previewUrl,
             canvasWidth: canvas.width,
             canvasHeight: canvas.height,
             lines: linesData,
-          });
+          };
 
-          setProgressPercent(15 + Math.round((i / numPages) * 75));
+          accumulatedResults.push(pageResult);
+
+          // Stream live progress and live text so the user sees results immediately
+          setOcrResults([...accumulatedResults]);
+          const currentCombined = accumulatedResults
+            .map((r) => (targetPages > 1 ? `--- Page ${r.pageNum} ---\n${r.text}` : r.text))
+            .join('\n\n');
+          setEditableText(currentCombined);
+
+          const stepDonePercent = 12 + Math.round((i / targetPages) * 85);
+          setProgressPercent(stepDonePercent);
         }
       } else {
         // Document image (PNG, JPG, WebP)
         setProgressStatus('Loading document image...');
-        setProgressPercent(20);
+        setProgressPercent(15);
 
         const img = new Image();
         const objectUrl = URL.createObjectURL(file);
@@ -275,49 +322,50 @@ export default function PdfOcr() {
 
         const ocrRes = await worker.recognize(canvas);
         const rawText = ocrRes.data.text.trim();
-
         const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
 
-        results.push({
+        const pageResult: PageOcrResult = {
           pageNum: 1,
           text: rawText || '[No readable text detected in document image]',
           previewUrl,
           canvasWidth: canvas.width,
           canvasHeight: canvas.height,
           lines: linesData,
-        });
+        };
 
+        accumulatedResults.push(pageResult);
+        setOcrResults([...accumulatedResults]);
+        setEditableText(rawText);
         URL.revokeObjectURL(objectUrl);
       }
 
       await worker.terminate();
+      worker = null;
 
-      if (results.length === 0) {
-        throw new Error('No pages could be processed. Please verify your file.');
+      if (accumulatedResults.length === 0) {
+        throw new Error('No pages could be recognized.');
       }
 
-      setOcrResults(results);
-      const combinedText = results
-        .map((r) => (results.length > 1 ? `--- Page ${r.pageNum} ---\n${r.text}` : r.text))
-        .join('\n\n');
-      setEditableText(combinedText);
       setProgressPercent(100);
-      setProgressStatus('OCR completed successfully! You can now copy text or download as searchable PDF.');
+      setProgressStatus(`OCR complete! Recognized text across ${accumulatedResults.length} page(s).`);
 
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {
-          detail: { message: `⚡ OCR recognized text across ${results.length} page(s)!` },
+          detail: { message: `⚡ OCR recognized text across ${accumulatedResults.length} page(s)!` },
         })
       );
     } catch (err: any) {
       console.error('OCR Error:', err);
-      setErrorMsg(err.message || 'Failed to complete OCR recognition. Please try another document.');
+      if (worker) {
+        try { await worker.terminate(); } catch {}
+      }
+      setErrorMsg(err.message || 'Failed to complete OCR recognition. Please check your internet connection and try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
-  // Generate real, professional Searchable PDF with precision invisible text overlay
+  // Generate real Searchable PDF with precision invisible text overlay
   const generateSearchablePdf = async () => {
     if (!file || ocrResults.length === 0) return;
     setIsGeneratingPdf(true);
@@ -331,7 +379,6 @@ export default function PdfOcr() {
         const arrayBuffer = await file.arrayBuffer();
         pdfDoc = await PDFDocument.load(arrayBuffer);
       } else {
-        // Build new PDF matching the scanned image
         pdfDoc = await PDFDocument.create();
         const imgBytes = await file.arrayBuffer();
         let embeddedImg;
@@ -361,16 +408,13 @@ export default function PdfOcr() {
         const scaleX = pdfWidth / res.canvasWidth;
         const scaleY = pdfHeight / res.canvasHeight;
 
-        // If line-level bounding boxes are present, place text at exact locations
         if (res.lines && res.lines.length > 0) {
           for (const line of res.lines) {
             const cleanText = sanitizePdfText(line.text);
             if (!cleanText) continue;
 
-            const boxWidth = (line.bbox.x1 - line.bbox.x0) * scaleX;
             const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
             const x = Math.max(0, line.bbox.x0 * scaleX);
-            // PDF origin is bottom-left, canvas is top-left
             const y = Math.max(0, pdfHeight - line.bbox.y1 * scaleY);
             const fontSize = Math.max(4, Math.min(36, boxHeight * 0.85));
 
@@ -381,14 +425,13 @@ export default function PdfOcr() {
                 size: fontSize,
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
-                opacity: 0.001, // Precision invisible searchable layer
+                opacity: 0.001, // Selectable & searchable invisible text layer
               });
             } catch {
               // Ignore rare font encoding edge cases
             }
           }
         } else {
-          // Fallback sequential placement if line boxes are missing
           const lines = res.text.split('\n').filter((l) => l.trim().length > 0);
           let currentY = pdfHeight - 30;
           for (const line of lines) {
@@ -422,7 +465,6 @@ export default function PdfOcr() {
         size: blob.size,
       });
 
-      // Auto trigger download
       const a = document.createElement('a');
       a.href = url;
       a.download = filename;
@@ -492,6 +534,8 @@ export default function PdfOcr() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 py-8 transition-colors">
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" strategy="afterInteractive" />
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
@@ -566,40 +610,40 @@ export default function PdfOcr() {
                     {file.name}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-slate-400">
-                    {(file.size / (1024 * 1024)).toFixed(2)} MB • {file.type || 'Document'}
+                    {(file.size / (1024 * 1024)).toFixed(2)} MB • {pageCount > 0 ? `${pageCount} page(s)` : file.type || 'Document'}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    setFile(null);
-                    setOcrResults([]);
-                    setEditableText('');
-                    setSearchablePdfResult(null);
-                  }}
-                  className="text-xs font-semibold text-gray-500 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 transition-colors"
-                >
-                  Change File
-                </button>
-                <button
-                  onClick={runOcr}
-                  disabled={isProcessing}
-                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-xl px-5 py-2.5 text-xs font-bold transition-all active:scale-95 flex items-center gap-2 shadow-md"
-                >
-                  {isProcessing ? (
-                    <>
-                      <svg className="animate-spin h-3.5 w-3.5 text-white" viewBox="0 0 24 24" fill="none">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                      </svg>
-                      Recognizing...
-                    </>
-                  ) : (
-                    <>⚡ Start OCR Recognition</>
-                  )}
-                </button>
+                {isProcessing ? (
+                  <button
+                    onClick={cancelOcr}
+                    className="bg-rose-500 hover:bg-rose-600 text-white rounded-xl px-4 py-2.5 text-xs font-bold transition-all flex items-center gap-1.5"
+                  >
+                    ⏹ Stop OCR
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setFile(null);
+                        setOcrResults([]);
+                        setEditableText('');
+                        setSearchablePdfResult(null);
+                      }}
+                      className="text-xs font-semibold text-gray-500 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 transition-colors"
+                    >
+                      Change File
+                    </button>
+                    <button
+                      onClick={runOcr}
+                      className="bg-primary-600 hover:bg-primary-700 text-white rounded-xl px-5 py-2.5 text-xs font-bold transition-all active:scale-95 flex items-center gap-2 shadow-md"
+                    >
+                      ⚡ Start OCR Recognition
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -611,8 +655,9 @@ export default function PdfOcr() {
                 </label>
                 <select
                   value={language}
+                  disabled={isProcessing}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="w-full text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-primary-500"
+                  className="w-full text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
                 >
                   {SUPPORTED_LANGUAGES.map((lang) => (
                     <option key={lang.code} value={lang.code}>
@@ -624,35 +669,48 @@ export default function PdfOcr() {
 
               <div>
                 <label className="block text-xs font-bold uppercase text-gray-700 dark:text-slate-300 mb-1.5">
-                  Luminance &amp; Contrast
+                  Page Processing Range
+                </label>
+                <select
+                  value={maxPagesLimit}
+                  disabled={isProcessing || pageCount <= 1}
+                  onChange={(e) => setMaxPagesLimit(Number(e.target.value))}
+                  className="w-full text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
+                >
+                  <option value={0}>All Pages ({pageCount > 0 ? `${pageCount} pages` : 'Entire Document'})</option>
+                  {pageCount > 1 && <option value={1}>First Page Only (Fast preview)</option>}
+                  {pageCount > 3 && <option value={3}>First 3 Pages</option>}
+                  {pageCount > 5 && <option value={5}>First 5 Pages</option>}
+                  {pageCount > 10 && <option value={10}>First 10 Pages</option>}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-gray-700 dark:text-slate-300 mb-1.5">
+                  Contrast Preprocessing
                 </label>
                 <button
                   type="button"
+                  disabled={isProcessing}
                   onClick={() => setContrastBoost(!contrastBoost)}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition-colors ${
+                  className={`w-full flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition-colors disabled:opacity-50 ${
                     contrastBoost
                       ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300'
                       : 'border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-400'
                   }`}
                 >
-                  <span>Histogram Normalization</span>
+                  <span>Auto Luminance Stretch</span>
                   <span className="text-sm">{contrastBoost ? '✅ Enabled' : '⚪ Off'}</span>
                 </button>
-              </div>
-
-              <div className="sm:col-span-2 md:col-span-1 flex flex-col justify-end">
-                <div className="bg-emerald-50 dark:bg-emerald-950/40 rounded-xl p-3 border border-emerald-200/60 dark:border-emerald-900/40 text-[11px] text-emerald-800 dark:text-emerald-300">
-                  🔒 <strong>100% In-Browser Engine:</strong> Tesseract WebAssembly runs on your CPU. Zero document bytes leave your device.
-                </div>
               </div>
             </div>
 
             {/* Progress Bar */}
             {isProcessing && (
-              <div className="mt-6 p-4 rounded-xl bg-cyan-50/50 dark:bg-cyan-950/30 border border-cyan-100 dark:border-cyan-900/50">
+              <div className="mt-6 p-4 rounded-xl bg-cyan-50/50 dark:bg-cyan-950/30 border border-cyan-100 dark:border-cyan-900/50 animate-pulse">
                 <div className="flex justify-between text-xs font-semibold text-cyan-900 dark:text-cyan-200 mb-1.5">
-                  <span>{progressStatus}</span>
-                  <span>{progressPercent}%</span>
+                  <span className="truncate pr-2">{progressStatus}</span>
+                  <span className="shrink-0">{progressPercent}%</span>
                 </div>
                 <div className="w-full bg-cyan-200 dark:bg-cyan-900/60 rounded-full h-2.5 overflow-hidden">
                   <div
@@ -841,10 +899,10 @@ export default function PdfOcr() {
               <strong>Upload Your Scanned Document:</strong> Choose any non-searchable PDF, scan, or photo (PNG, JPG, WebP).
             </li>
             <li>
-              <strong>Choose Recognition Language:</strong> Select from English, Spanish, French, German, Italian, Portuguese, or Hindi.
+              <strong>Choose Recognition Language &amp; Range:</strong> Select your language and optionally choose to process all pages or preview the first few pages.
             </li>
             <li>
-              <strong>Click &quot;Start OCR Recognition&quot;:</strong> Our in-browser Tesseract engine processes all document pages using WebAssembly.
+              <strong>Click &quot;Start OCR Recognition&quot;:</strong> Fast in-browser Tesseract WebAssembly engine processes each page and streams recognized text live to your screen.
             </li>
             <li>
               <strong>Search, Copy or Edit:</strong> Review extracted text, search words live, or make quick edits directly in the text editor.
