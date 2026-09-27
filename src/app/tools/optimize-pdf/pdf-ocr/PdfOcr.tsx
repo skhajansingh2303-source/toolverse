@@ -6,7 +6,20 @@ import Script from 'next/script';
 import AdSlot from '@/components/AdSlot';
 import ToolResultCard from '@/components/ToolResultCard';
 import RelatedTools from '@/components/RelatedTools';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import {
+  PDFDocument,
+  StandardFonts,
+  TextRenderingMode,
+  setTextRenderingMode,
+  beginText,
+  endText,
+  showText,
+  setFontAndSize,
+  setTextMatrix,
+  pushGraphicsState,
+  popGraphicsState,
+  rgb,
+} from 'pdf-lib';
 
 interface OcrLineData {
   text: string;
@@ -26,6 +39,7 @@ interface GeneratedPdfResult {
   blobUrl: string;
   filename: string;
   size: number;
+  mode?: 'searchable' | 'readable';
 }
 
 const SUPPORTED_LANGUAGES = [
@@ -38,16 +52,49 @@ const SUPPORTED_LANGUAGES = [
   { code: 'hin', label: 'Hindi (हिन्दी)' },
 ];
 
-// Sanitize string to WinAnsi compatible characters for standard PDF Helvetica font
-function sanitizePdfText(str: string): string {
-  return str
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[\u2013\u2014]/g, '-')
-    .replace(/[\u2026]/g, '...')
-    .replace(/[^\x20-\x7E\xA0-\xFF]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+// Strictly encode characters supported by Helvetica, safely substituting smart quotes & unicode
+function safeEncodeForFont(font: any, text: string): string {
+  let res = '';
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    try {
+      font.encodeText(ch);
+      res += ch;
+    } catch {
+      if (ch === '’' || ch === '‘') res += "'";
+      else if (ch === '“' || ch === '”') res += '"';
+      else if (ch === '—' || ch === '–') res += '-';
+      else if (ch === '…') res += '...';
+      else if (ch === '₹') res += 'Rs.';
+      else res += ' ';
+    }
+  }
+  return res.replace(/\s+/g, ' ').trim();
+}
+
+// Wrap text to fit page width for clean readable PDF generation
+function wrapText(text: string, font: any, fontSize: number, maxWidth: number): string[] {
+  const words = text.split(/\s+/);
+  const lines: string[] = [];
+  let currentLine = '';
+  for (const word of words) {
+    if (!word) continue;
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    let width = 0;
+    try {
+      width = font.widthOfTextAtSize(testLine, fontSize);
+    } catch {
+      width = testLine.length * fontSize * 0.55;
+    }
+    if (width <= maxWidth) {
+      currentLine = testLine;
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
+  return lines;
 }
 
 function extractLinesFromOcr(data: any): OcrLineData[] {
@@ -85,6 +132,7 @@ export default function PdfOcr() {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [pdfGeneratingType, setPdfGeneratingType] = useState<'searchable' | 'readable' | null>(null);
   const [progressStatus, setProgressStatus] = useState('');
   const [progressPercent, setProgressPercent] = useState(0);
   const [contrastBoost, setContrastBoost] = useState(true);
@@ -366,10 +414,12 @@ export default function PdfOcr() {
     }
   };
 
-  // Generate real Searchable PDF with precision invisible text overlay
+  // Generate real Searchable PDF using official PDF ISO 32000-1 TextRenderingMode 3 (Invisible)
+  // This produces invisible, fully selectable & Ctrl+F searchable text in Chrome, Acrobat, Edge, Firefox & Preview
   const generateSearchablePdf = async () => {
     if (!file || ocrResults.length === 0) return;
     setIsGeneratingPdf(true);
+    setPdfGeneratingType('searchable');
     setErrorMsg('');
 
     try {
@@ -378,7 +428,7 @@ export default function PdfOcr() {
 
       if (isPdf) {
         const arrayBuffer = await file.arrayBuffer();
-        pdfDoc = await PDFDocument.load(arrayBuffer);
+        pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
       } else {
         pdfDoc = await PDFDocument.create();
         const imgBytes = await file.arrayBuffer();
@@ -409,50 +459,56 @@ export default function PdfOcr() {
         const scaleX = pdfWidth / res.canvasWidth;
         const scaleY = pdfHeight / res.canvasHeight;
 
+        // Use PDF Standard TextRenderingMode 3 (Invisible Text)
+        // This is the ISO standard for OCR text layers. Unlike zero-alpha graphics states,
+        // Mode 3 is natively indexed for search and cursor selection in Chromium/PDFium and Acrobat.
+        const operators: any[] = [
+          pushGraphicsState(),
+          beginText(),
+          setTextRenderingMode(TextRenderingMode.Invisible),
+        ];
+
         if (res.lines && res.lines.length > 0) {
           for (const line of res.lines) {
-            const cleanText = sanitizePdfText(line.text);
+            const cleanText = safeEncodeForFont(helveticaFont, line.text);
             if (!cleanText) continue;
 
             const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
+            const fontSize = Math.max(6, Math.min(36, boxHeight * 0.78));
             const x = Math.max(0, line.bbox.x0 * scaleX);
-            const y = Math.max(0, pdfHeight - line.bbox.y1 * scaleY);
-            const fontSize = Math.max(4, Math.min(36, boxHeight * 0.85));
+            const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
 
             try {
-              page.drawText(cleanText, {
-                x,
-                y,
-                size: fontSize,
-                font: helveticaFont,
-                color: rgb(0, 0, 0),
-                opacity: 0.001, // Selectable & searchable invisible text layer
-              });
+              operators.push(
+                setFontAndSize(helveticaFont.name, fontSize),
+                setTextMatrix(1, 0, 0, 1, x, y),
+                showText(helveticaFont.encodeText(cleanText))
+              );
             } catch {
               // Ignore rare font encoding edge cases
             }
           }
         } else {
           const lines = res.text.split('\n').filter((l) => l.trim().length > 0);
-          let currentY = pdfHeight - 30;
+          let currentY = pdfHeight - 35;
           for (const line of lines) {
-            if (currentY < 30) break;
-            const cleanText = sanitizePdfText(line);
+            if (currentY < 35) break;
+            const cleanText = safeEncodeForFont(helveticaFont, line);
             if (cleanText) {
               try {
-                page.drawText(cleanText, {
-                  x: 30,
-                  y: currentY,
-                  size: 9,
-                  font: helveticaFont,
-                  color: rgb(0, 0, 0),
-                  opacity: 0.001,
-                });
+                operators.push(
+                  setFontAndSize(helveticaFont.name, 10),
+                  setTextMatrix(1, 0, 0, 1, 35, currentY),
+                  showText(helveticaFont.encodeText(cleanText))
+                );
               } catch {}
             }
-            currentY -= 13;
+            currentY -= 14;
           }
         }
+
+        operators.push(endText(), popGraphicsState());
+        page.pushOperators(...operators);
       });
 
       const pdfBytes = await pdfDoc.save();
@@ -464,6 +520,7 @@ export default function PdfOcr() {
         blobUrl: url,
         filename,
         size: blob.size,
+        mode: 'searchable',
       });
 
       const a = document.createElement('a');
@@ -483,6 +540,164 @@ export default function PdfOcr() {
       setErrorMsg(err.message || 'Could not generate searchable PDF.');
     } finally {
       setIsGeneratingPdf(false);
+      setPdfGeneratingType(null);
+    }
+  };
+
+  // Generate a crystal-clear, readable PDF document with formatted extracted text
+  const generateReadableTextPdf = async () => {
+    if (!editableText || ocrResults.length === 0) return;
+    setIsGeneratingPdf(true);
+    setPdfGeneratingType('readable');
+    setErrorMsg('');
+
+    try {
+      const pdfDoc = await PDFDocument.create();
+      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+      const pageWidth = 595.28; // Standard A4 width
+      const pageHeight = 841.89; // Standard A4 height
+      const margin = 50;
+      const contentWidth = pageWidth - margin * 2;
+      const footerY = 32;
+
+      let currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+      let currentY = pageHeight - margin;
+      let pageNum = 1;
+
+      const drawHeaderFooter = (page: any, pNum: number) => {
+        page.drawText('OCR Extracted Document — Toolsverse', {
+          x: margin,
+          y: pageHeight - 32,
+          size: 8,
+          font: helvetica,
+          color: rgb(0.5, 0.5, 0.5),
+        });
+        page.drawLine({
+          start: { x: margin, y: pageHeight - 38 },
+          end: { x: pageWidth - margin, y: pageHeight - 38 },
+          thickness: 0.5,
+          color: rgb(0.85, 0.85, 0.85),
+        });
+
+        const pText = `Page ${pNum}`;
+        const pWidth = helvetica.widthOfTextAtSize(pText, 9);
+        page.drawText(pText, {
+          x: pageWidth - margin - pWidth,
+          y: footerY,
+          size: 9,
+          font: helvetica,
+          color: rgb(0.5, 0.5, 0.5),
+        });
+      };
+
+      drawHeaderFooter(currentPage, pageNum);
+      currentY = pageHeight - 65;
+
+      const title = file ? `OCR Transcribed: ${file.name.replace(/\.[^/.]+$/, '')}` : 'OCR Transcribed Document';
+      const safeTitle = safeEncodeForFont(helveticaBold, title);
+      currentPage.drawText(safeTitle, {
+        x: margin,
+        y: currentY,
+        size: 13,
+        font: helveticaBold,
+        color: rgb(0.12, 0.16, 0.22),
+      });
+      currentY -= 24;
+
+      for (let rIdx = 0; rIdx < ocrResults.length; rIdx++) {
+        const pRes = ocrResults[rIdx];
+
+        if (ocrResults.length > 1) {
+          if (currentY < margin + 60) {
+            currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+            pageNum++;
+            drawHeaderFooter(currentPage, pageNum);
+            currentY = pageHeight - 65;
+          }
+
+          currentPage.drawRectangle({
+            x: margin,
+            y: currentY - 18,
+            width: contentWidth,
+            height: 22,
+            color: rgb(0.93, 0.95, 0.98),
+          });
+
+          const sectionTitle = `Original Scan Page ${pRes.pageNum}`;
+          currentPage.drawText(safeEncodeForFont(helveticaBold, sectionTitle), {
+            x: margin + 8,
+            y: currentY - 12,
+            size: 9.5,
+            font: helveticaBold,
+            color: rgb(0.15, 0.35, 0.65),
+          });
+          currentY -= 30;
+        }
+
+        const paragraphs = pRes.text.split('\n');
+        for (const para of paragraphs) {
+          const trimmed = para.trim();
+          if (!trimmed) {
+            currentY -= 8;
+            continue;
+          }
+
+          const safePara = safeEncodeForFont(helvetica, trimmed);
+          const wrapped = wrapText(safePara, helvetica, 10, contentWidth);
+
+          for (const line of wrapped) {
+            if (currentY < margin + 35) {
+              currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
+              pageNum++;
+              drawHeaderFooter(currentPage, pageNum);
+              currentY = pageHeight - 65;
+            }
+
+            currentPage.drawText(line, {
+              x: margin,
+              y: currentY,
+              size: 10,
+              font: helvetica,
+              color: rgb(0.15, 0.15, 0.15),
+            });
+            currentY -= 14;
+          }
+          currentY -= 5;
+        }
+      }
+
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const filename = `${file?.name.replace(/\.[^/.]+$/, '') || 'document'}_readable.pdf`;
+
+      setSearchablePdfResult({
+        blobUrl: url,
+        filename,
+        size: blob.size,
+        mode: 'readable',
+      });
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: '📖 Clean Readable PDF generated & downloaded!' },
+        })
+      );
+    } catch (err: any) {
+      console.error('Readable PDF Error:', err);
+      setErrorMsg(err.message || 'Could not generate readable PDF.');
+    } finally {
+      setIsGeneratingPdf(false);
+      setPdfGeneratingType(null);
     }
   };
 
@@ -778,14 +993,27 @@ export default function PdfOcr() {
                       📄 Word (.doc)
                     </button>
                     <button
+                      onClick={generateReadableTextPdf}
+                      disabled={isGeneratingPdf}
+                      className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                      title="Download a crisp, typed PDF document with standard margins and headers"
+                    >
+                      {isGeneratingPdf && pdfGeneratingType === 'readable' ? (
+                        <>Formatting PDF...</>
+                      ) : (
+                        <>📖 Clean Readable PDF</>
+                      )}
+                    </button>
+                    <button
                       onClick={generateSearchablePdf}
                       disabled={isGeneratingPdf}
                       className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                      title="Download original scan with standard invisible OCR text layer (Ctrl+F searchable)"
                     >
-                      {isGeneratingPdf ? (
+                      {isGeneratingPdf && pdfGeneratingType === 'searchable' ? (
                         <>Embedding Layer...</>
                       ) : (
-                        <>✨ Download Searchable PDF</>
+                        <>✨ Searchable PDF (Scan+OCR)</>
                       )}
                     </button>
                   </div>
@@ -853,20 +1081,34 @@ export default function PdfOcr() {
           </div>
         )}
 
-        {/* Result Card if Searchable PDF was generated */}
+        {/* Result Card if Searchable or Readable PDF was generated */}
         {searchablePdfResult && (
           <div className="mb-8">
             <ToolResultCard
-              title="Searchable PDF Created Successfully!"
+              title={
+                searchablePdfResult.mode === 'readable'
+                  ? 'Clean Readable PDF Created Successfully!'
+                  : 'Searchable PDF Created Successfully!'
+              }
               filename={searchablePdfResult.filename}
               downloadUrl={searchablePdfResult.blobUrl}
               fileSize={searchablePdfResult.size}
               originalSize={file?.size}
-              badgeText="Searchable & Selectable Text"
+              badgeText={
+                searchablePdfResult.mode === 'readable'
+                  ? 'Clean Typed PDF Document'
+                  : 'Searchable & Selectable Text (ISO Mode 3)'
+              }
               details={[
                 { label: 'Pages Recognized', value: `${ocrResults.length} page(s)` },
                 { label: 'Words Extracted', value: `${wordCount} words` },
-                { label: 'Layer Type', value: 'High-Precision Invisible OCR Text Overlay' },
+                {
+                  label: 'Document Type',
+                  value:
+                    searchablePdfResult.mode === 'readable'
+                      ? 'Clean Typed Typography Document (A4)'
+                      : 'Standard Invisible OCR Layer (ISO 32000-1)',
+                },
                 { label: 'Compatibility', value: 'Adobe Acrobat, Chrome, Preview & Edge' },
               ]}
               previewUrl={searchablePdfResult.blobUrl}
