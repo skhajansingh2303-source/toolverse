@@ -20,18 +20,10 @@ interface CompressionResult {
   savedPercentage: number;
 }
 
-export interface CompressPdfProps {
-  targetKB?: number;
-  customTitle?: string;
-  customSubtitle?: string;
-}
-
-export default function CompressPdf({ targetKB, customTitle, customSubtitle }: CompressPdfProps = {}) {
+export default function CompressPdf() {
   const [file, setFile] = useState<File | null>(null);
   const [compressionMode, setCompressionMode] = useState<'smart' | 'vector'>('smart');
-  const [compressionLevel, setCompressionLevel] = useState<'extreme' | 'recommended' | 'less'>(
-    targetKB && targetKB <= 200 ? 'extreme' : 'recommended'
-  );
+  const [compressionLevel, setCompressionLevel] = useState<'extreme' | 'recommended' | 'less'>('recommended');
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0, percentage: 0 });
   const [result, setResult] = useState<CompressionResult | null>(null);
@@ -122,22 +114,11 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
 
         setProgress({ current: 0, total: totalPages, percentage: 0 });
 
-        // Parameters based on chosen level or targetKB
+        // Parameters based on chosen level
         let scale = 1.35;
         let jpegQuality = 0.72;
 
-        if (targetKB) {
-          if (targetKB <= 100) {
-            scale = 0.90;
-            jpegQuality = 0.42;
-          } else if (targetKB <= 200) {
-            scale = 1.10;
-            jpegQuality = 0.55;
-          } else {
-            scale = 1.25;
-            jpegQuality = 0.65;
-          }
-        } else if (compressionLevel === 'extreme') {
+        if (compressionLevel === 'extreme') {
           scale = 1.0; // ~72 DPI
           jpegQuality = 0.50;
         } else if (compressionLevel === 'less') {
@@ -277,12 +258,6 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
         <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
         <span>/</span>
         <Link href="/tools/optimize-pdf/compress-pdf/" className="hover:text-primary-600 transition-colors">Compress PDF</Link>
-        {targetKB && (
-          <>
-            <span>/</span>
-            <span className="text-gray-900 dark:text-white font-semibold">{customTitle || `Compress to ${targetKB}KB`}</span>
-          </>
-        )}
       </nav>
 
       {/* Header */}
@@ -293,21 +268,13 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
           </span>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
-              {customTitle || (targetKB ? `Compress PDF to ${targetKB}KB` : 'Compress PDF')}
+              Compress PDF
             </h1>
           </div>
         </div>
         <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
-          {customSubtitle || (targetKB
-            ? `Compress PDF document under ${targetKB} KB for government portals, job applications, and upload limits. 100% private in-browser.`
-            : 'Significantly reduce PDF file size while preserving high visual clarity. Works 100% in your browser with complete privacy.')}
+          Significantly reduce PDF file size while preserving high visual clarity. Works 100% in your browser with complete privacy.
         </p>
-        {targetKB && (
-          <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 text-xs font-bold border border-rose-200/60 dark:border-rose-900/50">
-            <span>🎯 Guaranteed Target:</span>
-            <span>Under {targetKB} KB (Government &amp; Admission Portal Ready)</span>
-          </div>
-        )}
       </div>
 
       <AdSlot format="horizontal" />
@@ -590,7 +557,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
             ) : (
               <div className="pt-2">
                 <ToolResultCard
-                  title={targetKB && result.compressed <= targetKB * 1024 ? `PDF Compressed Under ${targetKB}KB!` : 'PDF Compressed Successfully!'}
+                  title={'PDF Compressed Successfully!'}
                   filename={result.name}
                   downloadUrl={result.blobUrl}
                   fileSize={result.compressed}
