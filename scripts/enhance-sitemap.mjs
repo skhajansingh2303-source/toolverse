@@ -23,6 +23,12 @@ if (fs.existsSync(publicAdsPath)) {
   fs.copyFileSync(publicAdsPath, outAdsPath);
   console.log('Copied public/ads.txt to out/ads.txt');
 }
+const publicHeadersPath = path.resolve('public', '_headers');
+const outHeadersPath = path.join(outDir, '_headers');
+if (fs.existsSync(publicHeadersPath)) {
+  fs.copyFileSync(publicHeadersPath, outHeadersPath);
+  console.log('Copied public/_headers to out/_headers');
+}
 
 // 2. Inject stylesheet link into out/sitemap.xml
 if (fs.existsSync(sitemapXmlPath)) {

@@ -3,12 +3,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
+
+interface ResizedResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  width: number;
+  height: number;
+}
 
 export default function ImageResizer() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [originalWidth, setOriginalWidth] = useState<number>(0);
   const [originalHeight, setOriginalHeight] = useState<number>(0);
+  const [result, setResult] = useState<ResizedResult | null>(null);
   
   const [resizeMode, setResizeMode] = useState<'pixels' | 'percentage'>('pixels');
   const [width, setWidth] = useState<number>(0);
@@ -81,13 +92,26 @@ export default function ImageResizer() {
         canvas.toBlob((blob) => {
           if (blob) {
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `resized_${file?.name || 'image.png'}`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+            const downloadFilename = `resized_${file?.name || 'image.png'}`;
+            setResult({
+              blobUrl: url,
+              filename: downloadFilename,
+              size: blob.size,
+              width: finalWidth,
+              height: finalHeight,
+            });
+
+            // Auto-trigger download
+            try {
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = downloadFilename;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            } catch {
+              // Fallback
+            }
           }
           setIsProcessing(false);
         }, file?.type || 'image/png', 0.95);
@@ -246,6 +270,36 @@ export default function ImageResizer() {
               </div>
             </div>
           )}
+
+          {result && (
+            <ToolResultCard
+              title="Image Resized Successfully!"
+              filename={result.filename}
+              downloadUrl={result.blobUrl}
+              fileSize={result.size}
+              originalSize={file?.size}
+              badgeText={`${result.width} × ${result.height} px`}
+              details={[
+                { label: 'New Dimensions', value: `${result.width} × ${result.height} px` },
+                { label: 'Original Dimensions', value: `${originalWidth} × ${originalHeight} px` },
+                { label: 'Resize Ratio', value: resizeMode === 'percentage' ? `${percentage}%` : 'Custom Pixels' },
+              ]}
+              previewUrl={result.blobUrl}
+              previewType="image"
+              onReset={() => {
+                setFile(null);
+                setPreviewUrl('');
+                setResult(null);
+              }}
+              resetButtonText="Resize Another Image"
+              suggestedTools={[
+                { name: 'Compress Image', url: '/tools/media/image-compressor/', icon: '🗜️', badge: 'Save Space' },
+                { name: 'Convert to PDF', url: '/tools/convert-to-pdf/image-to-pdf/', icon: '📑', badge: 'Document' },
+                { name: 'Image Color Picker', url: '/tools/media/image-color-picker/', icon: '🎨', badge: 'Inspect' },
+                { name: 'Favicon Generator', url: '/tools/media/favicon-generator/', icon: '⭐', badge: 'Web Asset' },
+              ]}
+            />
+          )}
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
@@ -257,6 +311,8 @@ export default function ImageResizer() {
             <li>Click "Resize & Download" to get your new image instantly.</li>
           </ol>
         </div>
+
+        <RelatedTools currentSlug="image-resizer" />
       </div>
     </div>
   );

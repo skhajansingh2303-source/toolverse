@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import { sanitizeSvg } from '@/lib/sanitize';
 
 export default function SvgViewerOptimizer() {
   const [svgCode, setSvgCode] = useState<string>('');
@@ -13,7 +14,7 @@ export default function SvgViewerOptimizer() {
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
-          setSvgCode(event.target.result as string);
+          setSvgCode(sanitizeSvg(event.target.result as string));
         }
       };
       reader.readAsText(file);

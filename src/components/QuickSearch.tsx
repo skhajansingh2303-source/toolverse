@@ -28,12 +28,17 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
 
   if (!isOpen) return null;
 
-  const filtered = tools.filter(
-    (t) =>
-      t.name.toLowerCase().includes(query.toLowerCase()) ||
-      t.description.toLowerCase().includes(query.toLowerCase()) ||
-      t.category.toLowerCase().includes(query.toLowerCase())
-  );
+  const q = query.trim().toLowerCase();
+  const filtered = tools.filter((t) => {
+    if (!q) return true;
+    return (
+      t.name.toLowerCase().includes(q) ||
+      t.description.toLowerCase().includes(q) ||
+      t.category.toLowerCase().includes(q) ||
+      t.slug.toLowerCase().includes(q) ||
+      t.keywords?.some((k) => k.toLowerCase().includes(q))
+    );
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-gray-950/70 backdrop-blur-sm animate-fade-in">
@@ -51,7 +56,7 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search any of 53 tools (e.g. pdf, age, json, compress)..."
+            placeholder="Search 100+ tools (e.g. merge pdf, docx, 100kb, sign, diff)..."
             className="w-full text-base bg-transparent border-none outline-none text-gray-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 font-medium"
           />
           <button 
@@ -80,13 +85,18 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
                   {tool.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-sm font-semibold text-gray-900 dark:text-slate-100 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                       {tool.name}
                     </span>
                     <span className="text-[10px] uppercase font-bold text-gray-400 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                       {tool.category}
                     </span>
+                    {q && tool.keywords?.some((k) => k.toLowerCase().includes(q) && !tool.name.toLowerCase().includes(q)) && (
+                      <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-200 dark:border-emerald-800/40">
+                        {tool.keywords.find((k) => k.toLowerCase().includes(q))}
+                      </span>
+                    )}
                   </div>
                   <p className="text-xs text-gray-500 dark:text-slate-400 truncate mt-0.5">
                     {tool.description}
@@ -101,8 +111,8 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
         </div>
 
         <div className="bg-gray-50 dark:bg-slate-950 px-4 py-2.5 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs text-gray-400 dark:text-slate-500 font-medium">
-          <span>Search 53 privacy-first tools</span>
-          <span>Press Enter to select</span>
+          <span>Search 100+ privacy-first tools</span>
+          <span>Press ESC to close</span>
         </div>
       </div>
       

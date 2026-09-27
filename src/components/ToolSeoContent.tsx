@@ -76,6 +76,9 @@ export default function ToolSeoContent({
     })),
   };
 
+  // Find current tool for keywords
+  const currentTool = tools.find((t) => t.slug === toolSlug);
+
   const webAppSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
@@ -85,6 +88,7 @@ export default function ToolSeoContent({
     operatingSystem: 'All',
     browserRequirements: 'Requires JavaScript. Requires HTML5.',
     description: `Free online ${toolName}. Private in-browser tool with zero server uploads. Fast, unlimited, and free forever.`,
+    keywords: currentTool?.keywords ? currentTool.keywords.join(', ') : undefined,
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -522,6 +526,27 @@ export default function ToolSeoContent({
                   </p>
                 </div>
               </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Popular Search Keywords */}
+      {currentTool?.keywords && currentTool.keywords.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-200/80 dark:border-slate-800/80">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">
+              Popular Searches & Related Queries
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {currentTool.keywords.map((kw, i) => (
+              <span
+                key={i}
+                className="text-xs px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-slate-800/90 text-gray-600 dark:text-slate-300 border border-gray-200/60 dark:border-slate-700/60 hover:border-primary-500/50 transition-colors"
+              >
+                #{kw}
+              </span>
             ))}
           </div>
         </div>

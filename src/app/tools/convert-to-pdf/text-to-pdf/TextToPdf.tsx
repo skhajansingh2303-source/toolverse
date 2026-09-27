@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 export default function TextToPdf() {
@@ -11,6 +13,7 @@ export default function TextToPdf() {
   const [fontSize, setFontSize] = useState<number>(12);
   const [margin, setMargin] = useState<number>(50); // normal
   const [isProcessing, setIsProcessing] = useState(false);
+  const [pdfResult, setPdfResult] = useState<{ blobUrl: string; filename: string; size: number } | null>(null);
 
   const handleGeneratePdf = async () => {
     if (!text && !title) return;
@@ -106,11 +109,20 @@ export default function TextToPdf() {
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${title ? title.replace(/\s+/g, '_') : 'document'}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+      const downloadFilename = `${title ? title.replace(/\s+/g, '_') : 'document'}.pdf`;
+      setPdfResult({
+        blobUrl: url,
+        filename: downloadFilename,
+        size: blob.size,
+      });
+      try {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = downloadFilename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch {}
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('An error occurred while generating the PDF.');
@@ -194,6 +206,36 @@ export default function TextToPdf() {
           </button>
         </div>
 
+        {pdfResult && (
+          <ToolResultCard
+            title="Text Converted to PDF Successfully!"
+            filename={pdfResult.filename}
+            downloadUrl={pdfResult.blobUrl}
+            fileSize={pdfResult.size}
+            badgeText="Vector Document Ready"
+            details={[
+              { label: 'Document Title', value: title || 'Untitled' },
+              { label: 'Font Size', value: `${fontSize}pt` },
+              { label: 'Margins', value: `${margin}px` },
+            ]}
+            previewUrl={pdfResult.blobUrl}
+            previewType="pdf"
+            onReset={() => setPdfResult(null)}
+            resetButtonText="Create Another PDF"
+            nextTool={{
+              name: 'Compress PDF',
+              url: '/tools/optimize-pdf/compress-pdf/',
+              description: 'Optimize your newly generated PDF document.'
+            }}
+            suggestedTools={[
+              { name: 'Compress PDF', url: '/tools/optimize-pdf/compress-pdf/', icon: '🗜️', badge: 'Save Space' },
+              { name: 'Sign Document', url: '/tools/pdf-security/sign-pdf/', icon: '✍️', badge: 'Legal' },
+              { name: 'Protect PDF', url: '/tools/pdf-security/protect-pdf/', icon: '🔒', badge: 'Password' },
+              { name: 'Merge Documents', url: '/tools/organize-pdf/merge-pdf/', icon: '📎', badge: 'Combine' },
+            ]}
+          />
+        )}
+
         <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
           <ol className="list-decimal list-inside text-gray-700 dark:text-slate-300 space-y-2">
@@ -203,6 +245,8 @@ export default function TextToPdf() {
             <li>Click "Generate PDF" to automatically create and download your formatted PDF document.</li>
           </ol>
         </section>
+
+        <RelatedTools currentSlug="text-to-pdf" />
       </div>
     </div>
   );

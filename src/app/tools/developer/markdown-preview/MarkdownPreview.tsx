@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 const sampleMarkdown = `# Welcome to Markdown Preview!
 
@@ -87,7 +88,7 @@ export default function MarkdownPreview() {
   };
 
   useEffect(() => {
-    setHtml(parseMarkdown(markdown));
+    setHtml(sanitizeHtml(parseMarkdown(markdown)));
   }, [markdown]);
 
   const copyMarkdown = async () => {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 import {
   StudioOptions,
   DEFAULT_OPTIONS,
@@ -689,6 +690,8 @@ export default function HandwritingStudio() {
             </div>
           </div>
         )}
+
+        <RelatedTools currentSlug="handwriting-studio-generator" />
       </div>
     </div>
   );

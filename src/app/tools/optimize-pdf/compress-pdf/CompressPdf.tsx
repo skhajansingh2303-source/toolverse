@@ -594,6 +594,7 @@ export default function CompressPdf({ targetKB, customTitle, customSubtitle }: C
                   filename={result.name}
                   downloadUrl={result.blobUrl}
                   fileSize={result.compressed}
+                  originalSize={result.original}
                   badgeText={result.savedPercentage > 0 ? `Saved ${result.savedPercentage}% (${formatSize(result.savedBytes)})` : 'PDF Optimized'}
                   previewUrl={result.blobUrl}
                   previewType="pdf"

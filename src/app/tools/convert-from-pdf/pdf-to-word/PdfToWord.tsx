@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Script from 'next/script';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
 
 interface DocBlock {
   type: 'heading1' | 'heading2' | 'heading3' | 'paragraph' | 'bullet' | 'table';
@@ -19,8 +21,15 @@ interface PageData {
   blocks: DocBlock[];
 }
 
+interface WordResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+}
+
 export default function PdfToWord() {
   const [file, setFile] = useState<File | null>(null);
+  const [wordResult, setWordResult] = useState<WordResult | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [progress, setProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
   const [pdfjsLoaded, setPdfjsLoaded] = useState<boolean>(false);
@@ -544,13 +553,21 @@ export default function PdfToWord() {
       });
 
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${docTitle.trim() || 'converted-document'}.docx`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const filename = `${docTitle.trim() || 'converted-document'}.docx`;
+      setWordResult({
+        blobUrl: url,
+        filename,
+        size: blob.size,
+      });
+
+      try {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch {}
     } catch (err) {
       console.error('Error generating docx:', err);
       alert('Failed to generate Word document.');
@@ -1008,6 +1025,42 @@ export default function PdfToWord() {
           </div>
         )}
 
+        {wordResult && (
+          <ToolResultCard
+            title="PDF Converted to Word (DOCX) Successfully!"
+            filename={wordResult.filename}
+            downloadUrl={wordResult.blobUrl}
+            fileSize={wordResult.size}
+            originalSize={file?.size}
+            badgeText="100% Editable DOCX"
+            details={[
+              { label: 'Typography', value: fontFamily },
+              { label: 'Total Pages', value: pages.length },
+              { label: 'Format', value: 'Microsoft Word OpenXML (.docx)' },
+            ]}
+            previewType="text"
+            previewText={editableText.slice(0, 800) + (editableText.length > 800 ? '...' : '')}
+            onReset={() => {
+              setWordResult(null);
+              setFile(null);
+              setPages([]);
+              setEditableText('');
+            }}
+            resetButtonText="Convert Another PDF"
+            nextTool={{
+              name: 'Online Word Editor',
+              url: '/tools/office/word-editor/',
+              description: 'Open, edit, and modify Word documents directly in your browser.'
+            }}
+            suggestedTools={[
+              { name: 'Word Editor', url: '/tools/office/word-editor/', icon: '📝', badge: 'Edit Online' },
+              { name: 'Word to PDF', url: '/tools/convert-to-pdf/word-to-pdf/', icon: '📑', badge: 'Reconvert' },
+              { name: 'Compress PDF', url: '/tools/optimize-pdf/compress-pdf/', icon: '🗜️', badge: 'Save Space' },
+              { name: 'Sign Document', url: '/tools/pdf-security/sign-pdf/', icon: '✍️', badge: 'Legal' },
+            ]}
+          />
+        )}
+
         {/* How to Use Section */}
         <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm mt-8">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
@@ -1031,6 +1084,8 @@ export default function PdfToWord() {
             </li>
           </ol>
         </section>
+
+        <RelatedTools currentSlug="pdf-to-word" />
       </div>
     </div>
   );

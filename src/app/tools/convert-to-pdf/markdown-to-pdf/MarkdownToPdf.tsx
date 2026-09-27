@@ -3,6 +3,8 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 // Built-in presets
@@ -196,6 +198,7 @@ export default function MarkdownToPdf() {
   const [markdown, setMarkdown] = useState<string>(PRESETS.technical);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [pdfSize, setPdfSize] = useState<number | undefined>(undefined);
 
   // Styling & Options
   const [themeFont, setThemeFont] = useState<'sans' | 'serif' | 'mono'>('sans');
@@ -504,6 +507,7 @@ export default function MarkdownToPdf() {
       const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
+      setPdfSize(blob.size);
 
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {
@@ -780,6 +784,36 @@ export default function MarkdownToPdf() {
           </div>
         </div>
 
+        {downloadUrl && (
+          <ToolResultCard
+            title="Markdown Compiled to PDF Successfully!"
+            filename="toolsverse-document.pdf"
+            downloadUrl={downloadUrl}
+            fileSize={pdfSize}
+            badgeText="Vector PDF Ready"
+            details={[
+              { label: 'Typography', value: themeFont.toUpperCase() },
+              { label: 'Page Format', value: pageSize },
+              { label: 'Margins', value: marginSize.toUpperCase() },
+            ]}
+            previewUrl={downloadUrl}
+            previewType="pdf"
+            onReset={() => setDownloadUrl(null)}
+            resetButtonText="Edit Document"
+            nextTool={{
+              name: 'Compress Generated PDF',
+              url: '/tools/optimize-pdf/compress-pdf/',
+              description: 'Reduce file size while keeping crisp vector text and diagrams.'
+            }}
+            suggestedTools={[
+              { name: 'Compress PDF', url: '/tools/optimize-pdf/compress-pdf/', icon: '🗜️', badge: 'Save Space' },
+              { name: 'Sign Document', url: '/tools/pdf-security/sign-pdf/', icon: '✍️', badge: 'Legal' },
+              { name: 'Protect PDF', url: '/tools/pdf-security/protect-pdf/', icon: '🔒', badge: 'Password' },
+              { name: 'Convert to Word', url: '/tools/convert-from-pdf/pdf-to-word/', icon: '📄', badge: 'Editable' },
+            ]}
+          />
+        )}
+
         {/* Ad Slot */}
         <AdSlot format="horizontal" />
 
@@ -820,6 +854,8 @@ export default function MarkdownToPdf() {
             </div>
           </div>
         </div>
+
+        <RelatedTools currentSlug="markdown-to-pdf" />
       </div>
     </div>
   );

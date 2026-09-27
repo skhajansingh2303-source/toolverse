@@ -5,6 +5,7 @@ import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
 import FeedbackWidget from '@/components/FeedbackWidget';
 import RelatedTools from '@/components/RelatedTools';
+import ToolResultCard from '@/components/ToolResultCard';
 
 interface CompressedResult {
   originalName: string;
@@ -382,18 +383,34 @@ export default function ImageCompressor() {
                 </div>
               </div>
 
-              {/* Download Action */}
-              <div className="pt-4 border-t border-gray-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-xs text-gray-500 dark:text-slate-400">
-                  Resolution: <strong>{result.width} × {result.height} px</strong>
-                </div>
-                <button
-                  onClick={handleDownload}
-                  className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white text-xs font-bold rounded-xl shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <span>📥</span>
-                  <span>Download Compressed Image ({formatSize(result.compressedSize)})</span>
-                </button>
+              {/* Tool Result Card */}
+              <div className="pt-4 border-t border-gray-100 dark:border-slate-800">
+                <ToolResultCard
+                  title="Image Compressed Successfully!"
+                  filename={`compressed_${result.originalName.substring(0, result.originalName.lastIndexOf('.')) || result.originalName}.${result.format}`}
+                  downloadUrl={result.compressedUrl}
+                  fileSize={result.compressedSize}
+                  originalSize={result.originalSize}
+                  badgeText={`Saved ${result.savedPercent}%`}
+                  details={[
+                    { label: 'Dimensions', value: `${result.width} × ${result.height} px` },
+                    { label: 'Format', value: result.format.toUpperCase() },
+                    { label: 'Quality', value: `${quality}%` },
+                  ]}
+                  previewUrl={result.compressedUrl}
+                  previewType="image"
+                  onReset={() => {
+                    setFile(null);
+                    setResult(null);
+                  }}
+                  resetButtonText="Compress Another Image"
+                  suggestedTools={[
+                    { name: 'Resize Image', url: '/tools/media/image-resizer/', icon: '📐', badge: 'Resize' },
+                    { name: 'Convert to PDF', url: '/tools/convert-to-pdf/image-to-pdf/', icon: '📑', badge: 'Document' },
+                    { name: 'Generate Favicon', url: '/tools/media/favicon-generator/', icon: '⭐', badge: 'Asset' },
+                    { name: 'Color Picker', url: '/tools/media/image-color-picker/', icon: '🎨', badge: 'Inspect' },
+                  ]}
+                />
               </div>
             </div>
           )}

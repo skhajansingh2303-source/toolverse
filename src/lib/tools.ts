@@ -6,6 +6,7 @@ export interface Tool {
   category: string;
   categorySlug: string;
   color: string;
+  keywords?: string[];
 }
 
 export function getToolUrl(tool: { categorySlug?: string; slug: string }): string {
@@ -44,6 +45,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-blue-600 to-indigo-700',
+    keywords: ["sign pdf","e-sign pdf","digital signature","fill and sign pdf","draw signature on pdf","electronic signature online","sign contract pdf free","docusign free alternative","ilovepdf sign","sign pdf without uploading"],
   },
   {
     name: 'Merge PDF',
@@ -53,6 +55,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-red-500 to-rose-600',
+    keywords: ["merge pdf","combine pdf","join pdf files","combine multiple pdf into one","merge pdf free no limit","pdf binder","ilovepdf merge alternative","pdf combiner online","unir pdf","merge pdf without upload"],
   },
   {
     name: 'Split PDF',
@@ -62,6 +65,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-orange-500 to-amber-600',
+    keywords: ["split pdf","separate pdf pages","extract pages from pdf","cut pdf pages","split pdf online free","divide pdf","ilovepdf split alternative","split pdf by page range","extract single page from pdf"],
   },
   {
     name: 'Compress PDF',
@@ -71,6 +75,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-rose-500 to-red-600',
+    keywords: ["compress pdf","reduce pdf size","shrink pdf","pdf compressor online free","compress pdf without losing quality","make pdf smaller","downsample pdf","ilovepdf compress alternative","smallpdf compress alternative"],
   },
   {
     name: 'Compress PDF to 100KB',
@@ -80,6 +85,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-red-500 to-rose-600',
+    keywords: ["compress pdf to 100kb","shrink pdf under 100kb","reduce pdf size below 100 kb online","compress pdf 100 kb for job application","upsc ssc portal pdf 100kb","free pdf 100kb compressor","pdf size reducer to 100kb"],
   },
   {
     name: 'Compress PDF to 200KB',
@@ -89,6 +95,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-rose-600 to-pink-600',
+    keywords: ["compress pdf to 200kb","reduce pdf size to 200 kb","compress pdf below 200kb online","shrink pdf to 200kb free","govt exam portal 200kb pdf compressor","pdf compressor 200 kb online"],
   },
   {
     name: 'Compress PDF to 500KB',
@@ -98,6 +105,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-amber-600 to-red-600',
+    keywords: ["compress pdf to 500kb","reduce pdf to 500 kb","shrink pdf under 500kb","compress pdf file size under 500kb online free","print ready pdf compression 500kb"],
   },
   {
     name: 'Image to PDF',
@@ -107,6 +115,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-sky-500 to-blue-600',
+    keywords: ["image to pdf","jpg to pdf","png to pdf","convert photo to pdf","combine images into pdf","jpeg to pdf converter online free","picture to pdf free no watermark"],
   },
   {
     name: 'PDF to JPG',
@@ -116,6 +125,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-emerald-500 to-teal-600',
+    keywords: ["pdf to jpg","convert pdf to image","save pdf pages as jpg","extract jpg from pdf","pdf to picture high quality free","ilovepdf pdf to jpg","pdf to jpeg online"],
   },
   {
     name: 'PDF to Text Extractor',
@@ -125,6 +135,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-amber-600 to-orange-600',
+    keywords: ["pdf to text","extract text from pdf","pdf to txt","convert pdf text online free","copy text from scanned pdf","pdf text stripper","export pdf to text"],
   },
   {
     name: 'Text & Notes to PDF',
@@ -134,6 +145,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-cyan-600 to-blue-600',
+    keywords: ["text to pdf","convert txt to pdf","notepad to pdf","notes to pdf converter online free","essay to pdf","plain text to pdf document"],
   },
   {
     name: 'Redact PDF (Blackout)',
@@ -143,6 +155,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-gray-700 to-slate-900',
+    keywords: ["redact pdf","blackout text in pdf","hide sensitive info in pdf","censor pdf online free","permanently remove text from pdf","mask ssn in pdf","sanitize confidential pdf"],
   },
   {
     name: 'Crop PDF',
@@ -152,6 +165,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-teal-600 to-emerald-700',
+    keywords: ["crop pdf","trim pdf margins","cut pdf white borders","crop pdf pages online free","crop pdf canvas size","remove margin from pdf"],
   },
   {
     name: 'Scan to PDF',
@@ -161,6 +175,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-violet-600 to-indigo-600',
+    keywords: ["scan to pdf","camera to pdf","scan document with phone","photo scanner to pdf online","convert camera capture to pdf","free document scanner"],
   },
   {
     name: 'Rotate PDF',
@@ -170,6 +185,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-emerald-500 to-green-600',
+    keywords: ["rotate pdf","turn pdf pages","rotate upside down pdf","save rotated pdf permanently","rotate pdf online free","change pdf orientation portrait landscape"],
   },
   {
     name: 'Add Watermark to PDF',
@@ -179,6 +195,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-cyan-500 to-teal-600',
+    keywords: ["watermark pdf","add watermark to pdf","stamp confidential on pdf","add logo to pdf","pdf watermark maker free","custom text watermark pdf"],
   },
   {
     name: 'Remove PDF Pages',
@@ -188,6 +205,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-rose-600 to-red-700',
+    keywords: ["remove pdf pages","delete pages from pdf","remove blank pages from pdf","delete specific page pdf free","drop pdf pages online"],
   },
   {
     name: 'Add Page Numbers to PDF',
@@ -197,6 +215,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-blue-600 to-indigo-600',
+    keywords: ["number pdf","add page numbers to pdf","bates numbering pdf","footer page numbers pdf online free","header and footer pagination pdf"],
   },
   {
     name: 'PDF Metadata Editor',
@@ -206,6 +225,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-purple-600 to-violet-700',
+    keywords: ["pdf metadata editor","edit pdf author title","change pdf properties","remove metadata from pdf","clean pdf exif metadata","pdf tags editor"],
   },
 
   // ─── Student, Teacher & Career Essentials ───
@@ -217,6 +237,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-indigo-600 to-purple-600',
+    keywords: ["gpa calculator","college gpa calculator","calculate weighted gpa","cgpa to percentage calculator","semester grade calculator","cumulative gpa calculator 4.0 scale"],
   },
   {
     name: 'Resume & CV Builder',
@@ -226,6 +247,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["resume builder","free cv maker","online resume generator","ats friendly resume template","software engineer resume maker","download resume pdf free","modern cv templates"],
   },
   {
     name: 'Handwriting Studio Generator',
@@ -235,6 +257,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-indigo-600 to-violet-700',
+    keywords: ["handwriting generator","text to handwriting","assignment writing generator","convert typed notes to handwriting","handwritten notes maker","homework handwriting font generator"],
   },
 
   // ─── Image & Media Tools ───
@@ -246,6 +269,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-rose-500 to-pink-500',
+    keywords: ["image compressor","compress jpg","compress png","shrink image size online","reduce photo size in kb","tinypng alternative free","lossless photo compression","compress webp"],
   },
   {
     name: 'Image Resizer',
@@ -255,6 +279,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-indigo-500 to-purple-600',
+    keywords: ["image resizer","resize photo dimensions","change image width height","crop and resize image","social media image resizer free","scale photo pixels"],
   },
   {
     name: 'Image Converter',
@@ -264,6 +289,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-amber-500 to-orange-600',
+    keywords: ["image converter","convert image format","png to jpg","webp to png","jpg to webp","free batch image converter","heic png jpg converter"],
   },
   {
     name: 'Image Color Picker & Eyedropper',
@@ -273,6 +299,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-teal-500 to-emerald-600',
+    keywords: ["color picker from image","eyedropper tool online","extract hex colors from image","find rgb code from image","palette extractor","image hex finder"],
   },
   {
     name: 'SVG Viewer & Optimizer',
@@ -282,6 +309,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-cyan-500 to-blue-500',
+    keywords: ["svg viewer","svg optimizer","svgo online","minify svg","view svg online","clean svg code","reduce svg file size"],
   },
   {
     name: 'Favicon Generator',
@@ -291,6 +319,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-yellow-500 to-amber-600',
+    keywords: ["favicon generator","create ico file","convert png to favicon.ico","website favicon maker","generate apple touch icon","multi-size favicon generator"],
   },
 
   // ─── Developer & Security Tools ───
@@ -302,6 +331,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-blue-500 to-cyan-500',
+    keywords: ["json formatter","json beautifier","validate json","json parser online","pretty print json","format json string","json validator and fixer"],
   },
   {
     name: 'JWT Decoder & Inspector',
@@ -311,6 +341,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-violet-600 to-purple-700',
+    keywords: ["jwt decoder","decode json web token","jwt debugger online","inspect jwt payload","jwt io alternative","view jwt claims without secret"],
   },
   {
     name: 'UUID / GUID Generator',
@@ -320,6 +351,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-emerald-500 to-teal-600',
+    keywords: ["uuid generator","guid generator","generate v4 uuid","bulk uuid generator online free","random uuid maker","rfc4122 v4 uuid"],
   },
   {
     name: 'Code Beautifier & Minifier',
@@ -329,6 +361,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-blue-600 to-indigo-700',
+    keywords: ["code beautifier","code minifier","format javascript css html","minify js css online","prettify source code","html css js compress"],
   },
   {
     name: 'SQL Query Formatter',
@@ -338,6 +371,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-cyan-600 to-blue-700',
+    keywords: ["sql formatter","format sql query","beautify sql queries online","indent sql statements free","sql pretty printer","mysql postgresql query format"],
   },
   {
     name: 'Cron Expression Generator',
@@ -347,6 +381,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-amber-600 to-red-600',
+    keywords: ["cron expression generator","crontab generator","cron schedule maker","explain cron syntax online","cron timer helper","cron guru alternative"],
   },
   {
     name: 'Regex Tester',
@@ -356,6 +391,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-yellow-500 to-orange-500',
+    keywords: ["regex tester","test regular expression","regex playground online","regular expression evaluator","regex match debugger","regex101 alternative free"],
   },
   {
     name: 'Base64 Encoder / Decoder',
@@ -365,6 +401,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-indigo-500 to-blue-500',
+    keywords: ["base64 encode","base64 decode","convert string to base64","base64 to image decoder online free","utf8 base64 converter","binary to base64"],
   },
   {
     name: 'URL Encoder / Decoder',
@@ -374,6 +411,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-violet-500 to-purple-500',
+    keywords: ["url encode","url decode","percent encoding decoder","urldecode online free","query string encoder","escape url characters"],
   },
   {
     name: 'Timestamp Converter',
@@ -383,6 +421,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-pink-500 to-rose-500',
+    keywords: ["timestamp converter","epoch to date","unix timestamp to readable date converter","current epoch time online","millis to date converter","utc timestamp parser"],
   },
   {
     name: 'Password Generator',
@@ -392,6 +431,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-green-500 to-emerald-500',
+    keywords: ["password generator","strong password maker","secure random password generator","generate strong random password online","passphrase generator","cybersecurity password creator"],
   },
   {
     name: 'Hash Generator',
@@ -401,6 +441,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-slate-600 to-gray-800',
+    keywords: ["hash generator","md5 hash generator","sha256 generator online","calculate sha512 checksum","sha1 hash generator free","keccak sha3 hash online"],
   },
 
   // ─── Design, CSS & Styling ───
@@ -412,6 +453,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-orange-500 to-red-500',
+    keywords: ["color palette generator","color scheme generator","coolors alternative","hex color palettes for web design","complementary color palette maker","ui colors generator"],
   },
   {
     name: 'CSS Box Shadow & Glassmorphism',
@@ -421,6 +463,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-fuchsia-500 to-pink-600',
+    keywords: ["box shadow generator","css glassmorphism generator","soft shadow generator css","neumorphism box shadow maker","tailwind box shadow generator"],
   },
   {
     name: 'Aspect Ratio Calculator',
@@ -430,6 +473,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-teal-600 to-cyan-700',
+    keywords: ["aspect ratio calculator","calculate 16:9 4:3 dimensions","image aspect ratio calculator online free","screen resolution aspect ratio","resize ratio calculator"],
   },
   {
     name: 'QR Code Generator',
@@ -439,6 +483,7 @@ export const tools: Tool[] = [
     category: "Design",
     categorySlug: "design",
     color: 'from-purple-500 to-pink-500',
+    keywords: ["qr code generator","create qr code free","wifi qr code generator","qr code with logo free no expiry","custom url qr code","high resolution qr code download"],
   },
 
   // ─── Text, Content & Data ───
@@ -450,6 +495,7 @@ export const tools: Tool[] = [
     category: "Text",
     categorySlug: "text",
     color: 'from-teal-500 to-cyan-500',
+    keywords: ["word counter","character count online","sentence counter","reading time calculator","words and letters counter free","essay word length checker"],
   },
   {
     name: 'Case Converter',
@@ -459,6 +505,7 @@ export const tools: Tool[] = [
     category: "Text",
     categorySlug: "text",
     color: 'from-fuchsia-500 to-purple-600',
+    keywords: ["case converter","convert to uppercase","lowercase to title case","camelcase kebab-case converter","capital letter converter online","snake case pascal case generator"],
   },
   {
     name: 'Text Diff Checker',
@@ -468,6 +515,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-lime-500 to-green-600',
+    keywords: ["text diff checker","compare two texts online","find difference between texts","diff viewer online free","side by side text comparison","code diff checker"],
   },
   {
     name: 'Markdown Preview',
@@ -477,6 +525,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-gray-600 to-gray-800',
+    keywords: ["markdown preview","markdown editor live preview","convert markdown to html online free","github flavored markdown editor","render markdown table math"],
   },
   {
     name: 'Lorem Ipsum Generator',
@@ -486,6 +535,7 @@ export const tools: Tool[] = [
     category: "Text",
     categorySlug: "text",
     color: 'from-amber-500 to-orange-500',
+    keywords: ["lorem ipsum generator","dummy text generator","filler text paragraphs words online free","placeholder text maker","latin dummy paragraph generator"],
   },
   {
     name: 'CSV to JSON & JSON to CSV',
@@ -495,6 +545,7 @@ export const tools: Tool[] = [
     category: "Developer",
     categorySlug: "developer",
     color: 'from-emerald-600 to-green-700',
+    keywords: ["csv to json","json to csv","convert spreadsheet csv to json online","export json as csv free","convert excel csv data to json array"],
   },
   {
     name: 'List Cleaner & Deduplicator',
@@ -504,6 +555,7 @@ export const tools: Tool[] = [
     category: "Text",
     categorySlug: "text",
     color: 'from-indigo-600 to-blue-600',
+    keywords: ["list cleaner","remove duplicates from list","sort list alphabetically","deduplicate list online free","clean line breaks and spaces","item list filter"],
   },
 
   // ─── Math, Finance & Calculations ───
@@ -515,6 +567,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-sky-500 to-indigo-600',
+    keywords: ["unit converter","convert length weight speed temperature","metric to imperial conversion online","currency kg to lbs celsius to fahrenheit","universal measurement converter"],
   },
   {
     name: 'Percentage Calculator',
@@ -524,6 +577,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-purple-500 to-pink-600',
+    keywords: ["percentage calculator","calculate percent increase decrease","what percent of X is Y calculator","percent difference calculator","discount percentage calculation"],
   },
   {
     name: 'Loan & Mortgage EMI Calculator',
@@ -533,6 +587,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["loan emi calculator","mortgage payment calculator","home loan interest calculator","car loan amortization schedule","personal loan monthly repayment calculation"],
   },
   {
     name: 'Age Calculator',
@@ -542,6 +597,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-amber-500 to-rose-500',
+    keywords: ["age calculator","calculate exact age from date of birth","chronological age calculator","how old am i in days hours","dob age difference calculator"],
   },
   {
     name: 'BMI Calculator',
@@ -551,6 +607,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-teal-500 to-emerald-600',
+    keywords: ["bmi calculator","body mass index calculator","ideal weight calculator metric imperial","calculate bmi adult free","healthy weight range bmi chart"],
   },
   {
     name: 'Weight, Calorie & BMR Calculator',
@@ -560,6 +617,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-orange-500 to-red-600',
+    keywords: ["calorie calculator","bmr calculator","daily calorie maintenance calculator","tdee calculator free","basal metabolic rate weight loss calculator"],
   },
   {
     name: 'SIP Calculator',
@@ -569,6 +627,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-indigo-600 to-emerald-600',
+    keywords: ["sip calculator","systematic investment plan return calculator","mutual fund sip calculator","calculate wealth compound interest","sip maturity amount formula"],
   },
   {
     name: 'Compound Interest Calculator',
@@ -578,6 +637,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["compound interest calculator","calculate interest compounding daily monthly annually","future value investment calculator","apy interest calculation online"],
   },
   {
     name: 'GST & Sales Tax Calculator',
@@ -587,6 +647,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-amber-500 to-orange-600',
+    keywords: ["gst calculator","calculate goods and services tax","add remove gst percentage","gst invoice tax calculator","reverse gst calculation formula"],
   },
   {
     name: 'Salary & Income Tax Calculator',
@@ -596,6 +657,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-emerald-600 to-teal-600',
+    keywords: ["salary calculator","take home pay calculator","in hand salary calculator after tax deductions","gross to net salary calculation","annual ctc breakdown monthly pay"],
   },
   {
     name: 'Fixed Deposit (FD) & RD Calculator',
@@ -605,6 +667,7 @@ export const tools: Tool[] = [
     category: "Calculators",
     categorySlug: "calculators",
     color: 'from-blue-600 to-indigo-600',
+    keywords: ["fd calculator","fixed deposit maturity calculator","recurring deposit rd return calculator","bank fd interest rate payout calculator","compounding fd formula"],
   },
   // ─── PDF24 Super Suite Additions ───
   {
@@ -615,6 +678,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-sky-500 to-indigo-600',
+    keywords: ["invoice generator","free invoice maker","create receipt online","download invoice pdf free no watermark","billing invoice template","freelancer client invoice pdf"],
   },
   {
     name: 'Flatten PDF',
@@ -624,6 +688,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-amber-500 to-red-600',
+    keywords: ["flatten pdf","flatten pdf form fields","lock pdf annotations","make fillable pdf read only free online","flatten layers in pdf document"],
   },
   {
     name: 'Pages Per Sheet (N-Up)',
@@ -633,6 +698,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-emerald-500 to-teal-600',
+    keywords: ["pages per sheet pdf","n-up pdf","multiple pages per sheet print","print 2 pages per sheet pdf online","booklet print 4 up pdf"],
   },
   {
     name: 'Rearrange PDF Pages',
@@ -642,6 +708,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-blue-500 to-indigo-600',
+    keywords: ["rearrange pdf pages","reorder pdf pages","drag and drop pdf page order online free","sort pages in pdf document","change pdf sequence"],
   },
   {
     name: 'Extract Images from PDF',
@@ -651,6 +718,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-purple-500 to-pink-600',
+    keywords: ["extract images from pdf","rip pictures from pdf","save all images in pdf document free online","pdf image grabber","export photos from pdf"],
   },
   {
     name: 'Edit PDF',
@@ -660,6 +728,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-amber-500 to-yellow-600',
+    keywords: ["edit pdf","online pdf editor","add text to pdf free","modify pdf documents in browser without upload","free pdf annotations highlighter text","write on pdf online"],
   },
   {
     name: 'Universal PDF Converter',
@@ -669,6 +738,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-indigo-600 to-blue-700',
+    keywords: ["universal pdf converter","convert any file to pdf","convert pdf to anything","all in one pdf tool online","office image text to pdf","batch pdf converter"],
   },
   {
     name: 'Protect PDF (Password & Lock)',
@@ -678,6 +748,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["protect pdf","password protect pdf","encrypt pdf file","add password to pdf online free","aes 128 256 encryption pdf","lock confidential pdf"],
   },
   {
     name: 'Unlock PDF',
@@ -687,6 +758,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-rose-500 to-pink-600',
+    keywords: ["unlock pdf","remove pdf password","decrypt pdf file","unlock protected pdf online free","remove owner permissions from pdf","strip password from pdf"],
   },
   {
     name: 'Extract PDF Pages',
@@ -696,6 +768,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-purple-600 to-indigo-600',
+    keywords: ["extract pdf pages","save specific pages as new pdf","pull pages out of pdf free online","select and save pages from pdf","pdf page extractor"],
   },
   {
     name: 'Webpage & HTML to PDF',
@@ -705,6 +778,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-blue-500 to-cyan-600',
+    keywords: ["webpage to pdf","convert html to pdf","save website as pdf","url to pdf converter online free","article webpage to pdf downloader","snapshot full webpage pdf"],
   },
   {
     name: 'PDF OCR (Text Recognition)',
@@ -714,6 +788,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-cyan-600 to-teal-700',
+    keywords: ["pdf ocr","recognize text in scanned pdf","ocr online free","searchable pdf converter","extract scanned text","image to searchable pdf tesseract"],
   },
   {
     name: 'PDF Overlay & Letterhead',
@@ -723,6 +798,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-violet-600 to-purple-700',
+    keywords: ["overlay pdf","add letterhead to pdf","superimpose pdf pages","pdf background overlay online","watermark stamp overlay onto pdf"],
   },
   {
     name: 'Compare PDFs',
@@ -732,6 +808,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-orange-500 to-amber-600',
+    keywords: ["compare pdf","compare two pdf files side by side","pdf diff visual checker online free","find differences in pdf documents","spot revisions in contract pdf"],
   },
   {
     name: 'Web Optimize PDF',
@@ -741,6 +818,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-teal-500 to-emerald-600',
+    keywords: ["web optimize pdf","linearize pdf for fast web view","fast streaming pdf optimizer online","fast web view pdf compressor","optimize pdf for browser preview"],
   },
   {
     name: 'Create PDF from Scratch',
@@ -750,6 +828,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-rose-600 to-red-600',
+    keywords: ["create pdf from scratch","make blank pdf document","generate new pdf online free","blank a4 canvas to pdf","design pdf document online"],
   },
   {
     name: 'Repair PDF',
@@ -759,6 +838,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-amber-500 to-orange-600',
+    keywords: ["repair pdf","fix corrupted pdf","restore damaged pdf document online free","repair unreadable broken pdf","rebuild pdf xref table"],
   },
   {
     name: 'Rasterize PDF',
@@ -768,6 +848,7 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-slate-600 to-zinc-700',
+    keywords: ["rasterize pdf","flatten pdf into images","convert vector pdf to bitmap","rasterize pdf pages online","convert pdf text to flat pictures"],
   },
   {
     name: 'PDF to PDF/A',
@@ -777,6 +858,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-blue-600 to-indigo-700',
+    keywords: ["pdf to pdf/a","convert pdf to archival pdf/a format","pdfa compliance converter online free","long term archiving pdf a1 a2 converter","iso compliant pdfa"],
   },
   {
     name: 'Halve PDF Pages',
@@ -786,6 +868,7 @@ export const tools: Tool[] = [
     category: "Organize PDF",
     categorySlug: "organize-pdf",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["halve pdf pages","split 2-up book scans into single pages","divide pdf pages in half online","split double page spread pdf","slice scanned book pages vertically"],
   },
   {
     name: 'Change PDF Page Size',
@@ -795,6 +878,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-indigo-500 to-purple-600',
+    keywords: ["change pdf page size","resize pdf to a4 letter legal","scale pdf page dimensions online","convert us letter to a4 pdf","fit pdf page to print paper size"],
   },
   {
     name: 'Fill Out PDF Form',
@@ -804,6 +888,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-teal-600 to-emerald-700',
+    keywords: ["fill pdf form","fill out pdf form online","interactive pdf form filler free","type in pdf form fields","sign and submit fillable pdf form"],
   },
   {
     name: 'Create Fillable PDF',
@@ -813,6 +898,7 @@ export const tools: Tool[] = [
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-sky-600 to-blue-700',
+    keywords: ["create fillable pdf","add form fields to pdf","make interactive text boxes checkboxes in pdf","build fillable application form pdf","pdf form creator free"],
   },
   {
     name: 'Bookmark PDF',
@@ -822,6 +908,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-rose-500 to-pink-600',
+    keywords: ["bookmark pdf","add bookmarks to pdf","create pdf table of contents outline free","interactive pdf outline maker","add chapter bookmarks to pdf"],
   },
   {
     name: 'PDF Reader & Viewer',
@@ -831,6 +918,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-blue-500 to-cyan-600',
+    keywords: ["pdf reader online","view pdf in browser","free online pdf viewer with zoom and search","open pdf without acrobat","read ebook pdf online"],
   },
   {
     name: 'PDF Viewer Preferences',
@@ -840,6 +928,7 @@ export const tools: Tool[] = [
     category: "Edit PDF",
     categorySlug: "edit-pdf",
     color: 'from-violet-500 to-indigo-600',
+    keywords: ["set pdf viewer preferences","pdf initial view settings","open pdf in two page spread default","hide pdf viewer toolbar menu","customize acrobat display mode"],
   },
   {
     name: 'PDF to Markdown',
@@ -849,6 +938,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-orange-600 to-red-600',
+    keywords: ["pdf to markdown","convert pdf to md","extract pdf text to markdown syntax online free","turn pdf document into github markdown","pdf tables to markdown"],
   },
   {
     name: 'Markdown to PDF',
@@ -858,6 +948,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-fuchsia-600 to-pink-700',
+    keywords: ["markdown to pdf","convert md to pdf","render github markdown as pdf document free","markdown resume to pdf","stylish markdown pdf generator"],
   },
   {
     name: 'PDF to HTML',
@@ -867,6 +958,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-amber-500 to-yellow-600',
+    keywords: ["pdf to html","convert pdf to webpage","extract pdf to responsive html online free","turn pdf catalog into web page","pdf document to clean html"],
   },
   {
     name: 'PDF to PNG',
@@ -876,6 +968,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-emerald-500 to-cyan-600',
+    keywords: ["pdf to png","convert pdf to high resolution png","extract png images from pdf online free","save pdf page transparent png","pdf to lossless png"],
   },
   {
     name: 'PDF to SVG',
@@ -885,6 +978,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-cyan-500 to-blue-600',
+    keywords: ["pdf to svg","convert pdf vector to svg","extract scalable vector graphics from pdf","vectorize pdf to svg","pdf artwork to svg online free"],
   },
   {
     name: 'Electronic Invoice (Factur-X / ZUGFeRD)',
@@ -894,6 +988,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-green-600 to-emerald-700',
+    keywords: ["electronic invoice generator","factur-x generator","zugferd pdf generator","einvoice compliance free","xml embedded pdf invoice","b2b electronic invoice creator"],
   },
   {
     name: 'PDF to Word (.docx)',
@@ -903,6 +998,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-blue-600 to-indigo-700',
+    keywords: ["pdf to word","convert pdf to docx","editable word document from pdf","pdf to doc online free no email","ilovepdf pdf to word","smallpdf convert pdf to word","accurate pdf to docx converter"],
   },
   {
     name: 'Word to PDF (.docx to PDF)',
@@ -912,6 +1008,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-indigo-600 to-purple-700',
+    keywords: ["word to pdf","convert docx to pdf","doc to pdf converter","ms word to pdf online free","ilovepdf word to pdf","save word file as pdf","office docx to pdf converter free"],
   },
   {
     name: 'PDF to Excel (.xlsx)',
@@ -921,6 +1018,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-emerald-600 to-green-700',
+    keywords: ["pdf to excel","convert pdf table to xlsx","pdf to spreadsheet","extract tables from pdf to excel online free","bank statement pdf to xlsx","ilovepdf pdf to excel"],
   },
   {
     name: 'Excel to PDF (.xlsx to PDF)',
@@ -930,6 +1028,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-teal-600 to-emerald-700',
+    keywords: ["excel to pdf","convert xlsx to pdf","spreadsheet to pdf converter online free","save excel workbook as pdf","fit excel sheet to a4 pdf page"],
   },
   {
     name: 'HEIC to JPG / PNG',
@@ -939,6 +1038,7 @@ export const tools: Tool[] = [
     category: "Media",
     categorySlug: "media",
     color: 'from-rose-500 to-orange-600',
+    keywords: ["heic to jpg","convert iphone heic to jpeg","heic to png converter online free","apple photo to jpg","batch heic converter","open heic image on windows pc"],
   },
   {
     name: 'PDF to PowerPoint (.pptx)',
@@ -948,6 +1048,7 @@ export const tools: Tool[] = [
     category: "Convert from PDF",
     categorySlug: "convert-from-pdf",
     color: 'from-orange-600 to-red-600',
+    keywords: ["pdf to powerpoint","convert pdf to pptx","pdf slides to powerpoint presentation online free","turn pdf into editable ppt slides","ilovepdf pdf to ppt"],
   },
   {
     name: 'All-in-One Universal Office Converter',
@@ -957,6 +1058,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-indigo-600 via-purple-600 to-pink-600',
+    keywords: ["office converter","convert word excel powerpoint","all in one document converter online free","convert docx xlsx pptx to pdf","cloudconvert free alternative private"],
   },
   {
     name: 'Word to HTML (.docx to HTML)',
@@ -966,6 +1068,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-blue-600 to-cyan-600',
+    keywords: ["word to html","convert docx to html code","clean word formatting to web page free","ms word document to clean html tags","word to clean web format"],
   },
   {
     name: 'Word to TXT (.docx to Plain Text)',
@@ -975,6 +1078,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-sky-600 to-blue-700',
+    keywords: ["word to txt","convert docx to plain text","extract text from word document free","strip formatting from docx file","batch word to text converter"],
   },
   {
     name: 'Word to Markdown (.docx to .md)',
@@ -984,6 +1088,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-slate-700 to-indigo-800',
+    keywords: ["word to markdown","convert docx to md","word document to github markdown converter free","turn word headings tables to markdown","pandoc docx to md online"],
   },
   {
     name: 'Online Word Document Editor',
@@ -993,6 +1098,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-blue-700 to-indigo-800',
+    keywords: ["online word editor","edit docx in browser","free word processor without microsoft office","google docs alternative online","rich text document editor"],
   },
   {
     name: 'Excel to CSV (.xlsx to .csv)',
@@ -1002,6 +1108,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-emerald-600 to-teal-700',
+    keywords: ["excel to csv","convert xlsx to csv","spreadsheet to comma separated values online free","export excel workbook to csv utf8","batch xlsx to csv converter"],
   },
   {
     name: 'Excel to JSON (.xlsx to .json)',
@@ -1011,6 +1118,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-green-600 to-emerald-700',
+    keywords: ["excel to json","convert xlsx to json array","spreadsheet data to json online free","export excel table to json objects","excel to json format converter"],
   },
   {
     name: 'Excel to HTML (.xlsx to HTML Table)',
@@ -1020,6 +1128,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-teal-600 to-cyan-700',
+    keywords: ["excel to html table","convert xlsx to html table code","embed excel sheet in website free","responsive html table from spreadsheet","excel table export to html"],
   },
   {
     name: 'PowerPoint to PDF (.pptx to PDF)',
@@ -1029,6 +1138,7 @@ export const tools: Tool[] = [
     category: "Convert to PDF",
     categorySlug: "convert-to-pdf",
     color: 'from-orange-600 to-amber-700',
+    keywords: ["powerpoint to pdf","convert pptx to pdf","presentation slides to pdf online free","save powerpoint presentation as pdf document","export ppt slides to high quality pdf"],
   },
   {
     name: 'PowerPoint to Images (.pptx to JPG/PNG)',
@@ -1038,6 +1148,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-amber-500 to-rose-600',
+    keywords: ["powerpoint to images","convert pptx to jpg png","export presentation slides as photos free","save powerpoint slides as pictures","batch pptx to png extractor"],
   },
   {
     name: 'PowerPoint Viewer & Slideshow',
@@ -1047,6 +1158,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-red-600 to-orange-600',
+    keywords: ["powerpoint viewer online","view pptx without powerpoint","presentation slideshow player in browser","free online pptx slide viewer","play powerpoint slides online"],
   },
   {
     name: 'PowerPoint to HTML (.pptx to Web Deck)',
@@ -1056,6 +1168,7 @@ export const tools: Tool[] = [
     category: "Office",
     categorySlug: "office",
     color: 'from-purple-600 to-pink-600',
+    keywords: ["powerpoint to html","convert pptx to web slides deck","interactive html slideshow maker free","reveal js html presentation from pptx","export powerpoint to web deck"],
   },
 ];
 

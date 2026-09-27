@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('');
@@ -348,6 +349,8 @@ export default function JsonFormatter() {
           Your confidential JSON data is evaluated locally inside your browser using the native V8 JavaScript parser. No network requests are made, ensuring your API tokens and credentials remain completely confidential.
         </p>
       </div>
+
+      <RelatedTools currentSlug="json-formatter" />
     </div>
   );
 }

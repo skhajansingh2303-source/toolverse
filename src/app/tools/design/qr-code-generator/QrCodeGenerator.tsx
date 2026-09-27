@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import QRCode from 'qrcode';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function QrCodeGenerator() {
   const [tab, setTab] = useState<'url' | 'wifi' | 'text' | 'email'>('url');
@@ -363,6 +364,8 @@ export default function QrCodeGenerator() {
           <li>Download the crisp PNG file and embed it in your posters, business cards, or packaging.</li>
         </ul>
       </div>
+
+      <RelatedTools currentSlug="qr-code-generator" />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 interface DiffLine {
   type: 'added' | 'removed' | 'unchanged';
@@ -218,10 +219,10 @@ export default function TextDiffChecker() {
                 key={idx}
                 className={`flex items-start px-4 py-1.5 transition-colors ${
                   isAdded
-                    ? 'bg-emerald-50/80 text-emerald-900'
+                    ? 'bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300'
                     : isRemoved
-                    ? 'bg-red-50/80 text-red-900'
-                    : 'bg-white text-gray-800 hover:bg-gray-50'
+                    ? 'bg-rose-50/80 dark:bg-rose-950/60 text-rose-900 dark:text-rose-300'
+                    : 'bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800'
                 }`}
               >
                 {/* Line number indicators */}
@@ -242,6 +243,8 @@ export default function TextDiffChecker() {
           })}
         </div>
       </div>
+
+      <RelatedTools currentSlug="text-diff-checker" />
     </div>
   );
 }

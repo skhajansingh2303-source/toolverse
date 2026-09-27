@@ -272,6 +272,7 @@ export default function RootLayout({
                     document.head.appendChild(meta);
                   }
                 }
+              } catch(e) {}
               try {
                 if (window.self !== window.top) {
                   document.documentElement.classList.add('is-embedded');

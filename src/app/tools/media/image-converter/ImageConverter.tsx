@@ -3,12 +3,22 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
 
 type ImageFormat = 'image/png' | 'image/jpeg' | 'image/webp';
+
+interface ConvertResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+  formatLabel: string;
+}
 
 export default function ImageConverter() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [result, setResult] = useState<ConvertResult | null>(null);
   
   const [targetFormat, setTargetFormat] = useState<ImageFormat>('image/jpeg');
   const [quality, setQuality] = useState<number>(0.9);
@@ -75,16 +85,24 @@ export default function ImageConverter() {
         canvas.toBlob((blob) => {
           if (blob) {
             const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            
             const originalName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image';
-            link.download = `${originalName}_converted${getExtension(targetFormat)}`;
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+            const downloadFilename = `${originalName}_converted${getExtension(targetFormat)}`;
+
+            setResult({
+              blobUrl: url,
+              filename: downloadFilename,
+              size: blob.size,
+              formatLabel: getFormatLabel(targetFormat),
+            });
+
+            try {
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = downloadFilename;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            } catch {}
           }
           setIsProcessing(false);
         }, targetFormat, quality);
@@ -197,6 +215,36 @@ export default function ImageConverter() {
               </div>
             </div>
           )}
+
+          {result && (
+            <ToolResultCard
+              title="Image Converted Successfully!"
+              filename={result.filename}
+              downloadUrl={result.blobUrl}
+              fileSize={result.size}
+              originalSize={file?.size}
+              badgeText={`Converted to ${result.formatLabel}`}
+              details={[
+                { label: 'Target Format', value: result.formatLabel },
+                { label: 'Original Format', value: file?.type.replace('image/', '').toUpperCase() || 'Image' },
+                { label: 'Quality Setting', value: targetFormat !== 'image/png' ? `${Math.round(quality * 100)}%` : 'Lossless' },
+              ]}
+              previewUrl={result.blobUrl}
+              previewType="image"
+              onReset={() => {
+                setFile(null);
+                setPreviewUrl('');
+                setResult(null);
+              }}
+              resetButtonText="Convert Another Image"
+              suggestedTools={[
+                { name: 'Compress Image', url: '/tools/media/image-compressor/', icon: '🗜️', badge: 'Save Space' },
+                { name: 'Resize Image', url: '/tools/media/image-resizer/', icon: '📐', badge: 'Dimensions' },
+                { name: 'Convert to PDF', url: '/tools/convert-to-pdf/image-to-pdf/', icon: '📑', badge: 'Document' },
+                { name: 'Favicon Generator', url: '/tools/media/favicon-generator/', icon: '⭐', badge: 'Asset' },
+              ]}
+            />
+          )}
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-200 dark:border-slate-800 p-8">
@@ -208,6 +256,8 @@ export default function ImageConverter() {
             <li>Click "Convert" to instantly process and download the new image format securely in your browser.</li>
           </ol>
         </div>
+
+        <RelatedTools currentSlug="image-converter" />
       </div>
     </div>
   );

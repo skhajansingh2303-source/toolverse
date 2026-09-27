@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function BmiCalculator() {
   const [unit, setUnit] = useState<'metric' | 'imperial'>('metric');
@@ -250,6 +251,8 @@ export default function BmiCalculator() {
           )}
         </div>
       </div>
+
+      <RelatedTools currentSlug="bmi-calculator" />
     </div>
   );
 }

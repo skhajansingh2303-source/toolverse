@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function AgeCalculator() {
   const [birthDate, setBirthDate] = useState('2000-01-01');
@@ -204,10 +205,12 @@ export default function AgeCalculator() {
           </div>
         </div>
       ) : (
-        <div className="p-6 bg-red-50 text-red-700 rounded-2xl text-xs border border-red-200 mb-8">
+        <div className="p-6 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-300 rounded-2xl text-xs border border-red-200 dark:border-red-900/50 mb-8">
           Please select a valid date of birth earlier than the target date.
         </div>
       )}
+
+      <RelatedTools currentSlug="age-calculator" />
     </div>
   );
 }

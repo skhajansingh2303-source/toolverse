@@ -6,6 +6,7 @@ import Script from 'next/script';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
 import DocumentLiveViewer from '@/components/DocumentLiveViewer';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function PdfToJpg() {
   const [file, setFile] = useState<File | null>(null);
@@ -424,6 +425,8 @@ export default function PdfToJpg() {
             </li>
           </ol>
         </section>
+
+        <RelatedTools currentSlug="pdf-to-jpg" />
       </div>
     </div>
   );

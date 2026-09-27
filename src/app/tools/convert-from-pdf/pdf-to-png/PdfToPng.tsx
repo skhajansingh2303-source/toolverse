@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 interface PngPage {
   pageNumber: number;
@@ -560,6 +561,8 @@ export default function PdfToPng() {
             </div>
           </div>
         </div>
+
+        <RelatedTools currentSlug="pdf-to-png" />
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import JSZip from 'jszip';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export default function WordEditor() {
   const [docTitle, setDocTitle] = useState('Untitled Document');
@@ -78,7 +80,7 @@ export default function WordEditor() {
             }
           }
           if (editorRef.current) {
-            editorRef.current.innerHTML = html || '<p>Document was empty or non-textual.</p>';
+            editorRef.current.innerHTML = sanitizeHtml(html) || '<p>Document was empty or non-textual.</p>';
             updateStats();
           }
         }
@@ -88,7 +90,7 @@ export default function WordEditor() {
     } else if (file.name.endsWith('.html') || file.name.endsWith('.htm')) {
       const text = await file.text();
       if (editorRef.current) {
-        editorRef.current.innerHTML = text;
+        editorRef.current.innerHTML = sanitizeHtml(text);
         updateStats();
       }
     } else {
@@ -513,6 +515,8 @@ export default function WordEditor() {
             <p>Never. Your text stays entirely in your browser memory and is never transmitted over the network.</p>
           </div>
         </div>
+
+        <RelatedTools currentSlug="word-editor" />
       </div>
     </div>
   );

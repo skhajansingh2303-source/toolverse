@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 export default function LoanCalculator() {
   const [principal, setPrincipal] = useState('250000');
@@ -193,10 +194,10 @@ export default function LoanCalculator() {
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-slate-800 text-gray-700 dark:text-slate-200">
                 {loanResults.schedule.map((row) => (
-                  <tr key={row.year} className="hover:bg-gray-50">
+                  <tr key={row.year} className="hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors">
                     <td className="p-2.5 font-bold">{row.year}</td>
-                    <td className="p-2.5 text-emerald-600">${row.principalPaid.toLocaleString()}</td>
-                    <td className="p-2.5 text-rose-600">${row.interestPaid.toLocaleString()}</td>
+                    <td className="p-2.5 text-emerald-600 dark:text-emerald-400 font-semibold">${row.principalPaid.toLocaleString()}</td>
+                    <td className="p-2.5 text-rose-600 dark:text-rose-400 font-semibold">${row.interestPaid.toLocaleString()}</td>
                     <td className="p-2.5 font-mono">${row.balance.toLocaleString()}</td>
                   </tr>
                 ))}
@@ -205,6 +206,8 @@ export default function LoanCalculator() {
           </div>
         </div>
       </div>
+
+      <RelatedTools currentSlug="loan-calculator" />
     </div>
   );
 }

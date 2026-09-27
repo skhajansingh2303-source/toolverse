@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
+import RelatedTools from '@/components/RelatedTools';
 
 interface Work {
   id: string; title: string; company: string; dates: string; bullets: string;
@@ -202,6 +203,10 @@ export default function ResumeBuilder() {
             <li>Preview your resume in real-time on the right.</li>
             <li>Click "Print / Save PDF" to download or print your resume instantly.</li>
           </ol>
+        </div>
+
+        <div className="print:hidden">
+          <RelatedTools currentSlug="resume-builder" />
         </div>
 
       </div>
