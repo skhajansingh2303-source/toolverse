@@ -13,6 +13,107 @@ export function getToolUrl(tool: { categorySlug?: string; slug: string }): strin
   return "/tools/" + (tool.categorySlug || "organize-pdf") + "/" + tool.slug;
 }
 
+export function searchTools(toolList: Tool[], query: string): Tool[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return toolList;
+
+  // Split query into individual clean tokens
+  const tokens = q
+    .split(/\s+/)
+    .map((t) => t.replace(/[^a-z0-9]/gi, '').toLowerCase())
+    .filter((t) => t.length > 0);
+
+  if (tokens.length === 0) return toolList;
+
+  interface ScoredTool {
+    tool: Tool;
+    score: number;
+    matchReason?: string;
+  }
+
+  const scored: ScoredTool[] = [];
+
+  for (const tool of toolList) {
+    const nameLower = tool.name.toLowerCase();
+    const slugLower = tool.slug.toLowerCase();
+    const descLower = tool.description.toLowerCase();
+    const catLower = tool.category.toLowerCase();
+    const keywords = (tool.keywords || []).map((k) => k.toLowerCase());
+
+    let score = 0;
+    let matchReason: string | undefined;
+
+    // 1. Exact match with tool name or slug
+    if (nameLower === q || slugLower === q) {
+      score += 1000;
+      matchReason = tool.name;
+    }
+    // 2. Exact match with one of the keywords
+    else if (keywords.includes(q)) {
+      score += 850;
+      matchReason = keywords.find((k) => k === q);
+    }
+    // 3. Name starts with query or contains query as a whole phrase
+    else if (nameLower.startsWith(q)) {
+      score += 600;
+      matchReason = tool.name;
+    } else if (nameLower.includes(q)) {
+      score += 450;
+      matchReason = tool.name;
+    }
+    // 4. Any keyword contains full query as a phrase or query contains the keyword
+    else if (keywords.some((k) => k.includes(q) || q.includes(k))) {
+      score += 350;
+      matchReason = keywords.find((k) => k.includes(q) || q.includes(k));
+    }
+    // 5. Description contains full query phrase
+    else if (descLower.includes(q)) {
+      score += 250;
+    }
+    // 6. Slug contains full query
+    else if (slugLower.includes(q)) {
+      score += 200;
+    }
+
+    // 7. Token-based matching (Multi-word intent, e.g. "make pdf text readable", "optical character recognition")
+    let matchedTokensCount = 0;
+    for (const token of tokens) {
+      const inName = nameLower.includes(token);
+      const inKeyword = keywords.some((k) => k.includes(token));
+      const inDesc = descLower.includes(token);
+      const inSlug = slugLower.includes(token);
+      const inCat = catLower.includes(token);
+
+      if (inName || inKeyword || inDesc || inSlug || inCat) {
+        matchedTokensCount++;
+        if (inName) score += 40;
+        else if (inKeyword) score += 30;
+        else if (inSlug) score += 20;
+        else if (inDesc) score += 15;
+        else score += 10;
+      }
+    }
+
+    // Bonus for matching all tokens in a multi-word search
+    if (tokens.length > 1 && matchedTokensCount === tokens.length) {
+      score += 250;
+      if (!matchReason) {
+        // Find best matching keyword for badge preview
+        matchReason = keywords.find((k) => tokens.some((t) => k.includes(t)));
+      }
+    } else if (tokens.length >= 3 && matchedTokensCount >= tokens.length - 1) {
+      score += 120;
+    }
+
+    if (score > 0 && (matchedTokensCount === tokens.length || score >= 80)) {
+      scored.push({ tool, score, matchReason });
+    }
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.map((s) => s.tool);
+}
+
 export interface ToolCategory {
   name: string;
   slug: string;
@@ -758,7 +859,35 @@ export const tools: Tool[] = [
     category: "Optimize PDF",
     categorySlug: "optimize-pdf",
     color: 'from-cyan-600 to-teal-700',
-    keywords: ["pdf ocr","recognize text in scanned pdf","ocr online free","searchable pdf converter","extract scanned text","image to searchable pdf tesseract"],
+    keywords: [
+      "pdf ocr",
+      "ocr",
+      "optical character recognition",
+      "optical character recognition pdf",
+      "optical character reader",
+      "ocr full form",
+      "make pdf text readable",
+      "make pdf readable",
+      "make pdf text searchable",
+      "make pdf searchable",
+      "searchable pdf",
+      "searchable pdf converter",
+      "recognize text in scanned pdf",
+      "scanned pdf to text",
+      "scanned document to text",
+      "extract text from scanned pdf",
+      "extract text from image pdf",
+      "extract scanned text",
+      "read text from pdf",
+      "read text from scanned pdf",
+      "copy text from scanned pdf",
+      "convert scanned pdf to searchable pdf",
+      "image to searchable pdf tesseract",
+      "turn scanned pdf into text",
+      "select text in scanned pdf",
+      "unsearchable pdf to searchable",
+      "ocr online free"
+    ],
   },
   {
     name: 'PDF Overlay & Letterhead',

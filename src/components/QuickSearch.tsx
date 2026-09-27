@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { tools, Tool, getToolUrl } from '@/lib/tools';
+import { tools, Tool, getToolUrl, searchTools } from '@/lib/tools';
 
 interface QuickSearchProps {
   isOpen: boolean;
@@ -29,16 +29,7 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
   if (!isOpen) return null;
 
   const q = query.trim().toLowerCase();
-  const filtered = tools.filter((t) => {
-    if (!q) return true;
-    return (
-      t.name.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q) ||
-      t.category.toLowerCase().includes(q) ||
-      t.slug.toLowerCase().includes(q) ||
-      t.keywords?.some((k) => k.toLowerCase().includes(q))
-    );
-  });
+  const filtered = searchTools(tools, query);
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-gray-950/70 backdrop-blur-sm animate-fade-in">

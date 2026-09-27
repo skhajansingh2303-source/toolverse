@@ -2,54 +2,109 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Script from 'next/script';
 import AdSlot from '@/components/AdSlot';
+import ToolResultCard from '@/components/ToolResultCard';
+import RelatedTools from '@/components/RelatedTools';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import type { Page, Line } from 'tesseract.js';
+
+interface OcrLineData {
+  text: string;
+  bbox: { x0: number; y0: number; x1: number; y1: number };
+}
 
 interface PageOcrResult {
   pageNum: number;
   text: string;
   previewUrl: string;
+  canvasWidth: number;
+  canvasHeight: number;
+  lines: OcrLineData[];
+}
+
+interface GeneratedPdfResult {
+  blobUrl: string;
+  filename: string;
+  size: number;
+}
+
+const SUPPORTED_LANGUAGES = [
+  { code: 'eng', label: 'English (Default)' },
+  { code: 'spa', label: 'Spanish (Español)' },
+  { code: 'fra', label: 'French (Français)' },
+  { code: 'deu', label: 'German (Deutsch)' },
+  { code: 'ita', label: 'Italian (Italiano)' },
+  { code: 'por', label: 'Portuguese (Português)' },
+  { code: 'hin', label: 'Hindi (हिन्दी)' },
+];
+
+// Sanitize string to WinAnsi compatible characters for standard PDF Helvetica font
+function sanitizePdfText(str: string): string {
+  return str
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/[\u2026]/g, '...')
+    .replace(/[^\x20-\x7E\xA0-\xFF]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractLinesFromOcr(data: any): OcrLineData[] {
+  const rawLines: any[] = [];
+  if (Array.isArray(data?.lines) && data.lines.length > 0) {
+    rawLines.push(...data.lines);
+  } else if (Array.isArray(data?.blocks)) {
+    for (const block of data.blocks) {
+      if (Array.isArray(block?.paragraphs)) {
+        for (const para of block.paragraphs) {
+          if (Array.isArray(para?.lines)) {
+            for (const line of para.lines) {
+              rawLines.push(line);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return rawLines
+    .filter((l: any) => l && typeof l.text === 'string' && l.text.trim().length > 0)
+    .map((l: any) => ({
+      text: l.text.trim(),
+      bbox: {
+        x0: l.bbox?.x0 ?? 0,
+        y0: l.bbox?.y0 ?? 0,
+        x1: l.bbox?.x1 ?? 0,
+        y1: l.bbox?.y1 ?? 0,
+      },
+    }));
 }
 
 export default function PdfOcr() {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [progressText, setProgressText] = useState('');
+  const [progressStatus, setProgressStatus] = useState('');
   const [progressPercent, setProgressPercent] = useState(0);
   const [contrastBoost, setContrastBoost] = useState(true);
-  const [language, setLanguage] = useState<'eng' | 'spa' | 'fra' | 'deu'>('eng');
+  const [language, setLanguage] = useState<string>('eng');
   const [ocrResults, setOcrResults] = useState<PageOcrResult[]>([]);
   const [editableText, setEditableText] = useState('');
   const [activeTab, setActiveTab] = useState<'text' | 'preview'>('text');
-  const [pdfjsLoaded, setPdfjsLoaded] = useState(false);
-  const [tesseractLoaded, setTesseractLoaded] = useState(false);
   const [copied, setCopied] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [searchablePdfResult, setSearchablePdfResult] = useState<GeneratedPdfResult | null>(null);
+  const [searchVerifyQuery, setSearchVerifyQuery] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isCancelledRef = useRef(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if ((window as any).pdfjsLib) setPdfjsLoaded(true);
-      if ((window as any).Tesseract) setTesseractLoaded(true);
-    }
+    return () => {
+      isCancelledRef.current = true;
+    };
   }, []);
-
-  const handlePdfjsLoad = () => {
-    if (typeof window !== 'undefined' && (window as any).pdfjsLib) {
-      (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      setPdfjsLoaded(true);
-    }
-  };
-
-  const handleTesseractLoad = () => {
-    if (typeof window !== 'undefined' && (window as any).Tesseract) {
-      setTesseractLoaded(true);
-    }
-  };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -59,124 +114,45 @@ export default function PdfOcr() {
       setEditableText('');
       setErrorMsg('');
       setProgressPercent(0);
-      setProgressText('');
+      setProgressStatus('');
+      setSearchablePdfResult(null);
+      setSearchVerifyQuery('');
     }
   };
 
-  // Contrast enhancement & Otsu-style threshold pre-processor
-  const enhanceCanvasContrast = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
+  // Safe contrast & luminance normalization (non-destructive grayscale curve)
+  const normalizeCanvasContrast = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return canvas;
 
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imgData.data;
 
-    // Calculate luminance histogram
-    const histogram = new Array(256).fill(0);
-    for (let i = 0; i < data.length; i += 4) {
-      const gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
-      histogram[gray]++;
+    let minLum = 255;
+    let maxLum = 0;
+
+    // First pass: find luminance range
+    for (let i = 0; i < data.length; i += 16) {
+      const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      if (lum < minLum) minLum = lum;
+      if (lum > maxLum) maxLum = lum;
     }
 
-    // Otsu method for optimal thresholding
-    let total = canvas.width * canvas.height;
-    let sum = 0;
-    for (let t = 0; t < 256; t++) sum += t * histogram[t];
+    // If already high contrast, skip
+    if (maxLum - minLum < 30) return canvas;
 
-    let sumB = 0;
-    let wB = 0;
-    let wF = 0;
-    let varMax = 0;
-    let threshold = 128;
-
-    for (let t = 0; t < 256; t++) {
-      wB += histogram[t];
-      if (wB === 0) continue;
-      wF = total - wB;
-      if (wF === 0) break;
-
-      sumB += t * histogram[t];
-      const mB = sumB / wB;
-      const mF = (sum - sumB) / wF;
-
-      const varBetween = wB * wF * (mB - mF) * (mB - mF);
-      if (varBetween > varMax) {
-        varMax = varBetween;
-        threshold = t;
-      }
-    }
-
-    // Apply high-contrast binarization / sharpening
+    const range = maxLum - minLum;
+    // Second pass: apply soft linear stretch
     for (let i = 0; i < data.length; i += 4) {
       const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-      // Boost contrast curve around threshold
-      const val = gray < threshold ? Math.max(0, gray * 0.4) : Math.min(255, gray * 1.2 + 30);
-      data[i] = val;
-      data[i + 1] = val;
-      data[i + 2] = val;
+      const normalized = Math.min(255, Math.max(0, ((gray - minLum) / range) * 255));
+      data[i] = normalized;
+      data[i + 1] = normalized;
+      data[i + 2] = normalized;
     }
 
     ctx.putImageData(imgData, 0, 0);
     return canvas;
-  };
-
-  // Fallback pattern/contour heuristic text analyzer if Tesseract CDN is unreachable
-  const analyzeCanvasGlyphsFallback = (canvas: HTMLCanvasElement): string => {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return 'Scanned document page processed.';
-
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imgData.data;
-    const w = canvas.width;
-    const h = canvas.height;
-
-    // Scan horizontal lines for text-like row density
-    const rowDensity: number[] = new Array(h).fill(0);
-    for (let y = 0; y < h; y++) {
-      let darkCount = 0;
-      for (let x = 0; x < w; x++) {
-        const idx = (y * w + x) * 4;
-        const brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
-        if (brightness < 160) darkCount++;
-      }
-      rowDensity[y] = darkCount;
-    }
-
-    // Find bands of text lines
-    const textBands: { start: number; end: number; density: number }[] = [];
-    let inBand = false;
-    let bandStart = 0;
-    let bandSum = 0;
-
-    for (let y = 0; y < h; y++) {
-      if (rowDensity[y] > w * 0.02) {
-        if (!inBand) {
-          inBand = true;
-          bandStart = y;
-          bandSum = rowDensity[y];
-        } else {
-          bandSum += rowDensity[y];
-        }
-      } else {
-        if (inBand) {
-          inBand = false;
-          if (y - bandStart > 6) {
-            textBands.push({
-              start: bandStart,
-              end: y,
-              density: bandSum / (y - bandStart),
-            });
-          }
-        }
-      }
-    }
-
-    if (textBands.length === 0) {
-      return '[No clear text contours detected. Ensure page has sufficient resolution and contrast.]';
-    }
-
-    return `[Recognized ${textBands.length} line segments across scanned document via contour analysis.]\n` +
-      textBands.map((band, i) => `Line ${i + 1}: [Text line at Y:${band.start}-${band.end}px, density: ${Math.round(band.density)}px]`).join('\n');
   };
 
   const runOcr = async () => {
@@ -186,27 +162,49 @@ export default function PdfOcr() {
     setOcrResults([]);
     setEditableText('');
     setProgressPercent(5);
-    setProgressText('Preparing document...');
+    setProgressStatus('Initializing OCR engine...');
+    setSearchablePdfResult(null);
+    isCancelledRef.current = false;
 
     try {
-      const results: PageOcrResult[] = [];
+      // Dynamic import of Tesseract.js to ensure zero server overhead & full WASM support
+      const { createWorker } = await import('tesseract.js');
+
+      setProgressStatus(`Loading OCR language dictionary (${language.toUpperCase()})...`);
+      setProgressPercent(10);
+
+      const worker = await createWorker(language, 1, {
+        logger: (m) => {
+          if (m.status === 'recognizing text' && typeof m.progress === 'number') {
+            // Log progress within current step
+          }
+        },
+      });
+
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      const results: PageOcrResult[] = [];
 
       if (isPdf) {
-        if (!(window as any).pdfjsLib) {
-          throw new Error('PDF processing library is loading. Please wait 2 seconds and try again.');
-        }
+        setProgressStatus('Reading PDF pages in browser memory...');
+        setProgressPercent(15);
+
+        const pdfjsLib = await import('pdfjs-dist');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
         const arrayBuffer = await file.arrayBuffer();
-        const pdf = await (window as any).pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const numPages = pdf.numPages;
 
         for (let i = 1; i <= numPages; i++) {
-          setProgressText(`Rendering page ${i} of ${numPages}...`);
-          setProgressPercent(Math.round(10 + ((i - 1) / numPages) * 80));
+          if (isCancelledRef.current) break;
+
+          const basePercent = 15 + Math.round(((i - 1) / numPages) * 75);
+          setProgressPercent(basePercent);
+          setProgressStatus(`Page ${i} of ${numPages}: Rendering high-resolution canvas...`);
 
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 }); // High-res for OCR accuracy
+          // Scale 2.0 provides optimal DPI for high OCR accuracy without excessive memory
+          const viewport = page.getViewport({ scale: 2.0 });
 
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
@@ -218,45 +216,36 @@ export default function PdfOcr() {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
           }
 
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          await page.render({ canvasContext: ctx!, viewport }).promise;
 
           if (contrastBoost) {
-            setProgressText(`Enhancing contrast for page ${i}...`);
-            enhanceCanvasContrast(canvas);
+            setProgressStatus(`Page ${i} of ${numPages}: Optimizing contrast...`);
+            normalizeCanvasContrast(canvas);
           }
 
           const previewUrl = canvas.toDataURL('image/jpeg', 0.85);
 
-          setProgressText(`Recognizing text glyphs on page ${i}...`);
-          let recognized = '';
+          setProgressStatus(`Page ${i} of ${numPages}: Recognizing text glyphs...`);
+          const ocrRes = await worker.recognize(canvas);
+          const rawText = ocrRes.data.text.trim();
 
-          if ((window as any).Tesseract) {
-            try {
-              const ocrRes = await (window as any).Tesseract.recognize(canvas, language, {
-                logger: (m: any) => {
-                  if (m.status === 'recognizing text' && m.progress) {
-                    setProgressPercent(Math.round(10 + ((i - 1 + m.progress) / numPages) * 80));
-                  }
-                },
-              });
-              recognized = ocrRes.data.text.trim();
-            } catch (tessErr) {
-              console.warn('Tesseract fallback triggered:', tessErr);
-              recognized = analyzeCanvasGlyphsFallback(canvas);
-            }
-          } else {
-            recognized = analyzeCanvasGlyphsFallback(canvas);
-          }
+          // Extract line bounding boxes for accurate searchable PDF overlay
+          const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
 
           results.push({
             pageNum: i,
-            text: recognized || `[No text detected on Page ${i}]`,
+            text: rawText || `[No readable text detected on Page ${i}]`,
             previewUrl,
+            canvasWidth: canvas.width,
+            canvasHeight: canvas.height,
+            lines: linesData,
           });
+
+          setProgressPercent(15 + Math.round((i / numPages) * 75));
         }
       } else {
         // Document image (PNG, JPG, WebP)
-        setProgressText('Loading document image...');
+        setProgressStatus('Loading document image...');
         setProgressPercent(20);
 
         const img = new Image();
@@ -264,46 +253,47 @@ export default function PdfOcr() {
 
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
-          img.onerror = () => reject(new Error('Failed to load image file'));
+          img.onerror = () => reject(new Error('Failed to load image file. Please check the image format.'));
           img.src = objectUrl;
         });
 
         const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0);
           if (contrastBoost) {
-            setProgressText('Enhancing contrast & contours...');
-            enhanceCanvasContrast(canvas);
+            setProgressStatus('Enhancing contrast & sharpness...');
+            normalizeCanvasContrast(canvas);
           }
         }
 
         const previewUrl = canvas.toDataURL('image/jpeg', 0.85);
-        setProgressText('Recognizing characters and words...');
-        setProgressPercent(60);
+        setProgressStatus('Recognizing text glyphs with Tesseract...');
+        setProgressPercent(50);
 
-        let recognized = '';
-        if ((window as any).Tesseract) {
-          try {
-            const ocrRes = await (window as any).Tesseract.recognize(canvas, language);
-            recognized = ocrRes.data.text.trim();
-          } catch (tessErr) {
-            console.warn('Tesseract fallback:', tessErr);
-            recognized = analyzeCanvasGlyphsFallback(canvas);
-          }
-        } else {
-          recognized = analyzeCanvasGlyphsFallback(canvas);
-        }
+        const ocrRes = await worker.recognize(canvas);
+        const rawText = ocrRes.data.text.trim();
+
+        const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
 
         results.push({
           pageNum: 1,
-          text: recognized || '[No text detected in image]',
+          text: rawText || '[No readable text detected in document image]',
           previewUrl,
+          canvasWidth: canvas.width,
+          canvasHeight: canvas.height,
+          lines: linesData,
         });
 
         URL.revokeObjectURL(objectUrl);
+      }
+
+      await worker.terminate();
+
+      if (results.length === 0) {
+        throw new Error('No pages could be processed. Please verify your file.');
       }
 
       setOcrResults(results);
@@ -312,7 +302,7 @@ export default function PdfOcr() {
         .join('\n\n');
       setEditableText(combinedText);
       setProgressPercent(100);
-      setProgressText('OCR Recognition complete!');
+      setProgressStatus('OCR completed successfully! You can now copy text or download as searchable PDF.');
 
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {
@@ -321,9 +311,135 @@ export default function PdfOcr() {
       );
     } catch (err: any) {
       console.error('OCR Error:', err);
-      setErrorMsg(err.message || 'Failed to complete OCR recognition.');
+      setErrorMsg(err.message || 'Failed to complete OCR recognition. Please try another document.');
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  // Generate real, professional Searchable PDF with precision invisible text overlay
+  const generateSearchablePdf = async () => {
+    if (!file || ocrResults.length === 0) return;
+    setIsGeneratingPdf(true);
+    setErrorMsg('');
+
+    try {
+      let pdfDoc: PDFDocument;
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+
+      if (isPdf) {
+        const arrayBuffer = await file.arrayBuffer();
+        pdfDoc = await PDFDocument.load(arrayBuffer);
+      } else {
+        // Build new PDF matching the scanned image
+        pdfDoc = await PDFDocument.create();
+        const imgBytes = await file.arrayBuffer();
+        let embeddedImg;
+        if (file.type.includes('png') || file.name.toLowerCase().endsWith('.png')) {
+          embeddedImg = await pdfDoc.embedPng(imgBytes);
+        } else {
+          embeddedImg = await pdfDoc.embedJpg(imgBytes);
+        }
+        const imgDims = embeddedImg.scale(1);
+        const page = pdfDoc.addPage([imgDims.width, imgDims.height]);
+        page.drawImage(embeddedImg, {
+          x: 0,
+          y: 0,
+          width: imgDims.width,
+          height: imgDims.height,
+        });
+      }
+
+      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const pages = pdfDoc.getPages();
+
+      ocrResults.forEach((res, pageIdx) => {
+        if (pageIdx >= pages.length) return;
+        const page = pages[pageIdx];
+        const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+        const scaleX = pdfWidth / res.canvasWidth;
+        const scaleY = pdfHeight / res.canvasHeight;
+
+        // If line-level bounding boxes are present, place text at exact locations
+        if (res.lines && res.lines.length > 0) {
+          for (const line of res.lines) {
+            const cleanText = sanitizePdfText(line.text);
+            if (!cleanText) continue;
+
+            const boxWidth = (line.bbox.x1 - line.bbox.x0) * scaleX;
+            const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
+            const x = Math.max(0, line.bbox.x0 * scaleX);
+            // PDF origin is bottom-left, canvas is top-left
+            const y = Math.max(0, pdfHeight - line.bbox.y1 * scaleY);
+            const fontSize = Math.max(4, Math.min(36, boxHeight * 0.85));
+
+            try {
+              page.drawText(cleanText, {
+                x,
+                y,
+                size: fontSize,
+                font: helveticaFont,
+                color: rgb(0, 0, 0),
+                opacity: 0.001, // Precision invisible searchable layer
+              });
+            } catch {
+              // Ignore rare font encoding edge cases
+            }
+          }
+        } else {
+          // Fallback sequential placement if line boxes are missing
+          const lines = res.text.split('\n').filter((l) => l.trim().length > 0);
+          let currentY = pdfHeight - 30;
+          for (const line of lines) {
+            if (currentY < 30) break;
+            const cleanText = sanitizePdfText(line);
+            if (cleanText) {
+              try {
+                page.drawText(cleanText, {
+                  x: 30,
+                  y: currentY,
+                  size: 9,
+                  font: helveticaFont,
+                  color: rgb(0, 0, 0),
+                  opacity: 0.001,
+                });
+              } catch {}
+            }
+            currentY -= 13;
+          }
+        }
+      });
+
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const filename = `${file.name.replace(/\.[^/.]+$/, '')}_searchable.pdf`;
+
+      setSearchablePdfResult({
+        blobUrl: url,
+        filename,
+        size: blob.size,
+      });
+
+      // Auto trigger download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: '📄 Searchable PDF generated & downloaded!' },
+        })
+      );
+    } catch (err: any) {
+      console.error('Searchable PDF error:', err);
+      setErrorMsg(err.message || 'Could not generate searchable PDF.');
+    } finally {
+      setIsGeneratingPdf(false);
     }
   };
 
@@ -353,115 +469,29 @@ export default function PdfOcr() {
     URL.revokeObjectURL(url);
   };
 
-  // Generate Searchable PDF with embedded text layer
-  const generateSearchablePdf = async () => {
-    if (!file || ocrResults.length === 0) return;
-    setIsGeneratingPdf(true);
-    setErrorMsg('');
-
-    try {
-      let pdfDoc: PDFDocument;
-      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-
-      if (isPdf) {
-        const arrayBuffer = await file.arrayBuffer();
-        pdfDoc = await PDFDocument.load(arrayBuffer);
-      } else {
-        // Generate new PDF from image
-        pdfDoc = await PDFDocument.create();
-        const imgBytes = await file.arrayBuffer();
-        let embeddedImg;
-        if (file.type.includes('png') || file.name.toLowerCase().endsWith('.png')) {
-          embeddedImg = await pdfDoc.embedPng(imgBytes);
-        } else {
-          embeddedImg = await pdfDoc.embedJpg(imgBytes);
-        }
-        const imgDims = embeddedImg.scale(1);
-        const page = pdfDoc.addPage([imgDims.width, imgDims.height]);
-        page.drawImage(embeddedImg, {
-          x: 0,
-          y: 0,
-          width: imgDims.width,
-          height: imgDims.height,
-        });
-      }
-
-      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const pages = pdfDoc.getPages();
-
-      ocrResults.forEach((res, idx) => {
-        if (idx < pages.length) {
-          const page = pages[idx];
-          const { width, height } = page.getSize();
-          const lines = res.text.split('\n').filter((l) => l.trim().length > 0);
-
-          const fontSize = 10;
-          const lineHeight = 14;
-          let currentY = height - 40;
-
-          // Embed invisible searchable text layer
-          lines.forEach((line) => {
-            if (currentY > 40) {
-              const safeText = line.replace(/[^\x20-\x7E]/g, ' ');
-              try {
-                page.drawText(safeText, {
-                  x: 40,
-                  y: currentY,
-                  size: fontSize,
-                  font,
-                  color: rgb(0, 0, 0),
-                  opacity: 0.01, // Invisible overlay allows search & selection without obscuring scan
-                });
-              } catch {
-                // Ignore glyph encoding issues on unusual characters
-              }
-              currentY -= lineHeight;
-            }
-          });
-        }
-      });
-
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${file.name.replace(/\.[^/.]+$/, '')}_searchable.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      window.dispatchEvent(
-        new CustomEvent('toolsverse-toast', {
-          detail: { message: '📄 Searchable PDF generated & downloaded!' },
-        })
-      );
-    } catch (err: any) {
-      console.error('Searchable PDF error:', err);
-      setErrorMsg(err.message || 'Could not generate searchable PDF.');
-    } finally {
-      setIsGeneratingPdf(false);
-    }
+  const downloadDoc = () => {
+    if (!editableText) return;
+    const htmlContent = `
+      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <head><title>OCR Document</title><style>body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; }</style></head>
+      <body>${editableText.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br/>')}</p>`).join('')}</body></html>
+    `;
+    const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${file?.name.replace(/\.[^/.]+$/, '') || 'document'}_ocr.doc`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
-  const wordCount = editableText
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
+  const wordCount = editableText.trim().split(/\s+/).filter(Boolean).length;
   const charCount = editableText.length;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-950 py-8 transition-colors">
-      <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
-        onLoad={handlePdfjsLoad}
-      />
-      <Script
-        src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"
-        onLoad={handleTesseractLoad}
-      />
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         <nav className="text-sm mb-6 text-gray-500 dark:text-slate-400">
@@ -478,12 +508,17 @@ export default function PdfOcr() {
             <span className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-teal-700 flex items-center justify-center text-white text-xl shadow-sm">
               👁️
             </span>
-            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
-              PDF OCR - Recognize Text from Scanned PDF
-            </h1>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
+                PDF OCR — Optical Character Recognition
+              </h1>
+              <p className="text-xs text-primary-600 dark:text-primary-400 font-bold mt-0.5">
+                Make Scanned PDFs Readable, Selectable &amp; Searchable
+              </p>
+            </div>
           </div>
           <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-400">
-            Extract and recognize text from scanned PDFs and document images with free browser-based OCR. Generate searchable PDFs with selectable text layers.
+            Extract high-precision text from scanned PDF contracts, receipts, book pages, and images. Generates 100% searchable PDFs with matching interactive text layers.
           </p>
         </header>
 
@@ -508,10 +543,10 @@ export default function PdfOcr() {
                 📄
               </div>
               <p className="text-base font-bold text-gray-900 dark:text-white mb-1">
-                Upload Scanned PDF or Document Image
+                Choose Scanned PDF or Document Image
               </p>
               <p className="text-xs text-gray-500 dark:text-slate-400 mb-4">
-                Supports Scanned PDF, PNG, JPG, and WebP documents
+                Drag and drop your document here (PDF, PNG, JPG, or WebP)
               </p>
               <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
                 Browse Files
@@ -542,6 +577,7 @@ export default function PdfOcr() {
                     setFile(null);
                     setOcrResults([]);
                     setEditableText('');
+                    setSearchablePdfResult(null);
                   }}
                   className="text-xs font-semibold text-gray-500 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 transition-colors"
                 >
@@ -550,7 +586,7 @@ export default function PdfOcr() {
                 <button
                   onClick={runOcr}
                   disabled={isProcessing}
-                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-xl px-5 py-2 text-xs font-bold transition-colors flex items-center gap-2 shadow-xs"
+                  className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white rounded-xl px-5 py-2.5 text-xs font-bold transition-all active:scale-95 flex items-center gap-2 shadow-md"
                 >
                   {isProcessing ? (
                     <>
@@ -561,7 +597,7 @@ export default function PdfOcr() {
                       Recognizing...
                     </>
                   ) : (
-                    <>⚡ Run OCR Recognition</>
+                    <>⚡ Start OCR Recognition</>
                   )}
                 </button>
               </div>
@@ -571,23 +607,24 @@ export default function PdfOcr() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-6">
               <div>
                 <label className="block text-xs font-bold uppercase text-gray-700 dark:text-slate-300 mb-1.5">
-                  Recognition Language
+                  Document Language
                 </label>
                 <select
                   value={language}
-                  onChange={(e) => setLanguage(e.target.value as any)}
+                  onChange={(e) => setLanguage(e.target.value)}
                   className="w-full text-xs rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white p-3 focus:ring-2 focus:ring-primary-500"
                 >
-                  <option value="eng">English (Latin Latin-1)</option>
-                  <option value="spa">Spanish (Español)</option>
-                  <option value="fra">French (Français)</option>
-                  <option value="deu">German (Deutsch)</option>
+                  {SUPPORTED_LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code}>
+                      {lang.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase text-gray-700 dark:text-slate-300 mb-1.5">
-                  Contrast Preprocessing
+                  Luminance &amp; Contrast
                 </label>
                 <button
                   type="button"
@@ -598,14 +635,14 @@ export default function PdfOcr() {
                       : 'border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-400'
                   }`}
                 >
-                  <span>Auto Contrast & Binarization</span>
+                  <span>Histogram Normalization</span>
                   <span className="text-sm">{contrastBoost ? '✅ Enabled' : '⚪ Off'}</span>
                 </button>
               </div>
 
               <div className="sm:col-span-2 md:col-span-1 flex flex-col justify-end">
-                <div className="bg-gray-50 dark:bg-slate-800/60 rounded-xl p-3 border border-gray-200 dark:border-slate-700 text-[11px] text-gray-500 dark:text-slate-400">
-                  ⚡ Client-side OCR runs 100% in your browser. No files are uploaded to external servers.
+                <div className="bg-emerald-50 dark:bg-emerald-950/40 rounded-xl p-3 border border-emerald-200/60 dark:border-emerald-900/40 text-[11px] text-emerald-800 dark:text-emerald-300">
+                  🔒 <strong>100% In-Browser Engine:</strong> Tesseract WebAssembly runs on your CPU. Zero document bytes leave your device.
                 </div>
               </div>
             </div>
@@ -614,12 +651,12 @@ export default function PdfOcr() {
             {isProcessing && (
               <div className="mt-6 p-4 rounded-xl bg-cyan-50/50 dark:bg-cyan-950/30 border border-cyan-100 dark:border-cyan-900/50">
                 <div className="flex justify-between text-xs font-semibold text-cyan-900 dark:text-cyan-200 mb-1.5">
-                  <span>{progressText}</span>
+                  <span>{progressStatus}</span>
                   <span>{progressPercent}%</span>
                 </div>
-                <div className="w-full bg-cyan-200 dark:bg-cyan-900/60 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-cyan-200 dark:bg-cyan-900/60 rounded-full h-2.5 overflow-hidden">
                   <div
-                    className="bg-cyan-600 h-2 rounded-full transition-all duration-300"
+                    className="bg-cyan-600 h-2.5 rounded-full transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -657,7 +694,7 @@ export default function PdfOcr() {
                             : 'text-gray-500 dark:text-slate-400 hover:text-gray-900'
                         }`}
                       >
-                        Scan Previews ({ocrResults.length})
+                        Page Previews ({ocrResults.length})
                       </button>
                     </div>
                   </div>
@@ -673,7 +710,13 @@ export default function PdfOcr() {
                       onClick={downloadTxt}
                       className="px-3 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
                     >
-                      💾 Download .txt
+                      💾 Text (.txt)
+                    </button>
+                    <button
+                      onClick={downloadDoc}
+                      className="px-3 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
+                    >
+                      📄 Word (.doc)
                     </button>
                     <button
                       onClick={generateSearchablePdf}
@@ -681,12 +724,32 @@ export default function PdfOcr() {
                       className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-400 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
                     >
                       {isGeneratingPdf ? (
-                        <>Embedding Text Layer...</>
+                        <>Embedding Layer...</>
                       ) : (
-                        <>✨ Generate Searchable PDF</>
+                        <>✨ Download Searchable PDF</>
                       )}
                     </button>
                   </div>
+                </div>
+
+                {/* Instant Search in Recognized Text */}
+                <div className="mb-3 flex items-center gap-2 bg-gray-50 dark:bg-slate-950 p-2 rounded-xl border border-gray-200 dark:border-slate-800 text-xs">
+                  <span className="text-gray-400">🔍 Test Search:</span>
+                  <input
+                    type="text"
+                    value={searchVerifyQuery}
+                    onChange={(e) => setSearchVerifyQuery(e.target.value)}
+                    placeholder="Search a word to verify readability..."
+                    className="flex-1 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-gray-800 dark:text-slate-200 text-xs outline-none"
+                  />
+                  {searchVerifyQuery && (
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold px-2">
+                      {
+                        (editableText.toLowerCase().match(new RegExp(searchVerifyQuery.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
+                      }{' '}
+                      match(es)
+                    </span>
+                  )}
                 </div>
 
                 {activeTab === 'text' ? (
@@ -696,11 +759,11 @@ export default function PdfOcr() {
                         value={editableText}
                         onChange={(e) => setEditableText(e.target.value)}
                         rows={16}
-                        className="w-full font-mono text-xs sm:text-sm rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-gray-900 dark:text-slate-100 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        className="w-full font-mono text-xs sm:text-sm rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-gray-900 dark:text-slate-100 p-4 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 leading-relaxed"
                         placeholder="Recognized OCR text will appear here..."
                       />
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-gray-400 dark:text-slate-500 mt-2">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-gray-400 dark:text-slate-500 mt-2">
                       <span>You can edit or correct the recognized text directly above before exporting.</span>
                       <span>{charCount} characters • {wordCount} words</span>
                     </div>
@@ -731,26 +794,68 @@ export default function PdfOcr() {
           </div>
         )}
 
+        {/* Result Card if Searchable PDF was generated */}
+        {searchablePdfResult && (
+          <div className="mb-8">
+            <ToolResultCard
+              title="Searchable PDF Created Successfully!"
+              filename={searchablePdfResult.filename}
+              downloadUrl={searchablePdfResult.blobUrl}
+              fileSize={searchablePdfResult.size}
+              originalSize={file?.size}
+              badgeText="Searchable & Selectable Text"
+              details={[
+                { label: 'Pages Recognized', value: `${ocrResults.length} page(s)` },
+                { label: 'Words Extracted', value: `${wordCount} words` },
+                { label: 'Layer Type', value: 'High-Precision Invisible OCR Text Overlay' },
+                { label: 'Compatibility', value: 'Adobe Acrobat, Chrome, Preview & Edge' },
+              ]}
+              previewUrl={searchablePdfResult.blobUrl}
+              previewType="pdf"
+              onReset={() => {
+                setSearchablePdfResult(null);
+              }}
+              resetButtonText="Back to OCR Editor"
+              nextTool={{
+                name: 'Compress PDF',
+                url: '/tools/optimize-pdf/compress-pdf/',
+                description: 'Compress and shrink your newly created searchable PDF.',
+              }}
+              suggestedTools={[
+                { name: 'Compress PDF', url: '/tools/optimize-pdf/compress-pdf/', icon: '🗜️', badge: 'Optimize' },
+                { name: 'Sign PDF', url: '/tools/pdf-security/sign-pdf/', icon: '✍️', badge: 'E-Sign' },
+                { name: 'Protect PDF', url: '/tools/pdf-security/protect-pdf/', icon: '🔒', badge: 'Security' },
+                { name: 'Merge PDF', url: '/tools/organize-pdf/merge-pdf/', icon: '📎', badge: 'Combine' },
+              ]}
+            />
+          </div>
+        )}
+
         {/* How to Use */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8">
+        <section className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 p-6 sm:p-8 mb-8">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">
-            How to Use PDF OCR
+            How to Make Scanned PDFs Readable &amp; Searchable
           </h2>
           <ol className="list-decimal pl-5 space-y-2.5 text-xs sm:text-sm text-gray-600 dark:text-slate-400">
             <li>
-              Upload your scanned PDF document or image file (PNG, JPG, WebP) into the dropzone.
+              <strong>Upload Your Scanned Document:</strong> Choose any non-searchable PDF, scan, or photo (PNG, JPG, WebP).
             </li>
             <li>
-              Select your document language and keep contrast enhancement enabled for optimal character recognition.
+              <strong>Choose Recognition Language:</strong> Select from English, Spanish, French, German, Italian, Portuguese, or Hindi.
             </li>
             <li>
-              Click <strong>&quot;Run OCR Recognition&quot;</strong> to scan all pages client-side using browser OCR.
+              <strong>Click &quot;Start OCR Recognition&quot;:</strong> Our in-browser Tesseract engine processes all document pages using WebAssembly.
             </li>
             <li>
-              Review the extracted text in the editable editor, copy or download it as <code>.txt</code>, or click <strong>&quot;Generate Searchable PDF&quot;</strong> to embed an invisible text layer back onto your document.
+              <strong>Search, Copy or Edit:</strong> Review extracted text, search words live, or make quick edits directly in the text editor.
+            </li>
+            <li>
+              <strong>Generate Searchable PDF:</strong> Download your original document with an embedded, invisible text layer so you can select and search text with <code>Ctrl+F</code> / <code>Cmd+F</code> in any PDF reader.
             </li>
           </ol>
-        </div>
+        </section>
+
+        <RelatedTools currentSlug="pdf-ocr" />
       </div>
     </div>
   );

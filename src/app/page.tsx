@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import ToolCard from '@/components/ToolCard';
 import AdSlot from '@/components/AdSlot';
-import { tools, Tool } from '@/lib/tools';
+import { tools, Tool, searchTools } from '@/lib/tools';
 import { BLOG_POSTS } from '@/lib/blogData';
 
 interface Persona {
@@ -250,12 +250,9 @@ export default function Home() {
 
   // Filtered tools
   const filteredTools = useMemo(() => {
-    let result = tools.filter((tool) => {
-      const matchesSearch =
-        tool.name.toLowerCase().includes(search.toLowerCase()) ||
-        tool.description.toLowerCase().includes(search.toLowerCase()) ||
-        tool.category.toLowerCase().includes(search.toLowerCase());
+    const baseTools = search.trim() ? searchTools(tools, search) : tools;
 
+    let result = baseTools.filter((tool) => {
       let matchesCategory = true;
       if (activeCategory === 'Favorites') {
         matchesCategory = favoriteSlugs.includes(tool.slug);
@@ -268,7 +265,7 @@ export default function Home() {
         matchesPersona = currentPersona.slugs.includes(tool.slug);
       }
 
-      return matchesSearch && matchesCategory && matchesPersona;
+      return matchesCategory && matchesPersona;
     });
 
     if (sortBy === 'az') {
@@ -282,15 +279,7 @@ export default function Home() {
 
   // Autocomplete instant suggestions based on user search
   const suggestions = search.trim()
-    ? tools
-        .filter(
-          (tool) =>
-            tool.name.toLowerCase().includes(search.toLowerCase()) ||
-            tool.slug.toLowerCase().includes(search.toLowerCase()) ||
-            tool.category.toLowerCase().includes(search.toLowerCase()) ||
-            tool.description.toLowerCase().includes(search.toLowerCase())
-        )
-        .slice(0, 8)
+    ? searchTools(tools, search).slice(0, 8)
     : [];
 
   // Close dropdown on click outside
