@@ -184,6 +184,20 @@ export default function PdfOcr() {
     }
   };
 
+  // Google Drive Style: Auto-jump to matching page when searching
+  useEffect(() => {
+    if (!searchVerifyQuery || !searchVerifyQuery.trim() || ocrResults.length === 0) return;
+    const q = searchVerifyQuery.toLowerCase().trim();
+    const foundIdx = ocrResults.findIndex(
+      (page) =>
+        page.text.toLowerCase().includes(q) ||
+        page.lines.some((l) => l.text.toLowerCase().includes(q))
+    );
+    if (foundIdx !== -1 && foundIdx !== selectedPageIndex) {
+      setSelectedPageIndex(foundIdx);
+    }
+  }, [searchVerifyQuery, ocrResults, selectedPageIndex]);
+
   // Safe contrast & luminance normalization (non-destructive grayscale curve)
   const normalizeCanvasContrast = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
     const ctx = canvas.getContext('2d');
@@ -282,19 +296,47 @@ export default function PdfOcr() {
         const totalDocPages = pdf.numPages;
         const targetPages = maxPagesLimit > 0 ? Math.min(maxPagesLimit, totalDocPages) : totalDocPages;
 
-        // Adaptive scaling: for multi-page PDFs (e.g. 12 pages), 1.25x is ~3x faster without memory bottlenecks
-        const renderScale = targetPages > 6 ? 1.25 : 1.5;
+        const renderScale = 1.75;
 
         for (let i = 1; i <= targetPages; i++) {
           if (isCancelledRef.current) break;
 
           const basePercent = 12 + Math.round(((i - 1) / targetPages) * 85);
           setProgressPercent(basePercent);
-          setProgressStatus(`Page ${i} of ${targetPages}: Rendering page...`);
+          setProgressStatus(`Page ${i} of ${targetPages}: Analyzing text layers & layout...`);
 
           const page = await pdf.getPage(i);
           const viewport = page.getViewport({ scale: renderScale });
 
+          // Google Drive Strategy: Check if page already contains native digital text
+          const textContent = await page.getTextContent();
+          const nativeLines: OcrLineData[] = [];
+
+          if (textContent && Array.isArray(textContent.items) && textContent.items.length > 0) {
+            for (const item of textContent.items as any[]) {
+              if (!item.str || !item.str.trim()) continue;
+              const [vx, vy] = viewport.convertToViewportPoint(item.transform[4], item.transform[5]);
+              const fontHeight = Math.abs(item.transform[0] || item.transform[3] || 12);
+              const height = Math.max(12, (item.height || fontHeight) * renderScale);
+              const width = Math.max(12, (item.width || 0) * renderScale);
+              nativeLines.push({
+                text: item.str.trim(),
+                bbox: {
+                  x0: Math.max(0, vx),
+                  y0: Math.max(0, vy - height),
+                  x1: Math.min(viewport.width, vx + width),
+                  y1: Math.min(viewport.height, vy),
+                },
+              });
+            }
+          }
+
+          const nativeWordCount = nativeLines.reduce(
+            (acc, l) => acc + l.text.split(/\s+/).filter(Boolean).length,
+            0
+          );
+
+          // Render canvas for visual preview and OCR fallback
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
@@ -307,25 +349,43 @@ export default function PdfOcr() {
 
           await page.render({ canvasContext: ctx!, viewport }).promise;
 
-          if (contrastBoost) {
-            setProgressStatus(`Page ${i} of ${targetPages}: Optimizing contrast...`);
-            normalizeCanvasContrast(canvas);
+          let finalLines: OcrLineData[] = [];
+          let finalText = '';
+
+          if (nativeWordCount >= 10) {
+            // High-fidelity native digital text present (100% accuracy, zero OCR typos)
+            finalLines = nativeLines;
+            finalText = nativeLines.map((l) => l.text).join('\n');
+            setProgressStatus(`Page ${i} of ${targetPages}: Extracted ${nativeWordCount} native words.`);
+          } else {
+            // Scanned image or low-text PDF — run high-resolution Tesseract OCR
+            if (contrastBoost) {
+              normalizeCanvasContrast(canvas);
+            }
+
+            setProgressStatus(`Page ${i} of ${targetPages}: Scanning text glyphs with OCR engine...`);
+            const ocrRes = await worker.recognize(canvas);
+            const ocrLines = extractLinesFromOcr(ocrRes.data);
+            const ocrText = ocrRes.data.text.trim();
+
+            if (nativeLines.length > 0) {
+              finalLines = [...nativeLines, ...ocrLines];
+              finalText = `${nativeLines.map((l) => l.text).join('\n')}\n${ocrText}`.trim();
+            } else {
+              finalLines = ocrLines;
+              finalText = ocrText;
+            }
           }
 
-          const previewUrl = canvas.toDataURL('image/jpeg', 0.82);
-
-          setProgressStatus(`Page ${i} of ${targetPages}: Recognizing text glyphs...`);
-          const ocrRes = await worker.recognize(canvas);
-          const rawText = ocrRes.data.text.trim();
-          const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
+          const previewUrl = canvas.toDataURL('image/jpeg', 0.85);
 
           const pageResult: PageOcrResult = {
             pageNum: i,
-            text: rawText || `[No readable text detected on Page ${i}]`,
+            text: finalText || `[No readable text detected on Page ${i}]`,
             previewUrl,
             canvasWidth: canvas.width,
             canvasHeight: canvas.height,
-            lines: linesData,
+            lines: finalLines,
           };
 
           accumulatedResults.push(pageResult);
