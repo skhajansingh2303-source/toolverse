@@ -227,6 +227,17 @@ export default function Header() {
             {/* ───── Middle Navigation (iLovePDF Style with Cursor Hover) ───── */}
             <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-xs xl:text-sm font-bold tracking-tight uppercase shrink-0">
               <Link
+                href="/"
+                onClick={() => setMegaMenuOpen(false)}
+                onMouseEnter={handleOtherLinkHover}
+                className="flex items-center gap-1.5 text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span>Home</span>
+              </Link>
+              <Link
                 href="/tools/organize-pdf/merge-pdf"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
