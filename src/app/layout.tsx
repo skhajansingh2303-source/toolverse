@@ -10,7 +10,7 @@ import KeyboardShortcutsModal from '@/components/KeyboardShortcutsModal'
 import Toast from '@/components/Toast'
 import GoogleTranslator from '@/components/GoogleTranslator'
 import CookieConsent from '@/components/CookieConsent'
-import { LANGUAGE_CODES } from '@/lib/languages'
+import { LANGUAGE_CODES, GOOGLE_TRANSLATE_LANGS } from '@/lib/languages'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -260,8 +260,44 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        {/* Google Translate Integration */}
+        <Script
+          id="google-translate-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.googleTranslateElementInit = function() {
+                if (window.google && window.google.translate) {
+                  new window.google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: '${GOOGLE_TRANSLATE_LANGS}',
+                    autoDisplay: false
+                  }, 'google_translate_element');
+                }
+              };
+            `,
+          }}
+        />
+        <Script
+          id="google-translate-script"
+          strategy="afterInteractive"
+          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200`}>
+        <div
+          id="google_translate_element"
+          style={{
+            position: 'absolute',
+            top: '-9999px',
+            left: '-9999px',
+            width: '1px',
+            height: '1px',
+            overflow: 'hidden',
+            opacity: 0,
+            pointerEvents: 'none',
+          }}
+        />
         <Header />
         <main className="flex-1 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors">{children}</main>
         <ToolDock />

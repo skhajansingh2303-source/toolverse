@@ -83,28 +83,42 @@ export default function Header() {
     try {
       localStorage.setItem('toolsverse_lang', code);
 
+      const hostname = window.location.hostname;
+      const rootDomain = hostname.replace(/^www\./, '');
+
       if (code === 'en') {
-        document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        document.cookie = `googtrans=; path=/; domain=${window.location.hostname}; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-
-        const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
-        if (select) {
-          select.value = 'en';
-          select.dispatchEvent(new Event('change'));
+        const exp = '; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
+        document.cookie = `googtrans=${exp}`;
+        if (hostname && hostname !== 'localhost') {
+          document.cookie = `googtrans=${exp} domain=${hostname};`;
+          if (rootDomain.includes('.')) {
+            document.cookie = `googtrans=${exp} domain=.${rootDomain};`;
+          }
         }
-        window.location.reload();
       } else {
-        document.cookie = `googtrans=/en/${code}; path=/;`;
-        document.cookie = `googtrans=/en/${code}; path=/; domain=${window.location.hostname};`;
+        const val = `/en/${code}`;
+        document.cookie = `googtrans=${val}; path=/;`;
+        if (hostname && hostname !== 'localhost') {
+          document.cookie = `googtrans=${val}; path=/; domain=${hostname};`;
+          if (rootDomain.includes('.')) {
+            document.cookie = `googtrans=${val}; path=/; domain=.${rootDomain};`;
+          }
+        }
+      }
 
+      const applyTranslation = (langCode: string, retries = 0) => {
         const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
-        if (select) {
-          select.value = code;
-          select.dispatchEvent(new Event('change'));
+        if (select && select.options.length > 1) {
+          select.value = langCode === 'en' ? '' : langCode;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+        } else if (retries < 20) {
+          setTimeout(() => applyTranslation(langCode, retries + 1), 200);
         } else {
           window.location.reload();
         }
-      }
+      };
+
+      applyTranslation(code);
     } catch (e) {
       console.warn('Language switch error:', e);
     }
