@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { tools } from '@/lib/tools';
 
 export const metadata: Metadata = {
-  title: 'About Us - ToolsVerse App',
+  title: 'About Us',
   description: 'Learn about ToolsVerse App, the mission to provide 103+ private, fast, in-browser utilities for students, teachers, developers, and professionals worldwide.',
 };
 

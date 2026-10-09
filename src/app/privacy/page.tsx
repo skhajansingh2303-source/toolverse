@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - ToolsVerse App',
+  title: 'Privacy Policy',
   description: 'Learn how ToolsVerse App protects your privacy with 100% in-browser, client-side document processing. Zero server uploads, zero logs, complete data ownership.',
 };
 

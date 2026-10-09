@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service - ToolsVerse App',
+  title: 'Terms of Service',
   description: 'Terms and conditions governing the use of ToolsVerse App and its 103+ in-browser productivity and file utilities.',
 };
 
