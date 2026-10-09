@@ -12,6 +12,7 @@ import {
   SUPPORTED_LANGUAGES as LANGUAGES,
   clearGoogleTranslateCookies,
   setGoogleTranslateCookie,
+  restoreEnglish,
 } from '@/lib/languages';
 
 export default function Header() {
@@ -98,16 +99,20 @@ export default function Header() {
     }
 
     if (code === 'en') {
-      clearGoogleTranslateCookies();
+      // Restore English: clear cookies, URL hash, trigger widget restore
+      restoreEnglish();
+
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {
           detail: { message: `🌐 Restoring original language (${label})...` },
         })
       );
-      // Clean reload to restore untranslated English DOM
+
+      // Navigate to clean URL (strips hash, forces fresh page load)
       setTimeout(() => {
-        window.location.reload();
-      }, 150);
+        const cleanUrl = window.location.pathname + window.location.search;
+        window.location.replace(cleanUrl);
+      }, 200);
       return;
     }
 

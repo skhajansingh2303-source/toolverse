@@ -5,6 +5,8 @@ import {
   GOOGLE_TRANSLATE_LANGS,
   LANGUAGE_CODES,
   clearGoogleTranslateCookies,
+  clearGoogTransHash,
+  restoreEnglish,
   setGoogleTranslateCookie,
 } from '@/lib/languages';
 
@@ -52,7 +54,8 @@ export default function GoogleTranslator() {
     if (!initialLang || initialLang === 'en') {
       document.documentElement.lang = 'en';
       document.documentElement.setAttribute('lang', 'en');
-      clearGoogleTranslateCookies();
+      // Clear all Google Translate state (cookies + hash + widget)
+      restoreEnglish();
       return;
     }
 

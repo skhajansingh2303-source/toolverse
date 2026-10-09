@@ -193,13 +193,25 @@ export default function RootLayout({
                 if (l) {
                   document.documentElement.setAttribute('lang', l);
                   if (l === 'en') {
-                    var h = window.location.hostname;
-                    var d = h.replace(/^www\./, '');
-                    var exp = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=/;';
-                    document.cookie = 'googtrans' + exp;
-                    document.cookie = 'googtrans' + exp + ' domain=' + h + ';';
-                    if (d.indexOf('.') !== -1) {
-                      document.cookie = 'googtrans' + exp + ' domain=.' + d + ';';
+                    // Clear googtrans cookies using Google Translate's own domain logic
+                    var hp = window.location.hostname.split('.');
+                    while (hp.length > 2) hp.shift();
+                    var rd = hp.join('.');
+                    var px = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=/';
+                    var names = ['googtrans', 'googtransopt'];
+                    for (var ni = 0; ni < names.length; ni++) {
+                      var cn = names[ni];
+                      document.cookie = cn + px + ';';
+                      document.cookie = cn + px + '; domain=' + rd + ';';
+                      document.cookie = cn + px + '; domain=.' + rd + ';';
+                      if (window.location.hostname !== rd) {
+                        document.cookie = cn + px + '; domain=' + window.location.hostname + ';';
+                        document.cookie = cn + px + '; domain=.' + window.location.hostname + ';';
+                      }
+                    }
+                    // Clear URL hash if it contains googtrans
+                    if (window.location.hash && window.location.hash.indexOf('googtrans') !== -1) {
+                      history.replaceState(null, '', window.location.pathname + window.location.search);
                     }
                   }
                 }

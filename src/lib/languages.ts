@@ -36,46 +36,118 @@ export const SUPPORTED_LANGUAGES: Language[] = [
 export const LANGUAGE_CODES = SUPPORTED_LANGUAGES.map((l) => l.code);
 export const GOOGLE_TRANSLATE_LANGS = SUPPORTED_LANGUAGES.map((l) => l.code).join(',');
 
+/**
+ * Clear googtrans cookies using the EXACT same logic Google Translate uses
+ * internally (mirrors the `ux()` function in el_main.js).
+ */
 export function clearGoogleTranslateCookies() {
   if (typeof document === 'undefined') return;
 
-  const hostname = window.location.hostname;
-  const hostParts = hostname.split('.');
-  const domains: string[] = ['', hostname, `.${hostname}`];
+  // Google Translate's own domain calculation:
+  // hostname.split('.') → shift while length > 2 → join with '.'
+  const parts = window.location.hostname.split('.');
+  while (parts.length > 2) parts.shift();
+  const rootDomain = parts.join('.');
 
-  for (let i = 0; i < hostParts.length - 1; i++) {
-    const parentDomain = hostParts.slice(i).join('.');
-    domains.push(parentDomain);
-    domains.push(`.${parentDomain}`);
-  }
+  const past = new Date(0).toUTCString(); // Thu, 01 Jan 1970 00:00:00 GMT
 
-  const paths = ['/', window.location.pathname, ''];
-  const cookieNames = ['googtrans', 'googtransopt', 'googtrans_saved'];
-
+  const cookieNames = ['googtrans', 'googtransopt'];
   for (const name of cookieNames) {
-    for (const d of domains) {
-      for (const p of paths) {
-        const domainAttr = d ? `; domain=${d}` : '';
-        const pathAttr = p ? `; path=${p}` : '';
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0${pathAttr}${domainAttr};`;
-        document.cookie = `${name}=none; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0${pathAttr}${domainAttr};`;
+    // Clear without domain (host-only cookie)
+    document.cookie = `${name}=; expires=${past}; max-age=0; path=/;`;
+    document.cookie = `${name}=none; expires=${past}; max-age=0; path=/;`;
+    // Clear with root domain (exactly how Google Translate sets it)
+    document.cookie = `${name}=; expires=${past}; max-age=0; path=/; domain=${rootDomain};`;
+    document.cookie = `${name}=none; expires=${past}; max-age=0; path=/; domain=${rootDomain};`;
+    // Also try with leading dot
+    document.cookie = `${name}=; expires=${past}; max-age=0; path=/; domain=.${rootDomain};`;
+    document.cookie = `${name}=none; expires=${past}; max-age=0; path=/; domain=.${rootDomain};`;
+    // Also try with full hostname if different from rootDomain
+    const hostname = window.location.hostname;
+    if (hostname !== rootDomain) {
+      document.cookie = `${name}=; expires=${past}; max-age=0; path=/; domain=${hostname};`;
+      document.cookie = `${name}=none; expires=${past}; max-age=0; path=/; domain=${hostname};`;
+      document.cookie = `${name}=; expires=${past}; max-age=0; path=/; domain=.${hostname};`;
+      document.cookie = `${name}=none; expires=${past}; max-age=0; path=/; domain=.${hostname};`;
+    }
+  }
+}
+
+/**
+ * Remove #googtrans(...) from URL hash if present.
+ */
+export function clearGoogTransHash() {
+  if (typeof window === 'undefined') return;
+  const hash = window.location.hash;
+  if (hash && hash.includes('googtrans')) {
+    // Remove googtrans from hash, keep other hash fragments
+    const cleaned = hash.replace(/#?googtrans\([^)]*\)/g, '').replace(/^#$/, '');
+    if (cleaned) {
+      history.replaceState(null, '', window.location.pathname + window.location.search + cleaned);
+    } else {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }
+}
+
+/**
+ * Fully restore English by clearing all Google Translate state sources:
+ * 1. googtrans / googtransopt cookies (all domain variants)
+ * 2. URL hash (#googtrans)
+ * 3. Google Translate banner frame "restore" button
+ * 4. goog-te-combo dropdown (set to empty = original language)
+ */
+export function restoreEnglish() {
+  if (typeof document === 'undefined') return;
+
+  // 1. Clear all cookies
+  clearGoogleTranslateCookies();
+
+  // 2. Clear URL hash
+  clearGoogTransHash();
+
+  // 3. Try clicking Google Translate's internal "Show Original" / restore button
+  try {
+    const bannerFrame = document.querySelector('.goog-te-banner-frame') as HTMLIFrameElement | null;
+    if (bannerFrame) {
+      const innerDoc = bannerFrame.contentDocument || bannerFrame.contentWindow?.document;
+      if (innerDoc) {
+        const buttons = innerDoc.getElementsByTagName('button');
+        for (let i = 0; i < buttons.length; i++) {
+          if (buttons[i].id && buttons[i].id.indexOf('restore') >= 0) {
+            buttons[i].click();
+            break;
+          }
+        }
       }
     }
+  } catch {
+    // Cross-origin or not found - ignore
+  }
+
+  // 4. Reset the goog-te-combo dropdown to empty (= original language)
+  try {
+    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+    if (select) {
+      select.value = '';
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  } catch {
+    // Ignore
   }
 }
 
 export function setGoogleTranslateCookie(langCode: string) {
   if (typeof document === 'undefined') return;
 
-  const hostname = window.location.hostname;
-  const rootDomain = hostname.replace(/^www\./, '');
+  // Use same domain calculation as Google Translate
+  const parts = window.location.hostname.split('.');
+  while (parts.length > 2) parts.shift();
+  const rootDomain = parts.join('.');
   const val = `/en/${langCode}`;
 
+  // Set without domain (host-only)
   document.cookie = `googtrans=${val}; path=/;`;
-  if (hostname && hostname !== 'localhost') {
-    document.cookie = `googtrans=${val}; path=/; domain=${hostname};`;
-    if (rootDomain.includes('.')) {
-      document.cookie = `googtrans=${val}; path=/; domain=.${rootDomain};`;
-    }
-  }
+  // Set with root domain (how Google Translate does it)
+  document.cookie = `googtrans=${val}; path=/; domain=${rootDomain};`;
 }
