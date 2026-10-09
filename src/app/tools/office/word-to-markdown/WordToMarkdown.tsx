@@ -301,8 +301,8 @@ export default function WordToMarkdown() {
             Home
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-violet-600 dark:hover:text-violet-400">
-            Tools
+          <Link href="/tools/office/" className="hover:text-violet-600 dark:hover:text-violet-400">
+            Office Tools
           </Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900 dark:text-white font-medium">Word to Markdown</span>

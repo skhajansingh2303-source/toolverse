@@ -946,9 +946,9 @@ function RenderLiveMarkdown({ content, accentHex }: { content: string; accentHex
 
     if (line.startsWith('# ')) {
       elements.push(
-        <h1 key={idx} className="text-2xl font-black mt-4 mb-2 pb-1 border-b" style={{ color: accentHex }}>
+        <div role="heading" aria-level={2} key={idx} className="text-2xl font-black mt-4 mb-2 pb-1 border-b" style={{ color: accentHex }}>
           {line.replace(/^#\s+/, '')}
-        </h1>
+        </div>
       );
     } else if (line.startsWith('## ')) {
       elements.push(

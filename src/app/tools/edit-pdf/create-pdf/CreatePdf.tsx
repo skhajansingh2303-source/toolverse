@@ -1180,7 +1180,7 @@ export default function CreatePdf() {
                   <div className="space-y-4">
                     {elements.map((el) => {
                       if (el.type === 'heading') {
-                        const Tag = el.headingLevel || 'h2';
+                        const Tag = (el.headingLevel === 'h1' ? 'h2' : (el.headingLevel || 'h2')) as 'h2' | 'h3';
                         return (
                           <Tag
                             key={el.id}

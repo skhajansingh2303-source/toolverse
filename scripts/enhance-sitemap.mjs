@@ -23,12 +23,25 @@ if (fs.existsSync(publicAdsPath)) {
   fs.copyFileSync(publicAdsPath, outAdsPath);
   console.log('Copied public/ads.txt to out/ads.txt');
 }
+const publicAppAdsPath = path.resolve('public', 'app-ads.txt');
+const outAppAdsPath = path.join(outDir, 'app-ads.txt');
+if (fs.existsSync(publicAppAdsPath)) {
+  fs.copyFileSync(publicAppAdsPath, outAppAdsPath);
+  console.log('Copied public/app-ads.txt to out/app-ads.txt');
+}
+const publicRobotsPath = path.resolve('public', 'robots.txt');
+const outRobotsPath = path.join(outDir, 'robots.txt');
+if (fs.existsSync(publicRobotsPath)) {
+  fs.copyFileSync(publicRobotsPath, outRobotsPath);
+  console.log('Copied public/robots.txt to out/robots.txt');
+}
 const publicHeadersPath = path.resolve('public', '_headers');
 const outHeadersPath = path.join(outDir, '_headers');
 if (fs.existsSync(publicHeadersPath)) {
   fs.copyFileSync(publicHeadersPath, outHeadersPath);
   console.log('Copied public/_headers to out/_headers');
 }
+
 
 // 2. Inject stylesheet link into out/sitemap.xml
 if (fs.existsSync(sitemapXmlPath)) {

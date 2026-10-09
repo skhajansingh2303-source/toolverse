@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/media/',
   },
-  title: 'Media & Image Tools - Compress, Convert, Resize & Color Picker | ToolsVerse',
+  title: 'Media & Image Tools - Compress, Convert, Resize & Color Picker',
   description: 'Browser-based image utilities. Compress JPG and PNG, convert formats, resize images, and pick colors without uploading files.',
   keywords: ["image compressor","image converter","color picker","heic to jpg","favicon generator"],
 };

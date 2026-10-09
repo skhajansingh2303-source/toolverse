@@ -111,19 +111,24 @@ export default function ExtractPdfImages() {
         const pdf = await pdfjs.getDocument({ data: bytes }).promise;
         const numPages = pdf.numPages;
 
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+
         for (let i = 1; i <= numPages; i++) {
           setStatusText(`Rendering page ${i} of ${numPages}...`);
           const page = await pdf.getPage(i);
           const viewport = page.getViewport({ scale: 2.0 }); // High-DPI
 
-          const canvas = document.createElement('canvas');
-          canvas.width = Math.floor(viewport.width);
-          canvas.height = Math.floor(viewport.height);
-          const ctx = canvas.getContext('2d', { alpha: false });
+          const w = Math.floor(viewport.width);
+          const h = Math.floor(viewport.height);
+          if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+          }
 
           if (ctx) {
             ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillRect(0, 0, w, h);
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
 
@@ -132,9 +137,6 @@ export default function ExtractPdfImages() {
             const pageBlob = await new Promise<Blob | null>((resolve) =>
               canvas.toBlob((b) => resolve(b), 'image/png')
             );
-
-            canvas.width = 0;
-            canvas.height = 0;
 
             if (pageBlob) {
               const dataUrl = URL.createObjectURL(pageBlob);
@@ -150,6 +152,8 @@ export default function ExtractPdfImages() {
             }
           }
         }
+        canvas.width = 0;
+        canvas.height = 0;
       }
 
       setImages(extractedList);

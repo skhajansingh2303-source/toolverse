@@ -26,7 +26,31 @@
   # Allows self, CDN scripts (pdf.js, tesseract, mermaid, heic2any),
   # Google services (Analytics, AdSense, Translate), Cloudflare Insights,
   # Google Fonts, inline styles (required by Next.js), blob: for PDF rendering
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://adservice.google.com https://static.cloudflareinsights.com https://translate.google.com https://translate.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http:; connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.google-analytics.com https://translate.googleapis.com https://pagead2.googlesyndication.com https://static.cloudflareinsights.com; frame-src 'self' blob: https://translate.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; worker-src 'self' blob:; child-src 'self' blob:
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com https://adservice.google.com https://static.cloudflareinsights.com https://translate.google.com https://translate.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http:; connect-src 'self' https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://cdnjs.cloudflare.com https://www.google-analytics.com https://translate.googleapis.com https://pagead2.googlesyndication.com https://static.cloudflareinsights.com; frame-src 'self' blob: https://translate.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; worker-src 'self' blob:; child-src 'self' blob:
 
   # ── XSS Protection (legacy browser fallback) ──
   X-XSS-Protection: 1; mode=block
+
+/ads.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+
+/app-ads.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+
+/sw.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=0, no-cache, must-revalidate
+  X-Content-Type-Options: nosniff
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+
+

@@ -1,6 +1,15 @@
 User-agent: *
 Allow: /
 
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Google-Adwords-DisplayAds-Web
+Allow: /
+
 User-agent: Googlebot
 Allow: /
 

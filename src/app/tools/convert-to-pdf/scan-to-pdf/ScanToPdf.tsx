@@ -62,8 +62,10 @@ export default function ScanToPdf() {
       } else if (filter === 'contrast') {
         ctx.filter = 'contrast(150%)';
       }
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      setImages(prev => [...prev, canvas.toDataURL('image/jpeg')]);
+      setImages(prev => [...prev, canvas.toDataURL('image/jpeg', 0.95)]);
     }
   };
 

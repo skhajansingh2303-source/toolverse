@@ -10,7 +10,7 @@ import KeyboardShortcutsModal from '@/components/KeyboardShortcutsModal'
 import Toast from '@/components/Toast'
 import GoogleTranslator from '@/components/GoogleTranslator'
 import CookieConsent from '@/components/CookieConsent'
-import { LANGUAGE_CODES, SUPPORTED_LANGUAGES } from '@/lib/languages'
+import { LANGUAGE_CODES } from '@/lib/languages'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -175,64 +175,6 @@ export default function RootLayout({
         areaServed: [
           'IT', 'CN', 'US', 'GB', 'ES', 'FR', 'DE', 'IN', 'JP', 'BR',
           'KR', 'RU', 'MX', 'ID', 'TR', 'NL', 'PL', 'VN', 'TH', 'Global'
-        ],
-      },
-      {
-        '@type': 'WebApplication',
-        '@id': 'https://toolsverseapp.com/#webapp',
-        name: 'ToolsVerse App Productivity & Utility Suite',
-        url: 'https://toolsverseapp.com/',
-        applicationCategory: 'UtilitiesApplication',
-        operatingSystem: 'All',
-        inLanguage: LANGUAGE_CODES,
-        availableLanguage: SUPPORTED_LANGUAGES.map((l) => ({
-          '@type': 'Language',
-          name: l.name,
-          alternateName: l.code,
-        })),
-        browserRequirements: 'Requires JavaScript. Requires HTML5.',
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'USD',
-        },
-      },
-      {
-        '@type': 'FAQPage',
-        '@id': 'https://toolsverseapp.com/#faq',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'Is ToolsVerse App completely free to use without daily limits?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Yes! ToolsVerse App is 100% free with unlimited usage. Unlike cloud services such as iLovePDF or Smallpdf that impose daily conversion caps and subscription paywalls, ToolsVerse processes files on your local device without restrictions.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'How is ToolsVerse App different from iLovePDF and Smallpdf?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Unlike traditional cloud converters that upload your confidential documents to external servers, ToolsVerse App executes 100% client-side in your web browser using WebAssembly and HTML5 Canvas. Your documents and files never leave your computer.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Are my confidential documents, contracts, and images safe?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Absolutely. Because all calculations, PDF merges, splits, compressions, and conversions run directly in your browser, no server upload takes place. Your confidential data remains completely private on your device.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Can ToolsVerse App be installed or used offline?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Yes! ToolsVerse App is a Progressive Web App (PWA) with full service worker caching. You can install it on Windows, macOS, Android, and iOS to use utilities even without an active internet connection.',
-            },
-          },
         ],
       },
     ],

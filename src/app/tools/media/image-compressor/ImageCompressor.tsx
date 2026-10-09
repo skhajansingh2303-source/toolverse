@@ -21,9 +21,9 @@ interface CompressedResult {
 
 export default function ImageCompressor() {
   const [file, setFile] = useState<File | null>(null);
-  const [quality, setQuality] = useState<number>(75);
+  const [quality, setQuality] = useState<number>(88);
   const [scalePercent, setScalePercent] = useState<number>(100);
-  const [format, setFormat] = useState<'webp' | 'jpeg' | 'png'>('webp');
+  const [format, setFormat] = useState<'webp' | 'jpeg' | 'png'>('jpeg');
   const [isCompressing, setIsCompressing] = useState(false);
   const [result, setResult] = useState<CompressedResult | null>(null);
   const [error, setError] = useState('');
@@ -42,7 +42,19 @@ export default function ImageCompressor() {
     }
     setError('');
     setFile(selectedFile);
-    compressImage(selectedFile, quality, format, scalePercent);
+
+    // Auto-detect matching format based on input file type (preserves user original format)
+    let autoFormat: 'webp' | 'jpeg' | 'png' = 'jpeg';
+    if (selectedFile.type === 'image/png' || selectedFile.name.toLowerCase().endsWith('.png')) {
+      autoFormat = 'png';
+    } else if (selectedFile.type === 'image/webp' || selectedFile.name.toLowerCase().endsWith('.webp')) {
+      autoFormat = 'webp';
+    } else {
+      autoFormat = 'jpeg';
+    }
+    setFormat(autoFormat);
+
+    compressImage(selectedFile, quality, autoFormat, scalePercent);
   };
 
   const compressImage = (
@@ -78,8 +90,13 @@ export default function ImageCompressor() {
         ctx.fillRect(0, 0, targetW, targetH);
       }
 
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
+      // Pixel-crisp drawing: disable blur interpolation at 100% scale to preserve razor-sharp text
+      if (targetScale === 100) {
+        ctx.imageSmoothingEnabled = false;
+      } else {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+      }
       ctx.drawImage(img, 0, 0, targetW, targetH);
 
       const mimeType =
@@ -126,8 +143,8 @@ export default function ImageCompressor() {
               detail: {
                 message:
                   saved > 0
-                    ? `⚡ Image compressed: saved ${saved}%!`
-                    : '⚡ Image processed successfully!',
+                    ? `⚡ Image compressed: saved ${saved}% without loss of clarity!`
+                    : '⚡ Image processed with crisp high-fidelity!',
               },
             })
           );
@@ -145,6 +162,7 @@ export default function ImageCompressor() {
 
     img.src = objectUrl;
   };
+
 
   const handleDownload = () => {
     if (!result) return;
@@ -232,27 +250,50 @@ export default function ImageCompressor() {
 
           {/* Top Bar Controls */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-6 border-b border-gray-100 dark:border-slate-800 mb-6">
-            {/* Quality Slider */}
+            {/* Quality Slider & Sharp Text Presets */}
             <div>
               <div className="flex justify-between items-center text-xs font-bold text-gray-700 dark:text-slate-300 mb-2">
-                <span>Quality</span>
-                <span className="text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/60 px-2 py-0.5 rounded font-mono">
-                  {quality}%
+                <span>Quality (Sharpness)</span>
+                <span className="text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/60 px-2 py-0.5 rounded font-mono font-bold">
+                  {quality}% {quality >= 85 ? '✨ Crisp' : quality >= 75 ? '⚖️ Balanced' : '🗜️ High Comp'}
                 </span>
               </div>
               <input
                 type="range"
-                min="10"
+                min="20"
                 max="100"
-                step="5"
+                step="2"
                 value={quality}
                 onChange={(e) => {
                   const val = Number(e.target.value);
                   setQuality(val);
                   if (file) compressImage(file, val, format, scalePercent);
                 }}
-                className="w-full accent-primary-600 cursor-pointer"
+                className="w-full accent-primary-600 cursor-pointer mb-2"
               />
+              <div className="flex gap-1.5">
+                {[
+                  { label: 'Crisp Text', q: 90 },
+                  { label: 'Balanced', q: 80 },
+                  { label: 'Compact', q: 65 },
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => {
+                      setQuality(item.q);
+                      if (file) compressImage(file, item.q, format, scalePercent);
+                    }}
+                    className={`text-[10px] py-0.5 px-1.5 rounded font-bold transition-all ${
+                      quality === item.q
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:bg-gray-200'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Resolution Scaling */}

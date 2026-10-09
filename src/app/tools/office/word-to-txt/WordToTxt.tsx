@@ -274,8 +274,8 @@ export default function WordToTxt() {
             Home
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-slate-600 dark:hover:text-slate-400">
-            Tools
+          <Link href="/tools/office/" className="hover:text-slate-600 dark:hover:text-slate-400">
+            Office Tools
           </Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900 dark:text-white font-medium">Word to TXT</span>

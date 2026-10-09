@@ -139,7 +139,7 @@ export default function ResumeBuilder() {
             <div ref={printRef} className={`p-10 min-h-[1056px] w-full shadow-lg border border-gray-200 print:shadow-none print:border-none print:p-0 ${getThemeClasses()}`}>
               
               <div className="text-center mb-6">
-                <h1 className={`text-4xl font-bold uppercase mb-2 ${theme === 'navy' ? 'text-blue-900' : ''}`}>{personal.name}</h1>
+                <div role="heading" aria-level={2} className={`text-4xl font-bold uppercase mb-2 ${theme === 'navy' ? 'text-blue-900' : ''}`}>{personal.name}</div>
                 <p className="text-sm">
                   {personal.email} | {personal.phone} | {personal.location} <br/> {personal.links}
                 </p>

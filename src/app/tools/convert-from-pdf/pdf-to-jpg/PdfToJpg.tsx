@@ -52,8 +52,12 @@ export default function PdfToJpg() {
       const numPages = pdf.numPages;
       setProgress({ current: 0, total: numPages });
 
-      const scale = scaleQuality === 'fast' ? 1.5 : 2.0;
-      const jpegQuality = scaleQuality === 'fast' ? 0.85 : 0.92;
+      const scale = scaleQuality === 'fast' ? 2.0 : 2.5; // High-DPI crisp text rendering
+      const jpegQuality = scaleQuality === 'fast' ? 0.90 : 0.95; // Sharp fidelity without compression artifacts
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const pageList: string[] = [];
 
       for (let i = 1; i <= numPages; i++) {
         if (abortControllerRef.current) break;
@@ -61,10 +65,8 @@ export default function PdfToJpg() {
         const page = await pdf.getPage(i);
         const viewport = page.getViewport({ scale });
 
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d', { alpha: false });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        canvas.height = Math.floor(viewport.height);
+        canvas.width = Math.floor(viewport.width);
 
         if (ctx) {
           ctx.fillStyle = '#ffffff';
@@ -81,10 +83,11 @@ export default function PdfToJpg() {
         await page.render(renderContext).promise;
         const pageDataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
 
-        // Immediate visual streaming feedback
-        setImages((prev) => [...prev, pageDataUrl]);
+        pageList.push(pageDataUrl);
+        setImages([...pageList]);
         setProgress({ current: i, total: numPages });
       }
+
 
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {

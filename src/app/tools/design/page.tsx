@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/design/',
   },
-  title: 'Design & Visual Tools - Palettes, CSS Shadows & QR Code Maker | ToolsVerse',
+  title: 'Design & Visual Tools - Palettes, CSS Shadows & QR Code Maker',
   description: 'Creative design tools. Generate harmonic color palettes, CSS box shadows, customizable QR codes, and professional resumes.',
   keywords: ["design tools","color palette generator","qr code generator","box shadow generator","resume builder"],
 };

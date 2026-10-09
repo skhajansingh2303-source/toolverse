@@ -41,7 +41,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-compress-pdf-without-losing-quality',
     title: 'How to Compress PDF Files Without Losing Quality (100% Free & Private)',
-    seoTitle: 'How to Compress PDF Without Losing Quality Free Online | ToolsVerse',
+    seoTitle: 'How to Compress PDF Without Losing Quality Free Online',
     description: 'Learn how to reduce PDF file size by up to 90% without losing visual clarity. Step-by-step tutorial comparing ToolsVerse, iLovePDF, and Adobe Acrobat.',
     category: 'PDF Guides',
     readTime: '6 min read',
@@ -50,7 +50,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'compress-pdf',
     targetToolName: 'Compress PDF',
-    targetToolUrl: '/tools/optimize-pdf/compress-pdf',
+    targetToolUrl: '/tools/optimize-pdf/compress-pdf/',
     tags: ['compress pdf', 'reduce pdf size', 'pdf optimizer', 'ilovepdf alternative'],
     excerpt: 'Government portals, university submission systems, and email providers strictly enforce 1MB or 2MB file limits. Discover how to shrink large PDFs while keeping text sharp and images clear.',
     tableOfContents: [
@@ -123,7 +123,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-merge-pdf-files-free-online',
     title: 'How to Merge Multiple PDF Files into One Document (Free & Unlimited)',
-    seoTitle: 'How to Merge PDF Files Free Online - Step by Step Guide | ToolsVerse',
+    seoTitle: 'How to Merge PDF Files Free Online - Step by Step Guide',
     description: 'Combine multiple PDFs into a single organized file in seconds. Learn how to reorder pages, combine reports, and merge without page limits.',
     category: 'PDF Guides',
     readTime: '5 min read',
@@ -132,7 +132,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'merge-pdf',
     targetToolName: 'Merge PDF',
-    targetToolUrl: '/tools/organize-pdf/merge-pdf',
+    targetToolUrl: '/tools/organize-pdf/merge-pdf/',
     tags: ['merge pdf', 'combine pdf', 'join pdf files', 'ilovepdf alternative'],
     excerpt: 'Combining invoices, research papers, resumes with portfolios, or contracts into one clean PDF document should not require expensive software. Here is the easiest way to merge PDFs free.',
     tableOfContents: [
@@ -197,7 +197,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-convert-pdf-to-word-free-without-software',
     title: 'How to Convert PDF to Word (.docx) Free Without Software or Signup',
-    seoTitle: 'Convert PDF to Word Free Online (.docx) - High Accuracy | ToolsVerse',
+    seoTitle: 'Convert PDF to Word Free Online (.docx) - High Accuracy',
     description: 'Transform non-editable PDF documents into fully formatted Microsoft Word (.docx) files. Retain headings, tables, bullet points, and font styles 100% free.',
     category: 'Conversion',
     readTime: '7 min read',
@@ -206,7 +206,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'pdf-to-word',
     targetToolName: 'PDF to Word Converter',
-    targetToolUrl: '/tools/convert-from-pdf/pdf-to-word',
+    targetToolUrl: '/tools/convert-from-pdf/pdf-to-word/',
     tags: ['pdf to word', 'convert pdf to docx', 'editable word', 'pdf to doc'],
     excerpt: 'Need to edit a contract, update a CV, or reuse text from a PDF? Convert any PDF document into an editable Microsoft Word document while preserving tables, headings, and formatting.',
     tableOfContents: [
@@ -271,7 +271,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-split-pdf-pages-online',
     title: 'How to Split PDF Pages & Extract Specific Pages (Free Step-by-Step)',
-    seoTitle: 'How to Split PDF Pages Free Online - Extract Pages | ToolsVerse',
+    seoTitle: 'How to Split PDF Pages Free Online - Extract Pages',
     description: 'Learn how to split large PDFs into individual single-page files or extract specific page ranges into a new document. No file size limits.',
     category: 'PDF Guides',
     readTime: '5 min read',
@@ -280,7 +280,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'split-pdf',
     targetToolName: 'Split PDF',
-    targetToolUrl: '/tools/organize-pdf/split-pdf',
+    targetToolUrl: '/tools/organize-pdf/split-pdf/',
     tags: ['split pdf', 'extract pdf pages', 'separate pdf', 'cut pdf'],
     excerpt: 'Extract only the relevant pages from a 200-page manual, bank statement, or ebook without sending confidential files to remote servers.',
     tableOfContents: [
@@ -339,7 +339,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-password-protect-pdf-free',
     title: 'How to Password Protect and Encrypt PDF Files Online (100% Private)',
-    seoTitle: 'How to Password Protect PDF Free Online - AES Encryption | ToolsVerse',
+    seoTitle: 'How to Password Protect PDF Free Online - AES Encryption',
     description: 'Protect confidential contracts, financial sheets, and personal documents with military-grade AES encryption directly in your browser.',
     category: 'Security & Privacy',
     readTime: '5 min read',
@@ -348,7 +348,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'protect-pdf',
     targetToolName: 'Protect PDF',
-    targetToolUrl: '/tools/pdf-security/protect-pdf',
+    targetToolUrl: '/tools/pdf-security/protect-pdf/',
     tags: ['protect pdf', 'encrypt pdf', 'password protect pdf', 'secure pdf'],
     excerpt: 'Never upload confidential bank statements, salary slips, or IDs to cloud servers just to set a password. Discover how client-side encryption keeps your data truly secure.',
     tableOfContents: [
@@ -407,7 +407,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-sign-pdf-online-free-esignature',
     title: 'How to Legally Sign PDF Documents Online Free (No Account Needed)',
-    seoTitle: 'How to Sign PDF Documents Online Free (E-Signature) | ToolsVerse',
+    seoTitle: 'How to Sign PDF Documents Online Free (E-Signature)',
     description: 'Add your digital signature to contracts, lease agreements, and job offers free. Draw or type your signature with zero sign-up or monthly fees.',
     category: 'Security & Privacy',
     readTime: '6 min read',
@@ -416,7 +416,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'sign-pdf',
     targetToolName: 'Sign PDF',
-    targetToolUrl: '/tools/pdf-security/sign-pdf',
+    targetToolUrl: '/tools/pdf-security/sign-pdf/',
     tags: ['sign pdf', 'e-signature', 'digital signature free', 'docusign alternative'],
     excerpt: 'Paying $15/month for DocuSign or Adobe Sign just to sign a few agreements a year is unnecessary. Learn how to sign PDFs legally and securely in your browser.',
     tableOfContents: [
@@ -473,7 +473,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-convert-word-to-pdf-without-office',
     title: 'How to Convert Word to PDF (.docx to .pdf) Without Microsoft Office',
-    seoTitle: 'Convert Word to PDF Free Online - Preserve Formatting | ToolsVerse',
+    seoTitle: 'Convert Word to PDF Free Online - Preserve Formatting',
     description: 'Convert DOCX and DOC files to high-fidelity PDF documents without installing Microsoft Word or buying an Office 365 license.',
     category: 'Conversion',
     readTime: '5 min read',
@@ -482,7 +482,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'word-to-pdf',
     targetToolName: 'Word to PDF',
-    targetToolUrl: '/tools/convert-to-pdf/word-to-pdf',
+    targetToolUrl: '/tools/convert-to-pdf/word-to-pdf/',
     tags: ['word to pdf', 'convert docx to pdf', 'doc to pdf free', 'ilovepdf alternative'],
     excerpt: 'Need to submit a resume or report in PDF format but do not have Microsoft Word installed? Convert DOCX files to PDF right in your browser with flawless typography.',
     tableOfContents: [
@@ -539,7 +539,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'how-to-crop-pdf-margins-online',
     title: 'How to Crop PDF Pages & Trim White Margins Online (Free)',
-    seoTitle: 'How to Crop PDF Margins Free Online - Trim Pages | ToolsVerse',
+    seoTitle: 'How to Crop PDF Margins Free Online - Trim Pages',
     description: 'Remove unwanted white borders and margins from PDF documents. Ideal for reading on e-readers, tablets, and printing labels.',
     category: 'PDF Guides',
     readTime: '4 min read',
@@ -548,7 +548,7 @@ export const BLOG_POSTS: BlogPost[] = [
     author: 'ToolsVerse Editorial Team',
     targetToolSlug: 'crop-pdf',
     targetToolName: 'Crop PDF',
-    targetToolUrl: '/tools/edit-pdf/crop-pdf',
+    targetToolUrl: '/tools/edit-pdf/crop-pdf/',
     tags: ['crop pdf', 'trim pdf margins', 'crop pdf online free', 'pdf margin trimmer'],
     excerpt: 'Excessive white margins waste printer ink and make documents hard to read on tablets and Kindle e-readers. Discover how to trim PDF margins easily.',
     tableOfContents: [
@@ -605,7 +605,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-pdf-to-jpg-high-resolution",
   "title": "How to Convert PDF to High-Resolution JPG Images (Free & Private)",
-  "seoTitle": "How to Convert PDF to JPG High Resolution Online Free | ToolsVerse",
+  "seoTitle": "How to Convert PDF to JPG High Resolution Online Free",
   "description": "Convert every PDF page into crisp JPG or JPEG images without blurriness. Free, fast in-browser conversion with zero server uploads.",
   "category": "Conversion",
   "readTime": "5 min read",
@@ -724,7 +724,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-jpg-and-images-to-pdf",
   "title": "How to Convert JPG and Photos to PDF Online Free (Combine Multiple Images)",
-  "seoTitle": "Convert JPG to PDF Free Online - Combine Photos to PDF | ToolsVerse",
+  "seoTitle": "Convert JPG to PDF Free Online - Combine Photos to PDF",
   "description": "Convert JPG, PNG, and camera photos into a clean PDF file. Reorder pages, set page orientation, and merge multiple pictures in seconds.",
   "category": "Conversion",
   "readTime": "4 min read",
@@ -842,7 +842,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-ocr-pdf-extract-scanned-text",
   "title": "How to OCR PDF: Convert Scanned Documents into Selectable & Searchable Text",
-  "seoTitle": "OCR PDF Online Free - Extract Text from Scanned PDFs | ToolsVerse",
+  "seoTitle": "OCR PDF Online Free - Extract Text from Scanned PDFs",
   "description": "Transform unsearchable scanned PDFs and images into editable, selectable text. Free in-browser optical character recognition powered by WebAssembly.",
   "category": "PDF Guides",
   "readTime": "6 min read",
@@ -960,7 +960,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-remove-pages-from-pdf-free",
   "title": "How to Delete and Remove Pages from PDF Online Free",
-  "seoTitle": "Delete Pages from PDF Online Free - Remove Unwanted Pages | ToolsVerse",
+  "seoTitle": "Delete Pages from PDF Online Free - Remove Unwanted Pages",
   "description": "Quickly remove blank, duplicate, or unwanted pages from any PDF document. Free visual page remover with instant live preview and zero server uploads.",
   "category": "PDF Guides",
   "readTime": "4 min read",
@@ -1078,7 +1078,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-rotate-and-save-pdf-pages",
   "title": "How to Rotate and Permanently Save Upside-Down PDF Pages Online",
-  "seoTitle": "Rotate PDF Pages Online Free - Permanently Save Rotation | ToolsVerse",
+  "seoTitle": "Rotate PDF Pages Online Free - Permanently Save Rotation",
   "description": "Fix upside-down or sideways PDF scans permanently. Rotate single pages or entire documents 90, 180, or 270 degrees in your browser.",
   "category": "Organize PDF",
   "readTime": "4 min read",
@@ -1195,7 +1195,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-add-watermark-to-pdf-online",
   "title": "How to Add Watermark to PDF Online (Text & Image Watermarks)",
-  "seoTitle": "Add Watermark to PDF Free Online - Custom Text & Logo | ToolsVerse",
+  "seoTitle": "Add Watermark to PDF Free Online - Custom Text & Logo",
   "description": "Protect confidential documents, copyright designs, and draft papers by adding custom text or image watermarks across all PDF pages.",
   "category": "PDF Guides",
   "readTime": "5 min read",
@@ -1313,7 +1313,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-unlock-password-protected-pdf",
   "title": "How to Unlock Password-Protected PDF Files (Remove PDF Password)",
-  "seoTitle": "Unlock PDF Online Free - Remove Password from PDF | ToolsVerse",
+  "seoTitle": "Unlock PDF Online Free - Remove Password from PDF",
   "description": "Remove passwords and permissions security from PDF documents easily. Learn how to decrypt locked PDFs in your browser with zero server uploads.",
   "category": "Security & Privacy",
   "readTime": "5 min read",
@@ -1426,7 +1426,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-redact-blackout-sensitive-info-pdf",
   "title": "How to Redact and Blackout Sensitive Info in PDF Documents Privately",
-  "seoTitle": "Redact PDF Online Free - Blackout Sensitive Text & Data | ToolsVerse",
+  "seoTitle": "Redact PDF Online Free - Blackout Sensitive Text & Data",
   "description": "Permanently blackout credit card numbers, Social Security numbers, addresses, and sensitive data in PDF files without server uploads.",
   "category": "Security & Privacy",
   "readTime": "6 min read",
@@ -1540,7 +1540,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-compress-images-png-jpg-webp",
   "title": "How to Compress PNG, JPG, and WebP Images Without Losing Quality",
-  "seoTitle": "Compress Images Online Free - PNG, JPG, WebP Optimizer | ToolsVerse",
+  "seoTitle": "Compress Images Online Free - PNG, JPG, WebP Optimizer",
   "description": "Shrink image file size by up to 80% without visible loss of sharpness. Free in-browser image compressor for websites, apps, and email.",
   "category": "Developer & Media",
   "readTime": "5 min read",
@@ -1654,7 +1654,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-generate-custom-qr-codes-free",
   "title": "How to Generate Custom QR Codes for URLs, WiFi, Text, and Business",
-  "seoTitle": "Free Custom QR Code Generator Online - Colors & High-Res PNG | ToolsVerse",
+  "seoTitle": "Free Custom QR Code Generator Online - Colors & High-Res PNG",
   "description": "Create high-resolution custom QR codes for websites, automatic WiFi connection, vCards, and emails. 100% free with custom brand colors and zero tracking.",
   "category": "Developer & Media",
   "readTime": "4 min read",
@@ -1769,7 +1769,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-heic-iphone-photos-to-jpg",
   "title": "How to Convert iPhone HEIC Photos to JPG Online Free (Windows & Android Ready)",
-  "seoTitle": "Convert HEIC to JPG Free Online - iPhone Photo Converter | ToolsVerse",
+  "seoTitle": "Convert HEIC to JPG Free Online - iPhone Photo Converter",
   "description": "Convert Apple HEIC and HEIF photos from your iPhone or iPad to universal JPG/PNG images instantly in your browser without uploading to the cloud.",
   "category": "Conversion",
   "readTime": "4 min read",
@@ -1882,7 +1882,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-format-validate-json-online",
   "title": "How to Format, Prettify, and Validate JSON Online (Developer Guide)",
-  "seoTitle": "JSON Formatter & Validator Online Free - Prettify & Minify | ToolsVerse",
+  "seoTitle": "JSON Formatter & Validator Online Free - Prettify & Minify",
   "description": "Format, validate, prettify, and minify messy JSON payloads instantly. Detect syntax errors, fix missing brackets, and copy clean JSON with one click.",
   "category": "Developer & Media",
   "readTime": "4 min read",
@@ -1996,7 +1996,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-calculate-loan-emi-and-interest",
   "title": "How to Calculate Loan EMI, Interest & Amortization Schedule Accurately",
-  "seoTitle": "Loan EMI Calculator Online Free - Home & Car Loan Interest | ToolsVerse",
+  "seoTitle": "Loan EMI Calculator Online Free - Home & Car Loan Interest",
   "description": "Calculate monthly loan EMI payments, total interest payable, and complete repayment amortization breakdown for home loans, car loans, and personal loans.",
   "category": "Office & Productivity",
   "readTime": "5 min read",
@@ -2109,7 +2109,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-build-professional-resume-cv-free",
   "title": "How to Build an ATS-Friendly Professional Resume & CV Online Free",
-  "seoTitle": "Free Resume Builder Online - ATS-Friendly CV Maker | ToolsVerse",
+  "seoTitle": "Free Resume Builder Online - ATS-Friendly CV Maker",
   "description": "Create modern, job-winning resumes tailored for Applicant Tracking Systems (ATS). Free in-browser resume builder with instant PDF download and zero subscription fees.",
   "category": "Office & Productivity",
   "readTime": "6 min read",
@@ -2223,7 +2223,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-generate-secure-passwords-online",
   "title": "How to Generate Strong, Hack-Proof Passwords Online (Security Guide)",
-  "seoTitle": "Strong Password Generator Online Free - Custom Security | ToolsVerse",
+  "seoTitle": "Strong Password Generator Online Free - Custom Security",
   "description": "Generate uncrackable, cryptographically secure passwords and passphrases. Protect your accounts against brute-force attacks and credential stuffing.",
   "category": "Security & Privacy",
   "readTime": "4 min read",
@@ -2336,7 +2336,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-count-words-characters-reading-time",
   "title": "How to Count Words, Characters, Sentences, and Reading Time Online",
-  "seoTitle": "Word Counter Online Free - Character Count & Reading Time | ToolsVerse",
+  "seoTitle": "Word Counter Online Free - Character Count & Reading Time",
   "description": "Instant word count, character count (with/without spaces), sentence count, and estimated reading time. Free online text analyzer for writers and students.",
   "category": "Office & Productivity",
   "readTime": "3 min read",
@@ -2450,7 +2450,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-calculate-bmi-body-mass-index",
   "title": "How to Calculate Body Mass Index (BMI) and Ideal Weight Range",
-  "seoTitle": "BMI Calculator Online Free - Body Mass Index & Weight Range | ToolsVerse",
+  "seoTitle": "BMI Calculator Online Free - Body Mass Index & Weight Range",
   "description": "Calculate your Body Mass Index (BMI) accurately in metric (kg/cm) or imperial (lbs/ft). Learn your World Health Organization (WHO) weight category and healthy range.",
   "category": "Calculators",
   "readTime": "4 min read",
@@ -2563,7 +2563,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-pdf-to-excel-spreadsheets",
   "title": "How to Convert PDF Tables to Editable Excel Spreadsheets (.XLSX) Online Free",
-  "seoTitle": "Convert PDF to Excel Free Online - PDF to XLSX Table Extractor | ToolsVerse",
+  "seoTitle": "Convert PDF to Excel Free Online - PDF to XLSX Table Extractor",
   "description": "Extract tables and data columns from PDF documents into editable Microsoft Excel (.xlsx) spreadsheets accurately without losing formatting.",
   "category": "Conversion",
   "readTime": "5 min read",
@@ -2676,7 +2676,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-excel-sheets-to-pdf",
   "title": "How to Convert Excel Spreadsheets (.XLSX) to Clean PDF Documents Online Free",
-  "seoTitle": "Convert Excel to PDF Online Free - XLSX to PDF Converter | ToolsVerse",
+  "seoTitle": "Convert Excel to PDF Online Free - XLSX to PDF Converter",
   "description": "Convert Excel workbooks and sheets into professional, print-ready PDF documents without cut-off columns or distorted tables.",
   "category": "Conversion",
   "readTime": "4 min read",
@@ -2789,7 +2789,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-powerpoint-ppt-to-pdf",
   "title": "How to Convert PowerPoint (.PPTX) Presentations to PDF Online Free",
-  "seoTitle": "Convert PowerPoint to PDF Online Free - PPTX to PDF Slides | ToolsVerse",
+  "seoTitle": "Convert PowerPoint to PDF Online Free - PPTX to PDF Slides",
   "description": "Convert PowerPoint slide decks (.pptx and .ppt) to crisp PDF documents. Preserve fonts, layouts, and slide aspect ratios without Microsoft Office.",
   "category": "Conversion",
   "readTime": "4 min read",
@@ -2902,7 +2902,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-decode-and-inspect-jwt-tokens",
   "title": "How to Decode, Verify, and Inspect JSON Web Tokens (JWT) Securely",
-  "seoTitle": "JWT Decoder Online Free - Inspect Header, Payload & Signature | ToolsVerse",
+  "seoTitle": "JWT Decoder Online Free - Inspect Header, Payload & Signature",
   "description": "Decode and inspect JSON Web Tokens (JWT) securely without leaking sensitive auth tokens. View claims, expiration dates (exp), and roles with zero server logging.",
   "category": "Developer & Media",
   "readTime": "4 min read",
@@ -3016,7 +3016,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
   "slug": "how-to-convert-csv-to-json-online",
   "title": "How to Convert CSV Files to JSON Objects & Arrays Online Free",
-  "seoTitle": "CSV to JSON Converter Online Free - Table to JSON | ToolsVerse",
+  "seoTitle": "CSV to JSON Converter Online Free - Table to JSON",
   "description": "Convert CSV spreadsheets, comma-separated lists, and TSV files into formatted JSON arrays and objects. 100% client-side with instant copy and download.",
   "category": "Developer & Media",
   "readTime": "4 min read",

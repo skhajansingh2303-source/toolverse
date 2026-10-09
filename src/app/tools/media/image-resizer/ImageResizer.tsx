@@ -88,7 +88,11 @@ export default function ImageResizer() {
       const ctx = canvas.getContext('2d');
       
       if (ctx) {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
+
+        const mimeType = file?.type === 'image/jpeg' ? 'image/jpeg' : file?.type === 'image/webp' ? 'image/webp' : 'image/png';
         canvas.toBlob((blob) => {
           if (blob) {
             const url = URL.createObjectURL(blob);

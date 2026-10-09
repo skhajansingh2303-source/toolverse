@@ -1017,8 +1017,23 @@ export default function UniversalOfficeConverter() {
           let imageEmbed;
           if (file.type.includes('png')) {
             imageEmbed = await pdfDoc.embedPng(buffer);
-          } else {
+          } else if (file.type.includes('jpeg') || file.type.includes('jpg')) {
             imageEmbed = await pdfDoc.embedJpg(buffer);
+          } else {
+            // Support WebP, SVG and other formats cleanly with high quality
+            const imgBitmap = await createImageBitmap(file);
+            const canvas = document.createElement('canvas');
+            canvas.width = imgBitmap.width;
+            canvas.height = imgBitmap.height;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.imageSmoothingEnabled = false;
+              ctx.drawImage(imgBitmap, 0, 0);
+            }
+            const pngBlob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/png'));
+            if (!pngBlob) throw new Error('Failed to encode image to PDF');
+            const pngBuf = await pngBlob.arrayBuffer();
+            imageEmbed = await pdfDoc.embedPng(pngBuf);
           }
           const { width, height } = imageEmbed.scale(1);
           const page = pdfDoc.addPage([width, height]);
@@ -1050,12 +1065,15 @@ export default function UniversalOfficeConverter() {
           canvas.width = img.width;
           canvas.height = img.height;
           const ctx = canvas.getContext('2d');
-          ctx?.drawImage(img, 0, 0);
+          if (ctx) {
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(img, 0, 0);
+          }
           URL.revokeObjectURL(imgUrl);
 
           const mimeType = selectedOutput === 'webp' ? 'image/webp' : 'image/png';
           const blob: Blob = await new Promise((res) => {
-            canvas.toBlob((b) => res(b || new Blob()), mimeType, 0.92);
+            canvas.toBlob((b) => res(b || new Blob()), mimeType, 0.94);
           });
 
           setConvertedResult({

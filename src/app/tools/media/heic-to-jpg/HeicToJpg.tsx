@@ -25,7 +25,7 @@ type TargetFormat = 'jpg' | 'png';
 export default function HeicToJpg() {
   const [items, setItems] = useState<ConvertedItem[]>([]);
   const [targetFormat, setTargetFormat] = useState<TargetFormat>('jpg');
-  const [quality, setQuality] = useState<number>(85);
+  const [quality, setQuality] = useState<number>(92);
   const [isConvertingAll, setIsConvertingAll] = useState<boolean>(false);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
   const [isZipping, setIsZipping] = useState<boolean>(false);

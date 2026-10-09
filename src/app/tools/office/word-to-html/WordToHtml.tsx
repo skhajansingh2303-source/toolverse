@@ -324,8 +324,8 @@ export default function WordToHtml() {
             Home
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-emerald-600 dark:hover:text-emerald-400">
-            Tools
+          <Link href="/tools/office/" className="hover:text-emerald-600 dark:hover:text-emerald-400">
+            Office Tools
           </Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900 dark:text-white font-medium">Word to HTML</span>

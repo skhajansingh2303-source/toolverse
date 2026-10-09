@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/text/',
   },
-  title: 'Text Utilities - Word Counter, Case Converter & Text Cleaner | ToolsVerse',
+  title: 'Text Utilities - Word Counter, Case Converter & Text Cleaner',
   description: 'Online text utilities. Count words and characters, convert letter cases, clean lists, and generate lorem ipsum placeholder text.',
   keywords: ["word counter","case converter","list cleaner","text tools","lorem ipsum"],
 };

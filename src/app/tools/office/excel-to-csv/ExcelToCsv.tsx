@@ -285,7 +285,7 @@ export default function ExcelToCsv() {
         <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400">
           <Link href="/" className="hover:text-green-600 dark:hover:text-green-400">Home</Link>
           <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-green-600 dark:hover:text-green-400">Tools</Link>
+          <Link href="/tools/office/" className="hover:text-green-600 dark:hover:text-green-400">Office Tools</Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900 dark:text-white font-medium">Excel to CSV</span>
         </nav>

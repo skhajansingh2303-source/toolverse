@@ -238,7 +238,7 @@ export default function Header() {
                 <span>Home</span>
               </Link>
               <Link
-                href="/tools/organize-pdf/merge-pdf"
+                href="/tools/organize-pdf/merge-pdf/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
@@ -246,7 +246,7 @@ export default function Header() {
                 Merge PDF
               </Link>
               <Link
-                href="/tools/organize-pdf/split-pdf"
+                href="/tools/organize-pdf/split-pdf/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
@@ -254,7 +254,7 @@ export default function Header() {
                 Split PDF
               </Link>
               <Link
-                href="/tools/optimize-pdf/compress-pdf"
+                href="/tools/optimize-pdf/compress-pdf/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"
@@ -306,7 +306,7 @@ export default function Header() {
 
               {/* Guides & Blog Link (Visible on xl and wider) */}
               <Link
-                href="/blog"
+                href="/blog/"
                 onClick={() => setMegaMenuOpen(false)}
                 onMouseEnter={handleOtherLinkHover}
                 className="hidden xl:inline-block text-gray-700 dark:text-slate-200 hover:text-red-600 dark:hover:text-red-400 transition-colors whitespace-nowrap px-1 py-1"

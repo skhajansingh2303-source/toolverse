@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/',
   },
-  title: 'Convert to PDF - Images, Word, Excel & PowerPoint to PDF Online | ToolsVerse',
+  title: 'Convert to PDF - Images, Word, Excel & PowerPoint to PDF Online',
   description: 'Convert JPG, PNG, Word DOCX, Excel XLSX, PPTX, and HTML web pages to PDF online for free. Fast, private, and secure.',
   keywords: ["convert to pdf","jpg to pdf","word to pdf","image to pdf","excel to pdf"],
 };

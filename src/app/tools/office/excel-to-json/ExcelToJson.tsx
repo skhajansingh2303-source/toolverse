@@ -328,7 +328,7 @@ export default function ExcelToJson() {
         <nav className="text-sm mb-8 text-gray-500 dark:text-slate-400">
           <Link href="/" className="hover:text-amber-600 dark:hover:text-amber-400">Home</Link>
           <span className="mx-2">/</span>
-          <Link href="/tools" className="hover:text-amber-600 dark:hover:text-amber-400">Tools</Link>
+          <Link href="/tools/office/" className="hover:text-amber-600 dark:hover:text-amber-400">Office Tools</Link>
           <span className="mx-2">/</span>
           <span className="text-gray-900 dark:text-white font-medium">Excel to JSON</span>
         </nav>

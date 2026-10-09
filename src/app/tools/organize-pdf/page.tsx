@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/organize-pdf/',
   },
-  title: 'Organize PDF - Merge, Split, Remove, Rotate & Reorder PDF Pages | ToolsVerse',
+  title: 'Organize PDF - Merge, Split, Remove, Rotate & Reorder PDF Pages',
   description: 'Easily organize PDF files online. Merge multiple documents, split pages, remove unwanted pages, and rotate PDF pages instantly.',
   keywords: ["organize pdf","merge pdf","split pdf","rotate pdf","rearrange pdf pages"],
 };

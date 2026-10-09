@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/convert-from-pdf/',
   },
-  title: 'Convert from PDF - Extract & Convert PDF to Word, Excel, JPG, PNG | ToolsVerse',
+  title: 'Convert from PDF - Extract & Convert PDF to Word, Excel, JPG, PNG',
   description: 'Convert PDF files to Word, Excel, PowerPoint, JPG, PNG, HTML, and Text online for free. 100% private in-browser processing.',
   keywords: ["convert from pdf","pdf to word","pdf to jpg","pdf to excel","pdf converter online"],
 };

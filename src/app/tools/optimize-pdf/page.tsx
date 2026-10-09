@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/optimize-pdf/',
   },
-  title: 'Optimize PDF - Compress, Repair, OCR & Flatten PDF Online Free | ToolsVerse',
+  title: 'Optimize PDF - Compress, Repair, OCR & Flatten PDF Online Free',
   description: 'Reduce PDF file size, repair damaged documents, run OCR text recognition, and optimize PDF documents for email and web.',
   keywords: ["optimize pdf","compress pdf","reduce pdf size","repair pdf","pdf ocr"],
 };

@@ -88,6 +88,10 @@ export default function RasterizePdf() {
       const newPdfDoc = await PDFDocument.create();
       const pageThumbnails: string[] = [];
 
+      const canvas = document.createElement('canvas');
+      const canvasContext = canvas.getContext('2d', { alpha: false });
+      if (!canvasContext) throw new Error('Could not create canvas 2D rendering context.');
+
       for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
         if (abortControllerRef.current) break;
 
@@ -95,57 +99,53 @@ export default function RasterizePdf() {
         const viewport = page.getViewport({ scale });
         const originalViewport = page.getViewport({ scale: 1.0 });
 
-        const canvas = document.createElement('canvas');
-        canvas.width = Math.floor(viewport.width);
-        canvas.height = Math.floor(viewport.height);
-
-        const canvasContext = canvas.getContext('2d', { alpha: false });
-        if (!canvasContext) throw new Error('Could not create canvas 2D rendering context.');
+        const w = Math.floor(viewport.width);
+        const h = Math.floor(viewport.height);
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+        }
 
         // White background
         canvasContext.fillStyle = '#ffffff';
-        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+        canvasContext.fillRect(0, 0, w, h);
+
+        canvasContext.imageSmoothingEnabled = true;
+        canvasContext.imageSmoothingQuality = 'high';
+
 
         await page.render({
           canvasContext,
           viewport,
         }).promise;
 
-        let imgBytes: Uint8Array;
-        let thumbUrl: string;
+        const mime = imageFormat === 'png' ? 'image/png' : 'image/jpeg';
+        const q = imageFormat === 'png' ? undefined : jpegQuality;
+        const pageBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, mime, q));
+        if (!pageBlob) throw new Error(`Could not render page ${pageNum}`);
 
-        if (imageFormat === 'png') {
-          thumbUrl = canvas.toDataURL('image/png');
-          const res = await fetch(thumbUrl);
-          const buf = await res.arrayBuffer();
-          imgBytes = new Uint8Array(buf);
-          const embeddedImage = await newPdfDoc.embedPng(imgBytes);
-          const newPdfPage = newPdfDoc.addPage([originalViewport.width, originalViewport.height]);
-          newPdfPage.drawImage(embeddedImage, {
-            x: 0,
-            y: 0,
-            width: originalViewport.width,
-            height: originalViewport.height,
-          });
-        } else {
-          thumbUrl = canvas.toDataURL('image/jpeg', jpegQuality);
-          const res = await fetch(thumbUrl);
-          const buf = await res.arrayBuffer();
-          imgBytes = new Uint8Array(buf);
-          const embeddedImage = await newPdfDoc.embedJpg(imgBytes);
-          const newPdfPage = newPdfDoc.addPage([originalViewport.width, originalViewport.height]);
-          newPdfPage.drawImage(embeddedImage, {
-            x: 0,
-            y: 0,
-            width: originalViewport.width,
-            height: originalViewport.height,
-          });
-        }
+        const buf = await pageBlob.arrayBuffer();
+        const imgBytes = new Uint8Array(buf);
+        const embeddedImage = imageFormat === 'png'
+          ? await newPdfDoc.embedPng(imgBytes)
+          : await newPdfDoc.embedJpg(imgBytes);
 
+        const newPdfPage = newPdfDoc.addPage([originalViewport.width, originalViewport.height]);
+        newPdfPage.drawImage(embeddedImage, {
+          x: 0,
+          y: 0,
+          width: originalViewport.width,
+          height: originalViewport.height,
+        });
+
+        const thumbUrl = URL.createObjectURL(pageBlob);
         pageThumbnails.push(thumbUrl);
         setThumbnails([...pageThumbnails]);
         setProgress({ current: pageNum, total: totalPages });
       }
+
+      canvas.width = 0;
+      canvas.height = 0;
 
       const pdfBytes = await newPdfDoc.save();
       const blob = new Blob([pdfBytes as BlobPart], { type: 'application/pdf' });

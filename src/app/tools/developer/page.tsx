@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/developer/',
   },
-  title: 'Developer Tools - JSON, JWT, Base64, RegEx & Hash Utilities | ToolsVerse',
+  title: 'Developer Tools - JSON, JWT, Base64, RegEx & Hash Utilities',
   description: 'Essential developer tools. JSON formatters, JWT decoders, base64 encoders, UUID generators, and RegEx testers.',
   keywords: ["developer tools","json formatter","jwt decoder","uuid generator","base64 encoder"],
 };

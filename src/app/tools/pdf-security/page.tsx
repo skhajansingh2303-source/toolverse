@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/pdf-security/',
   },
-  title: 'PDF Security - Sign, Encrypt, Unlock, Redact & Fill PDF Forms | ToolsVerse',
+  title: 'PDF Security - Sign, Encrypt, Unlock, Redact & Fill PDF Forms',
   description: 'Bank-grade PDF security in your browser. Sign documents with legal e-signatures, password protect, remove passwords, and blackout sensitive text.',
   keywords: ["pdf security","sign pdf","protect pdf","unlock pdf","redact pdf"],
 };

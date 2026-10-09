@@ -319,6 +319,43 @@ export default function Home() {
 
   return (
     <>
+      {/* Homepage Structured Data: WebApplication & FAQPage matching visible content */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'WebApplication',
+                '@id': 'https://toolsverseapp.com/#webapp',
+                name: 'ToolsVerse App Productivity & Utility Suite',
+                url: 'https://toolsverseapp.com/',
+                applicationCategory: 'UtilitiesApplication',
+                operatingSystem: 'All',
+                browserRequirements: 'Requires JavaScript. Requires HTML5.',
+                offers: {
+                  '@type': 'Offer',
+                  price: '0',
+                  priceCurrency: 'USD',
+                },
+              },
+              {
+                '@type': 'FAQPage',
+                '@id': 'https://toolsverseapp.com/#faq',
+                mainEntity: FAQS.map((faq) => ({
+                  '@type': 'Question',
+                  name: faq.q,
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: faq.a,
+                  },
+                })),
+              },
+            ],
+          }),
+        }}
+      />
       {/* ───── Hero Section ───── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-900 text-white pb-16">
         {/* Decorative Grid */}

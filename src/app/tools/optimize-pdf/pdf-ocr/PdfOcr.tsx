@@ -87,7 +87,25 @@ function safeEncodeForFont(font: any, text: string): string {
       else if (ch === '—' || ch === '–') res += '-';
       else if (ch === '…') res += '...';
       else if (ch === '₹') res += 'Rs.';
-      else res += ' ';
+      else if (ch === '•') res += '*';
+      else if (ch === '™') res += 'TM';
+      else if (ch === '©') res += '(C)';
+      else if (ch === '®') res += '(R)';
+      else if (ch.charCodeAt(0) > 127) {
+        const decomposed = ch.normalize('NFD');
+        let matched = false;
+        for (const subCh of decomposed) {
+          try {
+            font.encodeText(subCh);
+            res += subCh;
+            matched = true;
+            break;
+          } catch {}
+        }
+        if (!matched) res += ' ';
+      } else {
+        res += ' ';
+      }
     }
   }
   return res.replace(/\s+/g, ' ').trim();
@@ -118,6 +136,56 @@ function wrapText(text: string, font: any, fontSize: number, maxWidth: number): 
   return lines;
 }
 
+// Safely load PDF.js in browser
+async function loadPdfJs(): Promise<any> {
+  if (typeof window !== 'undefined' && (window as any).pdfjsLib) {
+    (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    return (window as any).pdfjsLib;
+  }
+
+  if (typeof window !== 'undefined') {
+    await new Promise<void>((resolve) => {
+      let checks = 0;
+      const interval = setInterval(() => {
+        checks++;
+        if ((window as any).pdfjsLib) {
+          clearInterval(interval);
+          (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          resolve();
+        } else if (checks > 30) {
+          clearInterval(interval);
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+          script.onload = () => {
+            if ((window as any).pdfjsLib) {
+              (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            }
+            resolve();
+          };
+          script.onerror = () => resolve();
+          document.head.appendChild(script);
+        }
+      }, 100);
+    });
+
+    if ((window as any).pdfjsLib) {
+      return (window as any).pdfjsLib;
+    }
+  }
+
+  try {
+    const lib = await import('pdfjs-dist');
+    lib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    return lib;
+  } catch {
+    throw new Error('PDF processing library could not be loaded. Please check your internet connection.');
+  }
+}
+
 // Extract word-level coordinates first for Google Drive-grade word selection & search
 function extractLinesFromOcr(data: any): OcrLineData[] {
   const resultLines: OcrLineData[] = [];
@@ -139,7 +207,7 @@ function extractLinesFromOcr(data: any): OcrLineData[] {
     }
   }
 
-  // If words array was not populated, fallback to lines
+  // If words array was not populated, traverse blocks -> paragraphs -> lines -> words
   if (resultLines.length === 0) {
     const rawLines: any[] = [];
     if (Array.isArray(data?.lines) && data.lines.length > 0) {
@@ -187,6 +255,26 @@ function extractLinesFromOcr(data: any): OcrLineData[] {
         }
       }
     }
+  }
+
+  // Fallback to splitting text lines if no bounding boxes were found in blocks
+  if (resultLines.length === 0 && typeof data?.text === 'string' && data.text.trim().length > 0) {
+    const splitLines = data.text.split('\n').map((s: string) => s.trim()).filter(Boolean);
+    const canvasH = 1000;
+    const canvasW = 800;
+    const spacing = canvasH / (splitLines.length + 1);
+    splitLines.forEach((lineText: string, idx: number) => {
+      const y0 = Math.round((idx + 0.5) * spacing);
+      resultLines.push({
+        text: lineText,
+        bbox: {
+          x0: 40,
+          y0,
+          x1: canvasW - 40,
+          y1: y0 + 20,
+        },
+      });
+    });
   }
 
   return resultLines;
@@ -530,7 +618,7 @@ export default function PdfOcr() {
 
       // Use local fast assets (/tesseract/*) for top offline languages, or fallback to CDN for additional languages
       const isOfflineLang = OFFLINE_LANGUAGES.includes(language);
-      const langPath = isOfflineLang ? '/tesseract' : 'https://tessdata.projectnaptha.com/4.0.0';
+      const langPath = isOfflineLang ? '/tesseract' : 'https://cdn.jsdelivr.net/npm/@tesseract.js-data';
 
       worker = await createWorker(language, 1, {
         workerPath: '/tesseract/worker.min.js',
@@ -561,14 +649,7 @@ export default function PdfOcr() {
         setProgressStatus('Reading PDF pages in browser memory...');
         setProgressPercent(12);
 
-        let pdfjsLib: any = (window as any).pdfjsLib;
-        if (!pdfjsLib) {
-          pdfjsLib = await import('pdfjs-dist');
-          pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '4.4.168'}/pdf.worker.min.mjs`;
-        } else {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        }
-
+        const pdfjsLib = await loadPdfJs();
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const totalDocPages = pdf.numPages;
@@ -673,13 +754,11 @@ export default function PdfOcr() {
           let finalLines: OcrLineData[] = [];
           let finalText = '';
 
-          let pagePdfBytes: Uint8Array | undefined = undefined;
-          const isNativeDigital = !forceOcr && nativeWordCount >= 10 && !deskewPages && !cleanPages && !removeBackground;
+          const isNativeDigital = !forceOcr && nativeWordCount >= 50 && !deskewPages && !cleanPages && !removeBackground;
 
-          // If Force OCR is active or scanned page, recognize text & generate native GlyphLessFont PDF
           if (isNativeDigital) {
             finalLines = nativeLines;
-            finalText = nativeLines.map((l) => l.text).join('\n');
+            finalText = nativeLines.map((l) => l.text).join(' ');
             setProgressStatus(`Page ${i} of ${targetPages}: Extracted ${nativeWordCount} native words.`);
           } else {
             const targetDpi = Math.max(72, Math.min(300, Math.round(renderScale * 72)));
@@ -689,25 +768,24 @@ export default function PdfOcr() {
               });
             } catch {}
 
-            setProgressStatus(`Page ${i} of ${targetPages}: Generating searchable text layer (PDF24 GlyphLessFont)...`);
+            setProgressStatus(`Page ${i} of ${targetPages}: Recognizing characters & building text layer...`);
             const ocrRes = await worker.recognize(
               canvas,
               { pdfTitle: pdfTitle || file.name.replace(/\.[^/.]+$/, '') },
-              { text: true, pdf: true }
+              { text: true, blocks: true, pdf: false }
             );
             const ocrLines = extractLinesFromOcr(ocrRes.data);
-            const ocrText = ocrRes.data.text.trim();
+            const ocrText = (ocrRes.data.text || '').trim();
 
-            if (ocrRes.data.pdf) {
-              pagePdfBytes = new Uint8Array(ocrRes.data.pdf);
-            }
-
-            if (!forceOcr && nativeLines.length > 0) {
-              finalLines = [...nativeLines, ...ocrLines];
-              finalText = `${nativeLines.map((l) => l.text).join('\n')}\n${ocrText}`.trim();
-            } else {
+            if (!forceOcr && nativeLines.length > 0 && ocrLines.length === 0) {
+              finalLines = nativeLines;
+              finalText = nativeLines.map((l) => l.text).join(' ');
+            } else if (ocrLines.length > 0) {
               finalLines = ocrLines;
-              finalText = ocrText;
+              finalText = ocrText || ocrLines.map((l) => l.text).join(' ');
+            } else {
+              finalLines = nativeLines;
+              finalText = ocrText || nativeLines.map((l) => l.text).join(' ');
             }
           }
 
@@ -720,7 +798,6 @@ export default function PdfOcr() {
             canvasWidth: canvas.width,
             canvasHeight: canvas.height,
             lines: finalLines,
-            pdfBytes: pagePdfBytes,
             isNativeDigital,
           };
 
@@ -807,11 +884,10 @@ export default function PdfOcr() {
         const ocrRes = await worker.recognize(
           canvas,
           { pdfTitle: pdfTitle || file.name.replace(/\.[^/.]+$/, '') },
-          { text: true, pdf: true }
+          { text: true, blocks: true, pdf: false }
         );
-        const rawText = ocrRes.data.text.trim();
+        const rawText = (ocrRes.data.text || '').trim();
         const linesData: OcrLineData[] = extractLinesFromOcr(ocrRes.data);
-        const ocrPdfBytes = ocrRes.data.pdf ? new Uint8Array(ocrRes.data.pdf) : undefined;
 
         const pageResult: PageOcrResult = {
           pageNum: 1,
@@ -820,7 +896,6 @@ export default function PdfOcr() {
           canvasWidth: canvas.width,
           canvasHeight: canvas.height,
           lines: linesData,
-          pdfBytes: ocrPdfBytes,
           isNativeDigital: false,
         };
 
@@ -838,11 +913,14 @@ export default function PdfOcr() {
       }
 
       setProgressPercent(100);
-      setProgressStatus(`OCR complete! Recognized text across ${accumulatedResults.length} page(s).`);
+      setProgressStatus(`OCR complete! Recognized text across ${accumulatedResults.length} page(s). Generating Searchable PDF...`);
+
+      // Automatically generate Searchable PDF and display result card
+      await generateSearchablePdfInternal(accumulatedResults, file, false);
 
       window.dispatchEvent(
         new CustomEvent('toolsverse-toast', {
-          detail: { message: `⚡ OCR recognized text across ${accumulatedResults.length} page(s)!` },
+          detail: { message: `⚡ OCR recognized text across ${accumulatedResults.length} page(s)! Searchable PDF ready.` },
         })
       );
     } catch (err: any) {
@@ -858,93 +936,61 @@ export default function PdfOcr() {
 
   // Generate real Searchable PDF / PDF/A using official PDF ISO 32000-1 TextRenderingMode 3 (Invisible)
   // This produces invisible, fully selectable & Ctrl+F searchable text in Chrome, Acrobat, Edge, Firefox & Preview
-  const generateSearchablePdf = async () => {
-    if (!file || ocrResults.length === 0) return;
+  const generateSearchablePdfInternal = async (
+    customResults?: PageOcrResult[],
+    fileToUse?: File,
+    triggerDownload: boolean = true
+  ) => {
+    const activeFile = fileToUse || file;
+    const results = customResults || ocrResults;
+    if (!activeFile || results.length === 0) return;
     setIsGeneratingPdf(true);
     setPdfGeneratingType(outputType === 'pdfa' ? 'pdfa' : 'searchable');
     setErrorMsg('');
 
     try {
-      let pdfDoc = await PDFDocument.create();
-      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      let pdfDoc: PDFDocument;
+      const isPdf = activeFile.type === 'application/pdf' || activeFile.name.toLowerCase().endsWith('.pdf');
 
-      let originalPdfDoc: PDFDocument | null = null;
       if (isPdf) {
-        try {
-          const arrayBuffer = await file.arrayBuffer();
-          originalPdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-        } catch {}
-      }
-
-      let usedNativeOcrPages = false;
-
-      // Primary strategy (PDF24 style): Assemble from Tesseract's native GlyphLessFont PDF pages
-      const hasTessPages = ocrResults.some((r) => r.pdfBytes && r.pdfBytes.length > 0);
-      if (hasTessPages) {
-        for (let idx = 0; idx < ocrResults.length; idx++) {
-          const pRes = ocrResults[idx];
-          if (pRes.isNativeDigital && originalPdfDoc && idx < originalPdfDoc.getPageCount()) {
-            const [copiedPage] = await pdfDoc.copyPages(originalPdfDoc, [idx]);
-            pdfDoc.addPage(copiedPage);
-            usedNativeOcrPages = true;
-          } else if (pRes.pdfBytes && pRes.pdfBytes.length > 0) {
-            const pageDoc = await PDFDocument.load(pRes.pdfBytes);
-            const [copiedPage] = await pdfDoc.copyPages(pageDoc, [0]);
-            pdfDoc.addPage(copiedPage);
-            usedNativeOcrPages = true;
-          }
-        }
-      }
-
-      // Secondary fallback if pdfBytes was unavailable
-      if (!usedNativeOcrPages || pdfDoc.getPageCount() === 0) {
-        if (isPdf && originalPdfDoc) {
-          pdfDoc = originalPdfDoc;
-        } else {
-          pdfDoc = await PDFDocument.create();
-          const img = new Image();
-          const objUrl = URL.createObjectURL(file);
-          await new Promise<void>((resolve, reject) => {
-            img.onload = () => resolve();
-            img.onerror = () => reject(new Error('Failed to load image format'));
-            img.src = objUrl;
-          });
-
-          const canvas = document.createElement('canvas');
-          canvas.width = img.naturalWidth || img.width;
-          canvas.height = img.naturalHeight || img.height;
-          const ctx = canvas.getContext('2d');
-          if (ctx) ctx.drawImage(img, 0, 0);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-          URL.revokeObjectURL(objUrl);
-
-          const binStr = atob(dataUrl.split(',')[1]);
-          const imgBytes = new Uint8Array(binStr.length);
-          for (let k = 0; k < binStr.length; k++) {
-            imgBytes[k] = binStr.charCodeAt(k);
-          }
-
-          const embeddedImg = await pdfDoc.embedJpg(imgBytes);
-          const page = pdfDoc.addPage([canvas.width, canvas.height]);
-          page.drawImage(embeddedImg, {
-            x: 0,
-            y: 0,
-            width: canvas.width,
-            height: canvas.height,
-          });
-        }
+        const arrayBuffer = await activeFile.arrayBuffer();
+        pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
 
         const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
         const pages = pdfDoc.getPages();
 
-        ocrResults.forEach((res, pageIdx) => {
-          if (pageIdx >= pages.length) return;
+        for (let pageIdx = 0; pageIdx < results.length; pageIdx++) {
+          if (pageIdx >= pages.length) break;
           const page = pages[pageIdx];
+          const res = results[pageIdx];
           const { width: pdfWidth, height: pdfHeight } = page.getSize();
 
-          const scaleX = pdfWidth / res.canvasWidth;
-          const scaleY = pdfHeight / res.canvasHeight;
+          const scaleX = pdfWidth / (res.canvasWidth || pdfWidth);
+          const scaleY = pdfHeight / (res.canvasHeight || pdfHeight);
 
+          // If scan preprocessing (deskew, clean, remove background, rotate) modified the page,
+          // draw the enhanced image over the page
+          if ((deskewPages || cleanPages || removeBackground || autoRotate) && res.previewUrl) {
+            try {
+              const dataParts = res.previewUrl.split(',');
+              if (dataParts.length > 1) {
+                const binStr = atob(dataParts[1]);
+                const imgBytes = new Uint8Array(binStr.length);
+                for (let k = 0; k < binStr.length; k++) imgBytes[k] = binStr.charCodeAt(k);
+                const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+                page.drawImage(embeddedImg, {
+                  x: 0,
+                  y: 0,
+                  width: pdfWidth,
+                  height: pdfHeight,
+                });
+              }
+            } catch (imgErr) {
+              console.warn('Could not overlay preprocessed page image:', imgErr);
+            }
+          }
+
+          // Register font dictionary in page resources
           const fontKey = page.node.newFontDictionary(helveticaFont.name, helveticaFont.ref);
           const rawFontKey = fontKey.asString().replace(/^\//, '');
 
@@ -961,7 +1007,7 @@ export default function PdfOcr() {
               const boxHeight = (line.bbox.y1 - line.bbox.y0) * scaleY;
               const fontSize = Math.max(6, Math.min(48, boxHeight * 0.75));
               const x = Math.max(0, line.bbox.x0 * scaleX);
-              const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.18));
+              const y = Math.max(0, pdfHeight - (line.bbox.y1 * scaleY) + (boxHeight * 0.15));
 
               try {
                 textOps.push(
@@ -971,21 +1017,109 @@ export default function PdfOcr() {
                 );
               } catch {}
             }
+          } else if (res.text && res.text.trim()) {
+            const lines = res.text.split('\n').map((l) => l.trim()).filter(Boolean);
+            let currentY = pdfHeight - 40;
+            for (const line of lines) {
+              if (currentY < 40) break;
+              const cleanText = safeEncodeForFont(helveticaFont, line);
+              if (cleanText) {
+                try {
+                  textOps.push(
+                    setFontAndSize(rawFontKey, 10),
+                    setTextMatrix(1, 0, 0, 1, 40, currentY),
+                    showText(helveticaFont.encodeText(cleanText))
+                  );
+                } catch {}
+              }
+              currentY -= 14;
+            }
           }
+
           textOps.push(endText());
           page.pushOperators(...textOps);
-        });
+        }
+      } else {
+        // Document image (PNG, JPG, WebP)
+        pdfDoc = await PDFDocument.create();
+        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+        for (let pageIdx = 0; pageIdx < results.length; pageIdx++) {
+          const res = results[pageIdx];
+          const dataParts = res.previewUrl.split(',');
+          const binStr = atob(dataParts[1]);
+          const imgBytes = new Uint8Array(binStr.length);
+          for (let k = 0; k < binStr.length; k++) imgBytes[k] = binStr.charCodeAt(k);
+
+          const embeddedImg = await pdfDoc.embedJpg(imgBytes);
+          const page = pdfDoc.addPage([res.canvasWidth, res.canvasHeight]);
+          page.drawImage(embeddedImg, {
+            x: 0,
+            y: 0,
+            width: res.canvasWidth,
+            height: res.canvasHeight,
+          });
+
+          const { width: pdfWidth, height: pdfHeight } = page.getSize();
+          const fontKey = page.node.newFontDictionary(helveticaFont.name, helveticaFont.ref);
+          const rawFontKey = fontKey.asString().replace(/^\//, '');
+
+          const textOps: any[] = [
+            beginText(),
+            setTextRenderingMode(TextRenderingMode.Invisible),
+          ];
+
+          if (res.lines && res.lines.length > 0) {
+            for (const line of res.lines) {
+              const cleanText = safeEncodeForFont(helveticaFont, line.text);
+              if (!cleanText) continue;
+
+              const boxHeight = line.bbox.y1 - line.bbox.y0;
+              const fontSize = Math.max(6, Math.min(48, boxHeight * 0.75));
+              const x = Math.max(0, line.bbox.x0);
+              const y = Math.max(0, pdfHeight - line.bbox.y1 + (boxHeight * 0.15));
+
+              try {
+                textOps.push(
+                  setFontAndSize(rawFontKey, fontSize),
+                  setTextMatrix(1, 0, 0, 1, x, y),
+                  showText(helveticaFont.encodeText(cleanText))
+                );
+              } catch {}
+            }
+          } else if (res.text && res.text.trim()) {
+            const lines = res.text.split('\n').map((l) => l.trim()).filter(Boolean);
+            let currentY = pdfHeight - 40;
+            for (const line of lines) {
+              if (currentY < 40) break;
+              const cleanText = safeEncodeForFont(helveticaFont, line);
+              if (cleanText) {
+                try {
+                  textOps.push(
+                    setFontAndSize(rawFontKey, 10),
+                    setTextMatrix(1, 0, 0, 1, 40, currentY),
+                    showText(helveticaFont.encodeText(cleanText))
+                  );
+                } catch {}
+              }
+              currentY -= 14;
+            }
+          }
+
+          textOps.push(endText());
+          page.pushOperators(...textOps);
+        }
       }
 
       // PDF Metadata injection (Title, Author, Subject, Keywords)
-      const docTitle = pdfTitle || file.name.replace(/\.[^/.]+$/, '');
+      const docTitle = pdfTitle || activeFile.name.replace(/\.[^/.]+$/, '');
       pdfDoc.setTitle(docTitle);
       if (pdfAuthor) pdfDoc.setAuthor(pdfAuthor);
       if (pdfSubject) pdfDoc.setSubject(pdfSubject);
       if (pdfKeywords) {
         pdfDoc.setKeywords(pdfKeywords.split(',').map((s) => s.trim()).filter(Boolean));
       }
-      pdfDoc.setProducer('Toolsverse PDF OCR Engine (toolsverse.app)');
+      pdfDoc.setProducer('Toolsverse PDF OCR Engine (toolsverseapp.com)');
       pdfDoc.setCreator('Toolsverse PDF OCR (PDF24 Engine)');
       pdfDoc.setCreationDate(new Date());
       pdfDoc.setModificationDate(new Date());
@@ -1037,22 +1171,24 @@ export default function PdfOcr() {
         mode: outputType === 'pdfa' ? 'pdfa' : 'searchable',
       });
 
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      if (triggerDownload) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-      window.dispatchEvent(
-        new CustomEvent('toolsverse-toast', {
-          detail: {
-            message: outputType === 'pdfa'
-              ? '🏛️ PDF/A Archival Searchable document generated & downloaded!'
-              : '📄 Searchable PDF generated & downloaded!',
-          },
-        })
-      );
+        window.dispatchEvent(
+          new CustomEvent('toolsverse-toast', {
+            detail: {
+              message: outputType === 'pdfa'
+                ? '🏛️ PDF/A Archival Searchable document generated & downloaded!'
+                : '📄 Searchable PDF generated & downloaded!',
+            },
+          })
+        );
+      }
     } catch (err: any) {
       console.error('Searchable PDF error:', err);
       setErrorMsg(err.message || 'Could not generate searchable PDF.');
@@ -1061,6 +1197,8 @@ export default function PdfOcr() {
       setPdfGeneratingType(null);
     }
   };
+
+  const generateSearchablePdf = () => generateSearchablePdfInternal(ocrResults, file ?? undefined, true);
 
   // Generate a crystal-clear, readable PDF document with formatted extracted text
   const generateReadableTextPdf = async () => {

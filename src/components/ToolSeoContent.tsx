@@ -94,14 +94,6 @@ export default function ToolSeoContent({
       price: '0',
       priceCurrency: 'USD',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      ratingCount: '1540',
-      reviewCount: '1540',
-      bestRating: '5',
-      worstRating: '1',
-    },
   };
 
   const breadcrumbSchema = {
