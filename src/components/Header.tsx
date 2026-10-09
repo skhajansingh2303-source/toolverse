@@ -8,7 +8,11 @@ import ThemeToggle from './ThemeToggle';
 import PdfMegaMenu from './PdfMegaMenu';
 import { tools, getToolUrl } from '@/lib/tools';
 
-import { SUPPORTED_LANGUAGES as LANGUAGES } from '@/lib/languages';
+import {
+  SUPPORTED_LANGUAGES as LANGUAGES,
+  clearGoogleTranslateCookies,
+  setGoogleTranslateCookie,
+} from '@/lib/languages';
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -26,7 +30,9 @@ export default function Header() {
   // Load saved language and recent tools on mount
   useEffect(() => {
     try {
-      const savedLang = localStorage.getItem('toolsverse_lang');
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryLang = urlParams.get('lang');
+      const savedLang = queryLang || localStorage.getItem('toolsverse_lang');
       if (savedLang) {
         setSelectedLang(savedLang);
         document.documentElement.lang = savedLang;
@@ -73,6 +79,11 @@ export default function Header() {
   };
 
   const handleSelectLang = (code: string, label: string) => {
+    if (code === selectedLang) {
+      setLangMenuOpen(false);
+      return;
+    }
+
     setSelectedLang(code);
     setLangMenuOpen(false);
     if (typeof document !== 'undefined') {
@@ -82,34 +93,31 @@ export default function Header() {
 
     try {
       localStorage.setItem('toolsverse_lang', code);
+    } catch (e) {
+      console.warn('Storage error:', e);
+    }
 
-      const hostname = window.location.hostname;
-      const rootDomain = hostname.replace(/^www\./, '');
+    if (code === 'en') {
+      clearGoogleTranslateCookies();
+      window.dispatchEvent(
+        new CustomEvent('toolsverse-toast', {
+          detail: { message: `🌐 Restoring original language (${label})...` },
+        })
+      );
+      // Clean reload to restore untranslated English DOM
+      setTimeout(() => {
+        window.location.reload();
+      }, 150);
+      return;
+    }
 
-      if (code === 'en') {
-        const exp = '; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
-        document.cookie = `googtrans=${exp}`;
-        if (hostname && hostname !== 'localhost') {
-          document.cookie = `googtrans=${exp} domain=${hostname};`;
-          if (rootDomain.includes('.')) {
-            document.cookie = `googtrans=${exp} domain=.${rootDomain};`;
-          }
-        }
-      } else {
-        const val = `/en/${code}`;
-        document.cookie = `googtrans=${val}; path=/;`;
-        if (hostname && hostname !== 'localhost') {
-          document.cookie = `googtrans=${val}; path=/; domain=${hostname};`;
-          if (rootDomain.includes('.')) {
-            document.cookie = `googtrans=${val}; path=/; domain=.${rootDomain};`;
-          }
-        }
-      }
+    try {
+      setGoogleTranslateCookie(code);
 
       const applyTranslation = (langCode: string, retries = 0) => {
         const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
         if (select && select.options.length > 1) {
-          select.value = langCode === 'en' ? '' : langCode;
+          select.value = langCode;
           select.dispatchEvent(new Event('change', { bubbles: true }));
         } else if (retries < 20) {
           setTimeout(() => applyTranslation(langCode, retries + 1), 200);

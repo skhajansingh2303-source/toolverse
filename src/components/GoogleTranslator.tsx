@@ -1,7 +1,12 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { GOOGLE_TRANSLATE_LANGS, LANGUAGE_CODES } from '@/lib/languages';
+import {
+  GOOGLE_TRANSLATE_LANGS,
+  LANGUAGE_CODES,
+  clearGoogleTranslateCookies,
+  setGoogleTranslateCookie,
+} from '@/lib/languages';
 
 declare global {
   interface Window {
@@ -44,21 +49,17 @@ export default function GoogleTranslator() {
     }
 
     // Set cookie proactively and update <html lang="..."> attribute in DOM
+    if (!initialLang || initialLang === 'en') {
+      document.documentElement.lang = 'en';
+      document.documentElement.setAttribute('lang', 'en');
+      clearGoogleTranslateCookies();
+      return;
+    }
+
     if (initialLang) {
       document.documentElement.lang = initialLang;
       document.documentElement.setAttribute('lang', initialLang);
-      if (initialLang !== 'en') {
-        const hostname = window.location.hostname;
-        const rootDomain = hostname.replace(/^www\./, '');
-        const domains = [
-          '',
-          `; domain=${hostname}`,
-          hostname.includes('.') ? `; domain=.${rootDomain}` : '',
-        ].filter(Boolean);
-        for (const d of domains) {
-          document.cookie = `googtrans=/en/${initialLang}; path=/${d};`;
-        }
-      }
+      setGoogleTranslateCookie(initialLang);
     }
 
     const applyTargetLanguage = (targetLang: string, retries = 0) => {

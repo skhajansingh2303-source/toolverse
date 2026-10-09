@@ -192,6 +192,16 @@ export default function RootLayout({
                 var l = localStorage.getItem('toolsverse_lang');
                 if (l) {
                   document.documentElement.setAttribute('lang', l);
+                  if (l === 'en') {
+                    var h = window.location.hostname;
+                    var d = h.replace(/^www\./, '');
+                    var exp = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=/;';
+                    document.cookie = 'googtrans' + exp;
+                    document.cookie = 'googtrans' + exp + ' domain=' + h + ';';
+                    if (d.indexOf('.') !== -1) {
+                      document.cookie = 'googtrans' + exp + ' domain=.' + d + ';';
+                    }
+                  }
                 }
               } catch(e) {}
               try {
