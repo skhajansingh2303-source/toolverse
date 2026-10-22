@@ -21,6 +21,46 @@ interface WordTable {
 
 type WordContentBlock = WordParagraph | WordTable;
 
+// Sanitizes text strings to prevent WinAnsi / pdf-lib standard font encoding crashes
+function sanitizeForPdf(text: string): string {
+  if (!text) return '';
+  const charMap: Record<string, string> = {
+    '\u2018': "'",
+    '\u2019': "'",
+    '\u201C': '"',
+    '\u201D': '"',
+    '\u2014': '-',
+    '\u2013': '-',
+    '\u2026': '...',
+    '\u2022': '•',
+    '\u2033': '"',
+    '\u2032': "'",
+    '\u20B9': 'Rs.',
+    '\u2714': '[v]',
+    '\u2713': '[v]',
+    '\u2716': '[x]',
+    '\u2717': '[x]',
+    '\u2605': '*',
+    '\u2606': '*',
+    '\u26AA': 'o',
+    '\u26AB': '*',
+    '\u25AA': '-',
+    '\u25CF': '*',
+    '\u25CB': 'o',
+    '\u00A0': ' ',
+  };
+
+  let clean = text.replace(
+    /[\u2018\u2019\u201C\u201D\u2014\u2013\u2026\u2022\u2033\u2032\u20B9\u2714\u2713\u2716\u2717\u2605\u2606\u26AA\u26AB\u25AA\u25CF\u25CB\u00A0]/g,
+    (ch) => charMap[ch] !== undefined ? charMap[ch] : ''
+  );
+  // Strip emojis and high surrogates
+  clean = clean.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '');
+  // Keep characters safe for standard PDF fonts (WinAnsi compatible range)
+  clean = clean.replace(/[^\x20-\x7E\xA0-\xFF\n\r\t]/g, ' ');
+  return clean;
+}
+
 export default function WordToPdf() {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -97,7 +137,7 @@ export default function WordToPdf() {
                   tcElements.forEach((tc) => {
                     const textRuns = Array.from(tc.getElementsByTagName('w:t'));
                     const cellText = textRuns.map((t) => t.textContent || '').join('');
-                    rowCells.push(cellText.trim());
+                    rowCells.push(sanitizeForPdf(cellText.trim()));
                   });
 
                   if (rowCells.some((c) => c.length > 0)) {
@@ -149,7 +189,7 @@ export default function WordToPdf() {
                   });
                 });
 
-                const cleanText = paragraphText.trim();
+                const cleanText = sanitizeForPdf(paragraphText.trim());
                 if (!cleanText) return;
 
                 if (styleVal.includes('heading 1') || styleVal === 'heading1' || styleVal === '1') {
@@ -199,10 +239,12 @@ export default function WordToPdf() {
           .filter((l) => l.length > 2);
 
         cleanLines.forEach((line) => {
-          if (line.length < 50 && /^[A-Z0-9\s:_-]+$/.test(line)) {
-            blocks.push({ type: 'heading2', text: line, isBold: true });
+          const safeLine = sanitizeForPdf(line);
+          if (!safeLine) return;
+          if (safeLine.length < 50 && /^[A-Z0-9\s:_-]+$/.test(safeLine)) {
+            blocks.push({ type: 'heading2', text: safeLine, isBold: true });
           } else {
-            blocks.push({ type: 'paragraph', text: line });
+            blocks.push({ type: 'paragraph', text: safeLine });
           }
         });
       }
@@ -327,16 +369,38 @@ export default function WordToPdf() {
         currentY = pageHeight - margin - (includeHeader ? 28 : 0);
       };
 
-      // Word wrapping helper
+      // Word wrapping helper with Unicode WinAnsi safety
+      const sanitizePdfText = (str: string): string => {
+        if (!str) return '';
+        return str
+          .replace(/[\u2018\u2019]/g, "'")
+          .replace(/[\u201C\u201D]/g, '"')
+          .replace(/[\u2013\u2014]/g, '-')
+          .replace(/[\u2022\u25E6\u2023\u25AA]/g, '-')
+          .replace(/\u2026/g, '...')
+          .replace(/\u20b9/g, 'Rs.')
+          .replace(/\u2033/g, '"')
+          .replace(/\u2605/g, '*')
+          .replace(/\u2714/g, '[x]')
+          .replace(/\u26aa/g, 'o')
+          .replace(/[^\x00-\xFF]/g, ' ');
+      };
+
       const wrapText = (text: string, maxWidth: number, font: any, size: number): string[] => {
-        const words = text.split(/\s+/);
+        const clean = sanitizePdfText(text);
+        const words = clean.split(/\s+/);
         const lines: string[] = [];
         let currentLine = '';
 
         for (let i = 0; i < words.length; i++) {
           const word = words[i];
           const testLine = currentLine ? `${currentLine} ${word}` : word;
-          const testWidth = font.widthOfTextAtSize(testLine, size);
+          let testWidth = 0;
+          try {
+            testWidth = font.widthOfTextAtSize(testLine, size);
+          } catch {
+            testWidth = testLine.length * (size * 0.6);
+          }
 
           if (testWidth > maxWidth && currentLine) {
             lines.push(currentLine);
@@ -514,9 +578,16 @@ export default function WordToPdf() {
               const cellX = margin + cIdx * colWidth + 6;
               const cellY = currentY - rowHeight + 10;
 
-              // Truncate cell text if exceeding column width
-              let truncated = cellText;
-              while (font.widthOfTextAtSize(truncated, cellFontSize) > colWidth - 12 && truncated.length > 0) {
+              // Truncate cell text if exceeding column width safely with sanitized characters
+              let truncated = sanitizePdfText(cellText);
+              while (truncated.length > 0) {
+                let cellWidth = 0;
+                try {
+                  cellWidth = font.widthOfTextAtSize(truncated, cellFontSize);
+                } catch {
+                  cellWidth = truncated.length * (cellFontSize * 0.6);
+                }
+                if (cellWidth <= colWidth - 12) break;
                 truncated = truncated.slice(0, -1);
               }
 
@@ -542,7 +613,8 @@ export default function WordToPdf() {
 
         // Header
         if (includeHeader) {
-          page.drawText(docTitle, {
+          const safeTitle = sanitizeForPdf(docTitle);
+          page.drawText(safeTitle, {
             x: margin,
             y: pageHeight - margin + 14,
             size: 9,
