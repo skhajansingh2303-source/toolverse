@@ -19,7 +19,17 @@ interface WordTable {
   rows: string[][];
 }
 
-type WordContentBlock = WordParagraph | WordTable;
+interface WordImage {
+  type: 'image';
+  rId: string;
+  data: Uint8Array;
+  isPng: boolean;
+  isJpg: boolean;
+  width?: number;
+  height?: number;
+}
+
+type WordContentBlock = WordParagraph | WordTable | WordImage;
 
 // Sanitizes text strings to prevent WinAnsi / pdf-lib standard font encoding crashes
 function sanitizeForPdf(text: string): string {
@@ -110,6 +120,35 @@ export default function WordToPdf() {
       // Attempt to load as DOCX (Zip format)
       try {
         const zip = await JSZip.loadAsync(buffer);
+
+        // Pre-parse image relationships from word/_rels/document.xml.rels
+        const imageRels: Record<string, string> = {};
+        const relsXmlFile = zip.file('word/_rels/document.xml.rels');
+        if (relsXmlFile) {
+          const relsXml = await relsXmlFile.async('text');
+          const relRegex = /<Relationship[^>]*Id=["']([^"']+)["'][^>]*Type=["'][^"']*image[^"']*["'][^>]*Target=["']([^"']+)["']/gi;
+          let m: RegExpExecArray | null;
+          while ((m = relRegex.exec(relsXml)) !== null) {
+            imageRels[m[1]] = m[2];
+          }
+        }
+
+        // Cache image data buffers
+        const imageMap: Record<string, { data: Uint8Array; isPng: boolean; isJpg: boolean }> = {};
+        for (const [rId, target] of Object.entries(imageRels)) {
+          const cleanPath = target.startsWith('word/') ? target : 'word/' + target.replace(/^(\.\.\/)+/, '');
+          const imgFile = zip.file(cleanPath);
+          if (imgFile) {
+            const data = await imgFile.async('uint8array');
+            const lowerTarget = target.toLowerCase();
+            const isPng = lowerTarget.endsWith('.png');
+            const isJpg = lowerTarget.endsWith('.jpg') || lowerTarget.endsWith('.jpeg');
+            if (isPng || isJpg) {
+              imageMap[rId] = { data, isPng, isJpg };
+            }
+          }
+        }
+
         const documentXmlFile = zip.file('word/document.xml');
 
         if (documentXmlFile) {
@@ -156,6 +195,40 @@ export default function WordToPdf() {
 
               // Paragraph parsing
               if (nodeName.includes('p') || nodeName.endsWith(':p')) {
+                // Check if paragraph contains drawing/image (screenshot or photo)
+                const drawings = Array.from(child.getElementsByTagName('w:drawing'));
+                if (drawings.length > 0) {
+                  drawings.forEach((drawing) => {
+                    const blips = Array.from(drawing.getElementsByTagName('a:blip'));
+                    blips.forEach((blip) => {
+                      const rEmbed = blip.getAttribute('r:embed') || blip.getAttribute('embed');
+                      if (rEmbed && imageMap[rEmbed]) {
+                        const imgInfo = imageMap[rEmbed];
+                        let widthPt = 350;
+                        let heightPt = 250;
+                        const extent = drawing.getElementsByTagName('wp:extent')[0];
+                        if (extent) {
+                          const cx = parseInt(extent.getAttribute('cx') || '0', 10);
+                          const cy = parseInt(extent.getAttribute('cy') || '0', 10);
+                          if (cx > 0 && cy > 0) {
+                            widthPt = cx / 12700;
+                            heightPt = cy / 12700;
+                          }
+                        }
+                        blocks.push({
+                          type: 'image',
+                          rId: rEmbed,
+                          data: imgInfo.data,
+                          isPng: imgInfo.isPng,
+                          isJpg: imgInfo.isJpg,
+                          width: widthPt,
+                          height: heightPt,
+                        });
+                      }
+                    });
+                  });
+                }
+
                 const pPr = child.getElementsByTagName('w:pPr')[0];
                 let styleVal = '';
                 let isBullet = false;
@@ -603,6 +676,44 @@ export default function WordToPdf() {
             currentY -= rowHeight;
           }
           currentY -= 8;
+        } else if (block.type === 'image') {
+          // Render embedded image / screenshot
+          try {
+            const embedded = block.isPng
+              ? await pdfDoc.embedPng(block.data)
+              : await pdfDoc.embedJpg(block.data);
+
+            let imgW = block.width || 350;
+            let imgH = block.height || 250;
+
+            // Constrain image size to fit page margins gracefully
+            if (imgW > contentWidth) {
+              const scale = contentWidth / imgW;
+              imgW = contentWidth;
+              imgH = imgH * scale;
+            }
+            const maxHeight = pageHeight - margin * 2 - 60;
+            if (imgH > maxHeight) {
+              const scale = maxHeight / imgH;
+              imgH = maxHeight;
+              imgW = imgW * scale;
+            }
+
+            if (currentY - imgH < margin + 30) {
+              addNewPage();
+            }
+
+            currentY -= 6;
+            currentPage.drawImage(embedded, {
+              x: margin + (contentWidth - imgW) / 2, // Center aligned
+              y: currentY - imgH,
+              width: imgW,
+              height: imgH,
+            });
+            currentY -= (imgH + 12);
+          } catch (e) {
+            console.warn('Failed to embed document image block:', e);
+          }
         }
       }
 
