@@ -82,6 +82,45 @@ const FORMAT_ICONS: Record<InputFormat, { icon: string; bg: string; text: string
   unknown: { icon: '?', bg: 'bg-gray-400', text: 'text-white', label: 'Unknown File' },
 };
 
+// Sanitizes text strings to prevent WinAnsi / pdf-lib standard font encoding crashes
+function sanitizeForPdf(text: string): string {
+  if (!text) return '';
+  const charMap: Record<string, string> = {
+    '\u2018': "'",
+    '\u2019': "'",
+    '\u201C': '"',
+    '\u201D': '"',
+    '\u2014': '-',
+    '\u2013': '-',
+    '\u2016': '||',
+    '\u2026': '...',
+    '\u2022': '•',
+    '\u2033': '"',
+    '\u2032': "'",
+    '\u20B9': 'Rs.',
+    '\u2714': '[v]',
+    '\u2713': '[v]',
+    '\u2716': '[x]',
+    '\u2717': '[x]',
+    '\u2605': '*',
+    '\u2606': '*',
+    '\u26AA': 'o',
+    '\u26AB': '*',
+    '\u25AA': '-',
+    '\u25CF': '*',
+    '\u25CB': 'o',
+    '\u00A0': ' ',
+  };
+
+  let clean = text.replace(
+    /[\u2018\u2019\u201C\u201D\u2014\u2013\u2016\u2026\u2022\u2033\u2032\u20B9\u2714\u2713\u2716\u2717\u2605\u2606\u26AA\u26AB\u25AA\u25CF\u25CB\u00A0]/g,
+    (ch) => charMap[ch] !== undefined ? charMap[ch] : ''
+  );
+  clean = clean.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '');
+  clean = clean.replace(/[^\x20-\x7E\xA0-\xFF\n\r\t]/g, ' ');
+  return clean;
+}
+
 export default function UniversalOfficeConverter() {
   const [file, setFile] = useState<File | null>(null);
   const [detectedFormat, setDetectedFormat] = useState<InputFormat>('unknown');
@@ -350,7 +389,8 @@ export default function UniversalOfficeConverter() {
     let currentY = pageHeight - margin;
 
     // Title
-    page.drawText(title.slice(0, 50), {
+    const safeTitle = sanitizeForPdf(title);
+    page.drawText(safeTitle.slice(0, 50), {
       x: margin,
       y: currentY - 14,
       size: 14,
@@ -360,8 +400,11 @@ export default function UniversalOfficeConverter() {
     currentY -= 32;
 
     for (const rawLine of lines) {
+      const sanitizedLine = sanitizeForPdf(rawLine);
+      if (!sanitizedLine.trim()) continue;
+
       // Wrap lines
-      const words = rawLine.split(/\s+/);
+      const words = sanitizedLine.split(/\s+/);
       let currentSegment = '';
 
       for (const w of words) {
