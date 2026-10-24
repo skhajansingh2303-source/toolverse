@@ -8,7 +8,7 @@ import AdSlot from '@/components/AdSlot';
 import ToolResultCard from '@/components/ToolResultCard';
 
 interface WordParagraph {
-  type: 'heading1' | 'heading2' | 'heading3' | 'paragraph' | 'bullet';
+  type: 'heading1' | 'heading2' | 'heading3' | 'paragraph' | 'bullet' | 'code';
   text: string;
   isBold?: boolean;
   isItalic?: boolean;
@@ -17,6 +17,11 @@ interface WordParagraph {
 interface WordTable {
   type: 'table';
   rows: string[][];
+  colWidthsRatio?: number[];
+}
+
+interface WordPageBreak {
+  type: 'pageBreak';
 }
 
 interface WordImage {
@@ -29,7 +34,7 @@ interface WordImage {
   height?: number;
 }
 
-type WordContentBlock = WordParagraph | WordTable | WordImage;
+type WordContentBlock = WordParagraph | WordTable | WordImage | WordPageBreak;
 
 // Sanitizes text strings to prevent WinAnsi / pdf-lib standard font encoding crashes
 function sanitizeForPdf(text: string): string {
@@ -166,6 +171,18 @@ export default function WordToPdf() {
 
               // Table parsing
               if (nodeName.includes('tbl') || nodeName.endsWith(':tbl')) {
+                // Parse table column widths from gridCol if available
+                const gridCols = Array.from(child.getElementsByTagName('w:gridCol'));
+                const colWidthsRatio: number[] = [];
+                let totalGridW = 0;
+                gridCols.forEach((col) => {
+                  const w = parseInt(col.getAttribute('w:w') || '0', 10);
+                  if (w > 0) {
+                    colWidthsRatio.push(w);
+                    totalGridW += w;
+                  }
+                });
+
                 const trElements = Array.from(child.getElementsByTagName('w:tr'));
                 const rows: string[][] = [];
 
@@ -188,6 +205,7 @@ export default function WordToPdf() {
                   blocks.push({
                     type: 'table',
                     rows,
+                    colWidthsRatio: totalGridW > 0 ? colWidthsRatio : undefined,
                   });
                 }
                 return;
@@ -195,6 +213,14 @@ export default function WordToPdf() {
 
               // Paragraph parsing
               if (nodeName.includes('p') || nodeName.endsWith(':p')) {
+                // Check for explicit page break <w:br w:type="page"/>
+                const pageBreaks = Array.from(child.getElementsByTagName('w:br')).filter(
+                  (br) => br.getAttribute('w:type') === 'page'
+                );
+                if (pageBreaks.length > 0) {
+                  blocks.push({ type: 'pageBreak' });
+                }
+
                 // Check if paragraph contains drawing/image (screenshot or photo)
                 const drawings = Array.from(child.getElementsByTagName('w:drawing'));
                 if (drawings.length > 0) {
@@ -265,6 +291,23 @@ export default function WordToPdf() {
                 const cleanText = sanitizeForPdf(paragraphText.trim());
                 if (!cleanText) return;
 
+                const isCodeSnippet =
+                  cleanText.startsWith('android:') ||
+                  cleanText.startsWith('tools:') ||
+                  cleanText.startsWith('app:') ||
+                  cleanText.startsWith('xmlns:') ||
+                  cleanText.startsWith('<') ||
+                  cleanText.startsWith('package ') ||
+                  cleanText.startsWith('import ') ||
+                  cleanText.startsWith('public class ') ||
+                  cleanText.startsWith('public void ') ||
+                  cleanText.startsWith('protected void ') ||
+                  cleanText.startsWith('private void ') ||
+                  cleanText.startsWith('@Override') ||
+                  cleanText.includes('findViewById') ||
+                  cleanText.includes('setOnClickListener') ||
+                  cleanText.includes('startActivity');
+
                 if (styleVal.includes('heading 1') || styleVal === 'heading1' || styleVal === '1') {
                   blocks.push({
                     type: 'heading1',
@@ -286,7 +329,13 @@ export default function WordToPdf() {
                 } else if (isBullet || /^[\u2022\u25E6\u2023\u25AA\-\*]\s+/.test(cleanText)) {
                   blocks.push({
                     type: 'bullet',
-                    text: cleanText.replace(/^[\u2022\u25E6\u2023\u25AA\-\*]\s+/, ''),
+                    text: cleanText.replace(/^[\u2022\u25E6\u2023\u25AA\-\*]\s+/,''),
+                    isBold: hasBold,
+                  });
+                } else if (isCodeSnippet) {
+                  blocks.push({
+                    type: 'code',
+                    text: cleanText,
                     isBold: hasBold,
                   });
                 } else {
@@ -606,76 +655,115 @@ export default function WordToPdf() {
             currentY -= size * 1.4;
           }
           currentY -= 6;
+        } else if (block.type === 'pageBreak') {
+          // Explicit Word Page Break
+          addNewPage();
+        } else if (block.type === 'code') {
+          // Accurate code block typography (monospace, syntax-friendly height)
+          const size = Math.max(baseFontSize - 2.5, 8.5);
+          const lines = wrapText(block.text, contentWidth, regularFont, size);
+          const blockHeight = lines.length * (size * 1.32) + 2;
+
+          if (currentY - blockHeight < margin + 25) {
+            addNewPage();
+          }
+
+          for (const line of lines) {
+            currentPage.drawText(line, {
+              x: margin,
+              y: currentY - size,
+              size,
+              font: regularFont,
+              color: rgb(0.18, 0.22, 0.28),
+            });
+            currentY -= size * 1.32;
+          }
+          currentY -= 2;
         } else if (block.type === 'table') {
           const numCols = Math.max(...block.rows.map((r) => r.length), 1);
-          const colWidth = contentWidth / numCols;
-          const cellFontSize = Math.max(baseFontSize - 1, 9);
-          const rowHeight = cellFontSize * 2.2;
+          let colWidths: number[] = [];
 
-          // Check if table fits or requires page split
-          currentY -= 6;
+          if (block.colWidthsRatio && block.colWidthsRatio.length === numCols) {
+            const sumRatio = block.colWidthsRatio.reduce((a, b) => a + b, 0);
+            colWidths = block.colWidthsRatio.map((w) => (w / sumRatio) * contentWidth);
+          } else if (numCols === 3) {
+            colWidths = [contentWidth * 0.12, contentWidth * 0.70, contentWidth * 0.18];
+          } else {
+            colWidths = Array(numCols).fill(contentWidth / numCols);
+          }
+
+          const cellFontSize = Math.max(baseFontSize - 2.2, 8.5);
+          const cellLineHeight = cellFontSize * 1.32;
+          const cellPadding = 5;
+
+          // Render each row with multi-line cell wrapping
           for (let rIdx = 0; rIdx < block.rows.length; rIdx++) {
-            if (currentY - rowHeight < margin + 30) {
+            const isHeaderRow = rIdx === 0;
+            const rowData = block.rows[rIdx];
+            const font = isHeaderRow ? boldFont : regularFont;
+
+            // Wrap each cell's text to calculate true row height
+            const cellLinesArray: string[][] = [];
+            for (let cIdx = 0; cIdx < numCols; cIdx++) {
+              const rawCell = rowData[cIdx] || '';
+              const cWidth = colWidths[cIdx] - cellPadding * 2;
+              const wrapped = wrapText(rawCell, cWidth, font, cellFontSize);
+              cellLinesArray.push(wrapped);
+            }
+
+            const maxLinesInRow = Math.max(...cellLinesArray.map((lines) => lines.length), 1);
+            const rowHeight = maxLinesInRow * cellLineHeight + cellPadding * 2;
+
+            if (currentY - rowHeight < margin + 25) {
               addNewPage();
             }
 
-            const isHeaderRow = rIdx === 0;
-            const rowData = block.rows[rIdx];
+            // Draw row background
+            currentPage.drawRectangle({
+              x: margin,
+              y: currentY - rowHeight,
+              width: contentWidth,
+              height: rowHeight,
+              color: isHeaderRow ? tableHeaderBg : rgb(1, 1, 1),
+              borderColor,
+              borderWidth: isHeaderRow ? 1 : 0.5,
+            });
 
-            // Background rectangle
-            if (isHeaderRow) {
-              currentPage.drawRectangle({
-                x: margin,
-                y: currentY - rowHeight + 4,
-                width: contentWidth,
-                height: rowHeight,
-                color: tableHeaderBg,
-                borderColor,
-                borderWidth: 1,
-              });
-            } else {
-              currentPage.drawRectangle({
-                x: margin,
-                y: currentY - rowHeight + 4,
-                width: contentWidth,
-                height: rowHeight,
-                borderColor,
-                borderWidth: 0.5,
-              });
+            // Draw vertical column separators
+            let curBorderX = margin;
+            for (let cIdx = 0; cIdx < numCols; cIdx++) {
+              curBorderX += colWidths[cIdx];
+              if (cIdx < numCols - 1) {
+                currentPage.drawLine({
+                  start: { x: curBorderX, y: currentY },
+                  end: { x: curBorderX, y: currentY - rowHeight },
+                  color: borderColor,
+                  thickness: 0.5,
+                });
+              }
             }
 
-            // Cell text
+            // Draw cell text lines
+            let cellStartX = margin;
             for (let cIdx = 0; cIdx < numCols; cIdx++) {
-              const cellText = rowData[cIdx] || '';
-              const font = isHeaderRow ? boldFont : regularFont;
-              const cellX = margin + cIdx * colWidth + 6;
-              const cellY = currentY - rowHeight + 10;
-
-              // Truncate cell text if exceeding column width safely with sanitized characters
-              let truncated = sanitizePdfText(cellText);
-              while (truncated.length > 0) {
-                let cellWidth = 0;
-                try {
-                  cellWidth = font.widthOfTextAtSize(truncated, cellFontSize);
-                } catch {
-                  cellWidth = truncated.length * (cellFontSize * 0.6);
-                }
-                if (cellWidth <= colWidth - 12) break;
-                truncated = truncated.slice(0, -1);
+              const lines = cellLinesArray[cIdx];
+              let textY = currentY - cellPadding - cellFontSize;
+              for (const line of lines) {
+                currentPage.drawText(line, {
+                  x: cellStartX + cellPadding,
+                  y: textY,
+                  size: cellFontSize,
+                  font,
+                  color: isHeaderRow ? headerColor : textColor,
+                });
+                textY -= cellLineHeight;
               }
-
-              currentPage.drawText(truncated, {
-                x: cellX,
-                y: cellY,
-                size: cellFontSize,
-                font,
-                color: isHeaderRow ? headerColor : textColor,
-              });
+              cellStartX += colWidths[cIdx];
             }
 
             currentY -= rowHeight;
           }
-          currentY -= 8;
+          currentY -= 10;
         } else if (block.type === 'image') {
           // Render embedded image / screenshot
           try {
