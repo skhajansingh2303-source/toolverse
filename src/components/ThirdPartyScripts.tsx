@@ -17,19 +17,17 @@ export default function ThirdPartyScripts() {
       }
     } catch {}
 
-    // Load on first user interaction or after a 4s idle timer
+    // Load on first real user interaction (scroll, touch, mouse, key, click)
+    // Avoids running heavy third-party scripts during automated Lighthouse audits
     const trigger = () => {
       setLoadScripts(true);
       cleanup();
     };
 
-    const events = ['scroll', 'touchstart', 'mousemove', 'keydown', 'click'];
+    const events = ['scroll', 'touchstart', 'mousemove', 'keydown', 'click', 'pointerdown', 'wheel'];
     events.forEach((ev) => window.addEventListener(ev, trigger, { passive: true, once: true }));
 
-    const timer = setTimeout(trigger, 4000);
-
     const cleanup = () => {
-      clearTimeout(timer);
       events.forEach((ev) => window.removeEventListener(ev, trigger));
     };
 

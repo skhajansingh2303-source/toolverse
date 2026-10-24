@@ -31,6 +31,30 @@
   # ── XSS Protection (legacy browser fallback) ──
   X-XSS-Protection: 1; mode=block
 
+# Static Assets (content-hashed, immutable)
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Favicon and icons
+/*.svg
+  Cache-Control: public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400
+/*.png
+  Cache-Control: public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400
+/*.ico
+  Cache-Control: public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400
+/*.webp
+  Cache-Control: public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400
+
+# HTML pages - Cache at edge for instant TTFB, always revalidate in browser
+/
+  Cache-Control: public, max-age=0, s-maxage=86400, stale-while-revalidate=86400
+
+/tools/*
+  Cache-Control: public, max-age=0, s-maxage=86400, stale-while-revalidate=86400
+
+/blog/*
+  Cache-Control: public, max-age=0, s-maxage=86400, stale-while-revalidate=86400
+
 /ads.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: public, max-age=3600

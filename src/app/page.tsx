@@ -5,7 +5,7 @@ import Link from 'next/link';
 import ToolCard from '@/components/ToolCard';
 import AdSlot from '@/components/AdSlot';
 import { tools, Tool, searchTools } from '@/lib/tools';
-import { BLOG_POSTS } from '@/lib/blogData';
+import { FEATURED_BLOG_POSTS } from '@/lib/blogSummary';
 
 interface Persona {
   id: string;
@@ -873,7 +873,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {BLOG_POSTS.slice(0, 6).map((post) => (
+          {FEATURED_BLOG_POSTS.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}

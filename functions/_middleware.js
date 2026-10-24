@@ -48,7 +48,18 @@ export async function onRequest(context) {
     });
   }
 
-  // On your official custom domain (toolsverseapp.com), allow full indexing and ranking
-  return context.next();
+  // On your official custom domain (toolsverseapp.com), cache HTML at edge for instant TTFB
+  const response = await context.next();
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('text/html')) {
+    const newHeaders = new Headers(response.headers);
+    newHeaders.set('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400');
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: newHeaders,
+    });
+  }
+  return response;
 }
 
