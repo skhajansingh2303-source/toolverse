@@ -87,6 +87,47 @@ export function getToolSeoData(slug: string): ToolSeoData | null {
         answer: 'Yes! ToolsVerse is responsive and touch-optimized. You can draw your signature directly with your finger or stylus on iOS Safari and Android Chrome, then drag, resize, and rotate it with smooth touch controls.',
       },
     ];
+  } else if (slug === 'merge-pdf') {
+    steps = [
+      {
+        title: 'Select or Drop Multiple PDF Files',
+        description: 'Choose 2 or more PDF documents from your computer or phone, or drag and drop them into the workspace. Loaded instantly in browser memory.',
+      },
+      {
+        title: 'Reorder Files in Preferred Sequence',
+        description: 'Arrange your documents in your exact reading order using the up and down arrow controls. Set a custom output filename if desired.',
+      },
+      {
+        title: 'Preview Merged PDF & Download',
+        description: 'Click "Merge PDFs Now" to combine pages losslessly. Inspect the interactive live preview, then download your consolidated PDF file.',
+      },
+    ];
+    faqs = [
+      {
+        question: 'Can I preview the merged PDF before downloading it?',
+        answer: 'Yes! ToolsVerse displays an interactive live preview of the merged document immediately upon combining. You can scroll through all pages to verify sequence and layout before clicking Download.',
+      },
+      {
+        question: 'How many PDF files can I merge together?',
+        answer: 'There is no limit on ToolsVerse! Because all processing runs client-side in your local browser sandbox, you can merge as many PDF files as your device memory allows without any daily quotas or paywalls.',
+      },
+      {
+        question: 'Are my confidential documents uploaded to a remote server?',
+        answer: 'Never. Unlike cloud converters like iLovePDF, Smallpdf, or Adobe Acrobat Web, your confidential bank statements, contracts, and tax files never leave your device. Processing occurs 100% locally in-browser.',
+      },
+      {
+        question: 'Will merging PDFs reduce document formatting or image quality?',
+        answer: 'Not at all. Vector glyphs, embedded fonts, hyperlinks, bookmarks, and high-resolution images are preserved losslessly according to ISO PDF specifications.',
+      },
+      {
+        question: 'Can I reorder individual PDF files before merging?',
+        answer: 'Yes. Use the intuitive sequence buttons (▲ / ▼) to move files earlier or later, or remove files before initiating the merge.',
+      },
+      {
+        question: 'Can I merge PDF documents on mobile phones (iPhone or Android)?',
+        answer: 'Yes! ToolsVerse works smoothly on mobile browsers including Safari and Chrome without needing any app installation.',
+      },
+    ];
   } else if (categorySlug === 'calculators') {
     steps = [
       {

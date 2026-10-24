@@ -421,8 +421,8 @@ export default function MergePdf() {
             Use the sequence arrows to arrange the documents in your preferred reading sequence.
           </div>
           <div className="p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl">
-            <strong className="block text-gray-900 dark:text-white mb-1">3. Download</strong>
-            Click Merge to instantly create and download your consolidated PDF file.
+            <strong className="block text-gray-900 dark:text-white mb-1">3. Preview & Download</strong>
+            Click Merge to combine your files, review the interactive live preview, and download your consolidated PDF.
           </div>
         </div>
 
@@ -431,6 +431,44 @@ export default function MergePdf() {
           Standard online PDF converters upload your confidential agreements, invoices, and bank statements to remote servers. ToolsVerse works entirely on your local CPU memory using WebAssembly. Your documents never touch any server.
         </p>
       </div>
+
+      {/* Popular Search Hashtags & Queries */}
+      <section className="mt-8 p-6 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-base">🏷️</span>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-slate-300">
+            Popular Search Queries &amp; Hashtags
+          </h3>
+        </div>
+        <p className="text-xs text-gray-500 dark:text-slate-400 mb-4">
+          Find this tool anytime by searching for these trending keywords, tags, and document features:
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {[
+            'MergePDF',
+            'CombinePDF',
+            'JoinPDF',
+            'PDFMerger',
+            'MergePDFOnline',
+            'FreePDFMerger',
+            'PDFBinder',
+            'PDFCombiner',
+            'ILovePDFMerge',
+            'SmallpdfMerge',
+            'CombinePDFs',
+            'MergeMultiplePDFs',
+            'PrivatePDFMerge',
+            'ToolsVerse'
+          ].map((tag) => (
+            <span
+              key={tag}
+              className="text-xs px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-default"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </section>
 
       {/* Related Tools Navigator */}
       <RelatedTools currentSlug="merge-pdf" />
