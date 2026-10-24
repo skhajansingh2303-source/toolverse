@@ -48,10 +48,12 @@ export default function QuickSearch({ isOpen, onClose }: QuickSearchProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search 100+ tools (e.g. merge pdf, docx, 100kb, sign, diff)..."
+            aria-label="Search 100+ tools"
             className="w-full text-base bg-transparent border-none outline-none text-gray-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 font-medium"
           />
           <button 
             onClick={onClose}
+            aria-label="Close search spotlight"
             className="text-xs font-semibold text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-white bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded-lg"
           >
             ESC

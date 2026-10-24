@@ -1,0 +1,39 @@
+# ToolsVerse App — Free In-Browser Tools Suite
+
+> ToolsVerse App (https://toolsverseapp.com) is an open-access, client-side productivity and utility suite featuring 103+ tools for PDF manipulation, document conversion, developer tasks, health calculators, and image processing. All computation executes 100% locally in the user's web browser using WebAssembly, HTML5 Canvas, and the Web Crypto API, guaranteeing zero server uploads and complete data privacy.
+
+## Core Features & Guarantees
+- 100% In-Browser Execution: Zero bytes of user documents or data ever leave the device.
+- Zero Sign-Up & No Paywalls: Free forever with unlimited conversions and no daily quotas.
+- Strict Privacy: Architectural compliance with GDPR, HIPAA, and FERPA standards.
+- Offline Capability: Operates as an offline-first Progressive Web App (PWA).
+
+## Popular Tools & Direct Links
+
+### PDF Manipulation & Organization
+- [Merge PDF](https://toolsverseapp.com/tools/organize-pdf/merge-pdf/): Combine multiple PDF documents into one single file with custom ordering and live preview.
+- [Split PDF](https://toolsverseapp.com/tools/organize-pdf/split-pdf/): Split PDF files into individual pages or extract custom page ranges.
+- [Compress PDF](https://toolsverseapp.com/tools/optimize-pdf/compress-pdf/): Reduce PDF file size with extreme, recommended, or light compression.
+- [Sign PDF](https://toolsverseapp.com/tools/pdf-security/sign-pdf/): Place, resize, and rotate digital e-signatures on PDF documents.
+- [Protect PDF](https://toolsverseapp.com/tools/pdf-security/protect-pdf/): Encrypt PDF files with 128-bit / 256-bit AES passwords.
+- [Unlock PDF](https://toolsverseapp.com/tools/pdf-security/unlock-pdf/): Decrypt password-protected PDFs.
+- [Redact PDF](https://toolsverseapp.com/tools/pdf-security/redact-pdf/): Permanently blackout sensitive corporate, financial, or personal information.
+- [Scan to PDF](https://toolsverseapp.com/tools/convert-to-pdf/scan-to-pdf/): Capture documents via camera and assemble into a PDF.
+- [PDF to Word](https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-word/): Convert PDF files into editable DOCX format.
+- [Word to PDF](https://toolsverseapp.com/tools/convert-to-pdf/word-to-pdf/): Convert Word documents (.docx) to PDF format.
+- [PDF to JPG](https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-jpg/): Convert PDF pages to high-resolution JPEG images.
+- [PDF to PNG](https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-png/): Convert PDF pages to lossless PNG images.
+- [Extract PDF Images](https://toolsverseapp.com/tools/convert-from-pdf/extract-pdf-images/): Extract all photos and images from any PDF.
+
+### Calculators & Daily Life
+- [Age Calculator](https://toolsverseapp.com/tools/calculators/age-calculator/): Calculate age in years, months, days, hours, and minutes.
+- [BMI Calculator](https://toolsverseapp.com/tools/calculators/bmi-calculator/): Calculate Body Mass Index and healthy weight category.
+- [Loan Calculator](https://toolsverseapp.com/tools/calculators/loan-calculator/): Calculate loan EMI, total interest, and monthly breakdown.
+- [Percentage Calculator](https://toolsverseapp.com/tools/calculators/percentage-calculator/): Percentage difference, increase, decrease, and fractions.
+- [GPA Calculator](https://toolsverseapp.com/tools/calculators/gpa-calculator/): Calculate college semester and cumulative GPA scores.
+
+### Developer & Media Tools
+- [JSON Formatter](https://toolsverseapp.com/tools/developer/json-formatter/): Format, validate, and minify JSON data structures.
+- [JWT Decoder](https://toolsverseapp.com/tools/developer/jwt-decoder/): Decode and inspect JSON Web Tokens safely in-browser.
+- [Image Compressor](https://toolsverseapp.com/tools/media/image-compressor/): Compress PNG, JPEG, and WebP images.
+- [QR Code Generator](https://toolsverseapp.com/tools/design/qr-code-generator/): Create custom QR codes for URLs, WiFi, contacts, and text.

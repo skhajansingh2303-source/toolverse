@@ -239,6 +239,7 @@ export default function Footer() {
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
               className="hover:text-red-400 transition-colors font-semibold"
+              aria-label="Scroll back to top of page"
             >
               ↑ Back to Top
             </button>

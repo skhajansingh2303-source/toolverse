@@ -1,0 +1,27 @@
+# ToolsVerse App — Complete Index & API Specification
+
+> ToolsVerse App (https://toolsverseapp.com) provides 103+ client-side web tools.
+
+## Architectural Security
+- Zero server backend: All computations run within the client's WebAssembly sandbox.
+- Compliance: GDPR, HIPAA, FERPA compliant by architecture.
+
+## Full Tool Catalog
+- https://toolsverseapp.com/tools/organize-pdf/merge-pdf/
+- https://toolsverseapp.com/tools/organize-pdf/split-pdf/
+- https://toolsverseapp.com/tools/optimize-pdf/compress-pdf/
+- https://toolsverseapp.com/tools/pdf-security/sign-pdf/
+- https://toolsverseapp.com/tools/pdf-security/protect-pdf/
+- https://toolsverseapp.com/tools/pdf-security/unlock-pdf/
+- https://toolsverseapp.com/tools/pdf-security/redact-pdf/
+- https://toolsverseapp.com/tools/convert-to-pdf/word-to-pdf/
+- https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-word/
+- https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-jpg/
+- https://toolsverseapp.com/tools/convert-from-pdf/pdf-to-png/
+- https://toolsverseapp.com/tools/convert-from-pdf/extract-pdf-images/
+- https://toolsverseapp.com/tools/calculators/age-calculator/
+- https://toolsverseapp.com/tools/calculators/bmi-calculator/
+- https://toolsverseapp.com/tools/calculators/loan-calculator/
+- https://toolsverseapp.com/tools/developer/json-formatter/
+- https://toolsverseapp.com/tools/media/image-compressor/
+- https://toolsverseapp.com/tools/design/qr-code-generator/

@@ -91,6 +91,7 @@ export default function ToolDock() {
             onClick={() => toggleMinimize(false)}
             className="flex items-center gap-2 bg-gray-950 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-[0_12px_35px_rgba(0,0,0,0.5)] border border-gray-700 ring-2 ring-white/20 hover:scale-105 transition-all group"
             title="Open Quick Tool Bar"
+            aria-label="Open Quick Tools Bar"
           >
             <span className="text-amber-400 group-hover:rotate-12 transition-transform text-sm">⚡</span>
             <span className="text-white font-bold tracking-wide">Quick Tools</span>
@@ -105,6 +106,7 @@ export default function ToolDock() {
               onClick={() => setDrawerOpen(true)}
               className="flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md transition-all active:scale-95 group shrink-0"
               title={`Open full catalog of ${tools.length} tools with category filters`}
+              aria-label={`Open full catalog of ${tools.length} tools`}
             >
               <span className="text-amber-300 group-hover:rotate-12 transition-transform text-sm">⚡</span>
               <span className="text-white tracking-wide">All {tools.length} Tools</span>
@@ -115,6 +117,7 @@ export default function ToolDock() {
               onClick={() => setSearchOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/20 transition-all border border-white/20 group shrink-0"
               title="Quick Search Tools (Ctrl+K or ⌘K)"
+              aria-label="Quick Search Tools (Ctrl+K or ⌘K)"
             >
               <svg className="w-3.5 h-3.5 text-white group-hover:text-amber-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -136,6 +139,7 @@ export default function ToolDock() {
                 href={getToolUrl(prevTool)}
                 className="relative group hidden sm:flex items-center justify-center w-7 h-7 rounded-full text-white bg-white/10 hover:bg-white/25 border border-white/15 transition-all active:scale-95"
                 title={`Previous: ${prevTool.name}`}
+                aria-label={`Previous: ${prevTool.name}`}
               >
                 <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -152,6 +156,7 @@ export default function ToolDock() {
                 href={getToolUrl(nextTool)}
                 className="relative group hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/25 border border-white/15 transition-all active:scale-95"
                 title={`Next: ${nextTool.name}`}
+                aria-label={`Next: ${nextTool.name}`}
               >
                 <span className="text-gray-200">Next:</span>
                 <span className="text-white max-w-[120px] truncate">{nextTool.name}</span>
@@ -180,6 +185,7 @@ export default function ToolDock() {
                   <Link
                     key={t.slug}
                     href={getToolUrl(t)}
+                    aria-label={`Recently used: ${t.name}`}
                     className="relative group w-7 h-7 rounded-full bg-white/15 hover:bg-white/30 border border-white/25 flex items-center justify-center text-xs transition-all hover:scale-110 active:scale-95 shadow-sm"
                   >
                     <span>{t.icon}</span>
@@ -197,6 +203,7 @@ export default function ToolDock() {
               onClick={() => toggleMinimize(true)}
               className="w-6 h-6 rounded-full flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20 text-xs transition-colors shrink-0 ml-0.5"
               title="Minimize bar (can restore anytime)"
+              aria-label="Minimize quick tools bar"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />

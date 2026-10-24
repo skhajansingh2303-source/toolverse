@@ -141,6 +141,7 @@ export default function ToolDrawer({ isOpen, onClose }: ToolDrawerProps) {
               onClick={onClose}
               className="p-2 rounded-xl text-gray-400 hover:text-gray-700 dark:text-slate-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors text-sm"
               title="Close menu"
+              aria-label="Close menu drawer"
             >
               ✕
             </button>

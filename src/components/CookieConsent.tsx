@@ -61,12 +61,14 @@ export default function CookieConsent() {
         <div className="flex items-center justify-end gap-2 pt-1 border-t border-gray-100 dark:border-slate-800">
           <button
             onClick={handleDecline}
-            className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+            aria-label="Decline optional cookies, use essential only"
+            className="px-3 py-1.5 rounded-xl text-xs font-bold text-gray-700 dark:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
           >
             Essential Only
           </button>
           <button
             onClick={handleAccept}
+            aria-label="Accept all privacy preferences"
             className="px-4 py-1.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-all active:scale-95"
           >
             Accept All

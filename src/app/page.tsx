@@ -419,6 +419,7 @@ export default function Home() {
                   <input
                     type="text"
                     placeholder="Search any tool (e.g. merge pdf, word, excel, age, bmi, compress)..."
+                    aria-label="Search any tool (e.g. merge pdf, word, excel, age, bmi, compress)"
                     value={search}
                     onChange={(e) => {
                       setSearch(e.target.value);
@@ -439,6 +440,7 @@ export default function Home() {
                       }}
                       className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-slate-200 mr-2 text-sm font-bold"
                       title="Clear search"
+                      aria-label="Clear search input"
                     >
                       ✕
                     </button>
@@ -776,6 +778,7 @@ export default function Home() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'featured' | 'az' | 'category')}
+                aria-label="Sort tools by"
                 className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-slate-200 text-xs rounded-xl px-3 py-1.5 outline-none font-semibold cursor-pointer shadow-2xs hover:border-gray-300 dark:hover:border-slate-700"
               >
                 <option value="featured">Popular First</option>
@@ -826,7 +829,7 @@ export default function Home() {
       </section>
 
       {/* ───── Educational Guides & Deep Tutorials Section ───── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="content-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-wider mb-2">
@@ -889,7 +892,7 @@ export default function Home() {
       </section>
 
       {/* ───── ToolsVerse vs Cloud Competitors Privacy Matrix ───── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="content-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 p-6 sm:p-10 shadow-sm">
           <div className="max-w-3xl mb-8">
             <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
@@ -898,7 +901,7 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl font-black text-gray-950 dark:text-white mt-1 mb-2">
               ToolsVerse vs Traditional Cloud Converters
             </h2>
-            <p className="text-gray-600 dark:text-slate-400 text-xs sm:text-sm">
+            <p className="text-gray-600 dark:text-slate-300 text-xs sm:text-sm">
               See how our zero-server, in-browser sandbox guarantees 100% privacy, instant speed, and zero paywalls compared to cloud upload tools like iLovePDF, Smallpdf, or CloudConvert.
             </p>
           </div>
@@ -906,12 +909,12 @@ export default function Home() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-slate-800 text-gray-400 uppercase font-bold text-[11px]">
+                <tr className="border-b border-gray-200 dark:border-slate-800 text-gray-600 dark:text-slate-300 uppercase font-bold text-[11px]">
                   <th className="py-4 pr-6">Feature / Capability</th>
                   <th className="py-4 px-6 bg-red-50/80 dark:bg-red-950/40 text-red-700 dark:text-red-300 font-extrabold rounded-t-xl">
                     ToolsVerse App (100% In-Browser)
                   </th>
-                  <th className="py-4 pl-6 text-gray-600 dark:text-slate-400">
+                  <th className="py-4 pl-6 text-gray-600 dark:text-slate-300">
                     Legacy Cloud (iLovePDF &amp; Smallpdf)
                   </th>
                 </tr>
@@ -928,7 +931,7 @@ export default function Home() {
                         <span>{item.toolsverse}</span>
                       </div>
                     </td>
-                    <td className="py-4 pl-6 text-gray-500 dark:text-slate-400">
+                    <td className="py-4 pl-6 text-gray-600 dark:text-slate-300">
                       <div className="flex items-start gap-2">
                         <span className="text-rose-500 font-bold shrink-0">✗</span>
                         <span>{item.competitor}</span>
@@ -943,7 +946,7 @@ export default function Home() {
       </section>
 
       {/* ───── Trust & Security Architecture Badges ───── */}
-      <section className="bg-gray-50 dark:bg-slate-950 border-y border-gray-200/80 dark:border-slate-800/80 py-16 transition-colors">
+      <section className="content-auto bg-gray-50 dark:bg-slate-950 border-y border-gray-200/80 dark:border-slate-800/80 py-16 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
@@ -952,7 +955,7 @@ export default function Home() {
             <h2 className="text-3xl font-black text-gray-950 dark:text-white mt-1 mb-3">
               Built for Students, Teachers, and Professionals Worldwide
             </h2>
-            <p className="text-gray-500 dark:text-slate-400 text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-slate-300 text-sm leading-relaxed">
               Every document, contract, calculation, and image stays 100% on your local computer. No cloud uploads, no database retention, zero privacy risk.
             </p>
           </div>
@@ -963,7 +966,7 @@ export default function Home() {
                 🎓
               </div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Students &amp; Academics</h3>
-              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
                 Calculate GPA scores, extract text from lecture slides, convert research notes to PDF, format citations, and inspect documents effortlessly.
               </p>
             </div>
@@ -973,7 +976,7 @@ export default function Home() {
                 💼
               </div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Employees &amp; Remote Teams</h3>
-              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
                 Sign legal contracts with e-signatures, blackout confidential numbers with redaction, build ATS resumes, and convert office spreadsheets.
               </p>
             </div>
@@ -983,7 +986,7 @@ export default function Home() {
                 🏃
               </div>
               <h3 className="text-base font-bold text-gray-900 dark:text-white mb-2">For Daily Life &amp; Health</h3>
-              <p className="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
                 Determine your exact age down to the day, calculate BMI and daily calorie requirements, compute loan EMIs, and convert units instantly.
               </p>
             </div>
@@ -992,7 +995,7 @@ export default function Home() {
       </section>
 
       {/* ───── Enterprise FAQ Accordion ───── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="content-auto max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-10">
           <span className="text-xs uppercase font-extrabold text-primary-600 dark:text-primary-400 tracking-wider">
             Frequently Asked Questions
@@ -1000,7 +1003,7 @@ export default function Home() {
           <h2 className="text-3xl font-black text-gray-950 dark:text-white mt-1 mb-2">
             Everything You Need to Know
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-slate-300">
             Learn why millions of users choose client-side browser utilities for confidential workflows.
           </p>
         </div>
@@ -1015,6 +1018,8 @@ export default function Home() {
               >
                 <button
                   onClick={() => setExpandedFaq(isOpen ? null : idx)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${idx}`}
                   className="w-full py-4 px-6 text-left flex items-center justify-between gap-4 font-bold text-sm text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
                   <span>{faq.q}</span>
@@ -1027,7 +1032,10 @@ export default function Home() {
                   </span>
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-5 text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-800/60 pt-3 animate-in fade-in duration-200">
+                  <div
+                    id={`faq-answer-${idx}`}
+                    className="px-6 pb-5 text-xs sm:text-sm text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-800/60 pt-3 animate-in fade-in duration-200"
+                  >
                     {faq.a}
                   </div>
                 )}

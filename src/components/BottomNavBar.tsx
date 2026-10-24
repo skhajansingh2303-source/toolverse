@@ -38,6 +38,7 @@ export default function BottomNavBar() {
         {/* 2. Tools (Triggers Side Navigation Drawer) */}
         <button
           onClick={() => setDrawerOpen(true)}
+          aria-label="Open all tools drawer"
           className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white transition-all"
         >
           <svg className="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,6 +55,7 @@ export default function BottomNavBar() {
         {/* 3. Quick Action / Scanner / PDF shortcut */}
         <Link
           href="/tools/organize-pdf/merge-pdf/"
+          aria-label="Quick shortcut: Merge PDF"
           className="flex flex-col items-center justify-center -mt-4"
         >
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-primary-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-primary-500/30 active:scale-95 transition-transform">
@@ -65,6 +67,7 @@ export default function BottomNavBar() {
         {/* 4. Calculators */}
         <Link
           href="/tools/calculators/age-calculator/"
+          aria-label="Calculators: Age Calculator"
           className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white transition-all"
         >
           <svg className="w-5 h-5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

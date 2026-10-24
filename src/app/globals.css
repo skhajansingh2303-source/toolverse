@@ -298,4 +298,15 @@ body {
   padding-bottom: 0 !important;
 }
 
+/* Modern rendering optimizations for offscreen sections */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 350px;
+}
+
+.tool-card-render {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 170px;
+}
+
 

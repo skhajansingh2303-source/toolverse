@@ -77,7 +77,7 @@ export default function ToolCard({
   };
 
   return (
-    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-primary-500/80 dark:hover:border-primary-500/70 hover:-translate-y-1.5 transition-all duration-250 flex flex-col justify-between overflow-hidden">
+    <div className="tool-card-render group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl hover:border-primary-500/80 dark:hover:border-primary-500/70 hover:-translate-y-1.5 transition-all duration-250 flex flex-col justify-between overflow-hidden">
       
       {/* Subtle hover gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -110,6 +110,7 @@ export default function ToolCard({
                   : 'text-gray-300 dark:text-slate-600 hover:text-amber-400 hover:bg-gray-50 dark:hover:bg-slate-800'
               }`}
               title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              aria-label={isFavorite ? `Remove ${name} from favorites` : `Add ${name} to favorites`}
             >
               ★
             </button>
@@ -118,7 +119,11 @@ export default function ToolCard({
       </div>
 
       {/* Main Clickable Area */}
-      <Link href={targetUrl} className="relative z-10 block focus:outline-none flex-1">
+      <Link
+        href={targetUrl}
+        className="relative z-10 block focus:outline-none flex-1"
+        aria-label={`Open ${name}: ${description}`}
+      >
         <div className="flex items-start gap-3.5 mb-3">
           {/* Icon Box */}
           <div
@@ -132,7 +137,7 @@ export default function ToolCard({
             <h3 className="text-[15px] font-extrabold text-gray-950 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-snug mb-1">
               {name}
             </h3>
-            <p className="text-gray-500 dark:text-slate-400 text-xs leading-relaxed line-clamp-2">
+            <p className="text-gray-600 dark:text-slate-300 text-xs leading-relaxed line-clamp-2">
               {description}
             </p>
           </div>
@@ -141,13 +146,14 @@ export default function ToolCard({
 
       {/* Card Footer with High-Clickable Pill Button */}
       <div className="relative z-10 mt-4 pt-3 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-400 dark:text-slate-500">
+        <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-500 dark:text-slate-400">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           <span>In-Browser Private</span>
         </div>
 
         <Link 
           href={targetUrl}
+          aria-label={`Open ${name} tool`}
           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-gray-100 dark:bg-slate-800 group-hover:bg-primary-600 dark:group-hover:bg-primary-600 text-gray-800 dark:text-slate-200 group-hover:text-white transition-all duration-200 text-xs font-bold shadow-2xs group-hover:shadow-md"
         >
           <span>Open</span>

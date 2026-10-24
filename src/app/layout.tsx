@@ -12,7 +12,11 @@ import GoogleTranslator from '@/components/GoogleTranslator'
 import CookieConsent from '@/components/CookieConsent'
 import { LANGUAGE_CODES, GOOGLE_TRANSLATE_LANGS } from '@/lib/languages'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+})
 
 const languageAlternates: Record<string, string> = {
   'x-default': 'https://toolsverseapp.com/',
@@ -260,12 +264,12 @@ export default function RootLayout({
         />
         {/* Google tag (gtag.js) */}
         <Script
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=G-TQHCS9HWNJ"
         />
         <Script
           id="google-analytics"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -280,12 +284,12 @@ export default function RootLayout({
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1902327524390179"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         {/* Google Translate Integration */}
         <Script
           id="google-translate-init"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.googleTranslateElementInit = function() {
@@ -302,7 +306,7 @@ export default function RootLayout({
         />
         <Script
           id="google-translate-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         />
       </head>

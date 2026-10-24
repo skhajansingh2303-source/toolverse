@@ -1,6 +1,27 @@
 User-agent: *
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 User-agent: Mediapartners-Google
 Allow: /
 
@@ -8,18 +29,6 @@ User-agent: AdsBot-Google
 Allow: /
 
 User-agent: Google-Adwords-DisplayAds-Web
-Allow: /
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: DuckDuckBot
 Allow: /
 
 Sitemap: https://toolsverseapp.com/sitemap.xml

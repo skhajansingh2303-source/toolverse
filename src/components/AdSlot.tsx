@@ -32,8 +32,18 @@ export default function AdSlot({
     return null;
   }
 
+  const minHeightClass =
+    format === 'horizontal'
+      ? 'min-h-[90px]'
+      : format === 'rectangle'
+      ? 'min-h-[250px]'
+      : 'min-h-[60px]';
+
   return (
-    <div className={`w-full my-6 text-center ${className}`}>
+    <div
+      className={`w-full my-6 text-center overflow-hidden ${minHeightClass} ${className}`}
+      aria-label="Advertisement"
+    >
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
