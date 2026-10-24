@@ -5,7 +5,7 @@ import Link from 'next/link';
 import AdSlot from '@/components/AdSlot';
 import ToolResultCard from '@/components/ToolResultCard';
 import RelatedTools from '@/components/RelatedTools';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 
 interface SignResult {
   blobUrl: string;
@@ -22,6 +22,7 @@ interface SignaturePosition {
   width: number; // percentage of page width
   height: number; // percentage of page height
   page: number; // 0-indexed page number
+  rotation: number; // rotation in degrees (0 - 360)
 }
 
 export default function SignPdf() {
@@ -44,12 +45,13 @@ export default function SignPdf() {
   const pdfContainerRef = useRef<HTMLDivElement>(null);
   const pageCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Signature positioning (draggable)
+  // Signature positioning (draggable, resizable & rotatable)
   const [sigPos, setSigPos] = useState<SignaturePosition>({
-    x: 50, y: 80, width: 25, height: 10, page: 0,
+    x: 50, y: 80, width: 25, height: 10, page: 0, rotation: 0,
   });
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const signatureOverlayRef = useRef<HTMLDivElement>(null);
   const pdfViewerRef = useRef<HTMLDivElement>(null);
@@ -267,6 +269,26 @@ export default function SignPdf() {
     setDragStart({ x: clientX, y: clientY });
   };
 
+  const handleRotateStart = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsRotating(true);
+  };
+
+  const rotateSignatureBy = (delta: number) => {
+    setSigPos(prev => {
+      let next = ((prev.rotation || 0) + delta) % 360;
+      if (next < 0) next += 360;
+      return { ...prev, rotation: next };
+    });
+  };
+
+  const setExactRotation = (deg: number) => {
+    let next = deg % 360;
+    if (next < 0) next += 360;
+    setSigPos(prev => ({ ...prev, rotation: next }));
+  };
+
   useEffect(() => {
     const handleMove = (clientX: number, clientY: number) => {
       if (isDragging) {
@@ -292,20 +314,41 @@ export default function SignPdf() {
         }));
         setDragStart({ x: clientX, y: clientY });
       }
+      if (isRotating && signatureOverlayRef.current) {
+        const rect = signatureOverlayRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = clientX - centerX;
+        const dy = clientY - centerY;
+        // Rotation handle is at 12 o'clock (top), so +90 aligns 12 o'clock with 0 degrees
+        let deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI + 90);
+        deg = ((deg % 360) + 360) % 360;
+        // Snap to cardinal angles if close (within 4 degrees)
+        if (deg <= 4 || deg >= 356) deg = 0;
+        else if (Math.abs(deg - 90) <= 4) deg = 90;
+        else if (Math.abs(deg - 180) <= 4) deg = 180;
+        else if (Math.abs(deg - 270) <= 4) deg = 270;
+
+        setSigPos(prev => ({
+          ...prev,
+          rotation: deg,
+        }));
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX, e.clientY);
     const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging || isResizing) e.preventDefault();
+      if (isDragging || isResizing || isRotating) e.preventDefault();
       handleMove(e.touches[0].clientX, e.touches[0].clientY);
     };
 
     const handleEnd = () => {
       setIsDragging(false);
       setIsResizing(false);
+      setIsRotating(false);
     };
 
-    if (isDragging || isResizing) {
+    if (isDragging || isResizing || isRotating) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleEnd);
       window.addEventListener('touchmove', handleTouchMove, { passive: false });
@@ -319,7 +362,7 @@ export default function SignPdf() {
       window.removeEventListener('touchend', handleEnd);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDragging, isResizing, dragStart, currentPage]);
+  }, [isDragging, isResizing, isRotating, dragStart, currentPage]);
 
   // ── Apply signature to PDF ─────────────────────────
   const handleSign = async () => {
@@ -333,13 +376,23 @@ export default function SignPdf() {
       const targetPage = pages[sigPos.page] || pages[0];
       const { width: pageWidth, height: pageHeight } = targetPage.getSize();
 
-      // Convert percentage positions to PDF coordinates
-      // PDF coordinates: origin is bottom-left, y increases upward
-      const sigX = (sigPos.x / 100) * pageWidth;
+      const rotDeg = sigPos.rotation || 0;
       const sigW = (sigPos.width / 100) * pageWidth;
       const sigH = (sigPos.height / 100) * pageHeight;
-      // y in our UI: from top. PDF y: from bottom.
-      const sigY = pageHeight - ((sigPos.y / 100) * pageHeight) - sigH;
+
+      // In PDF coordinates (origin at bottom-left):
+      const cxPercent = sigPos.x + sigPos.width / 2;
+      const cyPercent = sigPos.y + sigPos.height / 2;
+      const X_center = (cxPercent / 100) * pageWidth;
+      const Y_center = pageHeight - (cyPercent / 100) * pageHeight;
+
+      // In PDF coordinate space, clockwise UI rotation corresponds to negative angle
+      const pdfAngleDeg = -rotDeg;
+      const rad = (pdfAngleDeg * Math.PI) / 180;
+
+      // Calculate origin (x, y) so rotating around (x, y) leaves the center at (X_center, Y_center)
+      const sigX = X_center - (sigW / 2) * Math.cos(rad) + (sigH / 2) * Math.sin(rad);
+      const sigY = Y_center - (sigW / 2) * Math.sin(rad) - (sigH / 2) * Math.cos(rad);
 
       let pngImage;
       if (signatureDataUrl.includes('image/png')) {
@@ -367,6 +420,7 @@ export default function SignPdf() {
         y: sigY,
         width: sigW,
         height: sigH,
+        rotate: degrees(pdfAngleDeg),
       });
 
       const pdfBytes = await pdfDoc.save();
@@ -669,7 +723,9 @@ export default function SignPdf() {
                         top: `${sigPos.y}%`,
                         width: `${sigPos.width}%`,
                         height: `${sigPos.height}%`,
-                        cursor: isDragging ? 'grabbing' : 'grab',
+                        transform: `rotate(${sigPos.rotation || 0}deg)`,
+                        transformOrigin: 'center center',
+                        cursor: isDragging ? 'grabbing' : isRotating ? 'crosshair' : 'grab',
                         zIndex: 10,
                         touchAction: 'none',
                       }}
@@ -679,22 +735,52 @@ export default function SignPdf() {
                       <img
                         src={signatureDataUrl}
                         alt="Your signature"
-                        className="w-full h-full object-contain pointer-events-none"
+                        className="w-full h-full object-contain pointer-events-none select-none"
                         draggable={false}
                       />
                       {/* Border indicator */}
                       <div className="absolute inset-0 border-2 border-dashed border-primary-500 rounded-lg opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+                      {/* Rotation handle (top center) */}
+                      <div className="absolute -top-9 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-auto z-30">
+                        <button
+                          type="button"
+                          onMouseDown={handleRotateStart}
+                          onTouchStart={handleRotateStart}
+                          title="Click and drag to rotate signature"
+                          className={`w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-white dark:border-slate-800 transition-transform ${
+                            isRotating
+                              ? 'bg-amber-500 scale-125 ring-2 ring-amber-400 text-white'
+                              : 'bg-primary-600 hover:bg-primary-700 text-white hover:scale-110 active:scale-95'
+                          }`}
+                          style={{ cursor: 'grab' }}
+                        >
+                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                          </svg>
+                        </button>
+                        <div className="w-0.5 h-3 bg-primary-500" />
+                      </div>
+
+                      {/* Degree Badge */}
+                      {(isRotating || (sigPos.rotation || 0) !== 0) && (
+                        <div className="absolute -top-16 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-slate-900/95 text-white text-[10px] font-mono font-bold whitespace-nowrap shadow-lg pointer-events-none">
+                          🔄 {sigPos.rotation || 0}°
+                        </div>
+                      )}
+
                       {/* Resize handle */}
                       <div
                         onMouseDown={handleResizeStart}
                         onTouchStart={handleResizeStart}
-                        className="absolute -bottom-1 -right-1 w-5 h-5 bg-primary-600 rounded-full cursor-se-resize shadow-md border-2 border-white dark:border-slate-800 hover:scale-125 transition-transform z-20 flex items-center justify-center"
+                        title="Drag to resize signature"
+                        className="absolute -bottom-1 -right-1 w-5 h-5 bg-primary-600 rounded-full cursor-se-resize shadow-md border-2 border-white dark:border-slate-800 hover:scale-125 transition-transform z-20 flex items-center justify-center pointer-events-auto"
                       >
                         <span className="text-white text-[8px] font-bold pointer-events-none">↘</span>
                       </div>
                       {/* Label */}
                       <div className="absolute -top-6 left-0 bg-primary-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold whitespace-nowrap shadow-sm pointer-events-none">
-                        ✍️ Drag to reposition
+                        ✍️ Drag • Rotate • Resize
                       </div>
                     </div>
                   )}
@@ -719,16 +805,93 @@ export default function SignPdf() {
               )}
             </div>
 
+            {/* Signature Rotation & Orientation Controls */}
+            <div className="bg-white dark:bg-slate-900 border-x border-b border-gray-200 dark:border-slate-800 p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-gray-800 dark:text-slate-200 flex items-center gap-1.5">
+                  <span className="text-base">🔄</span>
+                  <span>Rotate Signature:</span>
+                </span>
+                <span className="px-2.5 py-0.5 rounded-md bg-primary-50 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 font-mono font-bold text-xs border border-primary-200/60 dark:border-primary-900/50 shadow-xs">
+                  {sigPos.rotation || 0}°
+                </span>
+              </div>
+
+              {/* Quick Rotation Buttons */}
+              <div className="flex items-center flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => rotateSignatureBy(-90)}
+                  title="Rotate 90° Counter-Clockwise"
+                  className="px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1 transition-colors active:scale-95"
+                >
+                  <span>↺</span>
+                  <span>-90°</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => rotateSignatureBy(90)}
+                  title="Rotate 90° Clockwise"
+                  className="px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1 transition-colors active:scale-95"
+                >
+                  <span>↻</span>
+                  <span>+90°</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => rotateSignatureBy(-15)}
+                  title="Rotate 15° Counter-Clockwise"
+                  className="px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 text-xs font-semibold transition-colors active:scale-95"
+                >
+                  -15°
+                </button>
+                <button
+                  type="button"
+                  onClick={() => rotateSignatureBy(15)}
+                  title="Rotate 15° Clockwise"
+                  className="px-2.5 py-1.5 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 text-xs font-semibold transition-colors active:scale-95"
+                >
+                  +15°
+                </button>
+                {(sigPos.rotation || 0) !== 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setExactRotation(0)}
+                    title="Reset to 0°"
+                    className="px-2.5 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 text-xs font-bold transition-colors active:scale-95 flex items-center gap-1"
+                  >
+                    <span>✕</span>
+                    <span>Reset 0°</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Slider for precision angle */}
+              <div className="flex items-center gap-2 min-w-[150px] sm:min-w-[200px]">
+                <span className="text-[11px] font-mono text-gray-400">0°</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="359"
+                  value={sigPos.rotation || 0}
+                  onChange={(e) => setExactRotation(parseInt(e.target.value, 10))}
+                  className="w-full accent-primary-600 cursor-pointer"
+                  aria-label="Signature rotation slider"
+                />
+                <span className="text-[11px] font-mono text-gray-400">360°</span>
+              </div>
+            </div>
+
             {/* Position info bar */}
-            <div className="bg-gray-50 dark:bg-slate-950/80 border-x border-gray-200 dark:border-slate-800 px-4 py-2 flex items-center justify-between text-[11px] text-gray-500 dark:text-slate-500">
-              <span>Signature on Page {sigPos.page + 1} — Position: ({Math.round(sigPos.x)}%, {Math.round(sigPos.y)}%)</span>
-              <span>Drag to move • Corner handle to resize</span>
+            <div className="bg-gray-50 dark:bg-slate-950/80 border-x border-gray-200 dark:border-slate-800 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-gray-500 dark:text-slate-500">
+              <span>Signature on Page {sigPos.page + 1} — Position: ({Math.round(sigPos.x)}%, {Math.round(sigPos.y)}%) — Rotation: {sigPos.rotation || 0}°</span>
+              <span>Drag to move • Top handle / toolbar to rotate • Corner handle to resize</span>
             </div>
 
             {/* Apply button */}
             <div className="bg-white dark:bg-slate-900 rounded-b-2xl border border-t-0 border-gray-200 dark:border-slate-800 p-4 flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs text-gray-500 dark:text-slate-400">
-                ✅ Signature placed on <strong>Page {sigPos.page + 1}</strong>. Adjust position if needed, then apply.
+                ✅ Signature placed on <strong>Page {sigPos.page + 1}</strong> ({sigPos.rotation || 0}° rotation). Adjust position if needed, then apply.
               </p>
               <button
                 onClick={handleSign}
@@ -763,6 +926,7 @@ export default function SignPdf() {
               { label: 'Signature Type', value: mode === 'draw' ? 'Hand-Drawn e-Signature' : mode === 'type' ? 'Cursive Type' : 'Uploaded Image' },
               { label: 'Placed On', value: `Page ${sigPos.page + 1} of ${pageCount}` },
               { label: 'Position', value: `(${Math.round(sigPos.x)}%, ${Math.round(sigPos.y)}%)` },
+              { label: 'Rotation Angle', value: `${sigPos.rotation || 0}° ${(sigPos.rotation || 0) !== 0 ? '(Custom Angle)' : '(Straight)'}` },
               { label: 'Processing Engine', value: '100% In-Browser Cryptographic PDF Embed' },
             ]}
             previewUrl={signResult.blobUrl}
@@ -774,6 +938,7 @@ export default function SignPdf() {
               setSignatureDataUrl('');
               setPdfPages([]);
               setStep('upload');
+              setSigPos({ x: 50, y: 80, width: 25, height: 10, page: 0, rotation: 0 });
               clearCanvas();
             }}
             resetButtonText="Sign Another Document"
@@ -795,14 +960,55 @@ export default function SignPdf() {
         <section className="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-gray-200 dark:border-slate-800 shadow-sm mt-8">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to Use</h2>
           <ol className="list-decimal list-inside text-gray-700 dark:text-slate-300 space-y-2">
-            <li>Upload your PDF file using the file picker.</li>
+            <li>Upload your PDF file using the file picker or drag and drop.</li>
             <li>Choose your signature method: <strong>Draw</strong>, <strong>Type</strong>, or <strong>Upload</strong> a signature image.</li>
-            <li>Click &quot;Continue&quot; to see a live preview of your PDF.</li>
+            <li>Click &quot;Continue&quot; to see a live visual preview of your PDF.</li>
             <li>Drag your signature to the exact position where you want it on the page.</li>
+            <li>Use the <strong>top rotate handle</strong> or the <strong>rotation toolbar</strong> to rotate your signature to any angle (0° - 360°).</li>
             <li>Use the corner handle to resize the signature.</li>
-            <li>Navigate between pages to place the signature on any page.</li>
-            <li>Click &quot;Apply Signature &amp; Download&quot; to embed the signature and save.</li>
+            <li>Navigate between pages to place the signature on any target page.</li>
+            <li>Click &quot;Apply Signature &amp; Download&quot; to embed the signature losslessly and save.</li>
           </ol>
+        </section>
+
+        {/* Popular Search Hashtags & Queries */}
+        <section className="mt-8 p-6 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-base">🏷️</span>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-slate-300">
+              Popular Search Queries &amp; Hashtags
+            </h3>
+          </div>
+          <p className="text-xs text-gray-500 dark:text-slate-400 mb-4">
+            Find this tool anytime by searching for these trending keywords, tags, and document features:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              'SignPDF',
+              'RotateSignature',
+              'RotateSignaturePDF',
+              'ESignature',
+              'SignPDFOnline',
+              'FreePDFSigner',
+              'DigitalSignature',
+              'FillAndSign',
+              'DocuSignAlternative',
+              'ILovePDFSign',
+              'AngledSignature',
+              'DrawSignaturePDF',
+              'PlaceSignatureOnPDF',
+              'SignContractOnline',
+              'PrivatePDFSigning',
+              'ToolsVerse'
+            ].map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-2.5 py-1 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-default"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         </section>
 
         <RelatedTools currentSlug="sign-pdf" />

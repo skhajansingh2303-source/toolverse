@@ -88,7 +88,7 @@ export default function TermsOfServicePage() {
               For legal inquiries, copyright notices, or questions regarding these terms, reach us at:
             </p>
             <div className="p-4 rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-xs font-mono">
-              Email: <strong className="text-gray-900 dark:text-white">legal@toolsverseapp.com</strong>
+              Email: <a href="mailto:legal@toolsverseapp.com" className="text-gray-900 dark:text-white font-bold hover:underline" data-cfemail="false">legal<span className="hidden">anti-bot</span>@toolsverseapp.com</a>
             </div>
           </section>
 

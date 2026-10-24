@@ -6,13 +6,13 @@ import { BLOG_POSTS } from '@/lib/blogData'
 const BASE_URL = 'https://toolsverseapp.com';
 
 function buildLanguageAlternates(path: string) {
-  const languages: Record<string, string> = {
-    'x-default': `${BASE_URL}${path}`,
+  // Only include x-default to the canonical page without query params
+  // Using query params (?lang=xx) in hreflang causes 'Hreflang to non-canonical' errors in SEO crawlers
+  return {
+    languages: {
+      'x-default': `${BASE_URL}${path}`,
+    },
   };
-  for (const code of LANGUAGE_CODES) {
-    languages[code] = `${BASE_URL}${path}?lang=${code}`;
-  }
-  return { languages };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

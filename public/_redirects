@@ -78,8 +78,6 @@
 /tools/flatten-pdf/ /tools/optimize-pdf/flatten-pdf/ 301
 /tools/rasterize-pdf /tools/optimize-pdf/rasterize-pdf/ 301
 /tools/rasterize-pdf/ /tools/optimize-pdf/rasterize-pdf/ 301
-/tools/edit-pdf /tools/edit-pdf/edit-pdf/ 301
-/tools/edit-pdf/ /tools/edit-pdf/edit-pdf/ 301
 /tools/watermark-pdf /tools/edit-pdf/watermark-pdf/ 301
 /tools/watermark-pdf/ /tools/edit-pdf/watermark-pdf/ 301
 /tools/number-pdf /tools/edit-pdf/number-pdf/ 301

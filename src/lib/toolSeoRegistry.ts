@@ -42,11 +42,52 @@ export function getToolSeoData(slug: string): ToolSeoData | null {
     relatedSlugs.push(...extraSlugs);
   }
 
-  // Tailored steps and FAQs based on category
+  // Tailored steps and FAQs based on category or specific high-traffic tool
   let steps: StepItem[] = [];
   let faqs: FaqItem[] = [];
 
-  if (categorySlug === 'calculators') {
+  if (slug === 'sign-pdf') {
+    steps = [
+      {
+        title: 'Upload Your PDF Document',
+        description: 'Select or drag & drop your contract, agreement, form, or invoice into the Sign PDF workspace. Loaded instantly into browser memory.',
+      },
+      {
+        title: 'Create or Upload Your Signature',
+        description: 'Draw your signature using mouse or touch screen, type your name in elegant cursive script, or upload a transparent PNG signature.',
+      },
+      {
+        title: 'Position, Resize & Rotate on Any Page',
+        description: 'Drag your signature to the exact position, resize with the corner handle, and rotate to any angle (0° - 360°) to align perfectly with document lines.',
+      },
+    ];
+    faqs = [
+      {
+        question: 'Can I rotate my signature on the PDF page?',
+        answer: 'Yes! ToolsVerse features a full signature rotation tool. In Phase 3, you can drag the interactive rotation handle or use the quick rotate buttons (↺ -90°, ↻ +90°, and 15° increments) to tilt or flip your signature to any angle. This is ideal for angled signature lines and landscape agreements.',
+      },
+      {
+        question: 'Is an electronic signature created with ToolsVerse legally binding?',
+        answer: 'Yes. Electronic signatures created on ToolsVerse comply with the U.S. Electronic Signatures in Global and National Commerce Act (ESIGN), Uniform Electronic Transactions Act (UETA), and EU eIDAS guidelines for standard e-signatures on contracts, business agreements, NDAs, and forms.',
+      },
+      {
+        question: 'Are my confidential documents or signatures stored on your servers?',
+        answer: 'Never. ToolsVerse operates 100% client-side in your local browser sandbox via WebAssembly. Your documents, photos, and signatures are never sent across the internet, logged, or stored on remote servers.',
+      },
+      {
+        question: 'Can I choose which page to sign on multi-page PDFs?',
+        answer: 'Yes! Use the page navigation bar in Phase 3 to switch between pages, preview any page, and place your rotated signature exactly where required.',
+      },
+      {
+        question: 'How does ToolsVerse Sign PDF compare to DocuSign or Adobe Acrobat?',
+        answer: 'ToolsVerse is 100% free with unlimited document signing, requires zero email sign-up or credit card registration, processes documents privately without uploading to the cloud, and includes flexible signature rotation controls.',
+      },
+      {
+        question: 'Can I sign PDF documents on mobile phones (iPhone or Android)?',
+        answer: 'Yes! ToolsVerse is responsive and touch-optimized. You can draw your signature directly with your finger or stylus on iOS Safari and Android Chrome, then drag, resize, and rotate it with smooth touch controls.',
+      },
+    ];
+  } else if (categorySlug === 'calculators') {
     steps = [
       {
         title: 'Enter Parameters & Values',

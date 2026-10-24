@@ -15,6 +15,24 @@ export async function onRequest(context) {
     });
   }
 
+  // Handle Cloudflare email protection 404 URL if requested by crawlers or users
+  if (url.pathname.startsWith('/cdn-cgi/l/email-protection')) {
+    return Response.redirect('https://toolsverseapp.com/contact/', 301);
+  }
+
+  // Ensure robots.txt always responds immediately with 200
+  if (url.pathname === '/robots.txt') {
+    const robots = `User-agent: *\nAllow: /\n\nSitemap: https://toolsverseapp.com/sitemap.xml\n`;
+    return new Response(robots, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'public, max-age=86400',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+
   // If the visitor or search crawler is on the *.pages.dev subdomain:
   if (url.hostname.endsWith('.pages.dev')) {
     const response = await context.next();

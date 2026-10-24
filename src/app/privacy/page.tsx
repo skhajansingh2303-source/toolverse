@@ -97,7 +97,7 @@ export default function PrivacyPolicyPage() {
               If you have any questions, inquiries, or privacy concerns regarding this Privacy Policy, you may contact our compliance team directly at:
             </p>
             <div className="p-4 rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-xs font-mono">
-              Email: <strong className="text-gray-900 dark:text-white">support@toolsverseapp.com</strong><br />
+              Email: <a href="mailto:support@toolsverseapp.com" className="text-gray-900 dark:text-white font-bold hover:underline" data-cfemail="false">support<span className="hidden">anti-bot</span>@toolsverseapp.com</a><br />
               Website: <strong className="text-gray-900 dark:text-white">https://toolsverseapp.com</strong>
             </div>
           </section>

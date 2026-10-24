@@ -46,7 +46,11 @@ export default function ContactPage() {
                 <span className="text-lg">📧</span>
                 <div>
                   <div className="text-[10px] uppercase font-bold text-gray-400">General Support</div>
-                  <strong className="text-gray-900 dark:text-white">support@toolsverseapp.com</strong>
+                  {/* <!--email_off--> */}
+                  <a href="mailto:support@toolsverseapp.com" className="text-gray-900 dark:text-white hover:text-red-500 font-semibold" data-cfemail="false">
+                    support<span className="hidden">anti-bot</span>@toolsverseapp.com
+                  </a>
+                  {/* <!--/email_off--> */}
                 </div>
               </div>
 
@@ -54,7 +58,11 @@ export default function ContactPage() {
                 <span className="text-lg">⚖️</span>
                 <div>
                   <div className="text-[10px] uppercase font-bold text-gray-400">Legal &amp; Privacy</div>
-                  <strong className="text-gray-900 dark:text-white">legal@toolsverseapp.com</strong>
+                  {/* <!--email_off--> */}
+                  <a href="mailto:legal@toolsverseapp.com" className="text-gray-900 dark:text-white hover:text-red-500 font-semibold" data-cfemail="false">
+                    legal<span className="hidden">anti-bot</span>@toolsverseapp.com
+                  </a>
+                  {/* <!--/email_off--> */}
                 </div>
               </div>
 

@@ -14,16 +14,20 @@ export function getToolUrl(tool: { categorySlug?: string; slug: string }): strin
 }
 
 export function searchTools(toolList: Tool[], query: string): Tool[] {
-  const q = query.trim().toLowerCase();
-  if (!q) return toolList;
+  const rawQ = query.trim().toLowerCase();
+  if (!rawQ) return toolList;
+
+  // Normalize query removing leading hashtags or symbols
+  const q = rawQ.replace(/^[#@\s]+/, '').trim();
+  const qClean = q.replace(/[^a-z0-9]/gi, '');
 
   // Split query into individual clean tokens
-  const tokens = q
+  const tokens = rawQ
     .split(/\s+/)
     .map((t) => t.replace(/[^a-z0-9]/gi, '').toLowerCase())
     .filter((t) => t.length > 0);
 
-  if (tokens.length === 0) return toolList;
+  if (tokens.length === 0 && !q) return toolList;
 
   interface ScoredTool {
     tool: Tool;
@@ -43,15 +47,18 @@ export function searchTools(toolList: Tool[], query: string): Tool[] {
     let score = 0;
     let matchReason: string | undefined;
 
-    // 1. Exact match with tool name or slug
-    if (nameLower === q || slugLower === q) {
+    // 1. Exact match with tool name, slug, or normalized hashtag
+    const slugClean = slugLower.replace(/[^a-z0-9]/gi, '');
+    const nameClean = nameLower.replace(/[^a-z0-9]/gi, '');
+
+    if (nameLower === q || slugLower === q || (qClean && (slugClean === qClean || nameClean === qClean))) {
       score += 1000;
       matchReason = tool.name;
     }
-    // 2. Exact match with one of the keywords
-    else if (keywords.includes(q)) {
+    // 2. Exact match with one of the keywords or keyword normalized
+    else if (keywords.includes(q) || (qClean && keywords.some((k) => k.replace(/[^a-z0-9]/gi, '') === qClean))) {
       score += 850;
-      matchReason = keywords.find((k) => k === q);
+      matchReason = keywords.find((k) => k === q || (qClean && k.replace(/[^a-z0-9]/gi, '') === qClean));
     }
     // 3. Name starts with query or contains query as a whole phrase
     else if (nameLower.startsWith(q)) {
@@ -140,13 +147,44 @@ export const tools: Tool[] = [
   // ─── PDF Suite (Inspired by iLovePDF & PDF24) ───
   {
     name: 'Sign PDF (E-Signature)',
-    description: 'Draw or type your digital signature and place it anywhere on your PDF document. 100% legal & private.',
+    description: 'Draw, type, or upload your signature, place it on any page, rotate to any angle, and download your signed PDF. 100% legal & private.',
     slug: 'sign-pdf',
     icon: '✍️',
     category: "PDF Security",
     categorySlug: "pdf-security",
     color: 'from-blue-600 to-indigo-700',
-    keywords: ["sign pdf","e-sign pdf","digital signature","fill and sign pdf","draw signature on pdf","electronic signature online","sign contract pdf free","docusign free alternative","ilovepdf sign","sign pdf without uploading"],
+    keywords: [
+      "sign pdf",
+      "e-sign pdf",
+      "digital signature",
+      "sign pdf online",
+      "rotate signature",
+      "rotate signature in pdf",
+      "rotate signature online",
+      "sign and rotate pdf",
+      "angled signature pdf",
+      "draw signature on pdf",
+      "upload signature to pdf",
+      "type signature pdf",
+      "fill and sign pdf",
+      "place signature on pdf",
+      "drag signature pdf",
+      "electronic signature online",
+      "sign contract pdf free",
+      "docusign free alternative",
+      "ilovepdf sign alternative",
+      "smallpdf sign free",
+      "sign pdf without uploading",
+      "sign document online free",
+      "sign agreement online",
+      "free pdf signer",
+      "pdf signature maker",
+      "legal e-signature",
+      "firmar pdf",
+      "assinador de pdf",
+      "signer pdf",
+      "unterschreiben pdf"
+    ],
   },
   {
     name: 'Merge PDF',
