@@ -31,7 +31,9 @@ export default function MergePdf() {
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
   const [mergeResult, setMergeResult] = useState<MergeResult | null>(null);
+  const [showSequenceEditor, setShowSequenceEditor] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
@@ -140,22 +142,16 @@ export default function MergePdf() {
         pageCount: mergedPdf.getPageCount(),
       });
 
-      // Auto trigger download
-      try {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = downloadFilename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (e) {
-        // Fallback to manual download button if popup blocked
-      }
-
+      // No automatic download popup — allow user to review the merged preview first
       setProgress(100);
       setSuccess(
-        `Merged successfully! Created "${downloadFilename}" with ${mergedPdf.getPageCount()} pages.`
+        `Merged successfully! Created "${downloadFilename}" with ${mergedPdf.getPageCount()} pages. Review the merged preview below and click Download whenever you are ready.`
       );
+
+      // Smoothly scroll to the merged preview card
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch (err: any) {
       console.error(err);
       setError('Failed to merge documents: ' + (err.message || 'Please check if any PDF is corrupted.'));
@@ -201,51 +197,6 @@ export default function MergePdf() {
 
       <AdSlot format="horizontal" />
 
-      {/* Main Drag-and-Drop Area */}
-      <div
-        onDragOver={(e) => {
-          e.preventDefault();
-          setIsDragging(true);
-        }}
-        onDragLeave={(e) => {
-          e.preventDefault();
-          setIsDragging(false);
-        }}
-        onDrop={handleDrop}
-        className={`relative border-2 border-dashed rounded-3xl p-8 sm:p-12 text-center transition-all duration-200 mb-8 group ${
-          isDragging
-            ? 'border-primary-500 bg-primary-50/50 dark:bg-primary-950/20 scale-[1.01]'
-            : 'border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-gray-50/50 dark:hover:bg-slate-800/50'
-        }`}
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".pdf,application/pdf"
-          multiple
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-          title=""
-          onChange={(e) => {
-            if (e.target.files) processFiles(Array.from(e.target.files));
-            e.target.value = '';
-          }}
-        />
-        <div className="pointer-events-none flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mx-auto flex items-center justify-center text-3xl mb-4 shadow-xs">
-            📄
-          </div>
-          <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">
-            Select or drop PDF files here
-          </h2>
-          <p className="text-xs text-gray-500 dark:text-slate-400 max-w-md mx-auto mb-4">
-            Choose 2 or more PDF documents from your computer. You can drag and drop multiple files at once.
-          </p>
-          <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
-            Browse Files
-          </span>
-        </div>
-      </div>
-
       {/* Notifications */}
       {error && (
         <div className="bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-300 text-xs rounded-xl p-4 mb-6 flex items-center gap-2">
@@ -261,8 +212,100 @@ export default function MergePdf() {
         </div>
       )}
 
+      {/* Result Card with Live Preview & Download Actions */}
+      {mergeResult && (
+        <div ref={resultRef} className="mb-8">
+          <ToolResultCard
+            title="PDFs Merged Successfully!"
+            filename={mergeResult.filename}
+            downloadUrl={mergeResult.blobUrl}
+            downloadButtonText="Download Processed PDF"
+            fileSize={mergeResult.size}
+            badgeText="Document Ready"
+            details={[
+              { label: 'Total Pages', value: mergeResult.pageCount },
+              { label: 'Combined From', value: `${items.length} files` },
+            ]}
+            previewUrl={mergeResult.blobUrl}
+            previewType="pdf"
+            onReset={() => {
+              setMergeResult(null);
+              setItems([]);
+              setSuccess('');
+              setError('');
+              setShowSequenceEditor(false);
+            }}
+            resetButtonText="Merge Another Set of PDFs"
+            nextTool={{
+              name: 'Compress Merged PDF',
+              url: '/tools/optimize-pdf/compress-pdf/',
+            }}
+          />
+
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-gray-50 dark:bg-slate-800/60 rounded-2xl border border-gray-200 dark:border-slate-800 text-xs mt-4">
+            <span className="text-gray-600 dark:text-slate-400">
+              Need to change sequence order or add another file to this document?
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowSequenceEditor(!showSequenceEditor)}
+              className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 hover:border-primary-500 font-bold transition-all flex items-center gap-1.5 shadow-2xs"
+            >
+              <span>{showSequenceEditor ? '▲ Hide File Sequence' : '⚙️ Reorder or Add More Files'}</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Drag-and-Drop Area (Shown when not viewing result or when adding files) */}
+      {(!mergeResult || showSequenceEditor) && (
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={(e) => {
+            e.preventDefault();
+            setIsDragging(false);
+          }}
+          onDrop={handleDrop}
+          className={`relative border-2 border-dashed rounded-3xl p-8 sm:p-12 text-center transition-all duration-200 mb-8 group ${
+            isDragging
+              ? 'border-primary-500 bg-primary-50/50 dark:bg-primary-950/20 scale-[1.01]'
+              : 'border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-gray-50/50 dark:hover:bg-slate-800/50'
+          }`}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf,application/pdf"
+            multiple
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            title=""
+            onChange={(e) => {
+              if (e.target.files) processFiles(Array.from(e.target.files));
+              e.target.value = '';
+            }}
+          />
+          <div className="pointer-events-none flex flex-col items-center">
+            <div className="w-16 h-16 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 mx-auto flex items-center justify-center text-3xl mb-4 shadow-xs">
+              📄
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">
+              Select or drop PDF files here
+            </h2>
+            <p className="text-xs text-gray-500 dark:text-slate-400 max-w-md mx-auto mb-4">
+              Choose 2 or more PDF documents from your computer. You can drag and drop multiple files at once.
+            </p>
+            <span className="px-6 py-2.5 bg-primary-600 group-hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-block">
+              Browse Files
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Uploaded File List & Sequence Controller */}
-      {items.length > 0 && (
+      {items.length > 0 && (!mergeResult || showSequenceEditor) && (
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-200 dark:border-slate-800 shadow-xs p-6 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-gray-100 dark:border-slate-800">
             <div>
@@ -361,32 +404,6 @@ export default function MergePdf() {
             </div>
           )}
         </div>
-      )}
-
-      {/* Result Card with Persistent Download Button */}
-      {mergeResult && (
-        <ToolResultCard
-          title="PDFs Merged Successfully!"
-          filename={mergeResult.filename}
-          downloadUrl={mergeResult.blobUrl}
-          fileSize={mergeResult.size}
-          badgeText="Document Ready"
-          details={[
-            { label: 'Total Pages', value: mergeResult.pageCount },
-            { label: 'Combined From', value: `${items.length} files` },
-          ]}
-          previewUrl={mergeResult.blobUrl}
-          onReset={() => {
-            setMergeResult(null);
-            setItems([]);
-            setSuccess('');
-          }}
-          resetButtonText="Merge Another Set of PDFs"
-          nextTool={{
-            name: 'Compress Merged PDF',
-            url: '/tools/optimize-pdf/compress-pdf/',
-          }}
-        />
       )}
 
       {/* Guide section */}

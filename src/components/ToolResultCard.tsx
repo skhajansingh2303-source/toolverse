@@ -7,6 +7,7 @@ interface ToolResultCardProps {
   title?: string;
   filename: string;
   downloadUrl: string;
+  downloadButtonText?: string;
   fileSize?: number | string;
   originalSize?: number | string;
   badgeText?: string;
@@ -40,6 +41,7 @@ export default function ToolResultCard({
   title = 'Processing Completed Successfully!',
   filename,
   downloadUrl,
+  downloadButtonText,
   fileSize,
   originalSize,
   badgeText = 'Result Ready',
@@ -313,7 +315,7 @@ export default function ToolResultCard({
               className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-sm rounded-xl shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all active:scale-95 flex items-center justify-center gap-2.5"
             >
               <span className="text-xl">📥</span>
-              <span>Download Processed File</span>
+              <span>{downloadButtonText || (isPdf ? 'Download Processed PDF' : 'Download Processed File')}</span>
               {formattedSize && <span className="text-xs font-normal opacity-90">({formattedSize})</span>}
             </a>
 
