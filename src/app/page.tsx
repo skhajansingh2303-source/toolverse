@@ -884,20 +884,20 @@ export default function Home() {
                   <span className="px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide rounded-md bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 group-hover:bg-primary-50 group-hover:text-primary-600 dark:group-hover:bg-primary-950/60 dark:group-hover:text-primary-400 transition-colors">
                     {post.category}
                   </span>
-                  <span className="text-[11px] font-medium text-gray-400 dark:text-slate-500">
+                  <span className="text-[11px] font-semibold text-gray-600 dark:text-slate-300">
                     {post.readTime}
                   </span>
                 </div>
                 <h3 className="font-bold text-base text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2 mb-2">
                   {post.title}
                 </h3>
-                <p className="text-xs text-gray-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                <p className="text-xs text-gray-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
                   {post.description}
                 </p>
               </div>
 
               <div className="mt-5 pt-4 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">
+                <span className="text-[11px] font-semibold text-gray-600 dark:text-slate-300">
                   {post.author}
                 </span>
                 <span className="text-xs font-bold text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">

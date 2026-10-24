@@ -116,7 +116,6 @@ export default function ToolDock() {
               onClick={() => setSearchOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/20 transition-all border border-white/20 group shrink-0"
               title="Search tools (⌘K)"
-              aria-label="Search tools ⌘K"
             >
               <svg className="w-3.5 h-3.5 text-white group-hover:text-amber-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

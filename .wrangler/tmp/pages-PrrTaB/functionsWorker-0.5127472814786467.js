@@ -78,7 +78,7 @@ Sitemap: https://toolsverseapp.com/sitemap.xml
 }
 __name(onRequest3, "onRequest");
 
-// ../.wrangler/tmp/pages-ZS8gSi/functionsRoutes-0.43204740838784206.mjs
+// ../.wrangler/tmp/pages-PrrTaB/functionsRoutes-0.2614322500084183.mjs
 var routes = [
   {
     routePath: "/ads.txt",
