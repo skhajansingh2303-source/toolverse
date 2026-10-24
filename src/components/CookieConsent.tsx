@@ -46,9 +46,9 @@ export default function CookieConsent() {
         <div className="flex items-start gap-3">
           <span className="text-2xl shrink-0">🍪</span>
           <div className="space-y-1">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+            <div role="heading" aria-level={2} className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
               Privacy &amp; Cookie Preferences
-            </h4>
+            </div>
             <p className="text-xs text-gray-600 dark:text-slate-300 leading-relaxed">
               We use essential local browser storage to keep ToolsVerse free, fast, and 100% private. Your documents are never uploaded to our servers. Learn more in our{' '}
               <Link href="/privacy" className="text-red-600 dark:text-red-400 font-semibold underline hover:text-red-700">

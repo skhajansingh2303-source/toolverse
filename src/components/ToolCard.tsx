@@ -122,7 +122,6 @@ export default function ToolCard({
       <Link
         href={targetUrl}
         className="relative z-10 block focus:outline-none flex-1"
-        aria-label={`Open ${name}: ${description}`}
       >
         <div className="flex items-start gap-3.5 mb-3">
           {/* Icon Box */}
@@ -146,14 +145,14 @@ export default function ToolCard({
 
       {/* Card Footer with High-Clickable Pill Button */}
       <div className="relative z-10 mt-4 pt-3 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-[11px] font-medium text-gray-500 dark:text-slate-400">
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-gray-600 dark:text-slate-300">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
           <span>In-Browser Private</span>
         </div>
 
         <Link 
           href={targetUrl}
-          aria-label={`Open ${name} tool`}
+          aria-label={`Open ${name}`}
           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-gray-100 dark:bg-slate-800 group-hover:bg-primary-600 dark:group-hover:bg-primary-600 text-gray-800 dark:text-slate-200 group-hover:text-white transition-all duration-200 text-xs font-bold shadow-2xs group-hover:shadow-md"
         >
           <span>Open</span>

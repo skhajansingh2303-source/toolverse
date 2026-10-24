@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
@@ -10,6 +9,7 @@ import KeyboardShortcutsModal from '@/components/KeyboardShortcutsModal'
 import Toast from '@/components/Toast'
 import GoogleTranslator from '@/components/GoogleTranslator'
 import CookieConsent from '@/components/CookieConsent'
+import ThirdPartyScripts from '@/components/ThirdPartyScripts'
 import { LANGUAGE_CODES, GOOGLE_TRANSLATE_LANGS } from '@/lib/languages'
 
 const inter = Inter({
@@ -262,53 +262,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Google tag (gtag.js) */}
-        <Script
-          strategy="lazyOnload"
-          src="https://www.googletagmanager.com/gtag/js?id=G-TQHCS9HWNJ"
-        />
-        <Script
-          id="google-analytics"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-TQHCS9HWNJ');
-            `,
-          }}
-        />
-        {/* Google AdSense Script */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1902327524390179"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
-        {/* Google Translate Integration */}
-        <Script
-          id="google-translate-init"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.googleTranslateElementInit = function() {
-                if (window.google && window.google.translate) {
-                  new window.google.translate.TranslateElement({
-                    pageLanguage: 'en',
-                    includedLanguages: '${GOOGLE_TRANSLATE_LANGS}',
-                    autoDisplay: false
-                  }, 'google_translate_element');
-                }
-              };
-            `,
-          }}
-        />
-        <Script
-          id="google-translate-script"
-          strategy="lazyOnload"
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        />
       </head>
       <body className={`${inter.className} min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200`}>
         <div
@@ -332,6 +285,7 @@ export default function RootLayout({
         <Toast />
         <GoogleTranslator />
         <CookieConsent />
+        <ThirdPartyScripts />
         <Footer />
       </body>
     </html>

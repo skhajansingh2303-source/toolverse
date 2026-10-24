@@ -1,0 +1,29 @@
+{
+  "routes": [
+    {
+      "routePath": "/ads.txt",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "ads.txt.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/app-ads.txt",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "app-ads.txt.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/",
+      "mountPath": "/",
+      "method": "",
+      "middleware": [
+        "_middleware.js:onRequest"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}

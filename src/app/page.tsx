@@ -200,6 +200,7 @@ export default function Home() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [displayLimit, setDisplayLimit] = useState(24);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const categories = [
@@ -445,7 +446,7 @@ export default function Home() {
                       ✕
                     </button>
                   )}
-                  <span className="hidden sm:inline-flex items-center px-2 py-1 mr-2 text-[11px] font-semibold text-gray-400 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 rounded-lg">
+                  <span className="hidden sm:inline-flex items-center px-2 py-1 mr-2 text-[11px] font-bold text-gray-700 dark:text-slate-200 bg-gray-200 dark:bg-slate-700 rounded-lg">
                     ⌘K
                   </span>
                 </div>
@@ -553,7 +554,7 @@ export default function Home() {
               <span className="w-2 h-2 rounded-full bg-primary-500 animate-ping" />
               <span className="text-primary-600 dark:text-primary-400 font-bold text-xs uppercase tracking-wider">⚡ Instant Quick Actions</span>
             </div>
-            <span className="text-[11px] font-medium text-gray-400 dark:text-slate-500">1-Tap Fast Launch</span>
+            <span className="text-[11px] font-semibold text-gray-600 dark:text-slate-300">1-Tap Fast Launch</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -566,7 +567,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-red-600 transition-colors">Merge PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Combine docs</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">Combine docs</div>
               </div>
             </Link>
 
@@ -579,7 +580,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-emerald-600 transition-colors">Compress</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Reduce MB size</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">Reduce MB size</div>
               </div>
             </Link>
 
@@ -592,7 +593,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-amber-600 transition-colors">PDF to JPG</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Extract images</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">Extract images</div>
               </div>
             </Link>
 
@@ -605,7 +606,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-blue-600 transition-colors">Word to PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">DOCX to PDF</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">DOCX to PDF</div>
               </div>
             </Link>
 
@@ -618,7 +619,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-purple-600 transition-colors">Split PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Extract pages</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">Extract pages</div>
               </div>
             </Link>
 
@@ -631,7 +632,7 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <div className="text-xs font-black text-gray-900 dark:text-white truncate group-hover:text-cyan-600 transition-colors">Sign PDF</div>
-                <div className="text-[10px] text-gray-500 dark:text-slate-400 truncate">Digital e-sign</div>
+                <div className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">Digital e-sign</div>
               </div>
             </Link>
           </div>
@@ -732,7 +733,7 @@ export default function Home() {
               >
                 <span>⭐ Favorites</span>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                  activeCategory === 'Favorites' ? 'bg-white/25 text-white' : 'bg-amber-200/80 text-amber-900'
+                  activeCategory === 'Favorites' ? 'bg-white/25 text-white' : 'bg-amber-200/90 text-amber-950 font-bold'
                 }`}>
                   {favoriteSlugs.length}
                 </span>
@@ -762,7 +763,7 @@ export default function Home() {
                 >
                   <span>{cat}</span>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400'
+                    isActive ? 'bg-white/20 text-white' : 'bg-gray-200/90 dark:bg-slate-700 text-gray-800 dark:text-slate-200 font-bold'
                   }`}>
                     {count}
                   </span>
@@ -773,7 +774,7 @@ export default function Home() {
 
           {/* Right Controls: Sort Dropdown & Tool Count */}
           <div className="flex items-center justify-between lg:justify-end gap-4 shrink-0">
-            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-slate-400">
+            <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-slate-300">
               <span className="font-semibold text-gray-700 dark:text-slate-300">Sort:</span>
               <select
                 value={sortBy}
@@ -787,7 +788,7 @@ export default function Home() {
               </select>
             </div>
 
-            <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">
+            <span className="text-xs text-gray-600 dark:text-slate-300 font-medium">
               Showing <strong className="text-gray-900 dark:text-slate-100">{filteredTools.length}</strong> of {tools.length}
             </span>
           </div>
@@ -815,16 +816,33 @@ export default function Home() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredTools.map((tool) => (
-              <ToolCard 
-                key={tool.slug} 
-                {...tool} 
-                isFavorite={favoriteSlugs.includes(tool.slug)}
-                onToggleFavorite={toggleFavorite}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {(activeCategory === 'All' && activePersona === 'all' && !search.trim()
+                ? filteredTools.slice(0, displayLimit)
+                : filteredTools
+              ).map((tool) => (
+                <ToolCard 
+                  key={tool.slug} 
+                  {...tool} 
+                  isFavorite={favoriteSlugs.includes(tool.slug)}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+            </div>
+
+            {activeCategory === 'All' && activePersona === 'all' && !search.trim() && filteredTools.length > displayLimit && (
+              <div className="text-center mt-10">
+                <button
+                  onClick={() => setDisplayLimit((prev) => prev + 36)}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gray-950 dark:bg-white text-white dark:text-gray-950 font-black text-xs sm:text-sm hover:scale-105 active:scale-95 transition-all shadow-lg border border-gray-800 dark:border-gray-200"
+                >
+                  <span>Explore All {tools.length} Tools ({filteredTools.length - displayLimit} more)</span>
+                  <span>↓</span>
+                </button>
+              </div>
+            )}
+          </>
         )}
       </section>
 

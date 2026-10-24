@@ -106,7 +106,6 @@ export default function ToolDock() {
               onClick={() => setDrawerOpen(true)}
               className="flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md transition-all active:scale-95 group shrink-0"
               title={`Open full catalog of ${tools.length} tools with category filters`}
-              aria-label={`Open full catalog of ${tools.length} tools`}
             >
               <span className="text-amber-300 group-hover:rotate-12 transition-transform text-sm">⚡</span>
               <span className="text-white tracking-wide">All {tools.length} Tools</span>
@@ -116,8 +115,8 @@ export default function ToolDock() {
             <button
               onClick={() => setSearchOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/20 transition-all border border-white/20 group shrink-0"
-              title="Quick Search Tools (Ctrl+K or ⌘K)"
-              aria-label="Quick Search Tools (Ctrl+K or ⌘K)"
+              title="Search tools (⌘K)"
+              aria-label="Search tools ⌘K"
             >
               <svg className="w-3.5 h-3.5 text-white group-hover:text-amber-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.4} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
