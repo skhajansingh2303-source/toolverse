@@ -297,7 +297,9 @@ export default function EditPdf() {
     try {
       if (pdfDocProxyRef.current) {
         const page = await pdfDocProxyRef.current.getPage(currentPage);
-        const viewport = page.getViewport({ scale: 1.5 });
+        // High-DPI scale (2.5x) preserves full paper texture & razor-sharp text quality
+        const scale = 2.5;
+        const viewport = page.getViewport({ scale });
 
         const baseCanvas = baseCanvasRef.current;
         const overlayCanvas = overlayCanvasRef.current;
@@ -305,11 +307,16 @@ export default function EditPdf() {
 
         baseCanvas.width = viewport.width;
         baseCanvas.height = viewport.height;
+        baseCanvas.style.maxWidth = '100%';
+        baseCanvas.style.height = 'auto';
+
         overlayCanvas.width = viewport.width;
         overlayCanvas.height = viewport.height;
 
         const ctx = baseCanvas.getContext('2d');
         if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           const renderContext = {
             canvasContext: ctx,
             viewport: viewport,

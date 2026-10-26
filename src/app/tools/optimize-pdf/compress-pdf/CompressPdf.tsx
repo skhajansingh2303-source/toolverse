@@ -22,7 +22,7 @@ interface CompressionResult {
 
 export default function CompressPdf() {
   const [file, setFile] = useState<File | null>(null);
-  const [compressionMode, setCompressionMode] = useState<'smart' | 'vector'>('smart');
+  const [compressionMode, setCompressionMode] = useState<'smart' | 'vector'>('vector');
   const [compressionLevel, setCompressionLevel] = useState<'extreme' | 'recommended' | 'less'>('recommended');
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0, percentage: 0 });
@@ -114,16 +114,16 @@ export default function CompressPdf() {
 
         setProgress({ current: 0, total: totalPages, percentage: 0 });
 
-        // High-fidelity parameters: Crisp 144+ DPI resolution prevents text blurriness
-        let scale = 2.0; // 144 DPI Retina-sharp text
-        let jpegQuality = 0.88; // High-fidelity visual clarity without artifacts
+        // High-fidelity parameters: Ultra-crisp 200+ DPI prevents text blurriness and paper degradation
+        let scale = 2.8; // ~200 DPI Retina-sharp text & paper
+        let jpegQuality = 0.94; // High-fidelity visual clarity without artifacts
 
         if (compressionLevel === 'extreme') {
-          scale = 1.6; // ~115 DPI clear text
-          jpegQuality = 0.78;
+          scale = 2.2; // ~160 DPI clear text
+          jpegQuality = 0.88;
         } else if (compressionLevel === 'less') {
-          scale = 2.4; // ~172 DPI Ultra-HD text
-          jpegQuality = 0.94;
+          scale = 3.2; // ~230 DPI Ultra-HD crystal-clear text & paper
+          jpegQuality = 0.98;
         }
 
         const newPdfDoc = await PDFDocument.create();
@@ -407,26 +407,6 @@ export default function CompressPdf() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                       type="button"
-                      onClick={() => setCompressionMode('smart')}
-                      className={`text-left p-3.5 rounded-xl border-2 transition-all ${
-                        compressionMode === 'smart'
-                          ? 'border-primary-600 bg-primary-50/50 dark:bg-primary-950/40 text-primary-900 dark:text-white'
-                          : 'border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 text-gray-700 dark:text-slate-300'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-bold">✨ Smart Visual Compression</span>
-                        <span className="text-[10px] bg-primary-100 dark:bg-primary-900/60 text-primary-700 dark:text-primary-300 px-2 py-0.5 rounded-full font-bold">
-                          Recommended
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                        Drastically reduces file size (up to 90%). Best for scanned documents, images, forms &amp; upload limits.
-                      </p>
-                    </button>
-
-                    <button
-                      type="button"
                       onClick={() => setCompressionMode('vector')}
                       className={`text-left p-3.5 rounded-xl border-2 transition-all ${
                         compressionMode === 'vector'
@@ -435,13 +415,33 @@ export default function CompressPdf() {
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-bold">🔤 Digital Vector Cleanup</span>
-                        <span className="text-[10px] bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold">
-                          Preserve Text
+                        <span className="text-xs font-bold">🔤 Lossless Quality (100% Crisp Text &amp; Paper)</span>
+                        <span className="text-[10px] bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold">
+                          Zero Quality Loss
                         </span>
                       </div>
                       <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                        Strips bloated metadata &amp; repacks streams without modifying vector text or font outlines.
+                        Preserves 100% text and paper sharpness. Strips bloated metadata &amp; repacks streams without rasterizing or degrading pages.
+                      </p>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setCompressionMode('smart')}
+                      className={`text-left p-3.5 rounded-xl border-2 transition-all ${
+                        compressionMode === 'smart'
+                          ? 'border-primary-600 bg-primary-50/50 dark:bg-primary-950/40 text-primary-900 dark:text-white'
+                          : 'border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 text-gray-700 dark:text-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-bold">✨ High-DPI Visual Compression</span>
+                        <span className="text-[10px] bg-primary-100 dark:bg-primary-900/60 text-primary-700 dark:text-primary-300 px-2 py-0.5 rounded-full font-bold">
+                          Maximum Space Saver
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-gray-500 dark:text-slate-400">
+                        Ultra-high resolution rendering (200-230 DPI) for heavy scanned documents and images with crisp anti-aliased text.
                       </p>
                     </button>
                   </div>

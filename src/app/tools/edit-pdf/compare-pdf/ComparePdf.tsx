@@ -124,17 +124,20 @@ export default function ComparePdf() {
       const docA = pdfDocARef.current;
       const docB = pdfDocBRef.current;
 
-      const scale = 1.3;
+      // High-DPI 2.4x scale ensures sharp text comparison without blurriness
+      const scale = 2.4;
 
       // Render Page A
       let canvasA = canvasARef.current;
       if (pageIdx <= docA.numPages && canvasA) {
         const pageA = await docA.getPage(pageIdx);
         const viewportA = pageA.getViewport({ scale });
-        canvasA.width = viewportA.width;
-        canvasA.height = viewportA.height;
+        canvasA.width = Math.floor(viewportA.width);
+        canvasA.height = Math.floor(viewportA.height);
         const ctxA = canvasA.getContext('2d');
         if (ctxA) {
+          ctxA.imageSmoothingEnabled = true;
+          ctxA.imageSmoothingQuality = 'high';
           ctxA.fillStyle = '#ffffff';
           ctxA.fillRect(0, 0, canvasA.width, canvasA.height);
           await pageA.render({ canvasContext: ctxA, viewport: viewportA }).promise;
@@ -146,10 +149,12 @@ export default function ComparePdf() {
       if (pageIdx <= docB.numPages && canvasB) {
         const pageB = await docB.getPage(pageIdx);
         const viewportB = pageB.getViewport({ scale });
-        canvasB.width = viewportB.width;
-        canvasB.height = viewportB.height;
+        canvasB.width = Math.floor(viewportB.width);
+        canvasB.height = Math.floor(viewportB.height);
         const ctxB = canvasB.getContext('2d');
         if (ctxB) {
+          ctxB.imageSmoothingEnabled = true;
+          ctxB.imageSmoothingQuality = 'high';
           ctxB.fillStyle = '#ffffff';
           ctxB.fillRect(0, 0, canvasB.width, canvasB.height);
           await pageB.render({ canvasContext: ctxB, viewport: viewportB }).promise;

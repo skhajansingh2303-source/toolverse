@@ -655,7 +655,8 @@ export default function PdfOcr() {
         const totalDocPages = pdf.numPages;
         const targetPages = maxPagesLimit > 0 ? Math.min(maxPagesLimit, totalDocPages) : totalDocPages;
 
-        const renderScale = 1.75;
+        // High-resolution 2.5x scale provides crisp text recognition and sharp preview
+        const renderScale = 2.5;
 
         for (let i = 1; i <= targetPages; i++) {
           if (isCancelledRef.current) break;

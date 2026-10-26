@@ -14,9 +14,9 @@ export default function RasterizePdf() {
   const [pdfjsLoaded, setPdfjsLoaded] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
-  const [dpi, setDpi] = useState<number>(150);
+  const [dpi, setDpi] = useState<number>(300);
   const [imageFormat, setImageFormat] = useState<'jpeg' | 'png'>('jpeg');
-  const [jpegQuality, setJpegQuality] = useState<number>(0.88);
+  const [jpegQuality, setJpegQuality] = useState<number>(0.95);
   const [thumbnails, setThumbnails] = useState<string[]>([]);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [rasterizedBlob, setRasterizedBlob] = useState<Blob | null>(null);

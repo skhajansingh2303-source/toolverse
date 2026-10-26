@@ -197,12 +197,15 @@ export default function SignPdf() {
       const canvases: HTMLCanvasElement[] = [];
       for (let i = 0; i < pdf.numPages; i++) {
         const page = await pdf.getPage(i + 1);
-        const scale = 1.5;
+        // High-DPI 2.5x scale ensures razor-sharp text and preserves paper quality
+        const scale = 2.5;
         const viewport = page.getViewport({ scale });
         const canvas = document.createElement('canvas');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
         const ctx = canvas.getContext('2d')!;
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         await page.render({ canvasContext: ctx, viewport }).promise;
         canvases.push(canvas);
       }

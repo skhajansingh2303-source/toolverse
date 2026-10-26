@@ -117,7 +117,8 @@ export default function ExtractPdfImages() {
         for (let i = 1; i <= numPages; i++) {
           setStatusText(`Rendering page ${i} of ${numPages}...`);
           const page = await pdf.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 }); // High-DPI
+          // 3.0x scale (300 DPI Ultra-HD) preserves paper quality and crystal-clear text
+          const viewport = page.getViewport({ scale: 3.0 });
 
           const w = Math.floor(viewport.width);
           const h = Math.floor(viewport.height);

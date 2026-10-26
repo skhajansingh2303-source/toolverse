@@ -198,9 +198,9 @@ export default function DocumentLiveViewer({
       <div className={`relative w-full ${isFullscreen ? 'flex-1 min-h-[500px]' : heightClass} bg-slate-100 dark:bg-slate-950 overflow-auto flex items-center justify-center`}>
         {fileType === 'pdf' ? (
           <iframe
-            src={`${blobUrl}#toolbar=1&view=FitH`}
+            src={`${blobUrl}#toolbar=1&view=Fit`}
             title={currentFileName}
-            className="w-full h-full border-0"
+            className="w-full h-full border-0 [image-rendering:high-quality]"
           />
         ) : fileType === 'image' ? (
           <div className="w-full h-full flex items-center justify-center p-4 overflow-auto">
@@ -208,7 +208,7 @@ export default function DocumentLiveViewer({
               src={blobUrl}
               alt={currentFileName}
               style={{ transform: `scale(${zoomLevel})` }}
-              className="max-h-full max-w-full object-contain rounded-lg shadow-md transition-transform duration-150"
+              className="max-h-full max-w-full object-contain rounded-lg shadow-md transition-transform duration-150 [image-rendering:auto]"
             />
           </div>
         ) : (

@@ -235,12 +235,17 @@ export default function PdfConverter() {
         for (let i = 1; i <= total; i++) {
           setFromPdfProgress({ current: i, total });
           const page = await pdfDocProxy.getPage(i);
-          const viewport = page.getViewport({ scale: 2.0 }); // 2x crisp DPI
+          // 3x Ultra-HD crisp DPI ensures sharp text & full paper fidelity
+          const viewport = page.getViewport({ scale: 3.0 });
 
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
           const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+          }
 
           await page.render({ canvasContext: ctx, viewport }).promise;
 

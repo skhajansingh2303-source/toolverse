@@ -97,13 +97,15 @@ export default function PdfToSvg() {
           pathCount = (svgCode.match(/<path|<rect|<circle|<polygon|<text/g) || []).length;
         } catch (svgErr) {
           console.warn(`SVGGraphics fallback on page ${i}:`, svgErr);
-          // High-resolution fallback vector wrapper
+          // High-resolution fallback vector wrapper (3.0x scale for crisp paper & text)
           const canvas = document.createElement('canvas');
-          canvas.width = viewport.width * 2;
-          canvas.height = viewport.height * 2;
+          canvas.width = Math.floor(viewport.width * 3);
+          canvas.height = Math.floor(viewport.height * 3);
           const ctx = canvas.getContext('2d');
           if (ctx) {
-            await page.render({ canvasContext: ctx, viewport: page.getViewport({ scale: 2.0 }) }).promise;
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            await page.render({ canvasContext: ctx, viewport: page.getViewport({ scale: 3.0 }) }).promise;
             const imgData = canvas.toDataURL('image/png');
             svgCode = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewport.width} ${viewport.height}" width="${viewport.width}" height="${viewport.height}">
   <!-- ToolsVerse Vector SVG Container -->

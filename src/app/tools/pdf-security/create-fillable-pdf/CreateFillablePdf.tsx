@@ -34,7 +34,8 @@ export default function CreateFillablePdf() {
   const [fields, setFields] = useState<DesignerField[]>([]);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
 
-  const [canvasScale, setCanvasScale] = useState<number>(1.2);
+  // Default to 2.0x scale for crisp paper & text quality without blurriness
+  const [canvasScale, setCanvasScale] = useState<number>(2.0);
   const [renderedDimensions, setRenderedDimensions] = useState<{ width: number; height: number }>({
     width: 600,
     height: 800,
@@ -132,6 +133,9 @@ export default function CreateFillablePdf() {
 
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
 
       await page.render({
         canvasContext: ctx,

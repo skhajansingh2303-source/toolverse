@@ -299,16 +299,19 @@ export default function PdfReader() {
     for (let i = 1; i <= Math.min(pdf.numPages, 50); i++) {
       try {
         const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 0.25 });
+        // Crisp 0.6x scale and high-quality 0.92 JPEG for sharp legible sidebar thumbnails
+        const viewport = page.getViewport({ scale: 0.6 });
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
         if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           await page.render({ canvasContext: ctx, viewport }).promise;
-          thumbs[i] = canvas.toDataURL('image/jpeg', 0.7);
+          thumbs[i] = canvas.toDataURL('image/jpeg', 0.92);
           setThumbnails((prev) => ({ ...prev, [i]: thumbs[i] }));
         }
       } catch (err) {
@@ -317,26 +320,29 @@ export default function PdfReader() {
     }
   };
 
-  // Render a specific page to its canvas
+  // Render a specific page to its canvas with Retina / HiDPI crispness
   const renderPageCanvas = useCallback(
     async (pageNum: number, canvasEl: HTMLCanvasElement) => {
       if (!pdfDocProxy) return;
       try {
         const page = await pdfDocProxy.getPage(pageNum);
-        const dpr = window.devicePixelRatio || 1;
-        const viewport = page.getViewport({ scale: zoomScale, rotation });
+        const dpr = Math.max(window.devicePixelRatio || 1, 2);
+        // Render at full HiDPI resolution to prevent any text blurriness
+        const renderViewport = page.getViewport({ scale: zoomScale * dpr, rotation });
+        const displayViewport = page.getViewport({ scale: zoomScale, rotation });
 
-        canvasEl.width = Math.floor(viewport.width * dpr);
-        canvasEl.height = Math.floor(viewport.height * dpr);
-        canvasEl.style.width = `${Math.floor(viewport.width)}px`;
-        canvasEl.style.height = `${Math.floor(viewport.height)}px`;
+        canvasEl.width = Math.floor(renderViewport.width);
+        canvasEl.height = Math.floor(renderViewport.height);
+        canvasEl.style.width = `${Math.floor(displayViewport.width)}px`;
+        canvasEl.style.height = `${Math.floor(displayViewport.height)}px`;
 
         const ctx = canvasEl.getContext('2d');
         if (ctx) {
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, viewport.width, viewport.height);
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          ctx.fillRect(0, 0, renderViewport.width, renderViewport.height);
+          await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;
         }
       } catch (err) {
         console.error(`Error rendering page ${pageNum}:`, err);

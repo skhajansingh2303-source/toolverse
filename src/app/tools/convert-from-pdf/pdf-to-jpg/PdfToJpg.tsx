@@ -15,7 +15,7 @@ export default function PdfToJpg() {
   const [isZipping, setIsZipping] = useState(false);
   const [pdfjsLoaded, setPdfjsLoaded] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
-  const [scaleQuality, setScaleQuality] = useState<'fast' | 'hd'>('fast');
+  const [scaleQuality, setScaleQuality] = useState<'fast' | 'hd'>('hd');
   const abortControllerRef = useRef<boolean>(false);
 
   useEffect(() => {
@@ -52,8 +52,9 @@ export default function PdfToJpg() {
       const numPages = pdf.numPages;
       setProgress({ current: 0, total: numPages });
 
-      const scale = scaleQuality === 'fast' ? 2.0 : 2.5; // High-DPI crisp text rendering
-      const jpegQuality = scaleQuality === 'fast' ? 0.90 : 0.95; // Sharp fidelity without compression artifacts
+      // Ultra-HD 3.0x scale (~216-300 DPI) ensures crisp anti-aliased text and preserves paper quality
+      const scale = scaleQuality === 'fast' ? 2.5 : 3.0;
+      const jpegQuality = scaleQuality === 'fast' ? 0.94 : 0.98;
 
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d', { alpha: false });

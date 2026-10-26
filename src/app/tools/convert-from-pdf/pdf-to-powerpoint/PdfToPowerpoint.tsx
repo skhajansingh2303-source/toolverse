@@ -30,7 +30,7 @@ export default function PdfToPowerpoint() {
   });
   const [pdfjsLoaded, setPdfjsLoaded] = useState<boolean>(false);
   const [aspectRatio, setAspectRatio] = useState<AspectRatioMode>('16:9');
-  const [scaleFactor, setScaleFactor] = useState<number>(2.0); // 2x for sharp PPTX
+  const [scaleFactor, setScaleFactor] = useState<number>(2.5); // 2.5x crisp DPI prevents blurry slides
   const [selectedZoomSlide, setSelectedZoomSlide] = useState<SlideItem | null>(null);
   const [isExportingPptx, setIsExportingPptx] = useState<boolean>(false);
   const [isExportingZip, setIsExportingZip] = useState<boolean>(false);
@@ -84,6 +84,8 @@ export default function PdfToPowerpoint() {
         const ctx = canvas.getContext('2d', { alpha: false });
 
         if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           await page.render({ canvasContext: ctx, viewport }).promise;

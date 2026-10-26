@@ -21,7 +21,7 @@ export default function PdfToPng() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isZipping, setIsZipping] = useState<boolean>(false);
   const [progress, setProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
-  const [scaleFactor, setScaleFactor] = useState<number>(2.0); // 1.5x, 2.0x, 3.0x
+  const [scaleFactor, setScaleFactor] = useState<number>(3.0); // 1.5x, 2.0x, 3.0x (Default 3.0x for ultra-sharp text)
   const [isTransparent, setIsTransparent] = useState<boolean>(false);
   const [zoomModalPage, setZoomModalPage] = useState<PngPage | null>(null);
   const [pdfjsLoaded, setPdfjsLoaded] = useState<boolean>(false);
