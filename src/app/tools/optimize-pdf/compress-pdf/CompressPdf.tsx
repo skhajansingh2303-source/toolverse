@@ -20,10 +20,18 @@ interface CompressionResult {
   savedPercentage: number;
 }
 
-export default function CompressPdf() {
+export interface CompressPdfProps {
+  targetKB?: number;
+  customTitle?: string;
+  customSubtitle?: string;
+}
+
+export default function CompressPdf({ targetKB, customTitle, customSubtitle }: CompressPdfProps = {}) {
   const [file, setFile] = useState<File | null>(null);
-  const [compressionMode, setCompressionMode] = useState<'smart' | 'vector'>('vector');
-  const [compressionLevel, setCompressionLevel] = useState<'extreme' | 'recommended' | 'less'>('recommended');
+  const [compressionMode, setCompressionMode] = useState<'smart' | 'vector'>(targetKB ? 'smart' : 'vector');
+  const [compressionLevel, setCompressionLevel] = useState<'extreme' | 'recommended' | 'less'>(
+    targetKB && targetKB <= 200 ? 'extreme' : 'recommended'
+  );
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0, percentage: 0 });
   const [result, setResult] = useState<CompressionResult | null>(null);
@@ -118,7 +126,18 @@ export default function CompressPdf() {
         let scale = 2.8; // ~200 DPI Retina-sharp text & paper
         let jpegQuality = 0.94; // High-fidelity visual clarity without artifacts
 
-        if (compressionLevel === 'extreme') {
+        if (targetKB) {
+          if (targetKB <= 100) {
+            scale = Math.min(1.5, Math.max(0.9, 1.6 / Math.sqrt(Math.max(1, totalPages))));
+            jpegQuality = Math.min(0.65, Math.max(0.35, 0.70 / Math.sqrt(Math.max(1, totalPages))));
+          } else if (targetKB <= 200) {
+            scale = Math.min(1.9, Math.max(1.1, 2.0 / Math.sqrt(Math.max(1, totalPages))));
+            jpegQuality = Math.min(0.78, Math.max(0.48, 0.80 / Math.sqrt(Math.max(1, totalPages))));
+          } else {
+            scale = Math.min(2.4, Math.max(1.4, 2.5 / Math.sqrt(Math.max(1, totalPages))));
+            jpegQuality = Math.min(0.88, Math.max(0.62, 0.88 / Math.sqrt(Math.max(1, totalPages))));
+          }
+        } else if (compressionLevel === 'extreme') {
           scale = 2.2; // ~160 DPI clear text
           jpegQuality = 0.88;
         } else if (compressionLevel === 'less') {
@@ -200,7 +219,12 @@ export default function CompressPdf() {
         // automatically use the lossless vector result which preserves 100% crisp vector fonts!
         try {
           const vectorBytes = await optimizePdfVector(arrayBuffer);
-          if (vectorBytes.byteLength < compressedBytes.byteLength || compressedBytes.byteLength >= file.size) {
+          const targetBytes = targetKB ? targetKB * 1024 : 0;
+          if (targetKB) {
+            if (vectorBytes.byteLength <= targetBytes && (vectorBytes.byteLength < compressedBytes.byteLength || compressedBytes.byteLength > targetBytes)) {
+              compressedBytes = vectorBytes;
+            }
+          } else if (vectorBytes.byteLength < compressedBytes.byteLength || compressedBytes.byteLength >= file.size) {
             if (vectorBytes.byteLength < file.size) {
               compressedBytes = vectorBytes;
             }
@@ -281,13 +305,18 @@ export default function CompressPdf() {
           </span>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
-              Compress PDF
+              {customTitle || 'Compress PDF'}
             </h1>
           </div>
         </div>
         <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
-          Significantly reduce PDF file size while preserving high visual clarity. Works 100% in your browser with complete privacy.
+          {customSubtitle || 'Significantly reduce PDF file size while preserving high visual clarity. Works 100% in your browser with complete privacy.'}
         </p>
+        {targetKB && (
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+            <span>🎯 Target Limit: Calibrated under {targetKB} KB</span>
+          </div>
+        )}
       </div>
 
       <AdSlot format="horizontal" />
@@ -576,7 +605,13 @@ export default function CompressPdf() {
                   downloadUrl={result.blobUrl}
                   fileSize={result.compressed}
                   originalSize={result.original}
-                  badgeText={result.savedPercentage > 0 ? `Saved ${result.savedPercentage}% (${formatSize(result.savedBytes)})` : 'PDF Optimized'}
+                  badgeText={
+                    targetKB && result.compressed <= targetKB * 1024
+                      ? `🎯 Target Met: ${(result.compressed / 1024).toFixed(1)} KB (Under ${targetKB} KB)`
+                      : result.savedPercentage > 0
+                      ? `Saved ${result.savedPercentage}% (${formatSize(result.savedBytes)})`
+                      : 'PDF Optimized'
+                  }
                   previewUrl={result.blobUrl}
                   previewType="pdf"
                   details={[

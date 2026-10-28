@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /*?lang=*
 
 User-agent: GPTBot
 Allow: /

@@ -185,7 +185,7 @@ export default function BlogPostPage({ params }: PageProps) {
             </p>
           </div>
           <Link
-            href={post.targetToolUrl}
+            href={post.targetToolUrl.endsWith('/') ? post.targetToolUrl : `${post.targetToolUrl}/`}
             className="px-6 py-3 bg-white text-primary-600 hover:bg-gray-100 font-bold text-xs rounded-xl shadow-md transition-all active:scale-95 shrink-0"
           >
             Launch {post.targetToolName} Now →

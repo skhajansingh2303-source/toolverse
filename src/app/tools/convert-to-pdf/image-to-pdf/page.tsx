@@ -6,9 +6,19 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://toolsverseapp.com/tools/convert-to-pdf/image-to-pdf/',
   },
-  title: 'Image to PDF - Convert JPG PNG to PDF Online Free',
-  description: 'Convert JPG, PNG, and WebP images to high-quality PDF documents online for free. 100% private in-browser conversion with zero server uploads.',
-  keywords: ['image to pdf', 'jpg to pdf', 'png to pdf', 'convert image to pdf', 'photos to pdf', 'combine images to pdf'],
+  title: 'Combine JPG to PDF Online Free — Merge Images into 1 PDF Instantly',
+  description: 'Combine multiple JPG, JPEG, PNG, and WebP images into a single clean PDF document online for free. Reorder pages, stitch photos, adjust margins. 100% private in-browser conversion.',
+  keywords: [
+    'combine jpg to pdf',
+    'combine images into pdf',
+    'stitch jpg to pdf',
+    'combine photos into one pdf free',
+    'image to pdf',
+    'jpg to pdf',
+    'png to pdf',
+    'convert image to pdf',
+    'photos to pdf',
+  ],
 };
 
 const STEPS = [

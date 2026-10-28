@@ -127,15 +127,8 @@ for (const filePath of htmlFiles) {
     content = content.replace(/<link[^>]*rel=["']alternate["'][^>]*hrefLang=["']x-default["'][^>]*>/i, xDefaultTag);
   }
 
-  // 3d. Fix each language hreflang link to point to this page + ?lang=...
-  for (const lang of LANGUAGE_CODES) {
-    const langUrl = `${pageCanonical}?lang=${lang}`;
-    const langTag = `<link rel="alternate" hrefLang="${lang}" href="${langUrl}"/>`;
-    const langRegex = new RegExp(`<link[^>]*rel=["']alternate["'][^>]*hrefLang=["']${lang}["'][^>]*>`, 'i');
-    if (langRegex.test(content)) {
-      content = content.replace(langRegex, langTag);
-    }
-  }
+  // 3d. Strip any old ?lang= query param hreflang tags to prevent Google duplicate content flags
+  content = content.replace(/<link[^>]*rel=["']alternate["'][^>]*hrefLang=["'](?!x-default)[^"']*["'][^>]*>\s*/gi, '');
 
   fs.writeFileSync(filePath, content, 'utf8');
   fixedCount++;
